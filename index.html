@@ -280,6 +280,18 @@ button.ghost {
 .generator-title h2 {
   font-size: 28px;
 }
+.generator-client-banner {
+  margin-top: 10px;
+  padding: 10px 12px;
+  border: 1px solid var(--theme-line, var(--line));
+  border-radius: 14px;
+  background: linear-gradient(180deg, #ffffff 0%, var(--theme-soft, #f3f7ff) 100%);
+  color: var(--theme, var(--accent));
+  font-weight: 800;
+  font-size: 16px;
+  line-height: 1.35;
+  box-shadow: 0 8px 18px var(--theme-glow, rgba(31,57,90,.06));
+}
 .tabs {
   display: flex;
   gap: 8px;
@@ -2369,6 +2381,7 @@ button.secondary {
                 <h2 id="generatorTitle">Generator</h2>
               </div>
               <div class="muted" id="generatorSubtitle"></div>
+              <div class="generator-client-banner" id="generatorClientBanner">Generator 1 für Klient 1</div>
 
               <div class="generator-context-row">
                 <span class="context-pill" id="activeClientBadge">Aktiver Klient: Klient 1</span>
@@ -2477,14 +2490,14 @@ button.secondary {
                   
                   <div class="api-test-note">Die Anfrage startet nur manuell über den Button. An die KI wird die strukturierte Vorschau kapitelweise gesendet; daraus soll pro Kapitel ein eigener fachlicher Fliesstext entstehen. Die Ziele bleiben getrennt als Fernziel und Feinziele. Der Originaltext bleibt intern erhalten.</div>
                   <div class="internal-ai-grid">
-                    <input type="text" id="chatGptApiEndpointInput" placeholder="API-Endpunkt, z. B. /v1/responses oder /v1/chat/completions" value="https://api.openai.com/v1/responses" />
-                    <input type="password" id="chatGptApiKeyInput" placeholder="Bearer API-Key nur für diesen Test" value="" />
-                    <input type="text" id="chatGptApiModelInput" placeholder="Modellname" value="gpt-4.1-mini" />
-                    <select id="chatGptApiStyleInput">
+                    <input type="text" id="chatGptApiEndpointInput" placeholder="API-Endpunkt, z. B. /v1/responses oder /v1/chat/completions" oninput="storeSharedOpenAiSettingsFromPage('chatGptApiEndpointInput')" />
+                    <input type="password" id="chatGptApiKeyInput" placeholder="OpenAI API-Key einmal lokal für alle Generatoren" oninput="storeSharedOpenAiSettingsFromPage('chatGptApiKeyInput')" />
+                    <input type="text" id="chatGptApiModelInput" placeholder="Modellname" oninput="storeSharedOpenAiSettingsFromPage('chatGptApiModelInput')" />
+                    <select id="chatGptApiStyleInput" onchange="storeSharedOpenAiSettingsFromPage('chatGptApiStyleInput')">
                       <option value="responses">Responses-Format</option>
                       <option value="chat_completions">Chat-Completions-Format</option>
                     </select>
-                    <textarea id="chatGptApiInstructionInput" placeholder="Optional: nur zusätzliche Hinweise für die KI"></textarea>
+                    <textarea id="chatGptApiInstructionInput" placeholder="Optional: nur zusätzliche Hinweise für die KI" oninput="storeSharedOpenAiSettingsFromPage('chatGptApiInstructionInput')"></textarea>
                   </div>
                   <div class="tool-row">
                     <button type="button" class="ghost" onclick="sendOutputToChatGptApiTest()">Vorschau an OpenAI / ChatGPT senden</button>
@@ -2526,7 +2539,7 @@ button.secondary {
     <div class="internal-ai-panel">
       <div class="internal-ai-grid">
         <input type="text" id="epOpenAiEndpointInput" placeholder="OpenAI-Endpunkt nur für Entwicklungsplanung" oninput="storeEntwicklungsplanungAiSettingsFromPage()" />
-        <input type="password" id="epOpenAiKeyInput" placeholder="OpenAI API-Key nur für Entwicklungsplanung" oninput="storeEntwicklungsplanungAiSettingsFromPage()" />
+        <input type="password" id="epOpenAiKeyInput" placeholder="OpenAI API-Key einmal lokal für alle Generatoren" oninput="storeEntwicklungsplanungAiSettingsFromPage()" />
         <input type="text" id="epOpenAiModelInput" placeholder="OpenAI-Modell für Entwicklungsplanung" oninput="storeEntwicklungsplanungAiSettingsFromPage()" />
         <select id="epOpenAiStyleInput" onchange="storeEntwicklungsplanungAiSettingsFromPage()">
           <option value="responses">Responses-Format</option>
@@ -5344,6 +5357,54 @@ body {
   align-items: end;
 }
 
+.client-count-display {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 10px 12px;
+  background: #fff;
+  color: var(--text);
+  font-weight: 700;
+}
+
+.client-count-actions {
+  display: grid;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.add-client-btn {
+  width: 100%;
+}
+
+.add-client-btn:disabled,
+.client-remove-btn:disabled {
+  opacity: .55;
+  cursor: not-allowed;
+}
+
+.client-head {
+  padding: 16px 18px;
+  background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
+  border-bottom: 1px solid var(--line);
+  display: grid;
+  gap: 12px;
+}
+
+.client-head-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.client-head-main {
+  flex: 1 1 auto;
+}
+
+.client-remove-btn {
+  white-space: nowrap;
+}
+
 .field label,
 .block-label,
 .mini-label,
@@ -5608,12 +5669,6 @@ button {
 
 .client-card {
   overflow: hidden;
-}
-
-.client-head {
-  padding: 16px 18px;
-  background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
-  border-bottom: 1px solid var(--line);
 }
 
 .client-name {
@@ -5969,12 +6024,12 @@ td {
         </div>
 
         <div class="field">
-          <label for="anzahl">Anzahl Klienten</label>
-          <select id="anzahl">
-            <option value="5">5 Klienten</option>
-            <option value="6">6 Klienten</option>
-            <option value="7" selected>7 Klienten</option>
-          </select>
+          <label>Anzahl Klienten</label>
+          <input id="anzahl" type="hidden" value="5" />
+          <div class="client-count-display" id="anzahlAnzeige">5 Klienten aktiv</div>
+          <div class="client-count-actions">
+            <button class="secondary add-client-btn" type="button" onclick="addClient()">Klient hinzufügen</button>
+          </div>
         </div>
 
         <div class="actions">
@@ -6013,7 +6068,7 @@ td {
 
     <section id="printClients" class="print-only"></section>
 
-    <div class="footer-note screen-only">Vorlage für Wochenplanung · Gesamtübersicht + Einzelplanung · Montag bis Freitag · 5 bis 7 Klienten</div>
+    <div class="footer-note screen-only">Vorlage für Wochenplanung · Gesamtübersicht + Einzelplanung · Montag bis Freitag · bis zu 10 Klienten</div>
   </div>
 
   <div id="printSizer"></div>
@@ -6036,6 +6091,15 @@ td {
     const weekInput = document.getElementById('woche');
     const storageKey = 'wochenplan_bt_navigator_v2_morgen_nachmittag_print';
     const modeStorageKey = storageKey + '_mode';
+    const MIN_CLIENTS = 5;
+    const DEFAULT_CLIENTS = 5;
+    const MAX_CLIENTS = 10;
+
+    function normalizeClientCount(value) {
+      const number = Number(value);
+      if (!Number.isFinite(number)) return String(DEFAULT_CLIENTS);
+      return String(Math.min(MAX_CLIENTS, Math.max(MIN_CLIENTS, Math.round(number))));
+    }
 
     function getModeMeta(mode) {
       return mode === 'ret'
@@ -6115,7 +6179,7 @@ td {
     function normalizeState(mode) {
       const activeMode = mode || getCurrentMode();
       const raw = getState(activeMode);
-      const count = Number(raw.count || countSelect.value || '7');
+      const count = Number(normalizeClientCount(raw.count || countSelect.value || DEFAULT_CLIENTS));
       const clients = [];
       const overviewDays = {};
 
@@ -6159,6 +6223,31 @@ td {
         overviewDays,
         clients
       };
+    }
+
+    function refreshClientCountUi() {
+      const safeCount = normalizeClientCount(countSelect.value || DEFAULT_CLIENTS);
+      countSelect.value = safeCount;
+
+      const countDisplay = document.getElementById('anzahlAnzeige');
+      if (countDisplay) {
+        countDisplay.textContent = safeCount + ' Klienten aktiv';
+      }
+
+      const addBtn = document.querySelector('.add-client-btn');
+      if (addBtn) {
+        addBtn.disabled = Number(safeCount) >= MAX_CLIENTS;
+        addBtn.title = addBtn.disabled
+          ? 'Maximal 10 Klienten erreicht'
+          : 'Neuen Klienten hinzufügen';
+      }
+
+      document.querySelectorAll('.client-remove-btn').forEach((button) => {
+        button.disabled = Number(safeCount) <= MIN_CLIENTS;
+        button.title = button.disabled
+          ? 'Mindestens 5 Klienten müssen vorhanden bleiben'
+          : 'Diesen Klienten entfernen';
+      });
     }
 
     function saveState() {
@@ -6464,8 +6553,13 @@ td {
 
         card.innerHTML = \`
           <div class="client-head">
-            <div class="client-label">Klient \${i + 1}</div>
-            <input class="client-name" type="text" value="\${escapeHtml(clientData.name || \`Klient \${i + 1}\`)}" />
+            <div class="client-head-top">
+              <div class="client-head-main">
+                <div class="client-label">Klient \${i + 1}</div>
+                <input class="client-name" type="text" value="\${escapeHtml(clientData.name || \`Klient \${i + 1}\`)}" />
+              </div>
+              <button class="secondary client-remove-btn" type="button" onclick="removeClientAt(\${i})">Diesen Klienten entfernen</button>
+            </div>
           </div>
 
           <div class="meta-grid">
@@ -6603,8 +6697,10 @@ td {
       }
 
       if (event.target.id === 'anzahl') {
+        const normalizedCount = normalizeClientCount(countSelect.value);
+        countSelect.value = normalizedCount;
         const prev = getState();
-        prev.count = countSelect.value;
+        prev.count = normalizedCount;
         localStorage.setItem(getModeStorageKey(), JSON.stringify(prev));
         renderAll();
         return;
@@ -6673,6 +6769,7 @@ td {
       renderPrintSheets();
       attachListeners();
       applyAutoResize();
+      refreshClientCountUi();
       saveState();
     }
 
@@ -6680,7 +6777,7 @@ td {
       const state = normalizeState();
       facilityInput.value = state.facility;
       weekInput.value = state.week;
-      countSelect.value = state.count;
+      countSelect.value = normalizeClientCount(state.count);
       renderAll();
     }
 
@@ -6691,12 +6788,124 @@ td {
       loadState();
     }
 
+    function removeClientFromWeekplanStorageAt(index) {
+      ['rit', 'ret'].forEach((modeKey) => {
+        const storageName = getModeStorageKey(modeKey);
+        let state = {};
+        try {
+          state = JSON.parse(localStorage.getItem(storageName) || '{}') || {};
+        } catch (error) {
+          state = {};
+        }
+
+        const baseState = normalizeState(modeKey);
+        const clients = Array.isArray(state.clients)
+          ? state.clients.slice()
+          : baseState.clients.slice();
+
+        if (index < 0 || index >= clients.length) {
+          state.count = String(Math.max(MIN_CLIENTS, clients.length));
+          localStorage.setItem(storageName, JSON.stringify(state));
+          return;
+        }
+
+        clients.splice(index, 1);
+        state.clients = clients;
+        state.count = String(Math.max(MIN_CLIENTS, clients.length));
+        localStorage.setItem(storageName, JSON.stringify(state));
+      });
+    }
+
+    function addClient() {
+      const previousCount = Number(normalizeClientCount(countSelect.value || DEFAULT_CLIENTS));
+      let nextCount = Number(normalizeClientCount(previousCount + 1));
+
+      if (window.parent && typeof window.parent.addWorkspaceClientFromWeekplan === 'function') {
+        try {
+          const parentCount = Number(window.parent.addWorkspaceClientFromWeekplan());
+          if (Number.isFinite(parentCount)) {
+            nextCount = parentCount;
+          }
+        } catch (error) {
+          console.warn('Klient konnte im BT Navigator nicht erweitert werden.', error);
+        }
+      }
+
+      if (nextCount <= previousCount) {
+        refreshClientCountUi();
+        return;
+      }
+
+      countSelect.value = normalizeClientCount(nextCount);
+      const prev = getState();
+      prev.count = countSelect.value;
+      localStorage.setItem(getModeStorageKey(), JSON.stringify(prev));
+      renderAll();
+
+      const cards = document.querySelectorAll('.client-card');
+      const newCard = cards[nextCount - 1];
+      if (newCard) {
+        newCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+
+    function removeClientAt(index) {
+      const previousCount = Number(normalizeClientCount(countSelect.value || DEFAULT_CLIENTS));
+
+      if (previousCount <= MIN_CLIENTS) {
+        refreshClientCountUi();
+        return;
+      }
+
+      const state = normalizeState();
+      const clientName = state.clients?.[index]?.name || ('Klient ' + (index + 1));
+
+      if (!confirm(clientName + ' wirklich entfernen?')) return;
+
+      let nextCount = Number(normalizeClientCount(previousCount - 1));
+
+      if (window.parent && typeof window.parent.removeWorkspaceClientAtFromWeekplan === 'function') {
+        try {
+          const parentCount = Number(window.parent.removeWorkspaceClientAtFromWeekplan(index));
+          if (Number.isFinite(parentCount)) {
+            nextCount = parentCount;
+          }
+        } catch (error) {
+          console.warn('Klient konnte im BT Navigator nicht entfernt werden.', error);
+        }
+      }
+
+      removeClientFromWeekplanStorageAt(index);
+
+      const modeKey = getCurrentMode();
+      let localState = {};
+      try {
+        localState = JSON.parse(localStorage.getItem(getModeStorageKey(modeKey)) || '{}') || {};
+      } catch (error) {
+        localState = {};
+      }
+      localState.count = String(nextCount);
+      localStorage.setItem(getModeStorageKey(modeKey), JSON.stringify(localState));
+
+      countSelect.value = normalizeClientCount(nextCount);
+      renderAll();
+
+      requestAnimationFrame(() => {
+        const topbar = document.querySelector('.topbar');
+        if (topbar) {
+          topbar.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        } else {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+      });
+    }
+
     function resetPlan() {
       if (!confirm('Alle Eingaben wirklich löschen?')) return;
       localStorage.removeItem(getModeStorageKey());
       facilityInput.value = 'BT Navigator';
       weekInput.value = '';
-      countSelect.value = '7';
+      countSelect.value = String(DEFAULT_CLIENTS);
       renderAll();
     }
 
@@ -6882,6 +7091,8 @@ const APP = {
 };
 
 APP.currentClientIndex = getStoredClientIndexFromMeta(APP.meta);
+ensureClientStateCapacity();
+persistWorkspaceClientCount(getWorkspaceClientCount());
 APP.state = cloneClientWorkspace(APP.clientStates[APP.currentClientIndex]);
 
 function storageKey() {
@@ -6890,6 +7101,47 @@ function storageKey() {
 
 function storageMetaKey() {
   return storageKey() + "-meta";
+}
+
+function workspaceClientCountKey() {
+  return storageKey() + "-client-count";
+}
+
+function clampWorkspaceClientCount(value) {
+  const number = Number(value);
+  if (!Number.isFinite(number)) return 7;
+  return Math.min(10, Math.max(5, Math.round(number)));
+}
+
+function readStoredWorkspaceClientCount() {
+  try {
+    const raw = localStorage.getItem(workspaceClientCountKey());
+    if (raw !== null) {
+      return clampWorkspaceClientCount(raw);
+    }
+
+    const stored = localStorage.getItem(storageKey());
+    if (stored) {
+      const parsed = JSON.parse(stored);
+      if (parsed?.clientCount) {
+        return clampWorkspaceClientCount(parsed.clientCount);
+      }
+      if (Array.isArray(parsed?.clientStates) && parsed.clientStates.length) {
+        return clampWorkspaceClientCount(parsed.clientStates.length);
+      }
+    }
+  } catch (error) {
+    console.warn("Klientenanzahl konnte nicht gelesen werden.", error);
+  }
+
+  return 5;
+}
+
+function persistWorkspaceClientCount(count) {
+  localStorage.setItem(
+    workspaceClientCountKey(),
+    String(clampWorkspaceClientCount(count)),
+  );
 }
 
 function defaultAppMeta() {
@@ -6901,9 +7153,13 @@ function defaultAppMeta() {
     internalAiInstruction: "",
     epInternalAiEndpoint: "",
     epInternalAiInstruction: "",
+    sharedOpenAiKey: "",
+    chatGptApiEndpoint: "https://api.openai.com/v1/responses",
+    chatGptApiModel: "gpt-4.1-mini",
+    chatGptApiStyle: "responses",
+    chatGptApiInstruction: "",
     epOpenAiEndpoint: "https://api.openai.com/v1/responses",
-    epOpenAiKey:
-      "",
+    epOpenAiKey: "",
     epOpenAiModel: "gpt-4.1-mini",
     epOpenAiStyle: "responses",
     epOpenAiInstruction: "",
@@ -7023,6 +7279,109 @@ function updateAppMeta(partial = {}) {
   renderEntwicklungsplanungPanel();
 }
 
+function getSharedOpenAiKey() {
+  return cleanInline(APP.meta?.sharedOpenAiKey || APP.meta?.epOpenAiKey || "");
+}
+
+function syncSharedOpenAiKeyInputs(sourceId = "") {
+  const sharedKey = getSharedOpenAiKey();
+  ["chatGptApiKeyInput", "epOpenAiKeyInput"].forEach((id) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    if (sourceId && id === sourceId && document.activeElement === el) return;
+    if (document.activeElement !== el) {
+      el.value = sharedKey;
+    }
+  });
+}
+
+function renderSharedOpenAiSettings() {
+  const chatMappings = [
+    ["chatGptApiEndpointInput", APP.meta?.chatGptApiEndpoint || "https://api.openai.com/v1/responses"],
+    ["chatGptApiModelInput", APP.meta?.chatGptApiModel || "gpt-4.1-mini"],
+    ["chatGptApiStyleInput", APP.meta?.chatGptApiStyle || "responses"],
+    ["chatGptApiInstructionInput", APP.meta?.chatGptApiInstruction || ""],
+  ];
+  chatMappings.forEach(([id, value]) => {
+    const el = document.getElementById(id);
+    if (!el || document.activeElement === el) return;
+    if (el.tagName === "SELECT") el.value = String(value || "responses");
+    else el.value = String(value || "");
+  });
+
+  const epMappings = [
+    ["epOpenAiEndpointInput", APP.meta?.epOpenAiEndpoint || "https://api.openai.com/v1/responses"],
+    ["epOpenAiModelInput", APP.meta?.epOpenAiModel || "gpt-4.1-mini"],
+    ["epOpenAiStyleInput", APP.meta?.epOpenAiStyle || "responses"],
+    ["epOpenAiInstructionInput", APP.meta?.epOpenAiInstruction || ""],
+  ];
+  epMappings.forEach(([id, value]) => {
+    const el = document.getElementById(id);
+    if (!el || document.activeElement === el) return;
+    if (el.tagName === "SELECT") el.value = String(value || "responses");
+    else el.value = String(value || "");
+  });
+
+  syncSharedOpenAiKeyInputs();
+}
+
+function storeSharedOpenAiSettingsFromPage(sourceId = "") {
+  const sharedKey = cleanInline(
+    document.getElementById("chatGptApiKeyInput")?.value ||
+      document.getElementById("epOpenAiKeyInput")?.value ||
+      APP.meta?.sharedOpenAiKey ||
+      APP.meta?.epOpenAiKey ||
+      "",
+  );
+
+  updateAppMeta({
+    sharedOpenAiKey: sharedKey,
+    epOpenAiKey: sharedKey,
+    chatGptApiEndpoint: cleanInline(
+      document.getElementById("chatGptApiEndpointInput")?.value ||
+        APP.meta?.chatGptApiEndpoint ||
+        "https://api.openai.com/v1/responses",
+    ),
+    chatGptApiModel: cleanInline(
+      document.getElementById("chatGptApiModelInput")?.value ||
+        APP.meta?.chatGptApiModel ||
+        "gpt-4.1-mini",
+    ),
+    chatGptApiStyle: cleanInline(
+      document.getElementById("chatGptApiStyleInput")?.value ||
+        APP.meta?.chatGptApiStyle ||
+        "responses",
+    ),
+    chatGptApiInstruction: cleanInline(
+      document.getElementById("chatGptApiInstructionInput")?.value ||
+        APP.meta?.chatGptApiInstruction ||
+        "",
+    ),
+    epOpenAiEndpoint: cleanInline(
+      document.getElementById("epOpenAiEndpointInput")?.value ||
+        APP.meta?.epOpenAiEndpoint ||
+        "https://api.openai.com/v1/responses",
+    ),
+    epOpenAiModel: cleanInline(
+      document.getElementById("epOpenAiModelInput")?.value ||
+        APP.meta?.epOpenAiModel ||
+        "gpt-4.1-mini",
+    ),
+    epOpenAiStyle: cleanInline(
+      document.getElementById("epOpenAiStyleInput")?.value ||
+        APP.meta?.epOpenAiStyle ||
+        "responses",
+    ),
+    epOpenAiInstruction: cleanInline(
+      document.getElementById("epOpenAiInstructionInput")?.value ||
+        APP.meta?.epOpenAiInstruction ||
+        "",
+    ),
+  });
+
+  syncSharedOpenAiKeyInputs(sourceId);
+}
+
 function touchAppMeta() {
   if (!APP.currentGenerator) return;
   updateAppMeta({
@@ -7107,7 +7466,18 @@ function cloneClientWorkspace(value) {
 }
 
 function getWorkspaceClientCount() {
-  return 7;
+  return readStoredWorkspaceClientCount();
+}
+
+function ensureClientStateCapacity(total = getWorkspaceClientCount()) {
+  const safeTotal = clampWorkspaceClientCount(total);
+  if (!Array.isArray(APP.clientStates)) {
+    APP.clientStates = [];
+  }
+  while (APP.clientStates.length < safeTotal) {
+    APP.clientStates.push(defaultClientWorkspace());
+  }
+  return APP.clientStates;
 }
 
 function getStoredClientIndexFromMeta(meta) {
@@ -7152,6 +7522,7 @@ function commitCurrentClientWorkspace() {
   if (!Array.isArray(APP.clientStates)) {
     APP.clientStates = loadAllClientStates();
   }
+  ensureClientStateCapacity();
   APP.clientStates[APP.currentClientIndex] = cloneClientWorkspace(APP.state);
 }
 
@@ -7165,6 +7536,7 @@ function setCurrentClientIndex(index) {
     commitCurrentClientWorkspace();
   }
 
+  ensureClientStateCapacity(Math.max(getWorkspaceClientCount(), safeIndex + 1));
   APP.currentClientIndex = safeIndex;
   APP.state = cloneClientWorkspace(APP.clientStates[safeIndex] || defaultClientWorkspace());
   renderClientContextNotice();
@@ -7182,6 +7554,7 @@ function persistAllState() {
     storageKey(),
     JSON.stringify({
       version: 2,
+      clientCount: getWorkspaceClientCount(),
       clientStates: APP.clientStates,
     }),
   );
@@ -8075,6 +8448,106 @@ function ensureWeekplanFrame() {
   }
 }
 
+function syncWeekplanClientCountToStorage(total) {
+  const safeTotal = clampWorkspaceClientCount(total);
+  const modes = ["rit", "ret"];
+
+  modes.forEach((modeKey) => {
+    const key = "wochenplan_bt_navigator_v2_morgen_nachmittag_print_" + modeKey;
+    let state = {};
+    try {
+      state = JSON.parse(localStorage.getItem(key) || "{}") || {};
+    } catch (error) {
+      state = {};
+    }
+    state.count = String(Math.max(Number(state.count || 0) || 0, safeTotal));
+    localStorage.setItem(key, JSON.stringify(state));
+  });
+}
+
+function addWorkspaceClientFromWeekplan() {
+  const currentTotal = getWorkspaceClientCount();
+  const nextTotal = clampWorkspaceClientCount(currentTotal + 1);
+
+  if (nextTotal === currentTotal) {
+    return currentTotal;
+  }
+
+  APP.clientStates = ensureClientStateCapacity(nextTotal).slice(0, nextTotal);
+  persistWorkspaceClientCount(nextTotal);
+  syncWeekplanClientCountToStorage(nextTotal);
+  persistAllState();
+
+  const frame = document.getElementById("weekplanFrame");
+  if (frame && frame.dataset.loaded) {
+    try {
+      const win = frame.contentWindow;
+      if (win) {
+        if (typeof win.loadState === "function") {
+          win.loadState();
+        } else if (typeof win.renderAll === "function") {
+          win.renderAll();
+        }
+      }
+    } catch (error) {
+      console.warn("Wochenplan konnte nach dem Hinzufügen nicht aktualisiert werden.", error);
+    }
+    setTimeout(setupWeekplanFrameFitting, 120);
+  }
+
+  renderClientContextNotice();
+  renderResumeButton();
+  return nextTotal;
+}
+
+function removeWorkspaceClientAtFromWeekplan(index) {
+  const currentTotal = getWorkspaceClientCount();
+  const nextTotal = clampWorkspaceClientCount(currentTotal - 1);
+
+  if (nextTotal === currentTotal || nextTotal < 5) {
+    return currentTotal;
+  }
+
+  ensureClientStateCapacity(currentTotal);
+
+  if (!Number.isInteger(index) || index < 0 || index >= currentTotal) {
+    index = currentTotal - 1;
+  }
+
+  APP.clientStates.splice(index, 1);
+
+  if (APP.currentClientIndex > index) {
+    APP.currentClientIndex -= 1;
+  } else if (APP.currentClientIndex === index) {
+    APP.currentClientIndex = Math.min(index, nextTotal - 1);
+  }
+
+  APP.currentClientIndex = Math.max(0, APP.currentClientIndex);
+  APP.state = cloneClientWorkspace(APP.clientStates[APP.currentClientIndex] || defaultClientWorkspace());
+
+  APP.meta = {
+    ...APP.meta,
+    lastWeekplanClient: {
+      index: APP.currentClientIndex,
+      name: "Klient " + (APP.currentClientIndex + 1),
+    },
+  };
+
+  persistWorkspaceClientCount(nextTotal);
+  syncWeekplanClientCountToStorage(nextTotal);
+  persistAllState();
+
+  renderClientContextNotice();
+  renderResumeButton();
+
+  const frame = document.getElementById("weekplanFrame");
+  if (frame && frame.dataset.loaded) {
+    setTimeout(setupWeekplanFrameFitting, 120);
+  }
+
+  return nextTotal;
+}
+
 function startNavigator() {
   ensureWeekplanFrame();
   setView("weekplan");
@@ -8087,8 +8560,16 @@ function startNavigator() {
 function openGeneratorFromWeekplan(index, clientName) {
   ensureWeekplanFrame();
 
-  if (!Number.isInteger(index) || index < 0 || index > 6) {
+  if (!Number.isInteger(index) || index < 0 || index > 9) {
     return;
+  }
+
+  if (index >= getWorkspaceClientCount()) {
+    const requiredTotal = index + 1;
+    APP.clientStates = ensureClientStateCapacity(requiredTotal).slice(0, requiredTotal);
+    persistWorkspaceClientCount(requiredTotal);
+    syncWeekplanClientCountToStorage(requiredTotal);
+    persistAllState();
   }
 
   setCurrentClientIndex(index);
@@ -8263,6 +8744,7 @@ function updateView() {
   bindEvents();
   applyFormState();
   updatePreview();
+  renderSharedOpenAiSettings();
   renderInternalAiPanel();
   renderEntwicklungsplanungPanel();
   document.getElementById("prevBtn").disabled = APP.currentPage === 0;
@@ -11140,20 +11622,33 @@ function extractChatGptApiTestText(responsePayload, style) {
 }
 
 async function sendOutputToChatGptApiTest() {
+  storeSharedOpenAiSettingsFromPage("chatGptApiKeyInput");
+
   const endpoint = cleanInline(
-    document.getElementById("chatGptApiEndpointInput")?.value || "",
+    document.getElementById("chatGptApiEndpointInput")?.value ||
+      APP.meta?.chatGptApiEndpoint ||
+      "https://api.openai.com/v1/responses",
   );
   const apiKey = cleanInline(
-    document.getElementById("chatGptApiKeyInput")?.value || "",
+    document.getElementById("chatGptApiKeyInput")?.value ||
+      APP.meta?.sharedOpenAiKey ||
+      APP.meta?.epOpenAiKey ||
+      "",
   );
   const model = cleanInline(
-    document.getElementById("chatGptApiModelInput")?.value || "",
+    document.getElementById("chatGptApiModelInput")?.value ||
+      APP.meta?.chatGptApiModel ||
+      "gpt-4.1-mini",
   );
   const style = cleanInline(
-    document.getElementById("chatGptApiStyleInput")?.value || "responses",
+    document.getElementById("chatGptApiStyleInput")?.value ||
+      APP.meta?.chatGptApiStyle ||
+      "responses",
   );
   const instruction = getEffectiveAiInstruction(
-    document.getElementById("chatGptApiInstructionInput")?.value || "",
+    document.getElementById("chatGptApiInstructionInput")?.value ||
+      APP.meta?.chatGptApiInstruction ||
+      "",
   );
   const statusField = document.getElementById("chatGptApiStatus");
   const outputField = document.getElementById("chatGptApiOutputField");
@@ -11296,6 +11791,7 @@ function clearChatGptApiTestOutput() {
 }
 
 function renderInternalAiPanel() {
+  renderSharedOpenAiSettings();
   const endpointInput = document.getElementById("internalAiEndpointInput");
   const instructionInput = document.getElementById(
     "internalAiInstructionInput",
@@ -11598,7 +12094,7 @@ function renderEntwicklungsplanungPanel() {
     ["epInternalAiEndpointInput", APP.meta?.epInternalAiEndpoint || ""],
     ["epInternalAiInstructionInput", APP.meta?.epInternalAiInstruction || ""],
     ["epOpenAiEndpointInput", APP.meta?.epOpenAiEndpoint || ""],
-    ["epOpenAiKeyInput", APP.meta?.epOpenAiKey || ""],
+    ["epOpenAiKeyInput", getSharedOpenAiKey()],
     ["epOpenAiModelInput", APP.meta?.epOpenAiModel || ""],
     ["epOpenAiStyleInput", APP.meta?.epOpenAiStyle || "responses"],
     ["epOpenAiInstructionInput", APP.meta?.epOpenAiInstruction || ""],
@@ -11848,6 +12344,14 @@ function applyNavigatorGoalsToEntwicklungsplanung() {
 }
 
 function storeEntwicklungsplanungAiSettingsFromPage() {
+  const sharedKey = cleanInline(
+    document.getElementById("epOpenAiKeyInput")?.value ||
+      document.getElementById("chatGptApiKeyInput")?.value ||
+      APP.meta?.sharedOpenAiKey ||
+      APP.meta?.epOpenAiKey ||
+      "",
+  );
+
   updateAppMeta({
     epInternalAiEndpoint: cleanInline(
       document.getElementById("epInternalAiEndpointInput")?.value ||
@@ -11859,16 +12363,13 @@ function storeEntwicklungsplanungAiSettingsFromPage() {
         APP.meta?.epInternalAiInstruction ||
         "",
     ),
+    sharedOpenAiKey: sharedKey,
     epOpenAiEndpoint: cleanInline(
       document.getElementById("epOpenAiEndpointInput")?.value ||
         APP.meta?.epOpenAiEndpoint ||
         "",
     ),
-    epOpenAiKey: cleanInline(
-      document.getElementById("epOpenAiKeyInput")?.value ||
-        APP.meta?.epOpenAiKey ||
-        "",
-    ),
+    epOpenAiKey: sharedKey,
     epOpenAiModel: cleanInline(
       document.getElementById("epOpenAiModelInput")?.value ||
         APP.meta?.epOpenAiModel ||
@@ -11885,6 +12386,8 @@ function storeEntwicklungsplanungAiSettingsFromPage() {
         "",
     ),
   });
+
+  syncSharedOpenAiKeyInputs("epOpenAiKeyInput");
 }
 
 function getEntwicklungsplanungWorkingFields() {
@@ -12347,6 +12850,7 @@ async function sendEntwicklungsplanungToOpenAi() {
   );
   const apiKey = cleanInline(
     document.getElementById("epOpenAiKeyInput")?.value ||
+      APP.meta?.sharedOpenAiKey ||
       APP.meta?.epOpenAiKey ||
       "",
   );
@@ -13026,6 +13530,7 @@ function renderGeneratorContextStatus() {
   const generatorBadge = document.getElementById("activeGeneratorBadge");
   const modeBadge = document.getElementById("activeModeBadge");
   const saveBadge = document.getElementById("saveStatusBadge");
+  const clientBanner = document.getElementById("generatorClientBanner");
 
   if (clientBadge) {
     clientBadge.textContent = "Aktiver Klient: " + getCurrentClientLabel();
@@ -13035,6 +13540,9 @@ function renderGeneratorContextStatus() {
   }
   if (modeBadge) {
     modeBadge.textContent = getCurrentModeLabel();
+  }
+  if (clientBanner) {
+    clientBanner.textContent = getCurrentGeneratorLabel() + " für " + getCurrentClientLabel();
   }
   if (saveBadge) {
     saveBadge.textContent = APP.hasUnsavedChanges
@@ -13162,6 +13670,7 @@ function buildWorkspaceSnapshot() {
     exportedAt: new Date().toISOString(),
     meta: APP.meta,
     currentClientIndex: getCurrentClientIndex(),
+    clientCount: getWorkspaceClientCount(),
     clientStates: APP.clientStates,
   };
 }
@@ -13217,10 +13726,14 @@ async function handleWorkspaceImport(event) {
     const parsed = JSON.parse(raw);
 
     if (Array.isArray(parsed?.clientStates)) {
+      const importedCount = clampWorkspaceClientCount(
+        parsed?.clientCount || parsed.clientStates.length || getWorkspaceClientCount(),
+      );
+      persistWorkspaceClientCount(importedCount);
       APP.clientStates = parsed.clientStates
-        .slice(0, getWorkspaceClientCount())
+        .slice(0, importedCount)
         .map((workspace) => normalizeStoredClientWorkspace(workspace));
-      while (APP.clientStates.length < getWorkspaceClientCount()) {
+      while (APP.clientStates.length < importedCount) {
         APP.clientStates.push(defaultClientWorkspace());
       }
     } else {
