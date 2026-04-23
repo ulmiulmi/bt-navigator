@@ -6101,6 +6101,23 @@ td {
       return String(Math.min(MAX_CLIENTS, Math.max(MIN_CLIENTS, Math.round(number))));
     }
 
+    function normalizeSequentialClientName(name, index) {
+      const fallback = 'Klient ' + (index + 1);
+      const clean = String(name || '').trim();
+      if (!clean) return fallback;
+      if (/^Klient\s+\d+$/i.test(clean)) {
+        return fallback;
+      }
+      return clean;
+    }
+
+    function renumberSequentialClientNames(clients) {
+      return (clients || []).map((client, index) => ({
+        ...client,
+        name: normalizeSequentialClientName(client?.name, index)
+      }));
+    }
+
     function getModeMeta(mode) {
       return mode === 'ret'
         ? {
@@ -6194,7 +6211,7 @@ td {
         const fallback = defaultClient(i);
         const existing = raw.clients && raw.clients[i] ? raw.clients[i] : {};
         const client = {
-          name: existing.name || fallback.name,
+          name: normalizeSequentialClientName(existing.name || fallback.name, i),
           setting: existing.setting ?? existing.ritSetting ?? '',
           mainGoal: existing.mainGoal || '',
           notes: existing.notes || '',
@@ -6272,7 +6289,7 @@ td {
 
       document.querySelectorAll('.client-card').forEach((card, index) => {
         const client = {
-          name: card.querySelector('.client-name').value,
+          name: normalizeSequentialClientName(card.querySelector('.client-name').value, index),
           setting: card.querySelector(\`[data-client-setting="\${index}"]\`).value,
           mainGoal: card.querySelector(\`[data-client-main-goal="\${index}"]\`).value,
           notes: card.querySelector('.notes').value,
@@ -6810,8 +6827,8 @@ td {
         }
 
         clients.splice(index, 1);
-        state.clients = clients;
-        state.count = String(Math.max(MIN_CLIENTS, clients.length));
+        state.clients = renumberSequentialClientNames(clients);
+        state.count = String(Math.max(MIN_CLIENTS, state.clients.length));
         localStorage.setItem(storageName, JSON.stringify(state));
       });
     }
