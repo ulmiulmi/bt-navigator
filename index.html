@@ -2490,8 +2490,8 @@ button.secondary {
                       <button type="button" class="ghost" onclick="resetCurrentGenerator()">Generator zurücksetzen</button>
                     </div>
                     <div class="tool-row">
-                      <button type="button" class="ghost" onclick="downloadWorkspaceSnapshot()">Gesamtstand speichern unter …</button>
-                      <button type="button" class="ghost" onclick="triggerWorkspaceImport()">Gesamtstand importieren</button>
+                      <button type="button" class="ghost" onclick="downloadWorkspaceSnapshot()">Speichern unter …</button>
+                      <button type="button" class="ghost" onclick="triggerWorkspaceImport()">Importieren</button>
                     </div>
                     <div class="browser-snapshot-tools">
                       <div class="browser-snapshot-title">Browser-Stände</div>
@@ -5617,6 +5617,7 @@ textarea {
   display: flex;
   gap: 6px;
   flex-wrap: wrap;
+  align-items: center;
 }
 
 .weekplan-action-row button {
@@ -5626,6 +5627,7 @@ textarea {
   font-size: 12px;
   line-height: 1.2;
   border-radius: 8px;
+  white-space: nowrap;
 }
 
 .mode-switch {
@@ -6307,8 +6309,8 @@ td {
           <div class="weekplan-action-title">Speichern</div>
           <div class="weekplan-action-row">
             <button class="secondary" type="button" onclick="manualSaveWeekplan()">Jetzt speichern</button>
-            <button class="secondary" type="button" onclick="window.parent && typeof window.parent.downloadWorkspaceSnapshot === 'function' && window.parent.downloadWorkspaceSnapshot()">Gesamtstand speichern unter …</button>
-            <button class="secondary" type="button" onclick="window.parent && typeof window.parent.triggerWorkspaceImport === 'function' && window.parent.triggerWorkspaceImport()">Gesamtstand importieren</button>
+            <button class="secondary" type="button" onclick="window.parent && typeof window.parent.downloadWorkspaceSnapshot === 'function' && window.parent.downloadWorkspaceSnapshot()">Speichern unter …</button>
+            <button class="secondary" type="button" onclick="window.parent && typeof window.parent.triggerWorkspaceImport === 'function' && window.parent.triggerWorkspaceImport()">Importieren</button>
           </div>
         </div>
 
@@ -7405,8 +7407,27 @@ td {
     };
   }
 
+  function requestParentFrameFit(){
+    try {
+      if (window.parent && typeof window.parent.setupWeekplanFrameFitting === 'function') {
+        window.parent.setupWeekplanFrameFitting();
+        setTimeout(() => window.parent.setupWeekplanFrameFitting(), 80);
+        setTimeout(() => window.parent.setupWeekplanFrameFitting(), 220);
+      }
+    } catch (error) {}
+  }
+
+  document.addEventListener('toggle', (event) => {
+    if (event.target && event.target.matches && event.target.matches('.client-plan-details, .client-actions-menu')) {
+      requestParentFrameFit();
+    }
+  }, true);
+
   addGeneratorButtons();
-  window.addEventListener('load', addGeneratorButtons);
+  window.addEventListener('load', () => {
+    addGeneratorButtons();
+    requestParentFrameFit();
+  });
 })();
 <\/script>
 
@@ -8195,6 +8216,11 @@ function setupWeekplanFrameFitting() {
 
     doc.addEventListener("input", () => setTimeout(rerunFit, 0), true);
     doc.addEventListener("change", () => setTimeout(rerunFit, 0), true);
+    doc.addEventListener("toggle", () => {
+      setTimeout(rerunFit, 0);
+      setTimeout(rerunFit, 80);
+      setTimeout(rerunFit, 220);
+    }, true);
     win.addEventListener("resize", rerunFit);
     window.addEventListener("resize", rerunFit);
 
@@ -8203,6 +8229,20 @@ function setupWeekplanFrameFitting() {
       const page = doc.querySelector(".page") || doc.body;
       resizeObserver.observe(page);
       frame.__btWeekplanResizeObserver = resizeObserver;
+    }
+
+    if (win.MutationObserver) {
+      const mutationObserver = new win.MutationObserver(() => {
+        setTimeout(rerunFit, 0);
+        setTimeout(rerunFit, 100);
+      });
+      mutationObserver.observe(doc.body, {
+        childList: true,
+        subtree: true,
+        attributes: true,
+        attributeFilter: ["open", "class", "style"],
+      });
+      frame.__btWeekplanMutationObserver = mutationObserver;
     }
 
     if (
