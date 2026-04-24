@@ -6150,6 +6150,36 @@ td {
   .client-count-row {
     flex-direction: column;
   }
+  .client-card,
+  .client-plan-details,
+  .client-plan-content {
+    width: 100%;
+    max-width: 100%;
+  }
+  .client-plan-summary {
+    padding: 14px 12px;
+    gap: 8px;
+    align-items: flex-start;
+  }
+  .client-plan-summary-actions {
+    gap: 6px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+  .client-summary-generator {
+    padding: 7px 8px;
+    font-size: 11px;
+  }
+  .client-actions-panel {
+    right: 0;
+    max-width: calc(100vw - 36px);
+  }
+  .overview-shell,
+  .plan-table-wrap {
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
 }
 
 @page {
@@ -8135,6 +8165,19 @@ function fitWeekplanFrameToWidth(frame) {
               transform-origin: top left;
               width: max-content;
             }
+            @media (max-width: 760px) {
+              html, body {
+                width: 100% !important;
+                max-width: 100% !important;
+                overflow-x: hidden !important;
+              }
+              #btNavigatorWeekplanFitRoot {
+                width: 100% !important;
+                max-width: 100% !important;
+                min-width: 0 !important;
+                transform: none !important;
+              }
+            }
           `;
       doc.head.appendChild(style);
     }
@@ -8148,10 +8191,34 @@ function fitWeekplanFrameToWidth(frame) {
       doc.body.appendChild(root);
     }
 
+    const availableWidth = Math.max(320, wrap.clientWidth - 2);
+    const mobileWeekplan = availableWidth <= 760;
+
+    if (mobileWeekplan) {
+      // Mobile-Fix: Auf kleinen Bildschirmen nicht die ganze Wochenplan-Seite
+      // als breite Druck-/Desktopfläche skalieren. Die Inhalte bleiben in ihrer
+      // normalen mobilen Breite; breite Tabellen scrollen nur in ihrem eigenen Feld.
+      root.style.transform = "none";
+      root.style.width = "100%";
+      root.style.maxWidth = "100%";
+      root.style.minWidth = "0";
+
+      const naturalHeight = Math.max(
+        Math.ceil(root.getBoundingClientRect().height || 0),
+        root.scrollHeight || 0,
+        doc.documentElement.scrollHeight || 0,
+        doc.body.scrollHeight || 0,
+      );
+
+      frame.style.height = Math.max(480, naturalHeight + 28) + "px";
+      return;
+    }
+
+    root.style.maxWidth = "";
+    root.style.minWidth = "";
     root.style.transform = "scale(1)";
     root.style.width = "max-content";
 
-    const availableWidth = Math.max(320, wrap.clientWidth - 2);
     const naturalWidth = Math.max(
       root.scrollWidth || 0,
       doc.documentElement.scrollWidth || 0,
@@ -8216,6 +8283,39 @@ function setupWeekplanFrameFitting() {
 
     doc.addEventListener("input", () => setTimeout(rerunFit, 0), true);
     doc.addEventListener("change", () => setTimeout(rerunFit, 0), true);
+
+    // PC-Fix: Klientenpläne zuverlässig per Mausklick auf- und zuklappen.
+    // Die Aktionsbuttons im Kopf bleiben davon ausgenommen.
+    doc.addEventListener(
+      "click",
+      (event) => {
+        const target = event.target;
+        if (!target || typeof target.closest !== "function") return;
+
+        const summary = target.closest(".client-plan-summary");
+        if (!summary) return;
+
+        if (
+          target.closest(
+            ".client-plan-summary-actions, .client-actions-menu, button, a, input, textarea, select, label"
+          )
+        ) {
+          return;
+        }
+
+        const details = summary.closest(".client-plan-details");
+        if (!details) return;
+
+        event.preventDefault();
+        event.stopPropagation();
+        details.open = !details.open;
+        setTimeout(rerunFit, 0);
+        setTimeout(rerunFit, 80);
+        setTimeout(rerunFit, 220);
+      },
+      true
+    );
+
     doc.addEventListener("toggle", () => {
       setTimeout(rerunFit, 0);
       setTimeout(rerunFit, 80);
