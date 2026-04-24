@@ -829,6 +829,51 @@ textarea {
   line-height: 1.5;
   color: var(--muted);
 }
+
+.browser-snapshot-tools {
+  display: grid;
+  gap: 10px;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: #fbfdff;
+}
+.browser-snapshot-title {
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--text);
+}
+.browser-snapshot-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.browser-snapshot-row button {
+  flex: 1 1 150px;
+}
+.browser-snapshot-status {
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.45;
+}
+.weekplan-restore-line {
+  margin-top: 10px;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.weekplan-restore-line .mini-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--muted);
+  margin: 0;
+}
+.weekplan-restore-line button {
+  padding: 8px 10px;
+  min-height: auto;
+  font-size: 12px;
+}
 .api-test-panel input[type="password"],
 .api-test-panel select {
   width: 100%;
@@ -2445,8 +2490,17 @@ button.secondary {
                       <button type="button" class="ghost" onclick="resetCurrentGenerator()">Generator zurücksetzen</button>
                     </div>
                     <div class="tool-row">
-                      <button type="button" class="ghost" onclick="downloadWorkspaceSnapshot()">Arbeitsstand exportieren</button>
-                      <button type="button" class="ghost" onclick="triggerWorkspaceImport()">Arbeitsstand importieren</button>
+                      <button type="button" class="ghost" onclick="downloadWorkspaceSnapshot()">Gesamtstand speichern unter …</button>
+                      <button type="button" class="ghost" onclick="triggerWorkspaceImport()">Gesamtstand importieren</button>
+                    </div>
+                    <div class="browser-snapshot-tools">
+                      <div class="browser-snapshot-title">Browser-Stände</div>
+                      <div class="browser-snapshot-row">
+                        <button type="button" class="ghost" onclick="restoreBrowserSnapshot('current')">Aktueller Stand</button>
+                        <button type="button" class="ghost" onclick="restoreBrowserSnapshot('previous')">Vorheriger Stand</button>
+                        <button type="button" class="ghost" onclick="restoreBrowserSnapshot('emergency')">Notfall-Stand</button>
+                      </div>
+                      <div class="browser-snapshot-status" id="browserSnapshotStatus">Es werden drei Browser-Stände mitgeführt: aktuell, vorherig und Notfall.</div>
                     </div>
                   </div>
                 </div>
@@ -2562,6 +2616,7 @@ button.secondary {
                 <div class="print-note">Die Druckansicht enthält die strukturierte Vorschau und – falls vorhanden – die KI-Antwort.</div>
               </div>
               <input type="file" id="workspaceImportInput" accept="application/json,.json" class="hidden" />
+              <input type="file" id="singleClientImportInput" accept="application/json,.json" class="hidden" />
             </div>
           </div>
         </aside>
@@ -5352,7 +5407,7 @@ body {
 
 .controls {
   display: grid;
-  grid-template-columns: repeat(3, minmax(180px, 1fr)) minmax(320px, 1.4fr);
+  grid-template-columns: minmax(220px, 1fr) minmax(220px, 1fr) minmax(280px, 1.1fr);
   gap: 12px;
   align-items: end;
 }
@@ -5366,6 +5421,21 @@ body {
   font-weight: 700;
 }
 
+.client-count-row {
+  display: flex;
+  gap: 8px;
+  align-items: stretch;
+}
+
+.client-count-row .client-count-display {
+  flex: 1 1 auto;
+}
+
+.client-count-row .add-client-btn {
+  flex: 0 0 auto;
+  white-space: nowrap;
+}
+
 .client-count-actions {
   display: grid;
   gap: 8px;
@@ -5373,7 +5443,7 @@ body {
 }
 
 .add-client-btn {
-  width: 100%;
+  width: auto;
 }
 
 .add-client-btn:disabled,
@@ -5402,6 +5472,76 @@ body {
 }
 
 .client-remove-btn {
+  white-space: nowrap;
+}
+
+.client-head-actions {
+  position: relative;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-start;
+}
+
+.client-actions-menu {
+  position: relative;
+}
+
+.client-actions-menu summary {
+  list-style: none;
+  cursor: pointer;
+}
+
+.client-actions-menu summary::-webkit-details-marker {
+  display: none;
+}
+
+.client-actions-trigger {
+  width: 38px;
+  min-width: 38px;
+  min-height: 34px;
+  padding: 6px 8px;
+  border-radius: 10px;
+  font-size: 20px;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.client-actions-panel {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 8px);
+  z-index: 40;
+  min-width: 210px;
+  display: grid;
+  gap: 7px;
+  padding: 9px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: var(--shadow);
+}
+
+.client-actions-panel button {
+  width: 100%;
+  min-height: 34px;
+  padding: 7px 9px;
+  font-size: 12px;
+  line-height: 1.2;
+  text-align: left;
+  border-radius: 8px;
+  white-space: nowrap;
+}
+
+.client-transfer-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.client-transfer-row button {
   white-space: nowrap;
 }
 
@@ -5442,6 +5582,50 @@ textarea {
   gap: 10px;
   flex-wrap: wrap;
   align-items: end;
+}
+
+.weekplan-action-groups {
+  margin-top: 14px;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(170px, 1fr));
+  gap: 10px;
+  align-items: stretch;
+}
+
+.weekplan-action-group {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: #fbfdff;
+  padding: 9px;
+  display: grid;
+  gap: 7px;
+  align-content: start;
+}
+
+.weekplan-action-group-danger {
+  background: #fffafa;
+}
+
+.weekplan-action-title {
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--muted);
+  line-height: 1.2;
+}
+
+.weekplan-action-row {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.weekplan-action-row button {
+  width: auto;
+  min-height: 32px;
+  padding: 7px 9px;
+  font-size: 12px;
+  line-height: 1.2;
+  border-radius: 8px;
 }
 
 .mode-switch {
@@ -5668,7 +5852,77 @@ button {
 }
 
 .client-card {
-  overflow: hidden;
+  overflow: visible;
+}
+
+.client-plan-details {
+  display: block;
+}
+
+.client-plan-summary {
+  list-style: none;
+  cursor: pointer;
+  padding: 16px 18px;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
+}
+
+.client-plan-summary::-webkit-details-marker {
+  display: none;
+}
+
+.client-plan-summary::after {
+  content: "▾";
+  font-size: 18px;
+  color: var(--muted);
+  transition: transform .15s ease;
+  margin-left: 4px;
+}
+
+.client-plan-details[open] .client-plan-summary::after {
+  transform: rotate(180deg);
+}
+
+.client-plan-summary-main {
+  min-width: 0;
+  flex: 1 1 auto;
+}
+
+.client-plan-summary-label {
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--muted);
+  margin-bottom: 4px;
+}
+
+.client-plan-summary-name {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--text);
+  line-height: 1.2;
+}
+
+.client-plan-summary-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex: 0 0 auto;
+}
+
+.client-summary-generator {
+  min-height: 34px;
+  padding: 7px 10px;
+  font-size: 12px;
+  border-radius: 8px;
+  white-space: nowrap;
+}
+
+.client-plan-content {
+  border-top: 1px solid var(--line);
 }
 
 .client-name {
@@ -5866,6 +6120,9 @@ td {
   .print-header {
     grid-template-columns: 1fr;
   }
+  .weekplan-action-groups {
+    grid-template-columns: repeat(2, minmax(180px, 1fr));
+  }
 }
 
 @media (max-width: 740px) {
@@ -5882,11 +6139,14 @@ td {
     grid-template-columns: 1fr;
   }
   .actions {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+    display: flex;
+    flex-wrap: wrap;
   }
-  .actions button:last-child {
-    grid-column: 1 / -1;
+  .weekplan-action-groups {
+    grid-template-columns: 1fr;
+  }
+  .client-count-row {
+    flex-direction: column;
   }
 }
 
@@ -6023,21 +6283,49 @@ td {
           <input id="woche" type="text" placeholder="z. B. 20.04.2026 - 24.04.2026" />
         </div>
 
-        <div class="field">
+        <div class="field client-count-field">
           <label>Anzahl Klienten</label>
           <input id="anzahl" type="hidden" value="5" />
-          <div class="client-count-display" id="anzahlAnzeige">5 Klienten aktiv</div>
-          <div class="client-count-actions">
+          <div class="client-count-row">
+            <div class="client-count-display" id="anzahlAnzeige">5 Klienten aktiv</div>
             <button class="secondary add-client-btn" type="button" onclick="addClient()">Klient hinzufügen</button>
           </div>
         </div>
+      </div>
 
-        <div class="actions">
-          <button class="primary" type="button" onclick="printMode('overview')">Gesamtplan drucken</button>
-          <button class="secondary" type="button" onclick="printMode('clients')">Klientenpläne drucken</button>
-          <button class="secondary" type="button" onclick="printMode('all')">Alles drucken</button>
-          <button class="secondary" type="button" onclick="manualSaveWeekplan()">Jetzt speichern</button>
-          <button class="secondary" type="button" onclick="resetPlan()">Zurücksetzen</button>
+      <div class="weekplan-action-groups" aria-label="Wochenplan-Aktionen">
+        <div class="weekplan-action-group">
+          <div class="weekplan-action-title">Drucken</div>
+          <div class="weekplan-action-row">
+            <button class="primary" type="button" onclick="printMode('overview')">Gesamtplan</button>
+            <button class="secondary" type="button" onclick="printMode('clients')">Klientenpläne</button>
+            <button class="secondary" type="button" onclick="printMode('all')">Alles</button>
+          </div>
+        </div>
+
+        <div class="weekplan-action-group">
+          <div class="weekplan-action-title">Speichern</div>
+          <div class="weekplan-action-row">
+            <button class="secondary" type="button" onclick="manualSaveWeekplan()">Jetzt speichern</button>
+            <button class="secondary" type="button" onclick="window.parent && typeof window.parent.downloadWorkspaceSnapshot === 'function' && window.parent.downloadWorkspaceSnapshot()">Gesamtstand speichern unter …</button>
+            <button class="secondary" type="button" onclick="window.parent && typeof window.parent.triggerWorkspaceImport === 'function' && window.parent.triggerWorkspaceImport()">Gesamtstand importieren</button>
+          </div>
+        </div>
+
+        <div class="weekplan-action-group">
+          <div class="weekplan-action-title">Browser-Stände</div>
+          <div class="weekplan-action-row">
+            <button class="secondary" type="button" onclick="window.parent && typeof window.parent.restoreBrowserSnapshot === 'function' && window.parent.restoreBrowserSnapshot('current')">Aktuell</button>
+            <button class="secondary" type="button" onclick="window.parent && typeof window.parent.restoreBrowserSnapshot === 'function' && window.parent.restoreBrowserSnapshot('previous')">Vorherig</button>
+            <button class="secondary" type="button" onclick="window.parent && typeof window.parent.restoreBrowserSnapshot === 'function' && window.parent.restoreBrowserSnapshot('emergency')">Notfall</button>
+          </div>
+        </div>
+
+        <div class="weekplan-action-group weekplan-action-group-danger">
+          <div class="weekplan-action-title">System</div>
+          <div class="weekplan-action-row">
+            <button class="secondary" type="button" onclick="resetPlan()">Zurücksetzen</button>
+          </div>
         </div>
       </div>
 
@@ -6099,23 +6387,6 @@ td {
       const number = Number(value);
       if (!Number.isFinite(number)) return String(DEFAULT_CLIENTS);
       return String(Math.min(MAX_CLIENTS, Math.max(MIN_CLIENTS, Math.round(number))));
-    }
-
-    function normalizeSequentialClientName(name, index) {
-      const fallback = 'Klient ' + (index + 1);
-      const clean = String(name || '').trim();
-      if (!clean) return fallback;
-      if (/^Klient\s+\d+$/i.test(clean)) {
-        return fallback;
-      }
-      return clean;
-    }
-
-    function renumberSequentialClientNames(clients) {
-      return (clients || []).map((client, index) => ({
-        ...client,
-        name: normalizeSequentialClientName(client?.name, index)
-      }));
     }
 
     function getModeMeta(mode) {
@@ -6211,7 +6482,7 @@ td {
         const fallback = defaultClient(i);
         const existing = raw.clients && raw.clients[i] ? raw.clients[i] : {};
         const client = {
-          name: normalizeSequentialClientName(existing.name || fallback.name, i),
+          name: existing.name || fallback.name,
           setting: existing.setting ?? existing.ritSetting ?? '',
           mainGoal: existing.mainGoal || '',
           notes: existing.notes || '',
@@ -6289,7 +6560,7 @@ td {
 
       document.querySelectorAll('.client-card').forEach((card, index) => {
         const client = {
-          name: normalizeSequentialClientName(card.querySelector('.client-name').value, index),
+          name: card.querySelector('.client-name').value,
           setting: card.querySelector(\`[data-client-setting="\${index}"]\`).value,
           mainGoal: card.querySelector(\`[data-client-main-goal="\${index}"]\`).value,
           notes: card.querySelector('.notes').value,
@@ -6568,16 +6839,39 @@ td {
         const card = document.createElement('article');
         card.className = 'client-card';
 
+        const cleanClientName = String(clientData.name || '').trim();
+        const summaryClientName = cleanClientName && !/^Klient\s+\d+$/i.test(cleanClientName)
+          ? cleanClientName
+          : 'Name';
+
         card.innerHTML = \`
-          <div class="client-head">
-            <div class="client-head-top">
-              <div class="client-head-main">
-                <div class="client-label">Klient \${i + 1}</div>
-                <input class="client-name" type="text" value="\${escapeHtml(clientData.name || \`Klient \${i + 1}\`)}" />
+          <details class="client-plan-details">
+            <summary class="client-plan-summary">
+              <div class="client-plan-summary-main">
+                <div class="client-plan-summary-label">Klient \${i + 1}</div>
+                <div class="client-plan-summary-name">\${escapeHtml(summaryClientName)}</div>
               </div>
-              <button class="secondary client-remove-btn" type="button" onclick="removeClientAt(\${i})">Diesen Klienten entfernen</button>
-            </div>
-          </div>
+              <div class="client-plan-summary-actions" onclick="event.stopPropagation()">
+                <button class="secondary client-summary-generator wp-generator-link" type="button" onclick="event.stopPropagation(); const card = this.closest('.client-card'); const nameInput = card ? card.querySelector('.client-name') : null; const clientName = nameInput && nameInput.value ? nameInput.value : 'Klient ' + (\${i} + 1); if (window.parent && typeof window.parent.openGeneratorFromWeekplan === 'function') { window.parent.openGeneratorFromWeekplan(\${i}, clientName); }">Zum Generator</button>
+                <details class="client-actions-menu" onclick="event.stopPropagation()">
+                  <summary class="secondary client-actions-trigger" title="Klienten-Aktionen">☰</summary>
+                  <div class="client-actions-panel">
+                    <button class="secondary" type="button" onclick="event.stopPropagation(); window.parent && typeof window.parent.downloadSingleClientSnapshot === 'function' && window.parent.downloadSingleClientSnapshot(\${i})">Klient exportieren</button>
+                    <button class="secondary" type="button" onclick="event.stopPropagation(); window.parent && typeof window.parent.triggerSingleClientImport === 'function' && window.parent.triggerSingleClientImport(\${i})">Klient importieren</button>
+                    <button class="secondary client-remove-btn" type="button" onclick="event.stopPropagation(); removeClientAt(\${i})">Diesen Klienten entfernen</button>
+                  </div>
+                </details>
+              </div>
+            </summary>
+            <div class="client-plan-content">
+              <div class="client-head">
+                <div class="client-head-top">
+                  <div class="client-head-main">
+                    <div class="client-label">Name</div>
+                    <input class="client-name" type="text" value="\${escapeHtml(clientData.name || '')}" placeholder="Name" />
+                  </div>
+                </div>
+              </div>
 
           <div class="meta-grid">
             <div class="field">
@@ -6605,6 +6899,8 @@ td {
             <div class="notes-title">Hinweise / Besonderheiten</div>
             <textarea class="notes" placeholder="Zusätzliche Hinweise für die Woche">\${escapeHtml(clientData.notes || '')}</textarea>
           </div>
+            </div>
+          </details>
         \`;
 
         clientContainer.appendChild(card);
@@ -6827,8 +7123,8 @@ td {
         }
 
         clients.splice(index, 1);
-        state.clients = renumberSequentialClientNames(clients);
-        state.count = String(Math.max(MIN_CLIENTS, state.clients.length));
+        state.clients = clients;
+        state.count = String(Math.max(MIN_CLIENTS, clients.length));
         localStorage.setItem(storageName, JSON.stringify(state));
       });
     }
@@ -6929,6 +7225,9 @@ td {
     function manualSaveWeekplan() {
       saveState();
       renderPrintSheets();
+      if (window.parent && typeof window.parent.recordBrowserSnapshotFromWeekplan === 'function') {
+        window.parent.recordBrowserSnapshotFromWeekplan('weekplan-manual');
+      }
     }
 
     function getPrintAreaPx() {
@@ -6983,20 +7282,32 @@ td {
 
     window.addEventListener('pagehide', () => {
       saveState();
+      if (window.parent && typeof window.parent.recordBrowserSnapshotFromWeekplan === 'function') {
+        window.parent.recordBrowserSnapshotFromWeekplan('pagehide', { emergency: true });
+      }
     });
 
     window.addEventListener('beforeunload', () => {
       saveState();
+      if (window.parent && typeof window.parent.recordBrowserSnapshotFromWeekplan === 'function') {
+        window.parent.recordBrowserSnapshotFromWeekplan('beforeunload', { emergency: true });
+      }
     });
 
     document.addEventListener('visibilitychange', () => {
       if (document.visibilityState === 'hidden') {
         saveState();
+        if (window.parent && typeof window.parent.recordBrowserSnapshotFromWeekplan === 'function') {
+          window.parent.recordBrowserSnapshotFromWeekplan('visibilitychange', { emergency: true });
+        }
       }
     });
 
     window.addEventListener('blur', () => {
       saveState();
+      if (window.parent && typeof window.parent.recordBrowserSnapshotFromWeekplan === 'function') {
+        window.parent.recordBrowserSnapshotFromWeekplan('blur', { emergency: true });
+      }
     });
 
     function compactTopbarForEmbed() {
@@ -7120,6 +7431,14 @@ function storageMetaKey() {
   return storageKey() + "-meta";
 }
 
+function browserSnapshotKey() {
+  return storageKey() + "-browser-snapshots";
+}
+
+function weekplanBaseStorageKey() {
+  return "wochenplan_bt_navigator_v2_morgen_nachmittag_print";
+}
+
 function workspaceClientCountKey() {
   return storageKey() + "-client-count";
 }
@@ -7159,6 +7478,168 @@ function persistWorkspaceClientCount(count) {
     workspaceClientCountKey(),
     String(clampWorkspaceClientCount(count)),
   );
+}
+
+function defaultBrowserSnapshots() {
+  return {
+    current: null,
+    previous: null,
+    emergency: null,
+  };
+}
+
+function loadBrowserSnapshots() {
+  try {
+    const raw = localStorage.getItem(browserSnapshotKey());
+    const parsed = raw ? JSON.parse(raw) : {};
+    return {
+      ...defaultBrowserSnapshots(),
+      ...(parsed && typeof parsed === "object" ? parsed : {}),
+    };
+  } catch (error) {
+    return defaultBrowserSnapshots();
+  }
+}
+
+function persistBrowserSnapshots(snapshots) {
+  localStorage.setItem(browserSnapshotKey(), JSON.stringify(snapshots));
+}
+
+function buildBrowserRecoveryBundle(reason = "auto") {
+  const weekplanBase = weekplanBaseStorageKey();
+  return {
+    version: 1,
+    reason,
+    savedAt: new Date().toISOString(),
+    appState: localStorage.getItem(storageKey()) || "",
+    appMeta: localStorage.getItem(storageMetaKey()) || "",
+    workspaceClientCount: localStorage.getItem(workspaceClientCountKey()) || "",
+    weekplanMode: localStorage.getItem(weekplanBase + "_mode") || "rit",
+    weekplanRit: localStorage.getItem(weekplanBase + "_rit") || "",
+    weekplanRet: localStorage.getItem(weekplanBase + "_ret") || "",
+  };
+}
+
+function formatSnapshotLabel(bundle) {
+  if (!bundle || !bundle.savedAt) return "leer";
+  const stamp = formatDateTime(bundle.savedAt);
+  const reason = cleanInline(bundle.reason || "");
+  return stamp ? stamp + (reason ? " • " + reason : "") : "leer";
+}
+
+function recordBrowserSnapshot(reason = "auto", options = {}) {
+  const snapshots = loadBrowserSnapshots();
+  const next = buildBrowserRecoveryBundle(reason);
+  const rotateReasons = new Set([
+    "manual",
+    "weekplan-manual",
+    "import",
+    "reset",
+    "add-client",
+    "remove-client",
+    "pagehide",
+    "beforeunload",
+    "visibilitychange",
+    "blur",
+  ]);
+
+  const currentStamp = snapshots.current?.savedAt
+    ? Date.parse(snapshots.current.savedAt)
+    : 0;
+  const now = Date.now();
+  const shouldRotatePrevious =
+    !!snapshots.current &&
+    (rotateReasons.has(reason) || !currentStamp || now - currentStamp > 15000);
+
+  if (shouldRotatePrevious) {
+    snapshots.previous = snapshots.current;
+  }
+
+  snapshots.current = next;
+
+  if (!snapshots.emergency || options.emergency) {
+    snapshots.emergency = next;
+  }
+
+  persistBrowserSnapshots(snapshots);
+  renderWorkspaceMeta();
+}
+
+function applyBrowserRecoveryBundle(bundle) {
+  if (!bundle) return;
+  const weekplanBase = weekplanBaseStorageKey();
+
+  if (bundle.appState) localStorage.setItem(storageKey(), bundle.appState);
+  else localStorage.removeItem(storageKey());
+
+  if (bundle.appMeta) localStorage.setItem(storageMetaKey(), bundle.appMeta);
+  else localStorage.removeItem(storageMetaKey());
+
+  if (bundle.workspaceClientCount) {
+    localStorage.setItem(workspaceClientCountKey(), bundle.workspaceClientCount);
+  } else {
+    localStorage.removeItem(workspaceClientCountKey());
+  }
+
+  if (bundle.weekplanMode) localStorage.setItem(weekplanBase + "_mode", bundle.weekplanMode);
+  else localStorage.removeItem(weekplanBase + "_mode");
+
+  if (bundle.weekplanRit) localStorage.setItem(weekplanBase + "_rit", bundle.weekplanRit);
+  else localStorage.removeItem(weekplanBase + "_rit");
+
+  if (bundle.weekplanRet) localStorage.setItem(weekplanBase + "_ret", bundle.weekplanRet);
+  else localStorage.removeItem(weekplanBase + "_ret");
+}
+
+function restoreBrowserSnapshot(slot = "current") {
+  const snapshots = loadBrowserSnapshots();
+  const bundle = snapshots[slot];
+  if (!bundle) {
+    alert("Für diesen Browser-Stand ist noch nichts gespeichert.");
+    return;
+  }
+
+  const label =
+    slot === "previous"
+      ? "vorherigen "
+      : slot === "emergency"
+        ? "Notfall-"
+        : "aktuellen ";
+
+  if (!confirm("Diesen " + label + "Browser-Stand wirklich wiederherstellen?")) {
+    return;
+  }
+
+  recordBrowserSnapshot("restore", { emergency: true });
+  applyBrowserRecoveryBundle(bundle);
+  window.location.reload();
+}
+
+function recordBrowserSnapshotFromWeekplan(reason = "weekplan-manual", options = {}) {
+  try {
+    saveWeekplanFrameState();
+  } catch (error) {
+    console.warn("Weekplan-Stand konnte vor Browser-Snapshot nicht gespeichert werden.", error);
+  }
+  recordBrowserSnapshot(reason, options);
+}
+
+function restoreBrowserSnapshotFromWeekplan(slot = "current") {
+  if (window.parent && typeof window.parent.restoreBrowserSnapshot === "function") {
+    window.parent.restoreBrowserSnapshot(slot);
+  }
+}
+
+function downloadWorkspaceSnapshotFromWeekplan() {
+  if (window.parent && typeof window.parent.downloadWorkspaceSnapshot === "function") {
+    window.parent.downloadWorkspaceSnapshot();
+  }
+}
+
+function triggerWorkspaceImportFromWeekplan() {
+  if (window.parent && typeof window.parent.triggerWorkspaceImport === "function") {
+    window.parent.triggerWorkspaceImport();
+  }
 }
 
 function defaultAppMeta() {
@@ -7731,7 +8212,7 @@ function setupWeekplanFrameFitting() {
   setTimeout(rerunFit, 320);
 }
 
-function saveEverything() {
+function saveEverything(reason = "auto", options = {}) {
   try {
     if (APP.currentView === "generator" && APP.currentGenerator) {
       mergeCurrentFormIntoState();
@@ -7739,6 +8220,9 @@ function saveEverything() {
       persistAllState();
     }
     saveWeekplanFrameState();
+    if (options.snapshot !== false) {
+      recordBrowserSnapshot(reason, { emergency: !!options.emergency });
+    }
     setDirtyState(false);
   } catch (error) {
     console.warn("Speichern fehlgeschlagen.", error);
@@ -7746,7 +8230,7 @@ function saveEverything() {
 }
 
 function manualSaveAll() {
-  saveEverything();
+  saveEverything("manual", { snapshot: true });
 }
 
 function ensureGeneratorState(generatorKey) {
@@ -13617,6 +14101,22 @@ function setupWeekplanDirtyTracking() {
 
 function renderWorkspaceMeta() {
   const note = document.getElementById("workspaceMetaNote");
+  const snapshotStatus = document.getElementById("browserSnapshotStatus");
+  const snapshots = loadBrowserSnapshots();
+  const currentLabel = formatSnapshotLabel(snapshots.current);
+  const previousLabel = formatSnapshotLabel(snapshots.previous);
+  const emergencyLabel = formatSnapshotLabel(snapshots.emergency);
+
+  if (snapshotStatus) {
+    snapshotStatus.textContent =
+      "Aktuell: " +
+      currentLabel +
+      " • Vorherig: " +
+      previousLabel +
+      " • Notfall: " +
+      emergencyLabel;
+  }
+
   if (!note) return;
   const lastUpdated = formatDateTime(APP.meta?.lastUpdated);
   const generatorLabel = APP.meta?.lastGenerator
@@ -13630,9 +14130,21 @@ function renderWorkspaceMeta() {
       lastUpdated +
       " • letzter Generator: " +
       generatorLabel +
-      saveLabel
+      saveLabel +
+      " • Browser-Stände: aktuell " +
+      currentLabel +
+      ", vorherig " +
+      previousLabel +
+      ", Notfall " +
+      emergencyLabel
     : "Der Arbeitsstand wird lokal im Browser gespeichert und kann zusätzlich als JSON exportiert werden." +
-      saveLabel;
+      saveLabel +
+      " • Browser-Stände: aktuell " +
+      currentLabel +
+      ", vorherig " +
+      previousLabel +
+      ", Notfall " +
+      emergencyLabel;
 }
 
 function renderClientContextNotice() {
@@ -13680,8 +14192,208 @@ function resumeLastSession() {
   renderGenerator();
 }
 
+const WEEKPLAN_DAY_KEYS = ["mo", "di", "mi", "do", "fr"];
+let pendingSingleClientImportIndex = null;
+
+function createEmptyWeekplanClient(index = 0) {
+  const client = {
+    name: "",
+    setting: "",
+    mainGoal: "",
+    notes: "",
+    generatorTimeSlots: [],
+    days: {},
+  };
+
+  WEEKPLAN_DAY_KEYS.forEach((dayKey) => {
+    client.days[dayKey] = {
+      morningGoal: "",
+      morningActivity: "",
+      afternoonGoal: "",
+      afternoonActivity: "",
+    };
+  });
+
+  return client;
+}
+
+function getStoredWeekplanModeState(mode) {
+  try {
+    return JSON.parse(localStorage.getItem(weekplanBaseStorageKey() + "_" + mode) || "{}") || {};
+  } catch (error) {
+    return {};
+  }
+}
+
+function setStoredWeekplanModeState(mode, state) {
+  localStorage.setItem(
+    weekplanBaseStorageKey() + "_" + mode,
+    JSON.stringify(state || {}),
+  );
+}
+
+function getSingleClientSnapshot(index) {
+  saveWeekplanFrameState();
+  commitCurrentClientWorkspace();
+  ensureClientStateCapacity(Math.max(getWorkspaceClientCount(), index + 1));
+
+  const ritState = getStoredWeekplanModeState("rit");
+  const retState = getStoredWeekplanModeState("ret");
+
+  return {
+    version: 1,
+    exportedAt: new Date().toISOString(),
+    slotIndex: index,
+    clientLabel: "Klient " + (index + 1),
+    clientState: cloneClientWorkspace(APP.clientStates[index] || defaultClientWorkspace()),
+    weekplanRitClient: ritState.clients?.[index] || createEmptyWeekplanClient(index),
+    weekplanRetClient: retState.clients?.[index] || createEmptyWeekplanClient(index),
+  };
+}
+
+async function downloadSingleClientSnapshot(index) {
+  const snapshot = getSingleClientSnapshot(index);
+  const data = JSON.stringify(snapshot, null, 2);
+  const blob = new Blob([data], { type: "application/json;charset=utf-8" });
+  const stamp = new Date().toISOString().slice(0, 19).replace(/[T:]/g, "-");
+  const fileName = "bt-navigator-klient-" + (index + 1) + "-" + stamp + ".json";
+
+  try {
+    if (typeof window.showSaveFilePicker === "function") {
+      const handle = await window.showSaveFilePicker({
+        suggestedName: fileName,
+        types: [
+          {
+            description: "JSON-Datei",
+            accept: {
+              "application/json": [".json"],
+            },
+          },
+        ],
+      });
+      const writable = await handle.createWritable();
+      await writable.write(blob);
+      await writable.close();
+      updateAppMeta({ lastUpdated: new Date().toISOString() });
+      return;
+    }
+  } catch (error) {
+    const aborted = error && (error.name === "AbortError" || error.name === "SecurityError");
+    if (aborted) {
+      return;
+    }
+    console.warn("Speichern unter nicht verfügbar, Download wird verwendet.", error);
+  }
+
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = fileName;
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+  URL.revokeObjectURL(url);
+  updateAppMeta({ lastUpdated: new Date().toISOString() });
+}
+
+function triggerSingleClientImport(index) {
+  pendingSingleClientImportIndex = Number.isInteger(index) ? index : null;
+  const input = document.getElementById("singleClientImportInput");
+  if (!input) return;
+  input.value = "";
+  input.click();
+}
+
+function importSingleWeekplanClient(mode, index, clientData) {
+  const state = getStoredWeekplanModeState(mode);
+  const targetCount = Math.max(
+    Number(state.count || 0) || 0,
+    getWorkspaceClientCount(),
+    index + 1,
+  );
+
+  state.count = String(targetCount);
+  const clients = Array.isArray(state.clients) ? state.clients.slice() : [];
+  while (clients.length < targetCount) {
+    clients.push(createEmptyWeekplanClient(clients.length));
+  }
+  clients[index] =
+    clientData && typeof clientData === "object"
+      ? JSON.parse(JSON.stringify(clientData))
+      : createEmptyWeekplanClient(index);
+
+  state.clients = clients;
+  setStoredWeekplanModeState(mode, state);
+}
+
+async function handleSingleClientImport(event) {
+  const file = event?.target?.files?.[0];
+  const index = pendingSingleClientImportIndex;
+
+  if (!file || !Number.isInteger(index) || index < 0) return;
+
+  try {
+    const raw = await file.text();
+    const parsed = JSON.parse(raw);
+    const targetCount = Math.max(getWorkspaceClientCount(), index + 1);
+
+    ensureClientStateCapacity(targetCount);
+    APP.clientStates[index] = normalizeStoredClientWorkspace(
+      parsed?.clientState || parsed?.state || parsed || defaultClientWorkspace(),
+    );
+
+    persistWorkspaceClientCount(targetCount);
+    syncWeekplanClientCountToStorage(targetCount);
+
+    importSingleWeekplanClient("rit", index, parsed?.weekplanRitClient);
+    importSingleWeekplanClient("ret", index, parsed?.weekplanRetClient);
+
+    if (getCurrentClientIndex() === index) {
+      APP.state = cloneClientWorkspace(APP.clientStates[index]);
+    }
+
+    persistAllState();
+
+    const frame = document.getElementById("weekplanFrame");
+    if (frame) {
+      ensureWeekplanFrame();
+      if (frame.dataset.loaded) {
+        try {
+          const win = frame.contentWindow;
+          if (win) {
+            if (typeof win.loadState === "function") {
+              win.loadState();
+            } else if (typeof win.renderAll === "function") {
+              win.renderAll();
+            }
+          }
+        } catch (frameError) {
+          console.warn("Wochenplan konnte nach dem Klienten-Import nicht direkt aktualisiert werden.", frameError);
+        }
+        setTimeout(setupWeekplanFrameFitting, 120);
+      }
+    }
+
+    if (getCurrentClientIndex() === index && APP.currentGenerator) {
+      renderGenerator();
+    }
+
+    recordBrowserSnapshot("single-client-import", { emergency: true });
+    alert("Klient wurde importiert.");
+  } catch (error) {
+    console.warn("Klienten-Import fehlgeschlagen", error);
+    alert("Klient konnte nicht importiert werden.");
+  } finally {
+    pendingSingleClientImportIndex = null;
+    if (event?.target) {
+      event.target.value = "";
+    }
+  }
+}
+
 function buildWorkspaceSnapshot() {
   commitCurrentClientWorkspace();
+  const weekplanBase = weekplanBaseStorageKey();
   return {
     version: 2,
     exportedAt: new Date().toISOString(),
@@ -13689,17 +14401,49 @@ function buildWorkspaceSnapshot() {
     currentClientIndex: getCurrentClientIndex(),
     clientCount: getWorkspaceClientCount(),
     clientStates: APP.clientStates,
+    weekplanMode: localStorage.getItem(weekplanBase + "_mode") || "rit",
+    weekplanRit: localStorage.getItem(weekplanBase + "_rit") || "",
+    weekplanRet: localStorage.getItem(weekplanBase + "_ret") || "",
   };
 }
 
-function downloadWorkspaceSnapshot() {
+async function downloadWorkspaceSnapshot() {
   const data = JSON.stringify(buildWorkspaceSnapshot(), null, 2);
   const blob = new Blob([data], { type: "application/json;charset=utf-8" });
+  const stamp = new Date().toISOString().slice(0, 19).replace(/[T:]/g, "-");
+  const fileName = "bt-navigator-gesamtstand-" + stamp + ".json";
+
+  try {
+    if (typeof window.showSaveFilePicker === "function") {
+      const handle = await window.showSaveFilePicker({
+        suggestedName: fileName,
+        types: [
+          {
+            description: "JSON-Datei",
+            accept: {
+              "application/json": [".json"],
+            },
+          },
+        ],
+      });
+      const writable = await handle.createWritable();
+      await writable.write(blob);
+      await writable.close();
+      updateAppMeta({ lastUpdated: new Date().toISOString() });
+      return;
+    }
+  } catch (error) {
+    const aborted = error && (error.name === "AbortError" || error.name === "SecurityError");
+    if (aborted) {
+      return;
+    }
+    console.warn("Speichern unter nicht verfügbar, Download wird verwendet.", error);
+  }
+
   const url = URL.createObjectURL(blob);
   const link = document.createElement("a");
-  const stamp = new Date().toISOString().slice(0, 19).replace(/[T:]/g, "-");
   link.href = url;
-  link.download = "bt-navigator-arbeitsstand-" + stamp + ".json";
+  link.download = fileName;
   document.body.appendChild(link);
   link.click();
   link.remove();
@@ -13715,25 +14459,28 @@ function triggerWorkspaceImport() {
 }
 
 window.addEventListener("pagehide", () => {
-  saveEverything();
+  saveEverything("pagehide", { emergency: true });
 });
 
 window.addEventListener("beforeunload", () => {
-  saveEverything();
+  saveEverything("beforeunload", { emergency: true });
 });
 
 document.addEventListener("visibilitychange", () => {
   if (document.visibilityState === "hidden") {
-    saveEverything();
+    saveEverything("visibilitychange", { emergency: true });
   }
 });
 
 window.addEventListener("blur", () => {
-  saveEverything();
+  saveEverything("blur", { emergency: true });
 });
 
 harmonizeSharedStateOnLoad();
 renderClientContextNotice();
+if (!loadBrowserSnapshots().current) {
+  recordBrowserSnapshot("initial", { emergency: true });
+}
 
 async function handleWorkspaceImport(event) {
   const file = event?.target?.files?.[0];
@@ -13741,6 +14488,7 @@ async function handleWorkspaceImport(event) {
   try {
     const raw = await file.text();
     const parsed = JSON.parse(raw);
+    const weekplanBase = weekplanBaseStorageKey();
 
     if (Array.isArray(parsed?.clientStates)) {
       const importedCount = clampWorkspaceClientCount(
@@ -13753,6 +14501,7 @@ async function handleWorkspaceImport(event) {
       while (APP.clientStates.length < importedCount) {
         APP.clientStates.push(defaultClientWorkspace());
       }
+      syncWeekplanClientCountToStorage(importedCount);
     } else {
       APP.clientStates = loadAllClientStates();
       APP.clientStates[0] = normalizeStoredClientWorkspace(parsed?.state || parsed);
@@ -13772,6 +14521,16 @@ async function handleWorkspaceImport(event) {
       },
     };
 
+    if (typeof parsed?.weekplanMode === "string") {
+      localStorage.setItem(weekplanBase + "_mode", parsed.weekplanMode || "rit");
+    }
+    if (typeof parsed?.weekplanRit === "string") {
+      localStorage.setItem(weekplanBase + "_rit", parsed.weekplanRit || "");
+    }
+    if (typeof parsed?.weekplanRet === "string") {
+      localStorage.setItem(weekplanBase + "_ret", parsed.weekplanRet || "");
+    }
+
     setCurrentClientIndex(
       Number.isInteger(parsed?.currentClientIndex)
         ? parsed.currentClientIndex
@@ -13785,6 +14544,27 @@ async function handleWorkspaceImport(event) {
     renderResumeButton();
     renderClientContextNotice();
     renderWorkspaceMeta();
+
+    const frame = document.getElementById("weekplanFrame");
+    if (frame) {
+      ensureWeekplanFrame();
+      if (frame.dataset.loaded) {
+        try {
+          const win = frame.contentWindow;
+          if (win) {
+            if (typeof win.loadState === "function") {
+              win.loadState();
+            } else if (typeof win.renderAll === "function") {
+              win.renderAll();
+            }
+          }
+        } catch (frameError) {
+          console.warn("Wochenplan konnte nach dem Import nicht direkt aktualisiert werden.", frameError);
+        }
+        setTimeout(setupWeekplanFrameFitting, 120);
+      }
+    }
+
     if (APP.currentGenerator) {
       APP.currentPage = Math.max(
         0,
@@ -13796,8 +14576,13 @@ async function handleWorkspaceImport(event) {
       );
       renderGenerator();
     }
+
+    recordBrowserSnapshot("import", { emergency: true });
+    event.target.value = "";
+    alert("Gesamtstand wurde importiert.");
   } catch (error) {
     console.warn("Import fehlgeschlagen", error);
+    alert("Import konnte nicht sauber geladen werden.");
   }
 }
 
@@ -15075,6 +15860,9 @@ function escapeHtml(value) {
 document
   .getElementById("workspaceImportInput")
   ?.addEventListener("change", handleWorkspaceImport);
+document
+  .getElementById("singleClientImportInput")
+  ?.addEventListener("change", handleSingleClientImport);
 setupGeneratorDirtyTracking();
 renderResumeButton();
 renderClientContextNotice();
