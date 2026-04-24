@@ -5587,7 +5587,7 @@ textarea {
 .weekplan-action-groups {
   margin-top: 14px;
   display: grid;
-  grid-template-columns: repeat(4, minmax(170px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
   gap: 10px;
   align-items: stretch;
 }
@@ -6318,6 +6318,13 @@ td {
             <button class="secondary" type="button" onclick="window.parent && typeof window.parent.restoreBrowserSnapshot === 'function' && window.parent.restoreBrowserSnapshot('current')">Aktuell</button>
             <button class="secondary" type="button" onclick="window.parent && typeof window.parent.restoreBrowserSnapshot === 'function' && window.parent.restoreBrowserSnapshot('previous')">Vorherig</button>
             <button class="secondary" type="button" onclick="window.parent && typeof window.parent.restoreBrowserSnapshot === 'function' && window.parent.restoreBrowserSnapshot('emergency')">Notfall</button>
+          </div>
+        </div>
+
+        <div class="weekplan-action-group">
+          <div class="weekplan-action-title">Klient-Datei</div>
+          <div class="weekplan-action-row">
+            <button class="secondary" type="button" onclick="window.parent && typeof window.parent.triggerSingleClientImportAsNew === 'function' && window.parent.triggerSingleClientImportAsNew()">Als neuen Klienten importieren</button>
           </div>
         </div>
 
@@ -14304,6 +14311,19 @@ function triggerSingleClientImport(index) {
   input.click();
 }
 
+function triggerSingleClientImportAsNew() {
+  if (getWorkspaceClientCount() >= 10) {
+    alert("Maximal 10 Klienten möglich.");
+    return;
+  }
+
+  pendingSingleClientImportIndex = "new";
+  const input = document.getElementById("singleClientImportInput");
+  if (!input) return;
+  input.value = "";
+  input.click();
+}
+
 function importSingleWeekplanClient(mode, index, clientData) {
   const state = getStoredWeekplanModeState(mode);
   const targetCount = Math.max(
@@ -14328,9 +14348,24 @@ function importSingleWeekplanClient(mode, index, clientData) {
 
 async function handleSingleClientImport(event) {
   const file = event?.target?.files?.[0];
-  const index = pendingSingleClientImportIndex;
+  const requestedIndex = pendingSingleClientImportIndex;
 
-  if (!file || !Number.isInteger(index) || index < 0) return;
+  if (!file) return;
+
+  let index = requestedIndex;
+  let importAsNew = false;
+
+  if (requestedIndex === "new") {
+    importAsNew = true;
+    index = getWorkspaceClientCount();
+
+    if (index >= 10) {
+      alert("Maximal 10 Klienten möglich.");
+      return;
+    }
+  }
+
+  if (!Number.isInteger(index) || index < 0 || index > 9) return;
 
   try {
     const raw = await file.text();
@@ -14379,7 +14414,7 @@ async function handleSingleClientImport(event) {
     }
 
     recordBrowserSnapshot("single-client-import", { emergency: true });
-    alert("Klient wurde importiert.");
+    alert(importAsNew ? "Klient wurde als neuer Klient importiert." : "Klient wurde importiert.");
   } catch (error) {
     console.warn("Klienten-Import fehlgeschlagen", error);
     alert("Klient konnte nicht importiert werden.");
