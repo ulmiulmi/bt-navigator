@@ -2235,6 +2235,79 @@ button.secondary {
 .zielslot-fields textarea[data-goalplan-field="fernziel"] {
   min-height: 108px;
 }
+
+.bausteinverwaltung-panel {
+  padding: 18px;
+  display: grid;
+  gap: 14px;
+}
+.bausteinverwaltung-control {
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: #fff;
+  padding: 16px;
+  display: grid;
+  gap: 12px;
+}
+.bausteinverwaltung-fernziel {
+  border: 1px solid var(--theme-line, var(--line));
+  border-radius: 16px;
+  background: linear-gradient(180deg, #ffffff 0%, var(--theme-soft, #f8fbff) 100%);
+  padding: 14px 16px;
+  display: grid;
+  gap: 8px;
+}
+.bausteinverwaltung-fernziel .label,
+.bausteinverwaltung-control .label {
+  font-weight: 800;
+  color: var(--theme, var(--text));
+}
+.bausteinverwaltung-fernziel .value {
+  white-space: pre-wrap;
+  line-height: 1.55;
+}
+.bausteinverwaltung-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.bausteinverwaltung-actions button {
+  flex: 1 1 180px;
+}
+.bausteinverwaltung-fields {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.bausteinverwaltung-fields .full {
+  grid-column: 1 / -1;
+}
+.bausteinverwaltung-fields label {
+  display: grid;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--muted);
+}
+.bausteinverwaltung-fields textarea,
+.bausteinverwaltung-fields select {
+  width: 100%;
+  border: 1px solid #d8e2ea;
+  border-radius: 12px;
+  background: #fff;
+  padding: 10px 12px;
+  font: inherit;
+  line-height: 1.5;
+}
+@media (max-width: 920px) {
+  .bausteinverwaltung-fields {
+    grid-template-columns: 1fr;
+  }
+  .bausteinverwaltung-fields .full {
+    grid-column: auto;
+  }
+}
+
 @media (max-width: 920px) {
   .zielslot-top,
   .zielslot-fields {
@@ -3777,14 +3850,6 @@ const MODELS = {
         itemCount: 35,
       },
       {
-        id: "10b_Zielplanung_1_10",
-        title: "10b. Zielplanung 1–10",
-        section: "Zielplanung 1–10",
-        hint: "Hier kannst du bis zu 10 Ziele mit Tag, Sequenz, Fernziel, Feinzielen, Aktivitäten, Durchführung, Massnahmen und Materialien erfassen. Über ‚Aktuelle Inhalte übernehmen‘ werden Fernziel, Feinziele und Aktivitäten aus den bisherigen Generatorseiten in den gewählten Zielspeicher übernommen.",
-        type: "zielplanung",
-        itemCount: 10,
-      },
-      {
         id: "11_Beobachtung",
         title: "11. Beobachtung und Wirkung",
         section: "Beobachtung und Wirkung nach fachlichen Linien",
@@ -3891,8 +3956,16 @@ const MODELS = {
         itemCount: 55,
       },
       {
+        id: "10b_Zielplanung_1_10",
+        title: "12. Bausteinverwaltung",
+        section: "Bausteinverwaltung",
+        hint: "Hier verwaltest du Bausteine 1–10 zum gemeinsamen Fernziel aus Seite 9. Ein Baustein speichert Durchführung, Begleitansatz, Feinziele sowie Beobachtung/Wirkung aus 4–8, 10 und 11. Seite 9 / Fernziel bleibt unverändert.",
+        type: "zielplanung",
+        itemCount: 10,
+      },
+      {
         id: "fertig",
-        title: "12. KI-Ergebnis",
+        title: "13. KI-Ergebnis",
         section: "KI-Ergebnis",
         hint: "Hier erscheint nur die zuletzt generierte KI-Antwort. Über den Button „Text generieren“ wird die strukturierte Vorschau an OpenAI / ChatGPT gesendet. Die Antwort wird danach direkt hier angezeigt.",
         type: "output",
@@ -3900,7 +3973,7 @@ const MODELS = {
       },
       {
         id: "entwicklungsplanung",
-        title: "13. Entwicklungsplanung",
+        title: "14. Entwicklungsplanung",
         section: "Entwicklungsplanung",
         hint: "Hier ergänzt du die Planungsfelder, kannst Ziele aus GRIT / GRET übernehmen und lässt die Entwicklungsplanung über einen getrennten KI-Zugang erstellen.",
         type: "entwicklungsplanung",
@@ -5083,14 +5156,6 @@ const MODELS = {
         itemCount: 40,
       },
       {
-        id: "10b_Zielplanung_1_10",
-        title: "10b. Zielplanung 1–10",
-        section: "Zielplanung 1–10",
-        hint: "Hier kannst du bis zu 10 Ziele mit Tag, Sequenz, Fernziel, Feinzielen, Aktivitäten, Durchführung, Massnahmen und Materialien erfassen. Über ‚Aktuelle Inhalte übernehmen‘ werden Fernziel, Feinziele und Aktivitäten aus den bisherigen Generatorseiten in den gewählten Zielspeicher übernommen.",
-        type: "zielplanung",
-        itemCount: 10,
-      },
-      {
         id: "11_Beobachtung",
         title: "11. Beobachtung und Wirkung",
         section: "Beobachtung und Wirkung im Tageszentrum",
@@ -5201,8 +5266,16 @@ const MODELS = {
         itemCount: 54,
       },
       {
+        id: "10b_Zielplanung_1_10",
+        title: "12. Bausteinverwaltung",
+        section: "Bausteinverwaltung",
+        hint: "Hier verwaltest du Bausteine 1–10 zum gemeinsamen Fernziel aus Seite 9. Ein Baustein speichert Durchführung, Begleitansatz, Feinziele sowie Beobachtung/Wirkung aus 4–8, 10 und 11. Seite 9 / Fernziel bleibt unverändert.",
+        type: "zielplanung",
+        itemCount: 10,
+      },
+      {
         id: "fertig",
-        title: "12. KI-Ergebnis",
+        title: "13. KI-Ergebnis",
         section: "KI-Ergebnis",
         hint: "Hier erscheint nur die zuletzt generierte KI-Antwort. Über den Button „Text generieren“ wird die strukturierte Vorschau an OpenAI / ChatGPT gesendet. Die Antwort wird danach direkt hier angezeigt.",
         type: "output",
@@ -5210,7 +5283,7 @@ const MODELS = {
       },
       {
         id: "entwicklungsplanung",
-        title: "13. Entwicklungsplanung",
+        title: "14. Entwicklungsplanung",
         section: "Entwicklungsplanung",
         hint: "Hier ergänzt du die Planungsfelder, kannst Ziele aus GRIT / GRET übernehmen und lässt die Entwicklungsplanung über einen getrennten KI-Zugang erstellen.",
         type: "entwicklungsplanung",
@@ -5702,6 +5775,101 @@ button {
   color: var(--muted);
 }
 
+.overview-intro-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.overview-view-menu {
+  position: relative;
+  flex: 0 0 auto;
+}
+
+.overview-view-menu summary {
+  list-style: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 38px;
+  padding: 8px 12px;
+  border: 1px solid #c8d6ff;
+  border-radius: 12px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-weight: 800;
+  user-select: none;
+}
+
+.overview-view-menu summary::-webkit-details-marker {
+  display: none;
+}
+
+.overview-view-trigger-icon {
+  font-size: 18px;
+  line-height: 1;
+}
+
+.overview-view-panel {
+  position: absolute;
+  left: 0;
+  top: calc(100% + 8px);
+  z-index: 60;
+  width: min(310px, calc(100vw - 48px));
+  padding: 10px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: var(--shadow);
+  display: grid;
+  gap: 8px;
+}
+
+.overview-view-option {
+  display: grid;
+  grid-template-columns: 22px 1fr;
+  gap: 8px;
+  align-items: start;
+  padding: 9px 10px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: #fbfdff;
+  cursor: pointer;
+}
+
+.overview-view-option input {
+  width: 18px;
+  height: 18px;
+  margin: 2px 0 0;
+  accent-color: var(--accent);
+}
+
+.overview-view-option strong {
+  display: block;
+  font-size: 13px;
+  color: var(--text);
+  margin-bottom: 2px;
+}
+
+.overview-view-option span {
+  display: block;
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.35;
+}
+
+@media (max-width: 700px) {
+  .overview-intro-row {
+    display: grid;
+  }
+  .overview-view-menu {
+    justify-self: start;
+  }
+}
+
 .overview-shell {
   padding: 16px;
   margin-bottom: 20px;
@@ -5816,6 +5984,64 @@ button {
 .synced-client-name {
   font-weight: 700;
   font-size: 15px;
+}
+
+.synced-client-card-compact {
+  padding: 0;
+  overflow: hidden;
+}
+
+.synced-client-details {
+  display: block;
+}
+
+.synced-client-details summary {
+  list-style: none;
+  cursor: pointer;
+  padding: 10px;
+  display: grid;
+  gap: 4px;
+  background: #fff;
+  user-select: none;
+}
+
+.synced-client-details summary::-webkit-details-marker {
+  display: none;
+}
+
+.synced-client-summary-main {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.synced-client-summary-main::after {
+  content: "▾";
+  flex: 0 0 auto;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.2;
+  transition: transform .15s ease;
+}
+
+.synced-client-details[open] .synced-client-summary-main::after {
+  transform: rotate(180deg);
+}
+
+.synced-client-meta {
+  font-size: 12px;
+  line-height: 1.35;
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.synced-client-details .synced-fields {
+  padding: 0 10px 10px;
+}
+
+.synced-client-details:not([open]) .synced-fields {
+  display: none;
 }
 
 .synced-fields {
@@ -6150,36 +6376,6 @@ td {
   .client-count-row {
     flex-direction: column;
   }
-  .client-card,
-  .client-plan-details,
-  .client-plan-content {
-    width: 100%;
-    max-width: 100%;
-  }
-  .client-plan-summary {
-    padding: 14px 12px;
-    gap: 8px;
-    align-items: flex-start;
-  }
-  .client-plan-summary-actions {
-    gap: 6px;
-    flex-wrap: wrap;
-    justify-content: flex-end;
-  }
-  .client-summary-generator {
-    padding: 7px 8px;
-    font-size: 11px;
-  }
-  .client-actions-panel {
-    right: 0;
-    max-width: calc(100vw - 36px);
-  }
-  .overview-shell,
-  .plan-table-wrap {
-    max-width: 100%;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-  }
 }
 
 @page {
@@ -6372,8 +6568,32 @@ td {
     </section>
 
     <section class="card section-intro screen-only">
-      <h2 class="section-title">Gesamtübersicht aller Klienten</h2>
-      <p class="section-subtitle" id="overviewSectionSubtitle">Pro Tag untereinander, die Tage nebeneinander.</p>
+      <div class="overview-intro-row">
+        <div>
+          <h2 class="section-title">Gesamtübersicht aller Klienten</h2>
+          <p class="section-subtitle" id="overviewSectionSubtitle">Pro Tag untereinander, die Tage nebeneinander.</p>
+        </div>
+        <details class="overview-view-menu" id="overviewViewMenu">
+          <summary aria-label="Anzeige der Gesamtübersicht wählen">
+            <span class="overview-view-trigger-icon">☰</span>
+            <span id="overviewViewLabel">Kompakt</span>
+          </summary>
+          <div class="overview-view-panel" role="group" aria-label="Anzeige der Gesamtübersicht">
+            <label class="overview-view-option">
+              <input type="radio" name="overviewViewMode" value="compact" onchange="setOverviewViewMode(this.value)" />
+              <span><strong>Kompakt</strong>Nur Name, RIT/RET, Morgen/Nachmittag und gespeichert.</span>
+            </label>
+            <label class="overview-view-option">
+              <input type="radio" name="overviewViewMode" value="standard" onchange="setOverviewViewMode(this.value)" />
+              <span><strong>Standard</strong>Zusätzlich Ziel und Aktivität direkt sichtbar.</span>
+            </label>
+            <label class="overview-view-option">
+              <input type="radio" name="overviewViewMode" value="detail" onchange="setOverviewViewMode(this.value)" />
+              <span><strong>Detail</strong>Hauptziel, Setting, Ziel, Aktivität und Hinweise sichtbar.</span>
+            </label>
+          </div>
+        </details>
+      </div>
     </section>
 
     <section class="overview-shell screen-only">
@@ -6418,6 +6638,8 @@ td {
     const weekInput = document.getElementById('woche');
     const storageKey = 'wochenplan_bt_navigator_v2_morgen_nachmittag_print';
     const modeStorageKey = storageKey + '_mode';
+    const overviewViewStorageKey = storageKey + '_overview_view';
+    const OVERVIEW_VIEW_MODES = ['compact', 'standard', 'detail'];
     const MIN_CLIENTS = 5;
     const DEFAULT_CLIENTS = 5;
     const MAX_CLIENTS = 10;
@@ -6456,6 +6678,37 @@ td {
 
     function setStoredMode(mode) {
       localStorage.setItem(modeStorageKey, mode === 'ret' ? 'ret' : 'rit');
+    }
+
+    function getOverviewViewMode() {
+      const stored = localStorage.getItem(overviewViewStorageKey);
+      return OVERVIEW_VIEW_MODES.includes(stored) ? stored : 'compact';
+    }
+
+    function getOverviewViewLabel(mode) {
+      if (mode === 'detail') return 'Detail';
+      if (mode === 'standard') return 'Standard';
+      return 'Kompakt';
+    }
+
+    function updateOverviewViewUi() {
+      const mode = getOverviewViewMode();
+      const label = document.getElementById('overviewViewLabel');
+      if (label) label.textContent = getOverviewViewLabel(mode);
+      document.querySelectorAll('input[name="overviewViewMode"]').forEach((input) => {
+        input.checked = input.value === mode;
+      });
+    }
+
+    function setOverviewViewMode(mode) {
+      const safeMode = OVERVIEW_VIEW_MODES.includes(mode) ? mode : 'compact';
+      localStorage.setItem(overviewViewStorageKey, safeMode);
+      updateOverviewViewUi();
+      renderModeUi();
+      renderOverviewPlan();
+      renderPrintSheets();
+      const menu = document.getElementById('overviewViewMenu');
+      if (menu) menu.open = false;
     }
 
     function defaultOverviewDay() {
@@ -6643,45 +6896,59 @@ td {
       return String(goal || '').trim() !== '' && String(activity || '').trim() !== '';
     }
 
-    function renderSyncedClientCard(client, index, dayKey, period, mode) {
+    function renderSyncedClientCard(client, index, dayKey, period, mode, viewMode = 'compact', printMode = false) {
       const modeMeta = getModeMeta(mode);
       const dayData = client.days?.[dayKey] || {};
       const goal = period === 'morning' ? dayData.morningGoal : dayData.afternoonGoal;
       const activity = period === 'morning' ? dayData.morningActivity : dayData.afternoonActivity;
-      const fields = [
+      const periodLabel = period === 'morning' ? 'Morgen' : 'Nachmittag';
+      const detailFields = [
         { label: 'Hauptziel', value: client.mainGoal },
         { label: modeMeta.settingLabel, value: client.setting },
         { label: 'Ziel', value: goal },
+        { label: 'Aktivität', value: activity },
+        { label: 'Hinweise', value: client.notes }
+      ];
+      const standardFields = [
+        { label: 'Ziel', value: goal },
         { label: 'Aktivität', value: activity }
-      ].filter(field => String(field.value || '').trim() !== '');
+      ];
+      const fields = (viewMode === 'detail' ? detailFields : viewMode === 'standard' ? standardFields : [])
+        .filter(field => String(field.value || '').trim() !== '');
 
-      if (!fields.length) return '';
+      const clientName = escapeHtml(client.name || ('Klient ' + (index + 1)));
+      const fieldHtml = fields.map(field =>
+        '<div>' +
+          '<span class="synced-field-label">' + escapeHtml(field.label) + '</span>' +
+          '<div class="synced-field-value">' + displayValue(field.value) + '</div>' +
+        '</div>'
+      ).join('');
+      const openAttribute = (printMode || viewMode !== 'compact') && fields.length ? ' open' : '';
 
-      return \`
-        <div class="synced-client-card">
-          <div class="synced-client-name">\${escapeHtml(client.name || \`Klient \${index + 1}\`)}</div>
-          <div class="synced-fields">
-            \${fields.map(field => \`
-              <div>
-                <span class="synced-field-label">\${field.label}</span>
-                <div class="synced-field-value">\${displayValue(field.value)}</div>
-              </div>
-            \`).join('')}
-          </div>
-        </div>
-      \`;
+      return '<div class="synced-client-card synced-client-card-compact synced-client-card-' + escapeHtml(viewMode) + '">' +
+        '<details class="synced-client-details"' + openAttribute + '>' +
+          '<summary>' +
+            '<span class="synced-client-summary-main">' +
+              '<span class="synced-client-name">' + clientName + '</span>' +
+            '</span>' +
+            '<span class="synced-client-meta">' + modeMeta.label + ' · ' + periodLabel + ' · gespeichert</span>' +
+          '</summary>' +
+          (fields.length ? '<div class="synced-fields">' + fieldHtml + '</div>' : '') +
+        '</details>' +
+      '</div>';
     }
 
     function buildOverviewColumns(state, printMode = false) {
       const modeMeta = getModeMeta(state.mode);
+      const viewMode = getOverviewViewMode();
       return days.map(day => {
         const dayData = state.overviewDays[day.key] || defaultOverviewDay();
         const syncedMorning = state.clients
-          .map((client, index) => hasPeriodContent(client, day.key, 'morning') ? renderSyncedClientCard(client, index, day.key, 'morning', state.mode) : '')
+          .map((client, index) => hasPeriodContent(client, day.key, 'morning') ? renderSyncedClientCard(client, index, day.key, 'morning', state.mode, viewMode, printMode) : '')
           .filter(Boolean)
           .join('');
         const syncedAfternoon = state.clients
-          .map((client, index) => hasPeriodContent(client, day.key, 'afternoon') ? renderSyncedClientCard(client, index, day.key, 'afternoon', state.mode) : '')
+          .map((client, index) => hasPeriodContent(client, day.key, 'afternoon') ? renderSyncedClientCard(client, index, day.key, 'afternoon', state.mode, viewMode, printMode) : '')
           .filter(Boolean)
           .join('');
 
@@ -7106,7 +7373,7 @@ td {
       }
 
       if (overviewSubtitle) {
-        overviewSubtitle.textContent = modeMeta.label + '-Gesamtübersicht · pro Tag untereinander, die Tage nebeneinander.';
+        overviewSubtitle.textContent = modeMeta.label + '-Gesamtübersicht · Anzeige: ' + getOverviewViewLabel(getOverviewViewMode()) + ' · pro Tag untereinander, die Tage nebeneinander.';
       }
 
       if (clientSubtitle) {
@@ -7116,6 +7383,7 @@ td {
 
     function renderAll() {
       renderModeUi();
+      updateOverviewViewUi();
       renderClients();
       renderOverviewPlan();
       renderPrintSheets();
@@ -7724,6 +7992,7 @@ function defaultAppMeta() {
     correctedActiveByGenerator: { grit: false, gret: false },
     entwicklungsplanungFieldsByGenerator: { grit: {}, gret: {} },
     entwicklungsplanungTextByGenerator: { grit: "", gret: "" },
+    epMassnahmenSuggestionByGenerator: { grit: "", gret: "" },
   };
 }
 
@@ -7782,6 +8051,14 @@ function loadAppMeta() {
           ? parsed.entwicklungsplanungTextByGenerator
           : {}),
       },
+      epMassnahmenSuggestionByGenerator: {
+        ...defaultAppMeta().epMassnahmenSuggestionByGenerator,
+        ...(parsed &&
+        parsed.epMassnahmenSuggestionByGenerator &&
+        typeof parsed.epMassnahmenSuggestionByGenerator === "object"
+          ? parsed.epMassnahmenSuggestionByGenerator
+          : {}),
+      },
     };
   } catch (error) {
     return defaultAppMeta();
@@ -7826,6 +8103,11 @@ function updateAppMeta(partial = {}) {
       ...defaultAppMeta().entwicklungsplanungTextByGenerator,
       ...(APP.meta?.entwicklungsplanungTextByGenerator || {}),
       ...(partial.entwicklungsplanungTextByGenerator || {}),
+    },
+    epMassnahmenSuggestionByGenerator: {
+      ...defaultAppMeta().epMassnahmenSuggestionByGenerator,
+      ...(APP.meta?.epMassnahmenSuggestionByGenerator || {}),
+      ...(partial.epMassnahmenSuggestionByGenerator || {}),
     },
   };
   persistAppMeta();
@@ -8165,19 +8447,6 @@ function fitWeekplanFrameToWidth(frame) {
               transform-origin: top left;
               width: max-content;
             }
-            @media (max-width: 760px) {
-              html, body {
-                width: 100% !important;
-                max-width: 100% !important;
-                overflow-x: hidden !important;
-              }
-              #btNavigatorWeekplanFitRoot {
-                width: 100% !important;
-                max-width: 100% !important;
-                min-width: 0 !important;
-                transform: none !important;
-              }
-            }
           `;
       doc.head.appendChild(style);
     }
@@ -8191,34 +8460,10 @@ function fitWeekplanFrameToWidth(frame) {
       doc.body.appendChild(root);
     }
 
-    const availableWidth = Math.max(320, wrap.clientWidth - 2);
-    const mobileWeekplan = availableWidth <= 760;
-
-    if (mobileWeekplan) {
-      // Mobile-Fix: Auf kleinen Bildschirmen nicht die ganze Wochenplan-Seite
-      // als breite Druck-/Desktopfläche skalieren. Die Inhalte bleiben in ihrer
-      // normalen mobilen Breite; breite Tabellen scrollen nur in ihrem eigenen Feld.
-      root.style.transform = "none";
-      root.style.width = "100%";
-      root.style.maxWidth = "100%";
-      root.style.minWidth = "0";
-
-      const naturalHeight = Math.max(
-        Math.ceil(root.getBoundingClientRect().height || 0),
-        root.scrollHeight || 0,
-        doc.documentElement.scrollHeight || 0,
-        doc.body.scrollHeight || 0,
-      );
-
-      frame.style.height = Math.max(480, naturalHeight + 28) + "px";
-      return;
-    }
-
-    root.style.maxWidth = "";
-    root.style.minWidth = "";
     root.style.transform = "scale(1)";
     root.style.width = "max-content";
 
+    const availableWidth = Math.max(320, wrap.clientWidth - 2);
     const naturalWidth = Math.max(
       root.scrollWidth || 0,
       doc.documentElement.scrollWidth || 0,
@@ -8283,39 +8528,6 @@ function setupWeekplanFrameFitting() {
 
     doc.addEventListener("input", () => setTimeout(rerunFit, 0), true);
     doc.addEventListener("change", () => setTimeout(rerunFit, 0), true);
-
-    // PC-Fix: Klientenpläne zuverlässig per Mausklick auf- und zuklappen.
-    // Die Aktionsbuttons im Kopf bleiben davon ausgenommen.
-    doc.addEventListener(
-      "click",
-      (event) => {
-        const target = event.target;
-        if (!target || typeof target.closest !== "function") return;
-
-        const summary = target.closest(".client-plan-summary");
-        if (!summary) return;
-
-        if (
-          target.closest(
-            ".client-plan-summary-actions, .client-actions-menu, button, a, input, textarea, select, label"
-          )
-        ) {
-          return;
-        }
-
-        const details = summary.closest(".client-plan-details");
-        if (!details) return;
-
-        event.preventDefault();
-        event.stopPropagation();
-        details.open = !details.open;
-        setTimeout(rerunFit, 0);
-        setTimeout(rerunFit, 80);
-        setTimeout(rerunFit, 220);
-      },
-      true
-    );
-
     doc.addEventListener("toggle", () => {
       setTimeout(rerunFit, 0);
       setTimeout(rerunFit, 80);
@@ -9011,7 +9223,7 @@ function syncGenerator1GoalPlansToWeekplan() {
     }
   } catch (error) {
     console.warn(
-      "Zielplanung aus Generator 1 konnte nicht in den Wochenplan übernommen werden.",
+      "Bausteine aus Generator 1 konnten nicht in den Wochenplan übernommen werden.",
       error,
     );
   }
@@ -9722,6 +9934,8 @@ function defaultGoalPlanEntry(index) {
     durchfuehrung: "",
     massnahmen: "",
     materialien: "",
+    beobachtung: "",
+    sourcePages: {},
   };
 }
 
@@ -9739,6 +9953,7 @@ function getGoalPlanningState(
       ? currentPlans[index]
       : {}),
   }));
+  pageState.activeSlot = Math.min(9, Math.max(0, Number(pageState.activeSlot || 0)));
   return pageState;
 }
 
@@ -9747,7 +9962,6 @@ function getGoalPlanStatus(plan) {
   const hasContent = [
     plan.tag,
     plan.sequenz,
-    plan.fernziel,
     plan.feinziel1,
     plan.feinziel2,
     plan.feinziel3,
@@ -9755,94 +9969,126 @@ function getGoalPlanStatus(plan) {
     plan.durchfuehrung,
     plan.massnahmen,
     plan.materialien,
+    plan.beobachtung,
   ].some((value) => cleanInline(value));
-  if (!hasContent) return "leer";
+  const sourcePages =
+    plan.sourcePages && typeof plan.sourcePages === "object"
+      ? plan.sourcePages
+      : {};
+  const hasStoredPages = (Array.isArray(GOAL_WORKING_PAGE_IDS) ? GOAL_WORKING_PAGE_IDS : []).some((pageId) =>
+    hasGoalWorkingPageStateContent(sourcePages[pageId]),
+  );
+  if (!hasContent && !hasStoredPages) return "leer";
   const bits = [];
   if (cleanInline(plan.tag)) bits.push(plan.tag);
   if (cleanInline(plan.sequenz)) bits.push(plan.sequenz);
-  if (cleanInline(plan.fernziel)) bits.push("Fernziel gesetzt");
-  return bits.join(" • ") || "gesetzt";
+  bits.push("gespeichert");
+  return bits.join(" • ");
 }
 
 function renderZielplanungPage(page) {
   const pageState = getGoalPlanningState(APP.currentGenerator, page.id);
+  const activeSlot = Math.min(9, Math.max(0, Number(pageState.activeSlot || 0)));
+  pageState.activeSlot = activeSlot;
+  const plan = pageState.goalPlans[activeSlot] || defaultGoalPlanEntry(activeSlot);
+  const commonFernziel = collectCurrentFernzielForGoalPlanning();
+  const activeStatus = getGoalPlanStatus(plan);
+  const bausteinOptions = pageState.goalPlans
+    .map((entry, index) => {
+      const status = getGoalPlanStatus(entry);
+      const suffix = status && status !== "leer" ? " – " + status : " – leer";
+      return `<option value="${index}" ${index === activeSlot ? "selected" : ""}>Baustein ${index + 1}${escapeHtml(suffix)}</option>`;
+    })
+    .join("");
+
   return `
         <div class="page-card">
           <h3>${escapeHtml(page.title)}</h3>
           <div class="page-hint">${escapeHtml(page.hint)}</div>
-          <div class="zielplanung-wrap">
-            <div class="zielplanung-note">Die Zielplanung wird pro Tag und Sequenz in den passenden Wochenplan übernommen. Pro Zielspeicher können Tag, Sequenz, Fernziel, bis zu drei Feinziele, Aktivitäten sowie Durchführung, Massnahmen und Materialien erfasst werden.</div>
-            <div class="zielplanung-grid">
-              ${pageState.goalPlans
-                .map(
-                  (plan, index) => `
-                <section class="zielslot-card">
-                  <div class="zielslot-head">
-                    <div class="zielslot-title">Ziel ${index + 1}</div>
-                    <div class="zielslot-status ${getGoalPlanStatus(plan) === "leer" ? "" : "filled"}">${escapeHtml(getGoalPlanStatus(plan))}</div>
-                  </div>
-                  <div class="zielslot-body">
-                    <div class="zielslot-top">
-                      <label>
-                        <span>Tag</span>
-                        <select data-goalplan-field="tag" data-goalplan-index="${index}">
-                          <option value="">Bitte wählen</option>
-                          ${["Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag"].map((day) => `<option value="${escapeHtml(day)}" ${cleanInline(plan.tag) === day ? "selected" : ""}>${escapeHtml(day)}</option>`).join("")}
-                        </select>
-                      </label>
-                      <label>
-                        <span>Sequenz</span>
-                        <select data-goalplan-field="sequenz" data-goalplan-index="${index}">
-                          <option value="">Bitte wählen</option>
-                          ${["Morgen", "Nachmittag"].map((seq) => `<option value="${escapeHtml(seq)}" ${cleanInline(plan.sequenz) === seq ? "selected" : ""}>${escapeHtml(seq)}</option>`).join("")}
-                        </select>
-                      </label>
-                    </div>
-                    <div class="zielslot-actions">
-                      <button type="button" class="secondary" data-goalplan-action="import" data-goalplan-index="${index}">Aktuelle Inhalte übernehmen</button>
-                      <button type="button" class="secondary" data-goalplan-action="import_clear" data-goalplan-index="${index}">Übernehmen + Inhalt 4–10 löschen</button>
-                      <button type="button" class="ghost" data-goalplan-action="clear" data-goalplan-index="${index}">Ziel ${index + 1} leeren</button>
-                    </div>
-                    <div class="zielslot-fields">
-                      <label class="full">
-                        <span>Fernziel</span>
-                        <textarea data-goalplan-field="fernziel" data-goalplan-index="${index}" placeholder="Fernziel für dieses Ziel erfassen">${escapeHtml(plan.fernziel || "")}</textarea>
-                      </label>
-                      <label>
-                        <span>Feinziel 1</span>
-                        <textarea data-goalplan-field="feinziel1" data-goalplan-index="${index}" placeholder="Feinziel 1">${escapeHtml(plan.feinziel1 || "")}</textarea>
-                      </label>
-                      <label>
-                        <span>Feinziel 2</span>
-                        <textarea data-goalplan-field="feinziel2" data-goalplan-index="${index}" placeholder="Feinziel 2">${escapeHtml(plan.feinziel2 || "")}</textarea>
-                      </label>
-                      <label class="full">
-                        <span>Feinziel 3</span>
-                        <textarea data-goalplan-field="feinziel3" data-goalplan-index="${index}" placeholder="Feinziel 3">${escapeHtml(plan.feinziel3 || "")}</textarea>
-                      </label>
-                      <label class="full">
-                        <span>Aktivitäten</span>
-                        <textarea data-goalplan-field="aktivitaeten" data-goalplan-index="${index}" placeholder="Aktivitäten aus Durchführung / Musik / basalen Situationen oder frei erfassen">${escapeHtml(plan.aktivitaeten || "")}</textarea>
-                      </label>
-                      <label class="full">
-                        <span>Durchführung</span>
-                        <textarea data-goalplan-field="durchfuehrung" data-goalplan-index="${index}" placeholder="Wie wird die Durchführung konkret gestaltet?">${escapeHtml(plan.durchfuehrung || "")}</textarea>
-                      </label>
-                      <label>
-                        <span>Massnahmen</span>
-                        <textarea data-goalplan-field="massnahmen" data-goalplan-index="${index}" placeholder="Begleitung, Unterstützung, Anpassungen">${escapeHtml(plan.massnahmen || "")}</textarea>
-                      </label>
-                      <label>
-                        <span>Materialien</span>
-                        <textarea data-goalplan-field="materialien" data-goalplan-index="${index}" placeholder="Benötigte Materialien">${escapeHtml(plan.materialien || "")}</textarea>
-                      </label>
-                    </div>
-                  </div>
-                </section>
-              `,
-                )
-                .join("")}
+          <div class="bausteinverwaltung-panel">
+            <div class="bausteinverwaltung-fernziel">
+              <div class="label">Gemeinsames Fernziel aus Seite 9</div>
+              <div class="value">${escapeHtml(commonFernziel || "Noch kein Fernziel auf Seite 9 erfasst.")}</div>
+              <div class="inline-note">Dieses Fernziel gilt für alle Bausteine. Es wird hier nur angezeigt und durch Speichern, Laden oder Leeren von Bausteinen nicht verändert.</div>
             </div>
+
+            <div class="zielplanung-note">Die Bausteinverwaltung speichert und lädt nur die Arbeitsinhalte aus 4–8, 10 und 11. Der Wechsel im Dropdown lädt noch nichts automatisch. Erst der Button „Baustein laden“ verändert die aktuelle Arbeitsfläche.</div>
+
+            <div class="bausteinverwaltung-control">
+              <label>
+                <span class="label">Baustein wählen</span>
+                <select data-goalplan-active-slot>
+                  ${bausteinOptions}
+                </select>
+              </label>
+              <div class="selection-status">Aktiver Speicherplatz: <strong>Baustein ${activeSlot + 1}</strong> · Status: <strong>${escapeHtml(activeStatus)}</strong></div>
+              <div class="bausteinverwaltung-actions">
+                <button type="button" class="secondary" data-goalplan-action="import" data-goalplan-index="${activeSlot}">Aktuelle Inhalte in Baustein ${activeSlot + 1} speichern</button>
+                <button type="button" class="ghost" data-goalplan-action="load" data-goalplan-index="${activeSlot}">Baustein ${activeSlot + 1} in Generator laden</button>
+                <button type="button" class="ghost" data-goalplan-action="clear" data-goalplan-index="${activeSlot}">Baustein ${activeSlot + 1} leeren</button>
+                <button type="button" class="ghost" data-goalplan-action="clearWorking">Arbeitsfläche 4–8, 10 und 11 leeren</button>
+              </div>
+              <div class="inline-note">Speichern überschreibt nur den gewählten Baustein. Laden holt nur den gewählten Baustein zurück in den Generator. Leeren löscht nur den gewählten Baustein. Das Fernziel auf Seite 9 bleibt immer stehen.</div>
+            </div>
+
+            <section class="zielslot-card">
+              <div class="zielslot-head">
+                <div class="zielslot-title">Baustein ${activeSlot + 1}</div>
+                <div class="zielslot-status ${activeStatus === "leer" ? "" : "filled"}">${escapeHtml(activeStatus)}</div>
+              </div>
+              <div class="zielslot-body">
+                <div class="zielslot-top">
+                  <label>
+                    <span>Tag</span>
+                    <select data-goalplan-field="tag" data-goalplan-index="${activeSlot}">
+                      <option value="">Bitte wählen</option>
+                      ${["Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag"].map((day) => `<option value="${escapeHtml(day)}" ${cleanInline(plan.tag) === day ? "selected" : ""}>${escapeHtml(day)}</option>`).join("")}
+                    </select>
+                  </label>
+                  <label>
+                    <span>Sequenz</span>
+                    <select data-goalplan-field="sequenz" data-goalplan-index="${activeSlot}">
+                      <option value="">Bitte wählen</option>
+                      ${["Morgen", "Nachmittag"].map((seq) => `<option value="${escapeHtml(seq)}" ${cleanInline(plan.sequenz) === seq ? "selected" : ""}>${escapeHtml(seq)}</option>`).join("")}
+                    </select>
+                  </label>
+                </div>
+                <div class="bausteinverwaltung-fields">
+                  <label>
+                    <span>Feinziel 1</span>
+                    <textarea data-goalplan-field="feinziel1" data-goalplan-index="${activeSlot}" placeholder="Feinziel 1">${escapeHtml(plan.feinziel1 || "")}</textarea>
+                  </label>
+                  <label>
+                    <span>Feinziel 2</span>
+                    <textarea data-goalplan-field="feinziel2" data-goalplan-index="${activeSlot}" placeholder="Feinziel 2">${escapeHtml(plan.feinziel2 || "")}</textarea>
+                  </label>
+                  <label class="full">
+                    <span>Feinziel 3</span>
+                    <textarea data-goalplan-field="feinziel3" data-goalplan-index="${activeSlot}" placeholder="Feinziel 3">${escapeHtml(plan.feinziel3 || "")}</textarea>
+                  </label>
+                  <label class="full">
+                    <span>Aktivitäten / Teilhabe</span>
+                    <textarea data-goalplan-field="aktivitaeten" data-goalplan-index="${activeSlot}" placeholder="Aktivitäten aus Durchführung / Musik / basalen Situationen oder frei erfassen">${escapeHtml(plan.aktivitaeten || "")}</textarea>
+                  </label>
+                  <label class="full">
+                    <span>Durchführung</span>
+                    <textarea data-goalplan-field="durchfuehrung" data-goalplan-index="${activeSlot}" placeholder="Wie wird die Durchführung konkret gestaltet?">${escapeHtml(plan.durchfuehrung || "")}</textarea>
+                  </label>
+                  <label>
+                    <span>Massnahmen / Begleitung</span>
+                    <textarea data-goalplan-field="massnahmen" data-goalplan-index="${activeSlot}" placeholder="Begleitung, Unterstützung, Anpassungen">${escapeHtml(plan.massnahmen || "")}</textarea>
+                  </label>
+                  <label>
+                    <span>Materialien</span>
+                    <textarea data-goalplan-field="materialien" data-goalplan-index="${activeSlot}" placeholder="Benötigte Materialien">${escapeHtml(plan.materialien || "")}</textarea>
+                  </label>
+                  <label class="full">
+                    <span>Beobachtung / Wirkung</span>
+                    <textarea data-goalplan-field="beobachtung" data-goalplan-index="${activeSlot}" placeholder="Beobachtung und Wirkung aus Seite 11 oder frei ergänzen">${escapeHtml(plan.beobachtung || "")}</textarea>
+                  </label>
+                </div>
+              </div>
+            </section>
           </div>
         </div>
       `;
@@ -9855,7 +10101,18 @@ function renderEntwicklungsplanungPage(page) {
           <div class="page-hint">${escapeHtml(page.hint)}</div>
           <div class="ep-panel">
                       <div class="panel-title">Entwicklungsplanung – kompakte Zusatzmaske</div>
-                      <div class="ep-note">Die Grunddaten der Entwicklungsplanung werden auf der Grunddatenseite erfasst. Hier ergänzt du die Ziel-, Massnahmen- und Auswertungsfelder. Ziele und Feinziele aus GRIT / GRET können zusätzlich in die Entwicklungsplanung übernommen werden. An die KI geht dafür nur ein kompakter Auftrag statt der ganzen Navigator-Vorschau.</div>\n                      <div class="tool-row">\n                        <button type="button" class="ghost" onclick="applyNavigatorGoalsToEntwicklungsplanung()">Ziele aus GRIT / GRET übernehmen</button>\n                      </div>
+                      <div class="ep-note">Die Grunddaten der Entwicklungsplanung werden auf der Grunddatenseite erfasst. Hier ergänzt du die Ziel-, Unterziel-, Massnahmen- und Auswertungsfelder. Das Fernziel aus Seite 9 bleibt Hauptziel; Feinziele aus GRIT / GRET und aus gespeicherten Bausteinen können als Unterziele übernommen werden. An die KI geht dafür nur ein kompakter Auftrag statt der ganzen Navigator-Vorschau.</div>\n                      <div class="tool-row">\n                        <button type="button" class="ghost" onclick="applyNavigatorGoalsToEntwicklungsplanung()">Bausteine / Ziele / Unterziele aus GRIT / GRET übernehmen</button>\n                      </div>
+
+                      <div class="ep-panel" style="margin-top:12px;">
+                        <div class="panel-title">Professionelle EP-Textvorschläge</div>
+                        <div class="ep-note">Erster Testbereich: Aus den vorhandenen Generator-, Baustein- und EP-Daten wird nur ein Vorschlag für Massnahmen / Begleitung erstellt. Bestehende Felder werden nicht automatisch überschrieben.</div>
+                        <div class="tool-row">
+                          <button type="button" class="secondary" onclick="sendEpMassnahmenSuggestionToOpenAi()">Massnahmen professionell formulieren</button>
+                          <button type="button" class="ghost" onclick="applyEpMassnahmenSuggestion()">Vorschlag übernehmen</button>
+                          <button type="button" class="ghost" onclick="clearEpMassnahmenSuggestion()">Vorschlag verwerfen</button>
+                        </div>
+                        <div class="preview-box internal-ai-output compact-ai-output" id="epMassnahmenSuggestionField">Noch kein Massnahmen-Vorschlag vorhanden.</div>
+                      </div>
                       <div class="ep-grid">
                         <input type="text" id="epHauptzielTitel" class="full" placeholder="Hauptziel – Titel" />
                         <input type="text" id="epHauptzielCode" placeholder="Hauptziel – Zielcode" />
@@ -10005,6 +10262,14 @@ function bindEvents() {
     });
   });
 
+  pageHost.querySelectorAll("[data-goalplan-active-slot]").forEach((field) => {
+    field.addEventListener("change", () => {
+      mergeCurrentFormIntoState();
+      updateView();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+  });
+
   pageHost.querySelectorAll("[data-goalplan-field]").forEach((field) => {
     const eventName = field.tagName === "SELECT" ? "change" : "input";
     field.addEventListener(eventName, () => {
@@ -10014,17 +10279,22 @@ function bindEvents() {
 
   pageHost.querySelectorAll("[data-goalplan-action]").forEach((button) => {
     button.addEventListener("click", () => {
+      const action = String(button.dataset.goalplanAction || "");
+      if (action === "clearWorking") {
+        clearGoalWorkingContentAfterConfirmation();
+        return;
+      }
       const index = Number(button.dataset.goalplanIndex || -1);
       if (index < 0) return;
-      if (button.dataset.goalplanAction === "import") {
+      if (action === "import") {
         applyCurrentContentToGoalPlan(index);
         return;
       }
-      if (button.dataset.goalplanAction === "import_clear") {
-        applyCurrentContentToGoalPlan(index, { clearWorkingPages: true });
+      if (action === "load") {
+        loadGoalPlanIntoGenerator(index);
         return;
       }
-      if (button.dataset.goalplanAction === "clear") {
+      if (action === "clear") {
         clearGoalPlan(index);
       }
     });
@@ -10191,6 +10461,10 @@ function collectFormState() {
 
   if (page.type === "zielplanung") {
     const pageState = getGoalPlanningState(APP.currentGenerator, page.id);
+    const activeSlotField = document.querySelector("#pageHost [data-goalplan-active-slot]");
+    if (activeSlotField) {
+      pageState.activeSlot = Math.min(9, Math.max(0, Number(activeSlotField.value || 0)));
+    }
     const nextGoalPlans = pageState.goalPlans.map((plan, index) => ({
       ...defaultGoalPlanEntry(index),
       ...plan,
@@ -10307,6 +10581,8 @@ function applyFormState() {
   }
   if (page.type === "zielplanung") {
     const pageState = getGoalPlanningState(APP.currentGenerator, page.id);
+    const activeSlotField = document.querySelector("#pageHost [data-goalplan-active-slot]");
+    if (activeSlotField) activeSlotField.value = String(pageState.activeSlot || 0);
     document
       .querySelectorAll("#pageHost [data-goalplan-field]")
       .forEach((field) => {
@@ -10687,6 +10963,16 @@ function buildPreviewSections() {
       });
     });
 
+  const storedGoalLines = buildStoredGoalPlanningPreviewLines();
+  if (storedGoalLines.length) {
+    sections.push({
+      heading: "Gespeicherte Bausteine 1–10",
+      outputHeading: "Gespeicherte Bausteine 1–10",
+      lines: storedGoalLines,
+      empty: "",
+    });
+  }
+
   return sections;
 }
 
@@ -10886,6 +11172,47 @@ function collectCurrentActivitiesForGoalPlanning() {
     .join("\n");
 }
 
+function collectCurrentTextFromPagesForGoalPlanning(sourcePageIds) {
+  const pool = [];
+  sourcePageIds.forEach((pageId) => {
+    const page = getPageById(pageId);
+    if (!page) return;
+    const state = getPageStateById(pageId);
+    getFlatSelectionsForPage(pageId).forEach((item) => {
+      const value = cleanInline(item || "");
+      if (value) pool.push(value);
+    });
+    const freeText = cleanInline(state.freeText || "");
+    if (freeText) pool.push(freeText);
+    getPageCustomTextEntries(page, state).forEach((entry) => {
+      const value = cleanInline(entry.value || "");
+      if (value) pool.push(value);
+    });
+  });
+  return uniqueClean(pool)
+    .map((item) => "• " + normalizePhrase(item))
+    .join("\n");
+}
+
+function collectCurrentDurchfuehrungForGoalPlanning() {
+  return collectCurrentTextFromPagesForGoalPlanning([
+    "4_Durchfuehrung_A",
+    "5_Durchfuehrung_B",
+    "6_Musik_Basal",
+  ]);
+}
+
+function collectCurrentMassnahmenForGoalPlanning() {
+  return collectCurrentTextFromPagesForGoalPlanning([
+    "7_Begleitansatz_A",
+    "8_Begleitansatz_B",
+  ]);
+}
+
+function collectCurrentBeobachtungForGoalPlanning() {
+  return collectCurrentTextFromPagesForGoalPlanning(["11_Beobachtung"]);
+}
+
 function applyCurrentContentToGoalPlan(slotIndex, options = {}) {
   const pageState = getGoalPlanningState(
     APP.currentGenerator,
@@ -10895,15 +11222,20 @@ function applyCurrentContentToGoalPlan(slotIndex, options = {}) {
     ...defaultGoalPlanEntry(slotIndex),
     ...(pageState.goalPlans[slotIndex] || {}),
   };
-  const fernziel = collectCurrentFernzielForGoalPlanning();
   const feinziele = collectCurrentFeinzieleForGoalPlanning();
   const aktivitaeten = collectCurrentActivitiesForGoalPlanning();
-
-  if (fernziel) current.fernziel = fernziel;
+  const durchfuehrung = collectCurrentDurchfuehrungForGoalPlanning();
+  const massnahmen = collectCurrentMassnahmenForGoalPlanning();
+  const beobachtung = collectCurrentBeobachtungForGoalPlanning();
+  const sourcePages = collectGoalWorkingPageSnapshots();
   if (feinziele[0]) current.feinziel1 = feinziele[0];
   if (feinziele[1]) current.feinziel2 = feinziele[1];
   if (feinziele[2]) current.feinziel3 = feinziele[2];
   if (aktivitaeten) current.aktivitaeten = aktivitaeten;
+  if (durchfuehrung) current.durchfuehrung = durchfuehrung;
+  if (massnahmen) current.massnahmen = massnahmen;
+  if (beobachtung) current.beobachtung = beobachtung;
+  current.sourcePages = sourcePages;
 
   pageState.goalPlans[slotIndex] = current;
   APP.state[APP.currentGenerator] = {
@@ -10917,9 +11249,6 @@ function applyCurrentContentToGoalPlan(slotIndex, options = {}) {
     },
   };
   persistAllState();
-  if (options && options.clearWorkingPages) {
-    clearWorkingContentPages();
-  }
   updateView();
 }
 
@@ -10929,21 +11258,52 @@ const GOAL_WORKING_PAGE_IDS = [
   "6_Musik_Basal",
   "7_Begleitansatz_A",
   "8_Begleitansatz_B",
-  "9_Ziele",
   "10_Feinziele",
+  "11_Beobachtung",
 ];
+
+function cloneGoalPlanPageState(value) {
+  try {
+    return JSON.parse(JSON.stringify(value && typeof value === "object" ? value : {}));
+  } catch (error) {
+    return {};
+  }
+}
+
+function emptyGoalWorkingPageState() {
+  return {
+    selected: [],
+    partial: [],
+    freeText: "",
+    textFields: {},
+  };
+}
+
+function hasGoalWorkingPageStateContent(pageState) {
+  if (!pageState || typeof pageState !== "object") return false;
+  if (Array.isArray(pageState.selected) && pageState.selected.some((value) => cleanInline(value || ""))) return true;
+  if (Array.isArray(pageState.partial) && pageState.partial.some((value) => cleanInline(value || ""))) return true;
+  if (cleanInline(pageState.freeText || "")) return true;
+  const textFields = pageState.textFields && typeof pageState.textFields === "object" ? pageState.textFields : {};
+  return Object.values(textFields).some((value) => cleanInline(value || ""));
+}
+
+function collectGoalWorkingPageSnapshots() {
+  const generatorState = ensureGeneratorState(APP.currentGenerator);
+  const pages = generatorState.pages || {};
+  const sourcePages = {};
+  GOAL_WORKING_PAGE_IDS.forEach((pageId) => {
+    sourcePages[pageId] = cloneGoalPlanPageState(pages[pageId] || emptyGoalWorkingPageState());
+  });
+  return sourcePages;
+}
 
 function clearWorkingContentPages() {
   if (!APP.currentGenerator) return;
   const generatorState = ensureGeneratorState(APP.currentGenerator);
   const nextPages = { ...(generatorState.pages || {}) };
   GOAL_WORKING_PAGE_IDS.forEach((pageId) => {
-    nextPages[pageId] = {
-      selected: [],
-      partial: [],
-      freeText: "",
-      textFields: {},
-    };
+    nextPages[pageId] = emptyGoalWorkingPageState();
   });
   APP.state[APP.currentGenerator] = {
     ...generatorState,
@@ -10951,6 +11311,98 @@ function clearWorkingContentPages() {
   };
   syncSharedStateFromGenerator(APP.currentGenerator);
   persistAllState();
+}
+
+function clearGoalWorkingContentAfterConfirmation() {
+  if (!window.confirm("Arbeitsinhalte aus 4–8, 10 und 11 wirklich leeren? Seite 9 / Fernziel bleibt erhalten.")) return;
+  clearWorkingContentPages();
+  updateView();
+}
+
+function restoreGoalPlanFallbackToGeneratorPages(plan, nextPages) {
+  if (!plan || typeof plan !== "object") return;
+  if (cleanInline(plan.aktivitaeten || "")) {
+    nextPages["4_Durchfuehrung_A"] = {
+      ...emptyGoalWorkingPageState(),
+      freeText: cleanInline(plan.aktivitaeten || ""),
+    };
+  }
+  if (cleanInline(plan.massnahmen || "")) {
+    nextPages["7_Begleitansatz_A"] = {
+      ...emptyGoalWorkingPageState(),
+      freeText: cleanInline(plan.massnahmen || ""),
+    };
+  }
+  const feinzielFields = {
+    feinziel1: cleanInline(plan.feinziel1 || ""),
+    feinziel2: cleanInline(plan.feinziel2 || ""),
+    feinziel3: cleanInline(plan.feinziel3 || ""),
+  };
+  if (Object.values(feinzielFields).some(Boolean)) {
+    nextPages["10_Feinziele"] = {
+      ...emptyGoalWorkingPageState(),
+      textFields: {
+        ...feinzielFields,
+      },
+    };
+  }
+  if (cleanInline(plan.beobachtung || "")) {
+    nextPages["11_Beobachtung"] = {
+      ...emptyGoalWorkingPageState(),
+      freeText: cleanInline(plan.beobachtung || ""),
+    };
+  }
+}
+
+function loadGoalPlanIntoGenerator(slotIndex) {
+  const pageState = getGoalPlanningState(
+    APP.currentGenerator,
+    "10b_Zielplanung_1_10",
+  );
+  const plan = pageState.goalPlans[slotIndex];
+  if (!plan) return;
+  const hasFallbackContent = [
+    plan.feinziel1,
+    plan.feinziel2,
+    plan.feinziel3,
+    plan.aktivitaeten,
+    plan.durchfuehrung,
+    plan.massnahmen,
+    plan.materialien,
+    plan.beobachtung,
+  ].some((value) => cleanInline(value || ""));
+  const rawSourcePages = plan.sourcePages && typeof plan.sourcePages === "object" ? plan.sourcePages : {};
+  const hasStoredSourceContent = GOAL_WORKING_PAGE_IDS.some((pageId) => hasGoalWorkingPageStateContent(rawSourcePages[pageId]));
+  if (!hasFallbackContent && !hasStoredSourceContent) {
+    window.alert("Dieser Baustein enthält noch keine gespeicherten Arbeitsinhalte.");
+    return;
+  }
+  const generatorState = ensureGeneratorState(APP.currentGenerator);
+  const nextPages = { ...(generatorState.pages || {}) };
+  const sourcePages = rawSourcePages;
+  const hasSourcePages = hasStoredSourceContent;
+
+  GOAL_WORKING_PAGE_IDS.forEach((pageId) => {
+    const restored = sourcePages[pageId];
+    nextPages[pageId] = restored && typeof restored === "object"
+      ? cloneGoalPlanPageState(restored)
+      : emptyGoalWorkingPageState();
+  });
+
+  if (!hasSourcePages) {
+    restoreGoalPlanFallbackToGeneratorPages(plan, nextPages);
+  }
+
+  APP.state[APP.currentGenerator] = {
+    ...generatorState,
+    pages: nextPages,
+  };
+  persistAllState();
+
+  const targetIndex = currentModel().pages.findIndex((item) => item.id === "4_Durchfuehrung_A");
+  if (targetIndex >= 0) APP.currentPage = targetIndex;
+  updateView();
+  window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
 function clearGoalPlan(slotIndex) {
@@ -12061,6 +12513,32 @@ function smoothSectionText(text, section) {
   });
 }
 
+
+function getCurrentKliententypLeitmassstabValue() {
+  const grunddaten = currentGeneratorState().grunddaten || {};
+  const kliententyp = cleanInline(grunddaten.kliententyp || "");
+  if (!kliententyp || kliententyp === "frei wählen") return "";
+  return kliententyp;
+}
+
+function buildKliententypLeitmassstabInstruction() {
+  const kliententyp = getCurrentKliententypLeitmassstabValue();
+  if (!kliententyp) {
+    return `Fachlicher Leitmassstab / Förderfokus:
+- Wenn in den Angaben ein Kliententyp vorhanden ist, gilt er als vorrangiger fachlicher Leitmassstab.
+- Wenn kein Kliententyp ausgewählt ist oder "frei wählen" hinterlegt ist, darf daraus kein zusätzlicher Schwerpunkt abgeleitet werden.`;
+  }
+
+  return `Fachlicher Leitmassstab / Förderfokus:
+- Der ausgewählte Kliententyp lautet: "${kliententyp}".
+- Dieser Kliententyp ist vorrangig als fachlicher Förder-, Begleit- und Unterstützungsfokus zu behandeln.
+- Er ist kein Ziel im engeren Sinn und darf nicht als separates Ziel formuliert werden.
+- Er ist höher zu gewichten als einzelne Auswahlpunkte, ohne diese zu verfälschen oder zu überschreiben.
+- Richte Durchführung, Begleitansatz, Ziele, Feinziele, Massnahmen, Beobachtung und Wirkung fachlich an diesem Schwerpunkt aus.
+- Formuliere den Kliententyp nicht schematisch als Etikett, sondern nutze ihn als roten Faden im Text.
+- Beschreibe daraus ableitbare Unterstützung IBB-nah: welcher Bedarf sichtbar ist, welche Begleitung erforderlich ist, wodurch Teilhabe ermöglicht wird und woran die Wirkung beobachtbar wird.`;
+}
+
 const DEFAULT_FACHTEXT_PROMPT = `Bitte erstelle aus der folgenden strukturierten Vorschau einen fachlich stimmigen Text im Kontext IBB-Entwicklungsplanung, betreuter Tagesstruktur sowie LIV-Vorgaben.
 
 Wichtig:
@@ -12069,6 +12547,9 @@ Wichtig:
 - Es dürfen keine Inhalte aus anderen Kapiteln in ein Kapitel hineingezogen werden.
 - Es dürfen keine Kapitel zusammengeführt werden.
 - Die in der Vorschau enthaltenen Inhalte, Zuordnungen und Schwerpunkte müssen vollständig erhalten bleiben.
+- Der ausgewählte Kliententyp ist als vorrangiger fachlicher Leitmassstab und Förderfokus zu verstehen.
+- Der Kliententyp ist kein Ziel im engeren Sinn, sondern richtet Begleitung, Durchführung, Ziele, Feinziele, Massnahmen, Beobachtung und Wirkung fachlich aus.
+- Der Kliententyp darf nicht etikettierend oder stigmatisierend wiederholt werden; er soll als roter Faden fachlich einbezogen werden.
 - Es dürfen keine Inhalte erfunden, ergänzt, weggelassen oder fachlich umgedeutet werden.
 - Begriffe aus RIT, RET, GRIT, GRET, IBB, Tagesstruktur und LIV dürfen nicht verfälscht werden.
 - Namen dürfen nicht verwendet werden; nur vorhandene Initialen dürfen beibehalten werden.
@@ -12110,8 +12591,10 @@ function getVisibleInstructionValue(raw) {
 
 function getEffectiveAiInstruction(inputValue) {
   const extra = cleanInline(inputValue || "");
-  if (!extra) return DEFAULT_FACHTEXT_PROMPT;
-  return DEFAULT_FACHTEXT_PROMPT + "\n\nZusätzliche Hinweise:\n- " + extra;
+  const leitmassstab = buildKliententypLeitmassstabInstruction();
+  const base = DEFAULT_FACHTEXT_PROMPT + "\n\n" + leitmassstab;
+  if (!extra) return base;
+  return base + "\n\nZusätzliche Hinweise:\n- " + extra;
 }
 
 function sanitizeTextForApi(text) {
@@ -12541,6 +13024,8 @@ async function sendOutputToInternalAi() {
     generator: APP.currentGenerator || "",
     settingTyp: getEffectiveSettingTyp(),
     initials: cleanInline(grunddaten.initialen || ""),
+    kliententyp: getCurrentKliententypLeitmassstabValue(),
+    fachlicherLeitmassstab: buildKliententypLeitmassstabInstruction(),
     source: "bt-navigator",
     mode: "preview_to_fachtext",
   };
@@ -12649,6 +13134,29 @@ function setEntwicklungsplanungText(text) {
       [APP.currentGenerator]: String(text || "").trim(),
     },
   });
+}
+
+function getEpMassnahmenSuggestion() {
+  if (!APP.currentGenerator) return "";
+  return cleanInline(
+    APP.meta?.epMassnahmenSuggestionByGenerator?.[APP.currentGenerator] || "",
+  );
+}
+
+function setEpMassnahmenSuggestion(text) {
+  if (!APP.currentGenerator) return;
+  updateAppMeta({
+    epMassnahmenSuggestionByGenerator: {
+      ...(APP.meta?.epMassnahmenSuggestionByGenerator || {}),
+      [APP.currentGenerator]: String(text || "").trim(),
+    },
+  });
+}
+
+function clearEpMassnahmenSuggestion() {
+  setEpMassnahmenSuggestion("");
+  const status = document.getElementById("epStatus");
+  if (status) status.textContent = "Der Massnahmen-Vorschlag wurde verworfen.";
 }
 
 function readEntwicklungsplanungFieldsFromDom() {
@@ -12762,6 +13270,12 @@ function renderEntwicklungsplanungPanel() {
       getEntwicklungsplanungText() || "Noch keine Entwicklungsplanung erzeugt.";
   }
 
+  const massnahmenSuggestion = document.getElementById("epMassnahmenSuggestionField");
+  if (massnahmenSuggestion) {
+    massnahmenSuggestion.textContent =
+      getEpMassnahmenSuggestion() || "Noch kein Massnahmen-Vorschlag vorhanden.";
+  }
+
   const bottomPreview = document.getElementById("epPreviewFieldBottom");
   if (bottomPreview) {
     bottomPreview.textContent = buildEntwicklungsplanungPreviewText();
@@ -12812,8 +13326,11 @@ Verbindliche Vorgaben:
 - Nutze nur vorhandene Initialen; verwende keine realen Namen.
 - Wenn Initialen fehlen, formuliere neutral mit "der/die Klient/in".
 - Verwende keine Hinweise wie "nicht vorhanden", "nicht ausgefüllt", "keine Angabe" oder ähnliche Platzhalter.
-- Ziele, Feinziele und Unterziele aus dem Generatorbereich Ziele sind fachlich gleichwertig nutzbar.
-- Wenn Zielfelder der Entwicklungsplanung leer sind, dürfen passende Einträge aus den Seiten Ziele und Feinziele sinnvoll als Hauptziel oder Unterziel übernommen werden.
+- Das Fernziel aus Seite 9 ist der gemeinsame Zielrahmen. Feinziele und Bausteine aus dem Generator sind für die Entwicklungsplanung nutzbar.
+- Der ausgewählte Kliententyp ist als vorrangiger fachlicher Leitmassstab und Förderfokus zu behandeln.
+- Der Kliententyp ist kein Ziel im engeren Sinn, sondern ein Massstab für Begleitung, Förderung, Teilhabe, Massnahmen und beobachtbare Wirkung.
+- Formuliere den Kliententyp nicht als Etikett und nicht als separates Ziel, sondern nutze ihn als roten Faden für die fachliche Ausrichtung.
+- Wenn Zielfelder der Entwicklungsplanung leer sind, darf das Fernziel aus Seite 9 als Hauptziel und dürfen Feinziele aus Seite 10 sowie aus gespeicherten Bausteinen als Unterziele übernommen werden.
 - Der gesendete Kontext ist absichtlich kompakt. Nutze ihn gezielt und wiederhole ihn nicht als Rohblock.
 - Gib nur die fertige Entwicklungsplanung zurück.
 
@@ -12829,10 +13346,10 @@ Gewünschte Struktur, soweit inhaltlich befüllt:
 
 function getEffectiveEntwicklungsplanungInstruction(extraHint = "") {
   const extra = cleanInline(extraHint || "");
-  if (!extra) return DEFAULT_ENTWICKLUNGSPLANUNG_PROMPT;
-  return (
-    DEFAULT_ENTWICKLUNGSPLANUNG_PROMPT + "\n\nZusätzliche Hinweise:\n- " + extra
-  );
+  const leitmassstab = buildKliententypLeitmassstabInstruction();
+  const base = DEFAULT_ENTWICKLUNGSPLANUNG_PROMPT + "\n\n" + leitmassstab;
+  if (!extra) return base;
+  return base + "\n\nZusätzliche Hinweise:\n- " + extra;
 }
 
 function compactEpObject(value) {
@@ -12891,25 +13408,48 @@ function collectNavigatorGoalTransferData() {
   const feinPage = getPageById("10_Feinziele");
   const pool = [];
 
-  const addPageEntries = (page, typ) => {
+  const pushEntry = (typ, value) => {
+    const text = cleanInline(normalizePhrase(value || ""));
+    if (text) pool.push({ typ, text });
+  };
+
+  const addCurrentPageEntries = (page, typ) => {
     if (!page) return;
     const state = getPageStateById(page.id);
-    getFlatSelectionsForPage(page.id).forEach((item) => {
-      const value = cleanInline(normalizePhrase(item));
-      if (value) pool.push({ typ, text: value });
-    });
-
-    const freeText = cleanInline(state.freeText || "");
-    if (freeText) pool.push({ typ, text: freeText });
-
+    getFlatSelectionsForPage(page.id).forEach((item) => pushEntry(typ, item));
+    pushEntry(typ, state.freeText);
     getPageCustomTextEntries(page, state).forEach((entry) => {
-      const value = cleanInline(entry.value || "");
-      if (value) pool.push({ typ, text: value });
+      pushEntry(typ, entry.value);
     });
   };
 
-  addPageEntries(zielPage, "ziel");
-  addPageEntries(feinPage, "feinziel");
+  const addStoredPageEntries = (page, pageState, typ) => {
+    if (!page || !pageState || typeof pageState !== "object") return;
+    (Array.isArray(pageState.selected) ? pageState.selected : []).forEach((item) =>
+      pushEntry(typ, item),
+    );
+    (Array.isArray(pageState.partial) ? pageState.partial : []).forEach((item) =>
+      pushEntry(typ, item),
+    );
+    pushEntry(typ, pageState.freeText);
+    getPageCustomTextEntries(page, pageState).forEach((entry) => {
+      pushEntry(typ, entry.value);
+    });
+  };
+
+  addCurrentPageEntries(zielPage, "ziel");
+  addCurrentPageEntries(feinPage, "feinziel");
+
+  getStoredGoalPlansForCurrentGenerator().forEach((plan) => {
+    [plan.feinziel1, plan.feinziel2, plan.feinziel3].forEach((value) =>
+      pushEntry("feinziel", value),
+    );
+    const sourcePages =
+      plan && plan.sourcePages && typeof plan.sourcePages === "object"
+        ? plan.sourcePages
+        : {};
+    addStoredPageEntries(feinPage, sourcePages["10_Feinziele"], "feinziel");
+  });
 
   const seen = new Set();
   return pool.filter((entry) => {
@@ -12919,7 +13459,6 @@ function collectNavigatorGoalTransferData() {
     return true;
   });
 }
-
 function buildNavigatorGoalTransferPayload() {
   const pool = collectNavigatorGoalTransferData();
   const ziele = pool
@@ -12930,9 +13469,179 @@ function buildNavigatorGoalTransferPayload() {
     .map((item) => item.text);
   return compactEpObject({
     hinweis:
-      "Ziele, Feinziele und Unterziele sind fachlich gleichwertig nutzbar.",
+      "Das Fernziel aus Seite 9 bleibt der gemeinsame Zielrahmen. Feinziele aus aktuellen Eingaben und gespeicherten Bausteinen sind für Unterziele nutzbar.",
     uebergeordnete_ziele: ziele,
     feinziele_und_unterziele: feinziele,
+  });
+}
+
+
+
+function hasStoredGoalPlanContent(plan) {
+  if (!plan || typeof plan !== "object") return false;
+  const directValues = [
+    plan.tag,
+    plan.sequenz,
+    plan.feinziel1,
+    plan.feinziel2,
+    plan.feinziel3,
+    plan.aktivitaeten,
+    plan.durchfuehrung,
+    plan.massnahmen,
+    plan.materialien,
+    plan.beobachtung,
+  ];
+  if (directValues.some((value) => cleanInline(value || ""))) return true;
+  const sourcePages =
+    plan.sourcePages && typeof plan.sourcePages === "object"
+      ? plan.sourcePages
+      : {};
+  return GOAL_WORKING_PAGE_IDS.some((pageId) =>
+    hasGoalWorkingPageStateContent(sourcePages[pageId]),
+  );
+}
+
+function getStoredGoalPlansForCurrentGenerator() {
+  if (!APP.currentGenerator) return [];
+  const pageState = getGoalPlanningState(
+    APP.currentGenerator,
+    "10b_Zielplanung_1_10",
+  );
+  return (pageState.goalPlans || []).filter((plan) =>
+    hasStoredGoalPlanContent(plan),
+  );
+}
+
+function buildGoalPlanSourcePagesPayload(plan) {
+  const sourcePages =
+    plan && plan.sourcePages && typeof plan.sourcePages === "object"
+      ? plan.sourcePages
+      : {};
+  const result = {};
+
+  GOAL_WORKING_PAGE_IDS.forEach((pageId) => {
+    const page = getPageById(pageId);
+    const pageState = sourcePages[pageId];
+    if (!page || !hasGoalWorkingPageStateContent(pageState)) return;
+    const lines = buildGroupedSelectionLines(page, pageState);
+    if (!lines.length) return;
+    result[pageId] = {
+      titel: page.title,
+      inhalte: lines,
+    };
+  });
+
+  return compactEpObject(result);
+}
+
+function buildStoredGoalPlanPayload(plan, index) {
+  const feinziele = [plan.feinziel1, plan.feinziel2, plan.feinziel3]
+    .map((value) => cleanInline(value || ""))
+    .filter(Boolean);
+
+  return compactEpObject({
+    baustein_nr: index + 1,
+    tag: plan.tag,
+    sequenz: plan.sequenz,
+    gemeinsames_fernziel: collectCurrentFernzielForGoalPlanning(),
+    feinziele,
+    aktivitaeten: plan.aktivitaeten,
+    durchfuehrung: plan.durchfuehrung,
+    massnahmen: plan.massnahmen,
+    materialien: plan.materialien,
+    beobachtung: plan.beobachtung,
+    gespeicherte_arbeitsseiten: buildGoalPlanSourcePagesPayload(plan),
+  });
+}
+
+function buildStoredGoalPlanningPayload() {
+  return getStoredGoalPlansForCurrentGenerator().map((plan) =>
+    buildStoredGoalPlanPayload(plan, Number(plan.slot || 0) - 1),
+  );
+}
+
+function buildStoredGoalPlanningPreviewLines() {
+  const plans = getStoredGoalPlansForCurrentGenerator();
+  const lines = [];
+  const commonFernziel = collectCurrentFernzielForGoalPlanning();
+  if (plans.length && commonFernziel) {
+    lines.push("Gemeinsames Fernziel aus Seite 9:");
+    lines.push("• " + commonFernziel);
+    lines.push("");
+  }
+
+  plans.forEach((plan) => {
+    const slotLabel = "Baustein " + (Number(plan.slot || 0) || plans.indexOf(plan) + 1);
+    lines.push(slotLabel + ":");
+    if (cleanInline(plan.tag)) lines.push("• Tag: " + cleanInline(plan.tag));
+    if (cleanInline(plan.sequenz))
+      lines.push("• Sequenz: " + cleanInline(plan.sequenz));
+    [plan.feinziel1, plan.feinziel2, plan.feinziel3]
+      .map((value) => cleanInline(value || ""))
+      .filter(Boolean)
+      .forEach((value, index) => {
+        lines.push("• Feinziel " + (index + 1) + ": " + value);
+      });
+    if (cleanInline(plan.aktivitaeten)) {
+      lines.push("• Aktivitäten:");
+      cleanInline(plan.aktivitaeten)
+        .split(/\n+/)
+        .map((line) => cleanInline(line.replace(/^•\s*/, "")))
+        .filter(Boolean)
+        .forEach((line) => lines.push("  - " + line));
+    }
+    if (cleanInline(plan.durchfuehrung)) {
+      lines.push("• Durchführung:");
+      cleanInline(plan.durchfuehrung)
+        .split(/\n+/)
+        .map((line) => cleanInline(line.replace(/^•\s*/, "")))
+        .filter(Boolean)
+        .forEach((line) => lines.push("  - " + line));
+    }
+    if (cleanInline(plan.massnahmen)) {
+      lines.push("• Massnahmen:");
+      cleanInline(plan.massnahmen)
+        .split(/\n+/)
+        .map((line) => cleanInline(line.replace(/^•\s*/, "")))
+        .filter(Boolean)
+        .forEach((line) => lines.push("  - " + line));
+    }
+    if (cleanInline(plan.materialien))
+      lines.push("• Material: " + cleanInline(plan.materialien));
+    if (cleanInline(plan.beobachtung)) {
+      lines.push("• Beobachtung / Wirkung:");
+      cleanInline(plan.beobachtung)
+        .split(/\n+/)
+        .map((line) => cleanInline(line.replace(/^•\s*/, "")))
+        .filter(Boolean)
+        .forEach((line) => lines.push("  - " + line));
+    }
+    lines.push("");
+  });
+
+  return lines.filter((line, index, arr) => {
+    if (line !== "") return true;
+    return index > 0 && arr[index - 1] !== "" && index < arr.length - 1;
+  });
+}
+
+function buildNavigatorAllInputData() {
+  const gd = collectGrunddatenForEntwicklungsplanung();
+  return compactEpObject({
+    grunddaten: gd,
+    fachlicher_leitmassstab: gd.kliententyp
+      ? {
+          kliententyp: gd.kliententyp,
+          bedeutung:
+            "Der Kliententyp ist als vorrangiger Förder- und Unterstützungsfokus zu nutzen und nicht als eigenes Ziel zu formulieren.",
+        }
+      : null,
+    zielsystem_aktuell_und_gespeichert: buildNavigatorGoalTransferPayload(),
+    gespeicherte_bausteine_1_10: buildStoredGoalPlanningPayload(),
+    aktuelle_arbeitsseiten_4_8_10_11: buildGoalPlanSourcePagesPayload({
+      sourcePages: collectGoalWorkingPageSnapshots(),
+    }),
+    fachliche_kernpunkte_aus_navigator: buildCompactNavigatorCoreForEp(),
   });
 }
 
@@ -12986,8 +13695,8 @@ function applyNavigatorGoalsToEntwicklungsplanung() {
   const status = document.getElementById("epStatus");
   if (status) {
     status.textContent = pool.length
-      ? "Ziele aus GRIT / GRET wurden – soweit Felder leer waren – in die Entwicklungsplanung übernommen."
-      : "Bei den Zielen von GRIT / GRET sind noch keine Ziele oder Feinziele vorhanden.";
+      ? "Ziele und Unterziele aus GRIT / GRET wurden – soweit Felder leer waren – in die Entwicklungsplanung übernommen. Feinziele werden dabei als Unterziele genutzt."
+      : "Bei den Zielen, Feinzielen oder Bausteinen von GRIT / GRET sind noch keine übernehmbaren Inhalte vorhanden.";
   }
 }
 
@@ -13082,6 +13791,11 @@ function buildEntwicklungsplanungPreviewText() {
   addSection(
     "Ziele aus GRIT / GRET",
     zielpool.map((text) => "• " + text),
+  );
+
+  addSection(
+    "Gespeicherte Bausteine 1–10",
+    buildStoredGoalPlanningPreviewLines(),
   );
 
   addSection("Hauptziel", [
@@ -13309,7 +14023,7 @@ function buildEntwicklungsplanungSourceText() {
   const payload = compactEpObject({
     auftrag: "Entwicklungsplanung erstellen",
     hinweis:
-      "Es wird nur ein kompakter Auftrag mit Grunddaten, Zielen, ausgefüllten EP-Feldern und wenigen fachlichen Kernpunkten gesendet.",
+      "Es wird ein kompakter Auftrag mit Grunddaten, Zielen, gespeicherten Bausteinen 1–10, ausgefüllten EP-Feldern und fachlichen Kernpunkten gesendet.",
     stammdaten: {
       klientin_klient: gd.klient,
       geburtsdatum: gd.geburtsdatum,
@@ -13317,8 +14031,18 @@ function buildEntwicklungsplanungSourceText() {
       bereich: gd.bereich,
       ersteller_in: gd.ersteller,
       kuerzel_ersteller_in: gd.erstellerKuerzel,
+      kliententyp: gd.kliententyp,
     },
+    fachlicher_leitmassstab: gd.kliententyp
+      ? {
+          kliententyp: gd.kliententyp,
+          bedeutung:
+            "Der Kliententyp ist als vorrangiger Förder- und Unterstützungsfokus zu nutzen. Er ist kein eigenes Ziel, sondern richtet Ziele, Massnahmen, Durchführung, Begleitung und Beobachtung fachlich aus.",
+        }
+      : null,
     zielsystem_aus_generator: buildNavigatorGoalTransferPayload(),
+    gespeicherte_bausteine_1_10: buildStoredGoalPlanningPayload(),
+    gesamtdaten_aus_navigator: buildNavigatorAllInputData(),
     fachliche_kernpunkte_aus_navigator: buildCompactNavigatorCoreForEp(),
     hauptziel: buildEpSectionObject("Hauptziel", {
       zielcode: f.epHauptzielCode,
@@ -13405,6 +14129,210 @@ function buildEntwicklungsplanungSourceText() {
   return JSON.stringify(payload, null, 2);
 }
 
+
+function buildEpMassnahmenSuggestionSourceText() {
+  const f = getEntwicklungsplanungWorkingFields();
+  const payload = compactEpObject({
+    auftrag: "Nur Massnahmen / Begleitung für die Entwicklungsplanung professionell formulieren",
+    hinweis:
+      "Der Text ist nur ein Vorschlag. Er darf bestehende EP-Felder nicht automatisch ersetzen. Das gemeinsame Fernziel aus Seite 9 bleibt unverändert.",
+    gesamtkontext_aus_navigator: buildNavigatorAllInputData(),
+    vorhandene_ep_massnahmenfelder: {
+      massnahme_1: {
+        titel: f.epMassnahme1Titel,
+        zielcode: f.epMassnahme1Code,
+        material: f.epMassnahme1Material,
+        vorbereitung: f.epMassnahme1Vorbereitung,
+        ablauf: f.epMassnahme1Ablauf,
+        phasen: f.epMassnahme1Phasen,
+        orientierung: f.epMassnahme1Orientierung,
+        rolle_betreuungsperson: f.epMassnahme1Rolle,
+        selbststaendigkeitsgrad: f.epMassnahme1Selbststaendigkeit,
+        ueberpruefung: f.epMassnahme1Pruefung,
+      },
+      massnahme_2: {
+        titel: f.epMassnahme2Titel,
+        zielcode: f.epMassnahme2Code,
+        material: f.epMassnahme2Material,
+        vorbereitung: f.epMassnahme2Vorbereitung,
+        ablauf: f.epMassnahme2Ablauf,
+        phasen: f.epMassnahme2Phasen,
+        orientierung: f.epMassnahme2Orientierung,
+        rolle_betreuungsperson: f.epMassnahme2Rolle,
+        selbststaendigkeitsgrad: f.epMassnahme2Selbststaendigkeit,
+        ueberpruefung: f.epMassnahme2Pruefung,
+      },
+    },
+  });
+  return JSON.stringify(payload, null, 2);
+}
+
+function getEpMassnahmenSuggestionInstruction(extraHint = "") {
+  const extra = cleanInline(extraHint || "");
+  const leitmassstab = buildKliententypLeitmassstabInstruction();
+  let instruction = `Formuliere ausschliesslich einen professionellen Text für den Abschnitt Massnahmen / Begleitung in der Entwicklungsplanung.
+
+Verbindliche Vorgaben:
+- Nutze nur vorhandene Angaben aus Generator, gespeicherten Bausteinen und EP-Feldern.
+- Erfinde keine neuen Inhalte, Angebote, Diagnosen, Materialien oder Beobachtungen.
+- Das Fernziel aus Seite 9 bleibt unverändert und darf nicht neu formuliert werden.
+- Der Kliententyp ist als fachlicher Leitmassstab / Förderfokus zu berücksichtigen, aber nicht als eigenes Ziel zu formulieren.
+- Beschreibe konkret, wie begleitet, strukturiert, angeleitet, unterstützt, reguliert, motiviert oder abgesichert wird.
+- Formuliere dokumentationstauglich, personenzentriert und sachlich.
+- Gib nur den Massnahmen-Text zurück, keine ganze Entwicklungsplanung, keine Analyse und keinen Rohdatenblock.`;
+  instruction += "\n\n" + leitmassstab;
+  if (extra) instruction += "\n\nZusätzliche Hinweise:\n- " + extra;
+  return instruction;
+}
+
+async function sendEpMassnahmenSuggestionToOpenAi() {
+  const endpoint = cleanInline(
+    document.getElementById("epOpenAiEndpointInput")?.value ||
+      APP.meta?.epOpenAiEndpoint ||
+      "",
+  );
+  const apiKey = cleanInline(
+    document.getElementById("epOpenAiKeyInput")?.value ||
+      APP.meta?.sharedOpenAiKey ||
+      APP.meta?.epOpenAiKey ||
+      "",
+  );
+  const model = cleanInline(
+    document.getElementById("epOpenAiModelInput")?.value ||
+      APP.meta?.epOpenAiModel ||
+      "",
+  );
+  const style = cleanInline(
+    document.getElementById("epOpenAiStyleInput")?.value ||
+      APP.meta?.epOpenAiStyle ||
+      "responses",
+  );
+  const extraHint = cleanInline(
+    document.getElementById("epOpenAiInstructionInput")?.value ||
+      APP.meta?.epOpenAiInstruction ||
+      "",
+  );
+  const status = document.getElementById("epStatus");
+  const output = document.getElementById("epMassnahmenSuggestionField");
+  const text = buildEpMassnahmenSuggestionSourceText();
+  const instruction = getEpMassnahmenSuggestionInstruction(extraHint);
+
+  storeEntwicklungsplanungAiSettingsFromPage();
+
+  if (!endpoint) {
+    if (status) status.textContent = "Bitte zuerst den OpenAI-Endpunkt für die Entwicklungsplanung eintragen.";
+    return;
+  }
+  if (!apiKey) {
+    if (status) status.textContent = "Bitte zuerst den OpenAI-API-Key für die Entwicklungsplanung eintragen.";
+    return;
+  }
+  if (!model) {
+    if (status) status.textContent = "Bitte zuerst das OpenAI-Modell für die Entwicklungsplanung eintragen.";
+    return;
+  }
+  if (!cleanInline(text)) {
+    if (status) status.textContent = "Es sind noch keine verwertbaren Angaben für einen Massnahmen-Vorschlag vorhanden.";
+    return;
+  }
+
+  if (status) status.textContent = "Massnahmen-Vorschlag wird erstellt...";
+  if (output) output.textContent = "Warte auf KI-Vorschlag...";
+
+  const payload =
+    style === "chat_completions"
+      ? {
+          model,
+          messages: [
+            { role: "system", content: instruction },
+            { role: "user", content: text },
+          ],
+        }
+      : {
+          model,
+          input: [
+            {
+              role: "system",
+              content: [{ type: "input_text", text: instruction }],
+            },
+            {
+              role: "user",
+              content: [{ type: "input_text", text }],
+            },
+          ],
+        };
+
+  try {
+    const response = await fetch(endpoint, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + apiKey,
+      },
+      body: JSON.stringify(payload),
+    });
+
+    const contentType = response.headers.get("content-type") || "";
+    const parsed = contentType.includes("application/json")
+      ? await response.json()
+      : await response.text();
+
+    if (!response.ok) {
+      const details = typeof parsed === "string" ? parsed : JSON.stringify(parsed);
+      throw new Error("HTTP " + response.status + " – " + details.slice(0, 300));
+    }
+
+    const result = applyPreferredPersonLabel(
+      extractChatGptApiTestText(parsed, style),
+    );
+
+    if (!result) throw new Error("Die API-Antwort enthält keinen erkennbaren Text.");
+
+    setEpMassnahmenSuggestion(result);
+    renderEntwicklungsplanungPanel();
+    if (status)
+      status.textContent =
+        "Massnahmen-Vorschlag wurde erstellt. Bestehende Felder wurden nicht überschrieben.";
+  } catch (error) {
+    console.warn("Massnahmen-Vorschlag via OpenAI / ChatGPT fehlgeschlagen", error);
+    renderEntwicklungsplanungPanel();
+    if (status)
+      status.textContent =
+        "Massnahmen-Vorschlag fehlgeschlagen: " +
+        (error?.message || "unbekannter Fehler");
+  }
+}
+
+function applyEpMassnahmenSuggestion() {
+  const suggestion = getEpMassnahmenSuggestion();
+  const status = document.getElementById("epStatus");
+  if (!suggestion) {
+    if (status) status.textContent = "Es ist noch kein Massnahmen-Vorschlag vorhanden.";
+    return;
+  }
+
+  const target = document.getElementById("epMassnahme1Ablauf");
+  if (!target) {
+    if (status) status.textContent = "Das Zielfeld für die Massnahme ist gerade nicht sichtbar.";
+    return;
+  }
+
+  if (cleanInline(target.value || "")) {
+    const ok = window.confirm(
+      "Das Feld „Massnahme 1 – Ablauf“ enthält bereits Text. Soll der Vorschlag dieses Feld ersetzen?",
+    );
+    if (!ok) return;
+  }
+
+  target.value = suggestion;
+  saveEntwicklungsplanungFieldsFromPage();
+  renderEntwicklungsplanungPanel();
+  updatePreview();
+  if (status)
+    status.textContent =
+      "Der Massnahmen-Vorschlag wurde in „Massnahme 1 – Ablauf“ übernommen.";
+}
+
 async function sendEntwicklungsplanungToInternalAi() {
   const status = document.getElementById("epStatus");
   const endpoint = cleanInline(
@@ -13446,6 +14374,8 @@ async function sendEntwicklungsplanungToInternalAi() {
     generator: APP.currentGenerator || "",
     settingTyp: getEffectiveSettingTyp(),
     initials: cleanInline(grunddaten.initialen || ""),
+    kliententyp: getCurrentKliententypLeitmassstabValue(),
+    fachlicherLeitmassstab: buildKliententypLeitmassstabInstruction(),
     source: "bt-navigator",
     mode: "entwicklungsplanung",
   };
