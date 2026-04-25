@@ -7992,7 +7992,6 @@ function defaultAppMeta() {
     correctedActiveByGenerator: { grit: false, gret: false },
     entwicklungsplanungFieldsByGenerator: { grit: {}, gret: {} },
     entwicklungsplanungTextByGenerator: { grit: "", gret: "" },
-    epMassnahmenSuggestionByGenerator: { grit: "", gret: "" },
   };
 }
 
@@ -10101,11 +10100,15 @@ function renderEntwicklungsplanungPage(page) {
           <div class="page-hint">${escapeHtml(page.hint)}</div>
           <div class="ep-panel">
                       <div class="panel-title">Entwicklungsplanung – kompakte Zusatzmaske</div>
-                      <div class="ep-note">Die Grunddaten der Entwicklungsplanung werden auf der Grunddatenseite erfasst. Hier ergänzt du die Ziel-, Unterziel-, Massnahmen- und Auswertungsfelder. Das Fernziel aus Seite 9 bleibt Hauptziel; Feinziele aus GRIT / GRET und aus gespeicherten Bausteinen können als Unterziele übernommen werden. An die KI geht dafür nur ein kompakter Auftrag statt der ganzen Navigator-Vorschau.</div>\n                      <div class="tool-row">\n                        <button type="button" class="ghost" onclick="applyNavigatorGoalsToEntwicklungsplanung()">Bausteine / Ziele / Unterziele aus GRIT / GRET übernehmen</button>\n                      </div>
+                      <div class="ep-note">Die Grunddaten der Entwicklungsplanung werden auf der Grunddatenseite erfasst. Hier ergänzt du die Ziel-, Massnahmen- und Auswertungsfelder. Ziele und Feinziele aus GRIT / GRET können zusätzlich in die Entwicklungsplanung übernommen werden. An die KI geht dafür nur ein kompakter Auftrag statt der ganzen Navigator-Vorschau.</div>
+                      <div class="tool-row">
+                        <button type="button" class="ghost" onclick="applyNavigatorGoalsToEntwicklungsplanung()">Bausteine / Ziele / Unterziele aus GRIT / GRET übernehmen</button>
+                      </div>
+                      <div class="internal-ai-status" id="epActionStatus">Bereit. Übernahme und Textvorschlag verändern nichts automatisch, was bereits ausgefüllt ist.</div>
 
                       <div class="ep-panel" style="margin-top:12px;">
                         <div class="panel-title">Professionelle EP-Textvorschläge</div>
-                        <div class="ep-note">Erster Testbereich: Aus den vorhandenen Generator-, Baustein- und EP-Daten wird nur ein Vorschlag für Massnahmen / Begleitung erstellt. Bestehende Felder werden nicht automatisch überschrieben.</div>
+                        <div class="ep-note">Aus vorhandenen Generator-, Baustein- und EP-Daten wird zuerst nur ein Vorschlag für Massnahmen / Begleitung erstellt. Bestehende Felder werden nicht automatisch überschrieben.</div>
                         <div class="tool-row">
                           <button type="button" class="secondary" onclick="sendEpMassnahmenSuggestionToOpenAi()">Massnahmen professionell formulieren</button>
                           <button type="button" class="ghost" onclick="applyEpMassnahmenSuggestion()">Vorschlag übernehmen</button>
@@ -13136,29 +13139,6 @@ function setEntwicklungsplanungText(text) {
   });
 }
 
-function getEpMassnahmenSuggestion() {
-  if (!APP.currentGenerator) return "";
-  return cleanInline(
-    APP.meta?.epMassnahmenSuggestionByGenerator?.[APP.currentGenerator] || "",
-  );
-}
-
-function setEpMassnahmenSuggestion(text) {
-  if (!APP.currentGenerator) return;
-  updateAppMeta({
-    epMassnahmenSuggestionByGenerator: {
-      ...(APP.meta?.epMassnahmenSuggestionByGenerator || {}),
-      [APP.currentGenerator]: String(text || "").trim(),
-    },
-  });
-}
-
-function clearEpMassnahmenSuggestion() {
-  setEpMassnahmenSuggestion("");
-  const status = document.getElementById("epStatus");
-  if (status) status.textContent = "Der Massnahmen-Vorschlag wurde verworfen.";
-}
-
 function readEntwicklungsplanungFieldsFromDom() {
   const ids = [
     "epHauptzielTitel",
@@ -13330,7 +13310,7 @@ Verbindliche Vorgaben:
 - Der ausgewählte Kliententyp ist als vorrangiger fachlicher Leitmassstab und Förderfokus zu behandeln.
 - Der Kliententyp ist kein Ziel im engeren Sinn, sondern ein Massstab für Begleitung, Förderung, Teilhabe, Massnahmen und beobachtbare Wirkung.
 - Formuliere den Kliententyp nicht als Etikett und nicht als separates Ziel, sondern nutze ihn als roten Faden für die fachliche Ausrichtung.
-- Wenn Zielfelder der Entwicklungsplanung leer sind, darf das Fernziel aus Seite 9 als Hauptziel und dürfen Feinziele aus Seite 10 sowie aus gespeicherten Bausteinen als Unterziele übernommen werden.
+- Wenn Zielfelder der Entwicklungsplanung leer sind, dürfen passende Einträge aus den Seiten Ziele und Feinziele sinnvoll als Hauptziel oder Unterziel übernommen werden.
 - Der gesendete Kontext ist absichtlich kompakt. Nutze ihn gezielt und wiederhole ihn nicht als Rohblock.
 - Gib nur die fertige Entwicklungsplanung zurück.
 
@@ -13408,47 +13388,31 @@ function collectNavigatorGoalTransferData() {
   const feinPage = getPageById("10_Feinziele");
   const pool = [];
 
-  const pushEntry = (typ, value) => {
-    const text = cleanInline(normalizePhrase(value || ""));
-    if (text) pool.push({ typ, text });
-  };
-
-  const addCurrentPageEntries = (page, typ) => {
+  const addPageEntries = (page, typ) => {
     if (!page) return;
     const state = getPageStateById(page.id);
-    getFlatSelectionsForPage(page.id).forEach((item) => pushEntry(typ, item));
-    pushEntry(typ, state.freeText);
+    getFlatSelectionsForPage(page.id).forEach((item) => {
+      const value = cleanInline(normalizePhrase(item));
+      if (value) pool.push({ typ, text: value });
+    });
+
+    const freeText = cleanInline(state.freeText || "");
+    if (freeText) pool.push({ typ, text: freeText });
+
     getPageCustomTextEntries(page, state).forEach((entry) => {
-      pushEntry(typ, entry.value);
+      const value = cleanInline(entry.value || "");
+      if (value) pool.push({ typ, text: value });
     });
   };
 
-  const addStoredPageEntries = (page, pageState, typ) => {
-    if (!page || !pageState || typeof pageState !== "object") return;
-    (Array.isArray(pageState.selected) ? pageState.selected : []).forEach((item) =>
-      pushEntry(typ, item),
-    );
-    (Array.isArray(pageState.partial) ? pageState.partial : []).forEach((item) =>
-      pushEntry(typ, item),
-    );
-    pushEntry(typ, pageState.freeText);
-    getPageCustomTextEntries(page, pageState).forEach((entry) => {
-      pushEntry(typ, entry.value);
-    });
-  };
-
-  addCurrentPageEntries(zielPage, "ziel");
-  addCurrentPageEntries(feinPage, "feinziel");
+  addPageEntries(zielPage, "ziel");
+  addPageEntries(feinPage, "feinziel");
 
   getStoredGoalPlansForCurrentGenerator().forEach((plan) => {
-    [plan.feinziel1, plan.feinziel2, plan.feinziel3].forEach((value) =>
-      pushEntry("feinziel", value),
-    );
-    const sourcePages =
-      plan && plan.sourcePages && typeof plan.sourcePages === "object"
-        ? plan.sourcePages
-        : {};
-    addStoredPageEntries(feinPage, sourcePages["10_Feinziele"], "feinziel");
+    [plan.feinziel1, plan.feinziel2, plan.feinziel3]
+      .map((value) => cleanInline(value || ""))
+      .filter(Boolean)
+      .forEach((value) => pool.push({ typ: "feinziel", text: value }));
   });
 
   const seen = new Set();
@@ -13459,6 +13423,7 @@ function collectNavigatorGoalTransferData() {
     return true;
   });
 }
+
 function buildNavigatorGoalTransferPayload() {
   const pool = collectNavigatorGoalTransferData();
   const ziele = pool
@@ -13693,11 +13658,11 @@ function applyNavigatorGoalsToEntwicklungsplanung() {
   renderEntwicklungsplanungPanel();
 
   const status = document.getElementById("epStatus");
-  if (status) {
-    status.textContent = pool.length
-      ? "Ziele und Unterziele aus GRIT / GRET wurden – soweit Felder leer waren – in die Entwicklungsplanung übernommen. Feinziele werden dabei als Unterziele genutzt."
-      : "Bei den Zielen, Feinzielen oder Bausteinen von GRIT / GRET sind noch keine übernehmbaren Inhalte vorhanden.";
-  }
+  const msg = pool.length
+    ? "Bausteine / Ziele / Unterziele wurden – soweit Felder leer waren – in die Entwicklungsplanung übernommen."
+    : "Bei GRIT / GRET sind noch keine Ziele, Unterziele oder Feinziele vorhanden.";
+  if (status) status.textContent = msg;
+  setEpActionStatus(msg);
 }
 
 function storeEntwicklungsplanungAiSettingsFromPage() {
@@ -14129,42 +14094,143 @@ function buildEntwicklungsplanungSourceText() {
   return JSON.stringify(payload, null, 2);
 }
 
+function setEpActionStatus(message) {
+  const text = cleanInline(message || "");
+  ["epActionStatus", "epStatus"].forEach((id) => {
+    const el = document.getElementById(id);
+    if (el && text) el.textContent = text;
+  });
+}
+
+function getEpMassnahmenSuggestion() {
+  if (!APP.currentGenerator) return "";
+  return cleanInline(
+    APP.meta?.epMassnahmenSuggestionByGenerator?.[APP.currentGenerator] || "",
+  );
+}
+
+function setEpMassnahmenSuggestion(text) {
+  if (!APP.currentGenerator) return;
+  updateAppMeta({
+    epMassnahmenSuggestionByGenerator: {
+      ...(APP.meta?.epMassnahmenSuggestionByGenerator || {}),
+      [APP.currentGenerator]: String(text || "").trim(),
+    },
+  });
+}
+
+function clearEpMassnahmenSuggestion() {
+  setEpMassnahmenSuggestion("");
+  renderEntwicklungsplanungPanel();
+  setEpActionStatus("Der Massnahmen-Vorschlag wurde verworfen.");
+}
+
+function collectEpSuggestionStrings(value, bucket = []) {
+  if (value == null) return bucket;
+  if (typeof value === "string") {
+    const text = cleanInline(value);
+    if (text && text.length > 2) bucket.push(text);
+    return bucket;
+  }
+  if (Array.isArray(value)) {
+    value.forEach((item) => collectEpSuggestionStrings(item, bucket));
+    return bucket;
+  }
+  if (typeof value === "object") {
+    Object.values(value).forEach((item) => collectEpSuggestionStrings(item, bucket));
+  }
+  return bucket;
+}
+
+function trimEpSuggestionList(items, max = 8) {
+  const seen = new Set();
+  return (items || [])
+    .map((item) => cleanInline(String(item || "").replace(/^[-•]\s*/, "")))
+    .filter(Boolean)
+    .filter((item) => {
+      const key = item.toLowerCase();
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    })
+    .slice(0, max);
+}
 
 function buildEpMassnahmenSuggestionSourceText() {
-  const f = getEntwicklungsplanungWorkingFields();
   const payload = compactEpObject({
     auftrag: "Nur Massnahmen / Begleitung für die Entwicklungsplanung professionell formulieren",
     hinweis:
       "Der Text ist nur ein Vorschlag. Er darf bestehende EP-Felder nicht automatisch ersetzen. Das gemeinsame Fernziel aus Seite 9 bleibt unverändert.",
     gesamtkontext_aus_navigator: buildNavigatorAllInputData(),
-    vorhandene_ep_massnahmenfelder: {
-      massnahme_1: {
-        titel: f.epMassnahme1Titel,
-        zielcode: f.epMassnahme1Code,
-        material: f.epMassnahme1Material,
-        vorbereitung: f.epMassnahme1Vorbereitung,
-        ablauf: f.epMassnahme1Ablauf,
-        phasen: f.epMassnahme1Phasen,
-        orientierung: f.epMassnahme1Orientierung,
-        rolle_betreuungsperson: f.epMassnahme1Rolle,
-        selbststaendigkeitsgrad: f.epMassnahme1Selbststaendigkeit,
-        ueberpruefung: f.epMassnahme1Pruefung,
-      },
-      massnahme_2: {
-        titel: f.epMassnahme2Titel,
-        zielcode: f.epMassnahme2Code,
-        material: f.epMassnahme2Material,
-        vorbereitung: f.epMassnahme2Vorbereitung,
-        ablauf: f.epMassnahme2Ablauf,
-        phasen: f.epMassnahme2Phasen,
-        orientierung: f.epMassnahme2Orientierung,
-        rolle_betreuungsperson: f.epMassnahme2Rolle,
-        selbststaendigkeitsgrad: f.epMassnahme2Selbststaendigkeit,
-        ueberpruefung: f.epMassnahme2Pruefung,
-      },
-    },
+    vorhandene_ep_felder: getEntwicklungsplanungWorkingFields(),
   });
   return JSON.stringify(payload, null, 2);
+}
+
+function buildLocalEpMassnahmenSuggestion() {
+  const data = buildNavigatorAllInputData() || {};
+  const fields = getEntwicklungsplanungWorkingFields() || {};
+  const gd = data.grunddaten || {};
+  const kliententyp = cleanInline(gd.kliententyp || "");
+  const setting = cleanInline(gd.settingTyp || gd.generator || "");
+  const allTexts = collectEpSuggestionStrings(data, []).concat(
+    collectEpSuggestionStrings(fields, []),
+  );
+
+  const begleitung = trimEpSuggestionList(
+    allTexts.filter((text) =>
+      /(struktur|orientierung|begleit|unterstütz|kommunikation|reiz|regulier|anleit|motivier|sicher|ruhe|übergang|vorhersehbar)/i.test(text),
+    ),
+    8,
+  );
+  const teilhabe = trimEpSuggestionList(
+    allTexts.filter((text) =>
+      /(teilhabe|aktivität|durchführung|alltag|angebot|gruppe|mitwirkung|beteiligung|handlung|sequenz)/i.test(text),
+    ),
+    6,
+  );
+  const beobachtung = trimEpSuggestionList(
+    allTexts.filter((text) =>
+      /(beobachtung|wirkung|reagiert|zeigt|beteiligt|nutzt|wirkt|lässt sich|nimmt teil)/i.test(text),
+    ),
+    5,
+  );
+
+  if (!begleitung.length && !teilhabe.length && !beobachtung.length && !kliententyp) {
+    return "";
+  }
+
+  const lines = [];
+  lines.push(
+    "Die Begleitung wird so gestaltet, dass die Person im Rahmen ihrer individuellen Möglichkeiten an den vorgesehenen Tagesstruktur-Sequenzen teilnehmen kann.",
+  );
+  if (setting) {
+    lines.push("Der Rahmen orientiert sich am Setting " + setting + " und an den im Generator erfassten Bausteinen.");
+  }
+  if (kliententyp) {
+    lines.push(
+      "Der fachliche Schwerpunkt „" + kliententyp + "“ wird als Leitmassstab genutzt; er wird nicht als eigenes Ziel formuliert, sondern in Struktur, Unterstützung und Überprüfung berücksichtigt.",
+    );
+  }
+  if (begleitung.length) {
+    lines.push(
+      "Die Mitarbeitenden unterstützen durch " + begleitung.slice(0, 5).join(", ") + ".",
+    );
+  }
+  if (teilhabe.length) {
+    lines.push(
+      "Die Massnahmen beziehen sich auf konkrete Teilhabe- und Handlungssituationen wie " + teilhabe.slice(0, 4).join(", ") + ".",
+    );
+  }
+  if (beobachtung.length) {
+    lines.push(
+      "Die Wirkung wird anhand beobachtbarer Hinweise überprüft, insbesondere: " + beobachtung.slice(0, 4).join(", ") + ".",
+    );
+  }
+  lines.push(
+    "Die Unterstützung wird laufend an Tagesform, Belastbarkeit und Reaktion der Person angepasst. Neue Inhalte werden daraus nicht abgeleitet; Grundlage bleiben die dokumentierten Eingaben im Generator, in den Bausteinen und in der Entwicklungsplanung.",
+  );
+  return lines.join("\n\n");
 }
 
 function getEpMassnahmenSuggestionInstruction(extraHint = "") {
@@ -14186,6 +14252,8 @@ Verbindliche Vorgaben:
 }
 
 async function sendEpMassnahmenSuggestionToOpenAi() {
+  storeEntwicklungsplanungAiSettingsFromPage();
+
   const endpoint = cleanInline(
     document.getElementById("epOpenAiEndpointInput")?.value ||
       APP.meta?.epOpenAiEndpoint ||
@@ -14212,31 +14280,28 @@ async function sendEpMassnahmenSuggestionToOpenAi() {
       APP.meta?.epOpenAiInstruction ||
       "",
   );
-  const status = document.getElementById("epStatus");
   const output = document.getElementById("epMassnahmenSuggestionField");
   const text = buildEpMassnahmenSuggestionSourceText();
   const instruction = getEpMassnahmenSuggestionInstruction(extraHint);
 
-  storeEntwicklungsplanungAiSettingsFromPage();
-
-  if (!endpoint) {
-    if (status) status.textContent = "Bitte zuerst den OpenAI-Endpunkt für die Entwicklungsplanung eintragen.";
-    return;
-  }
-  if (!apiKey) {
-    if (status) status.textContent = "Bitte zuerst den OpenAI-API-Key für die Entwicklungsplanung eintragen.";
-    return;
-  }
-  if (!model) {
-    if (status) status.textContent = "Bitte zuerst das OpenAI-Modell für die Entwicklungsplanung eintragen.";
-    return;
-  }
   if (!cleanInline(text)) {
-    if (status) status.textContent = "Es sind noch keine verwertbaren Angaben für einen Massnahmen-Vorschlag vorhanden.";
+    setEpActionStatus("Es sind noch keine verwertbaren Angaben für einen Massnahmen-Vorschlag vorhanden.");
     return;
   }
 
-  if (status) status.textContent = "Massnahmen-Vorschlag wird erstellt...";
+  if (!endpoint || !apiKey || !model) {
+    const localDraft = buildLocalEpMassnahmenSuggestion();
+    if (!localDraft) {
+      setEpActionStatus("Bitte zuerst Generator- oder Baustein-Inhalte erfassen. Für KI bitte zusätzlich OpenAI-Endpunkt, API-Key und Modell eintragen.");
+      return;
+    }
+    setEpMassnahmenSuggestion(localDraft);
+    renderEntwicklungsplanungPanel();
+    setEpActionStatus("Lokaler Massnahmen-Vorschlag wurde erstellt. Für echte KI-Formulierung bitte OpenAI-Endpunkt, API-Key und Modell eintragen.");
+    return;
+  }
+
+  setEpActionStatus("Massnahmen-Vorschlag wird über OpenAI / ChatGPT erstellt...");
   if (output) output.textContent = "Warte auf KI-Vorschlag...";
 
   const payload =
@@ -14290,30 +14355,37 @@ async function sendEpMassnahmenSuggestionToOpenAi() {
 
     setEpMassnahmenSuggestion(result);
     renderEntwicklungsplanungPanel();
-    if (status)
-      status.textContent =
-        "Massnahmen-Vorschlag wurde erstellt. Bestehende Felder wurden nicht überschrieben.";
+    setEpActionStatus("Massnahmen-Vorschlag wurde erstellt. Bestehende Felder wurden nicht überschrieben.");
   } catch (error) {
     console.warn("Massnahmen-Vorschlag via OpenAI / ChatGPT fehlgeschlagen", error);
-    renderEntwicklungsplanungPanel();
-    if (status)
-      status.textContent =
+    const localDraft = buildLocalEpMassnahmenSuggestion();
+    if (localDraft) {
+      setEpMassnahmenSuggestion(localDraft);
+      renderEntwicklungsplanungPanel();
+      setEpActionStatus(
+        "KI-Anfrage fehlgeschlagen; ein lokaler Vorschlag wurde angezeigt: " +
+          (error?.message || "unbekannter Fehler"),
+      );
+    } else {
+      renderEntwicklungsplanungPanel();
+      setEpActionStatus(
         "Massnahmen-Vorschlag fehlgeschlagen: " +
-        (error?.message || "unbekannter Fehler");
+          (error?.message || "unbekannter Fehler"),
+      );
+    }
   }
 }
 
 function applyEpMassnahmenSuggestion() {
   const suggestion = getEpMassnahmenSuggestion();
-  const status = document.getElementById("epStatus");
   if (!suggestion) {
-    if (status) status.textContent = "Es ist noch kein Massnahmen-Vorschlag vorhanden.";
+    setEpActionStatus("Es ist noch kein Massnahmen-Vorschlag vorhanden.");
     return;
   }
 
   const target = document.getElementById("epMassnahme1Ablauf");
   if (!target) {
-    if (status) status.textContent = "Das Zielfeld für die Massnahme ist gerade nicht sichtbar.";
+    setEpActionStatus("Das Zielfeld für die Massnahme ist gerade nicht sichtbar.");
     return;
   }
 
@@ -14328,9 +14400,7 @@ function applyEpMassnahmenSuggestion() {
   saveEntwicklungsplanungFieldsFromPage();
   renderEntwicklungsplanungPanel();
   updatePreview();
-  if (status)
-    status.textContent =
-      "Der Massnahmen-Vorschlag wurde in „Massnahme 1 – Ablauf“ übernommen.";
+  setEpActionStatus("Der Massnahmen-Vorschlag wurde in „Massnahme 1 – Ablauf“ übernommen.");
 }
 
 async function sendEntwicklungsplanungToInternalAi() {
