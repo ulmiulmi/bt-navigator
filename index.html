@@ -2577,6 +2577,32 @@ body.bt-mobile-view #generatorView .ep-section-nav button {
   white-space: nowrap;
 }
 
+
+/* AUTO_GROW_FIELDS_V7 */
+#pageHost textarea {
+  overflow: hidden;
+  resize: none;
+}
+#pageHost .extra-text-card textarea,
+#pageHost .grid-form textarea,
+#pageHost .ep-grid textarea,
+#pageHost .zielslot-fields textarea,
+#pageHost .bausteinverwaltung-fields textarea,
+#pageHost .internal-ai-grid textarea {
+  min-height: 84px;
+}
+body.bt-mobile-view #pageHost textarea {
+  max-height: none !important;
+  overflow-y: hidden !important;
+  resize: none;
+}
+body.bt-mobile-view #pageHost .extra-text-grid {
+  grid-template-columns: 1fr !important;
+}
+body.bt-mobile-view #pageHost .extra-text-card {
+  min-width: 0;
+}
+
   </style>
 </head>
 <body>
@@ -9897,6 +9923,7 @@ function updateView() {
   renderCurrentPage(page);
   bindEvents();
   applyFormState();
+  scheduleNavigatorTextareaResize(document.getElementById("pageHost"));
   updatePreview();
   renderSharedOpenAiSettings();
   renderInternalAiPanel();
@@ -10295,6 +10322,7 @@ function syncAusgangslageUi(message = "") {
   const field = document.getElementById("ausgangslageSuggestionField");
   if (field) field.textContent = getAusgangslageSuggestion(pageId) || "Noch kein Vorschlag für Ausgangslage / Unterstützungsbedarf vorhanden.";
   if (message) setAusgangslageStatus(message);
+  scheduleNavigatorTextareaResize(document.getElementById("pageHost"));
 }
 
 function renderAusgangslageHelper(page) {
@@ -10574,6 +10602,7 @@ function syncDurchfuehrungUi(message = "") {
   const field = document.getElementById("durchfuehrungSuggestionField");
   if (field) field.textContent = getDurchfuehrungSuggestion(pageId) || "Noch kein Vorschlag für Durchführung / Aktivitäten vorhanden.";
   if (message) setDurchfuehrungStatus(message);
+  scheduleNavigatorTextareaResize(document.getElementById("pageHost"));
 }
 
 function renderDurchfuehrungHelper(page) {
@@ -10823,6 +10852,7 @@ function syncFeinzielUi(message = "") {
       "Noch kein Vorschlag für Unterziele vorhanden.";
   }
   if (message) setFeinzielStatus(message);
+  scheduleNavigatorTextareaResize(document.getElementById("pageHost"));
 }
 
 function renderFeinzieleHelper() {
@@ -11071,6 +11101,7 @@ function syncBegleitansatzUi(message = "") {
   const field = document.getElementById("begleitansatzSuggestionField");
   if (field) field.textContent = getBegleitansatzSuggestion(pageId) || "Noch kein Vorschlag für Hilfestellung / Massnahmen vorhanden.";
   if (message) setBegleitansatzStatus(message);
+  scheduleNavigatorTextareaResize(document.getElementById("pageHost"));
 }
 
 function renderBegleitansatzHelper(page) {
@@ -11292,6 +11323,7 @@ function syncObservationCriteriaSuggestionUi(message = "") {
       "Noch kein Vorschlag für Beobachtung / Wirkung vorhanden.";
   }
   if (message) setObservationCriteriaStatus(message);
+  scheduleNavigatorTextareaResize(document.getElementById("pageHost"));
 }
 
 function clearObservationCriteriaSuggestion() {
@@ -12054,6 +12086,12 @@ function bindEvents() {
   const page = currentPageModel();
   const pageHost = document.getElementById("pageHost");
 
+  pageHost.querySelectorAll("textarea").forEach((field) => {
+    field.addEventListener("input", () => autoResizeNavigatorTextarea(field));
+    field.addEventListener("change", () => autoResizeNavigatorTextarea(field));
+    autoResizeNavigatorTextarea(field);
+  });
+
   pageHost.querySelectorAll("[data-field]").forEach((field) => {
     const eventName = field.tagName === "SELECT" ? "change" : "input";
     field.addEventListener(eventName, () => {
@@ -12259,6 +12297,32 @@ function scheduleEntwicklungsplanungTextareaResize(scope) {
   } else {
     setTimeout(() => autoResizeEntwicklungsplanungTextareas(scope || document), 0);
   }
+}
+
+function autoResizeNavigatorTextarea(field) {
+  if (!field || field.tagName !== "TEXTAREA") return;
+  if (!field.closest || !field.closest("#pageHost")) return;
+  field.style.height = "auto";
+  const minHeight = Number.parseInt(window.getComputedStyle(field).minHeight, 10) || 84;
+  const nextHeight = Math.max(field.scrollHeight || 0, minHeight);
+  field.style.height = nextHeight + "px";
+}
+
+function autoResizeNavigatorTextareas(scope) {
+  const root = scope || document;
+  const fields = root.querySelectorAll ? root.querySelectorAll("#pageHost textarea") : [];
+  fields.forEach(autoResizeNavigatorTextarea);
+}
+
+function scheduleNavigatorTextareaResize(scope) {
+  const root = scope || document;
+  autoResizeNavigatorTextareas(root);
+  if (typeof requestAnimationFrame === "function") {
+    requestAnimationFrame(() => autoResizeNavigatorTextareas(root));
+  } else {
+    setTimeout(() => autoResizeNavigatorTextareas(root), 0);
+  }
+  setTimeout(() => autoResizeNavigatorTextareas(root), 60);
 }
 
 function readFieldValue(field) {
@@ -15992,6 +16056,7 @@ function setEpActionStatus(message) {
     const el = document.getElementById(id);
     if (el && text) el.textContent = text;
   });
+  scheduleNavigatorTextareaResize(document.getElementById("pageHost"));
 }
 
 function getEpMassnahmenSuggestion() {
