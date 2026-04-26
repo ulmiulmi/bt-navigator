@@ -13292,37 +13292,65 @@ function addEpLine(lines, label, value) {
   if (clean) lines.push(label + ": " + clean);
 }
 
-const DEFAULT_ENTWICKLUNGSPLANUNG_PROMPT = `Erstelle aus den folgenden Angaben eine fachlich stimmige Entwicklungsplanung in sachlicher sozialpädagogischer Fachsprache.
+const DEFAULT_ENTWICKLUNGSPLANUNG_PROMPT = `Erstelle aus den folgenden Angaben eine professionelle Entwicklungsplanung in ruhiger, sachlicher und dokumentationstauglicher Fachsprache.
+
+Wichtigste Leitidee:
+Die Angaben sind Rohmaterial. Du darfst sie fachlich verdichten, ordnen und sprachlich sauber formulieren. Du darfst sie nicht als Rohdatenblock abschreiben.
 
 Verbindliche Vorgaben:
-- Erstelle eine echte Entwicklungsplanung, keinen Rohdatenblock und keine Stichwortsammlung.
-- Nutze nur Inhalte, die in den Angaben tatsächlich vorhanden sind.
-- Lasse leere, fehlende oder nicht ausgefüllte Punkte vollständig weg.
-- Erfinde keine Inhalte, ergänze nichts und deute nichts fachlich um.
-- Übernimm Fachlogik, Beobachtungen, Förderinhalte, Massnahmen und Zielbezüge sorgfältig und nachvollziehbar.
-- Trenne Ausgangslage, Ziel, Förderinhalt, Hilfestellung, Massnahme, Beobachtung und Auswertung fachlich sauber.
-- Formuliere ruhig, klar, professionell und dokumentationstauglich.
-- Nutze Zielcodes nur dort, wo welche vorhanden sind.
-- Nutze nur vorhandene Initialen; verwende keine realen Namen.
-- Wenn Initialen fehlen, formuliere neutral mit "der/die Klient/in".
-- Verwende keine Hinweise wie "nicht vorhanden", "nicht ausgefüllt", "keine Angabe" oder ähnliche Platzhalter.
-- Das Fernziel aus Seite 9 ist der gemeinsame Zielrahmen. Feinziele und Bausteine aus dem Generator sind für die Entwicklungsplanung nutzbar.
-- Der ausgewählte Kliententyp ist als vorrangiger fachlicher Leitmassstab und Förderfokus zu behandeln.
-- Der Kliententyp ist kein Ziel im engeren Sinn, sondern ein Massstab für Begleitung, Förderung, Teilhabe, Massnahmen und beobachtbare Wirkung.
-- Formuliere den Kliententyp nicht als Etikett und nicht als separates Ziel, sondern nutze ihn als roten Faden für die fachliche Ausrichtung.
-- Wenn Zielfelder der Entwicklungsplanung leer sind, dürfen passende Einträge aus den Seiten Ziele und Feinziele sinnvoll als Hauptziel oder Unterziel übernommen werden.
-- Der gesendete Kontext ist absichtlich kompakt. Nutze ihn gezielt und wiederhole ihn nicht als Rohblock.
 - Gib nur die fertige Entwicklungsplanung zurück.
+- Schreibe keine Überschriften wie "FACHLICHE GRUNDLAGE AUS DEM NAVIGATOR", "Strukturierte Vorschau" oder "Fachlicher Ausgangstext".
+- Wiederhole keine komplette Navigator-Vorschau und keine langen Checkbox-Listen.
+- Verwende keine Formulierungen wie "Im Bereich ... zeigt sich zusätzlich ..." als Serienmuster.
+- Formuliere nicht: "zeigt sich, dass ... zeigt sich" oder ähnliche Dopplungen.
+- Nutze nur vorhandene Angaben. Erfinde keine Diagnosen, Angebote, Ziele, Beobachtungen, Materialien oder Massnahmen.
+- Lasse leere, fehlende oder nicht ausgefüllte Punkte vollständig weg.
+- Verwende ausschliesslich Initialen oder neutrale Bezeichnungen. Keine ausgeschriebenen Namen verwenden.
+- Das Fernziel aus Seite 9 ist der gemeinsame Zielrahmen. Es wird nicht verändert und nicht pro Baustein neu erfunden.
+- Feinziele aus Seite 10 und aus gespeicherten Bausteinen können als Unterziele verwendet werden.
+- Der ausgewählte Kliententyp ist als fachlicher Leitmassstab / Förderfokus zu behandeln.
+- Der Kliententyp ist kein eigenes Ziel, sondern richtet Ausgangslage, Massnahmen, Durchführung und Beobachtung fachlich aus.
+- Formuliere den Kliententyp nicht plump als Etikett, sondern als roten Faden.
+- Bei aktivierender Begleitung: kleine Impulse, Motivation, Mitwirkung, positive Rückmeldung und überschaubare Beteiligung betonen, sofern passend.
+- Bei Strukturbedarf: klare Abläufe, Orientierung, Anfang/Ende, Übergänge und Vorhersehbarkeit betonen, sofern passend.
+- Bei Kommunikationsbedarf: kurze Sprache, nonverbale Signale, Blickkontakt, Zeit zum Reagieren und unterstützte Kommunikation betonen, sofern passend.
+- Bei Reizbedarf: Reizdosierung, Pausen, ruhige Begleitung und Überforderungsvorbeugung betonen, sofern passend.
 
-Gewünschte Struktur, soweit inhaltlich befüllt:
+Gewünschte Ausgabe-Struktur:
 1. Stammdaten
-2. Bereich
-3. Hauptziel
-4. Unterziel 1
-5. Handlungsplan / Massnahme zu Unterziel 1
-6. Unterziel 2
-7. Handlungsplan / Massnahme zu Unterziel 2
-8. Gesamtauswertung zum Bereich`;
+Kurz und knapp: Initialen, Planungsdatum, Setting/Bereich, Zeitraum nur falls vorhanden.
+
+2. Fachlicher Förderfokus
+Beschreibe den Kliententyp als fachlichen Massstab. Nicht als Ziel, nicht als Etikett.
+
+3. Fachliche Ausgangslage
+Verdichte Ressourcen, Unterstützungsbedarf, Kommunikation, Regulation, Diagnostik und relevante Beobachtungen in gut lesbare Absätze. Maximal so viel wie fachlich nötig.
+
+4. Hauptziel
+Übernimm den Zielrahmen aus Seite 9 sprachlich sauber. Nicht neu erfinden.
+
+5. Unterziele
+Leite Unterziele aus den vorhandenen Feinzielen ab. Kurz, beobachtbar, alltagsnah.
+
+6. Massnahmen und Begleitung
+Beschreibe konkret, wie begleitet wird: Struktur, Anleitung, Kommunikation, Beziehung, Regulation, Aktivierung, Sicherheit und Anpassung.
+
+7. Durchführung / Alltagssituationen
+Beschreibe die konkreten Situationen und Bausteine, in denen die Umsetzung stattfindet. Keine endlosen Listen.
+
+8. Beobachtung und Wirkung
+Beschreibe, woran Wirkung erkennbar ist und was weiter beobachtet wird. Beobachtbar, nicht wertend.
+
+9. Überprüfung / nächster Schritt
+Nur ausfüllen, wenn verwertbare Angaben vorhanden sind. Sonst weglassen.
+
+Stilvorgabe:
+- Fachlich, klar, personenzentriert, respektvoll.
+- Fliesstext mit kurzen Absätzen.
+- Keine überlangen Sätze.
+- Keine Rohdatenabschrift.
+- Keine unnötige Wiederholung.
+- Keine Namen, nur Initialen.`
 
 function getEffectiveEntwicklungsplanungInstruction(extraHint = "") {
   const extra = cleanInline(extraHint || "");
@@ -13985,63 +14013,76 @@ function buildEntwicklungsplanungSourceText() {
   const f = getEntwicklungsplanungWorkingFields();
   setEntwicklungsplanungFields(f);
 
+  const zielsystem = buildNavigatorGoalTransferPayload();
+  const gespeicherteBausteine = buildStoredGoalPlanningPayload();
+  const fachlicheKernpunkte = buildCompactNavigatorCoreForEp();
+  const aktuelleArbeitsseiten = buildGoalPlanSourcePagesPayload({
+    sourcePages: collectGoalWorkingPageSnapshots(),
+  });
+
   const payload = compactEpObject({
-    auftrag: "Entwicklungsplanung erstellen",
+    auftrag: "Professionelle Entwicklungsplanung erstellen",
     hinweis:
-      "Es wird ein kompakter Auftrag mit Grunddaten, Zielen, gespeicherten Bausteinen 1–10, ausgefüllten EP-Feldern und fachlichen Kernpunkten gesendet.",
+      "Diese Daten sind Rohmaterial. Bitte verdichten und fachlich strukturieren. Nicht als Rohdatenblock, nicht als Navigator-Vorschau und nicht als Checkbox-Liste wiedergeben.",
+    datenschutz:
+      "Nur Initialen verwenden. Ausgeschriebene Namen nicht ausgeben.",
     stammdaten: {
-      klientin_klient: gd.klient,
-      geburtsdatum: gd.geburtsdatum,
+      initialen: gd.initialen || gd.klient,
       planungsdatum: gd.planungsdatum,
+      setting: gd.settingTyp || gd.generator,
       bereich: gd.bereich,
-      ersteller_in: gd.ersteller,
-      kuerzel_ersteller_in: gd.erstellerKuerzel,
-      kliententyp: gd.kliententyp,
+      ersteller_kuerzel: gd.erstellerKuerzel,
+      modus: gd.modus,
+      zeiten: gd.zeiten,
     },
-    fachlicher_leitmassstab: gd.kliententyp
+    fachlicher_foerderfokus: gd.kliententyp
       ? {
           kliententyp: gd.kliententyp,
           bedeutung:
-            "Der Kliententyp ist als vorrangiger Förder- und Unterstützungsfokus zu nutzen. Er ist kein eigenes Ziel, sondern richtet Ziele, Massnahmen, Durchführung, Begleitung und Beobachtung fachlich aus.",
+            "Als vorrangiger fachlicher Leitmassstab verwenden. Nicht als Ziel formulieren, sondern in Massnahmen, Durchführung, Begleitung und Beobachtung einweben.",
         }
       : null,
-    zielsystem_aus_generator: buildNavigatorGoalTransferPayload(),
-    gespeicherte_bausteine_1_10: buildStoredGoalPlanningPayload(),
-    gesamtdaten_aus_navigator: buildNavigatorAllInputData(),
-    fachliche_kernpunkte_aus_navigator: buildCompactNavigatorCoreForEp(),
-    hauptziel: buildEpSectionObject("Hauptziel", {
-      zielcode: f.epHauptzielCode,
-      fachlicher_bezug: f.epHauptzielFachbezug,
-      beschreibung: f.epHauptzielBeschreibung,
-      formulierung: f.epHauptzielFormulierung,
-      ueberpruefung_am: f.epHauptzielPruefung,
-      status: f.epHauptzielStatus,
-      ziel_erreicht_am: f.epHauptzielErreichtAm,
-      bemerkung_zum_status: f.epHauptzielStatusBemerkung,
-      begruendung_des_ziels: f.epHauptzielBegruendung,
-    }),
-    unterziel_1: buildEpSectionObject("Unterziel 1", {
-      zielcode: f.epUnterziel1Code,
-      beschreibung: f.epUnterziel1Beschreibung,
-      startdatum: f.epUnterziel1Start,
-      enddatum: f.epUnterziel1Ende,
-      uhrzeit_zeitfenster: f.epUnterziel1Zeit,
-      ueberpruefung_am: f.epUnterziel1PruefungAm,
-      status: f.epUnterziel1Status,
-      ziel_erreicht_am: f.epUnterziel1ErreichtAm,
-      ausgangslage: f.epUnterziel1Ausgangslage,
-      konkreter_foerderinhalt: f.epUnterziel1Foerderinhalt,
-      rahmenbedingungen: f.epUnterziel1Rahmenbedingungen,
-      hilfsmittel_material: f.epUnterziel1Hilfsmittel,
-      hilfestellung: f.epUnterziel1Hilfestellung,
-      ueberpruefungskriterien: f.epUnterziel1Pruefkriterien,
-      beobachtungen_auswertung: f.epUnterziel1Beobachtung,
-      naechster_schritt: f.epUnterziel1NaechsterSchritt,
-    }),
-    massnahme_1: buildEpSectionObject(
-      "Handlungsplan / Massnahme zu Unterziel 1",
-      {
+    gemeinsames_fernziel_aus_seite_9: collectCurrentFernzielForGoalPlanning(),
+    unterziele_aus_feinzielen: zielsystem?.feinziele_und_unterziele || null,
+    zielrahmen_aus_generator: zielsystem?.uebergeordnete_ziele || null,
+    gespeicherte_bausteine_1_10: gespeicherteBausteine,
+    aktuelle_arbeitsseiten_4_8_10_11: aktuelleArbeitsseiten,
+    fachliche_kernpunkte_verdichtet: fachlicheKernpunkte,
+    vorhandene_ep_felder: {
+      hauptziel: buildEpSectionObject("Hauptziel", {
+        zielcode: f.epHauptzielCode,
+        titel: f.epHauptzielTitel,
+        fachlicher_bezug: f.epHauptzielFachbezug,
+        beschreibung: f.epHauptzielBeschreibung,
+        formulierung: f.epHauptzielFormulierung,
+        ueberpruefung_am: f.epHauptzielPruefung,
+        status: f.epHauptzielStatus,
+        ziel_erreicht_am: f.epHauptzielErreichtAm,
+        bemerkung_zum_status: f.epHauptzielStatusBemerkung,
+        begruendung_des_ziels: f.epHauptzielBegruendung,
+      }),
+      unterziel_1: buildEpSectionObject("Unterziel 1", {
+        zielcode: f.epUnterziel1Code,
+        titel: f.epUnterziel1Titel,
+        beschreibung: f.epUnterziel1Beschreibung,
+        startdatum: f.epUnterziel1Start,
+        enddatum: f.epUnterziel1Ende,
+        uhrzeit_zeitfenster: f.epUnterziel1Zeit,
+        ueberpruefung_am: f.epUnterziel1PruefungAm,
+        status: f.epUnterziel1Status,
+        ziel_erreicht_am: f.epUnterziel1ErreichtAm,
+        ausgangslage: f.epUnterziel1Ausgangslage,
+        foerderinhalt: f.epUnterziel1Foerderinhalt,
+        rahmenbedingungen: f.epUnterziel1Rahmenbedingungen,
+        hilfsmittel_material: f.epUnterziel1Hilfsmittel,
+        hilfestellung: f.epUnterziel1Hilfestellung,
+        pruefkriterien: f.epUnterziel1Pruefkriterien,
+        beobachtung_auswertung: f.epUnterziel1Beobachtung,
+        naechster_schritt: f.epUnterziel1NaechsterSchritt,
+      }),
+      massnahme_1: buildEpSectionObject("Massnahme 1", {
         zielcode: f.epMassnahme1Code,
+        titel: f.epMassnahme1Titel,
         material: f.epMassnahme1Material,
         vorbereitung: f.epMassnahme1Vorbereitung,
         ablauf: f.epMassnahme1Ablauf,
@@ -14050,30 +14091,29 @@ function buildEntwicklungsplanungSourceText() {
         rolle_betreuungsperson: f.epMassnahme1Rolle,
         selbststaendigkeitsgrad: f.epMassnahme1Selbststaendigkeit,
         ueberpruefung: f.epMassnahme1Pruefung,
-      },
-    ),
-    unterziel_2: buildEpSectionObject("Unterziel 2", {
-      zielcode: f.epUnterziel2Code,
-      beschreibung: f.epUnterziel2Beschreibung,
-      startdatum: f.epUnterziel2Start,
-      enddatum: f.epUnterziel2Ende,
-      uhrzeit_zeitfenster: f.epUnterziel2Zeit,
-      ueberpruefung_am: f.epUnterziel2PruefungAm,
-      status: f.epUnterziel2Status,
-      ziel_erreicht_am: f.epUnterziel2ErreichtAm,
-      ausgangslage: f.epUnterziel2Ausgangslage,
-      konkreter_foerderinhalt: f.epUnterziel2Foerderinhalt,
-      rahmenbedingungen: f.epUnterziel2Rahmenbedingungen,
-      hilfsmittel_material: f.epUnterziel2Hilfsmittel,
-      hilfestellung: f.epUnterziel2Hilfestellung,
-      ueberpruefungskriterien: f.epUnterziel2Pruefkriterien,
-      beobachtungen_auswertung: f.epUnterziel2Beobachtung,
-      naechster_schritt: f.epUnterziel2NaechsterSchritt,
-    }),
-    massnahme_2: buildEpSectionObject(
-      "Handlungsplan / Massnahme zu Unterziel 2",
-      {
+      }),
+      unterziel_2: buildEpSectionObject("Unterziel 2", {
+        zielcode: f.epUnterziel2Code,
+        titel: f.epUnterziel2Titel,
+        beschreibung: f.epUnterziel2Beschreibung,
+        startdatum: f.epUnterziel2Start,
+        enddatum: f.epUnterziel2Ende,
+        uhrzeit_zeitfenster: f.epUnterziel2Zeit,
+        ueberpruefung_am: f.epUnterziel2PruefungAm,
+        status: f.epUnterziel2Status,
+        ziel_erreicht_am: f.epUnterziel2ErreichtAm,
+        ausgangslage: f.epUnterziel2Ausgangslage,
+        foerderinhalt: f.epUnterziel2Foerderinhalt,
+        rahmenbedingungen: f.epUnterziel2Rahmenbedingungen,
+        hilfsmittel_material: f.epUnterziel2Hilfsmittel,
+        hilfestellung: f.epUnterziel2Hilfestellung,
+        pruefkriterien: f.epUnterziel2Pruefkriterien,
+        beobachtung_auswertung: f.epUnterziel2Beobachtung,
+        naechster_schritt: f.epUnterziel2NaechsterSchritt,
+      }),
+      massnahme_2: buildEpSectionObject("Massnahme 2", {
         zielcode: f.epMassnahme2Code,
+        titel: f.epMassnahme2Titel,
         material: f.epMassnahme2Material,
         vorbereitung: f.epMassnahme2Vorbereitung,
         ablauf: f.epMassnahme2Ablauf,
@@ -14082,13 +14122,23 @@ function buildEntwicklungsplanungSourceText() {
         rolle_betreuungsperson: f.epMassnahme2Rolle,
         selbststaendigkeitsgrad: f.epMassnahme2Selbststaendigkeit,
         ueberpruefung: f.epMassnahme2Pruefung,
-      },
-    ),
-    gesamtauswertung: buildEpSectionObject("Gesamtauswertung zum Bereich", {
-      aktueller_stand: f.epGesamtstand,
-      begruendung: f.epGesamtbegruendung,
-      empfohlener_naechster_entwicklungsschritt: f.epGesamtNaechsterSchritt,
-    }),
+      }),
+      gesamtauswertung: buildEpSectionObject("Gesamtauswertung", {
+        aktueller_stand: f.epGesamtstand,
+        begruendung: f.epGesamtbegruendung,
+        naechster_schritt: f.epGesamtNaechsterSchritt,
+      }),
+    },
+    qualitaetsregeln_fuer_die_ausgabe: [
+      "Keine Rohdatenabschrift.",
+      "Keine vollständige Navigator-Vorschau.",
+      "Keine langen Checkbox-Listen.",
+      "Nur fachlich verdichtete EP-Fassung.",
+      "Kliententyp als roten Faden nutzen.",
+      "Seite 9 als gemeinsames Fernziel behandeln.",
+      "Feinziele als Unterziele nutzen.",
+      "Beobachtung/Wirkung beobachtbar formulieren.",
+    ],
   });
 
   return JSON.stringify(payload, null, 2);
