@@ -2613,7 +2613,7 @@ body.bt-mobile-view #pageHost .extra-text-card {
           <span class="badge">BT Navigator</span>
           <h1>BT Navigator für GRIT und GRET</h1>
           <p class="muted">
-            Diese Datei erweitert den Neuaufbau um zusätzliche Freitext- und Eingabefelder in Diagnostik, Rahmen, Durchführung, Begleitansatz, Zielen, Feinzielen und Beobachtung. Grunddaten sowie Ausgangslage A und Ausgangslage C werden zwischen GRIT und GRET automatisch synchron gehalten. Vorschau, KI-Ergebnis und Entwicklungsplanung bleiben getrennt nutzbar.
+            Der BT-Navigator unterstützt die strukturierte Arbeit mit GRIT und GRET. Er führt durch Ausgangslage, Diagnostik, Unterstützungsbedarf, Durchführung, Begleitung, Ziele, Beobachtung, Bausteinverwaltung und Entwicklungsplanung. Die Generatoren bleiben fachlich getrennt, gemeinsame Grunddaten werden übernommen, und KI-Vorschläge können gezielt geprüft, übernommen oder verworfen werden.
           </p>
 
           <div class="rule-box">
@@ -2632,8 +2632,7 @@ body.bt-mobile-view #pageHost .extra-text-card {
           <div class="mini-panel">
             <strong>In dieser Ausbaustufe neu enthalten</strong>
             <div class="muted">
-              Startseite, Auswahl GRIT/GRET, Toolbar, Wechsel zwischen den Generatoren, vollständige V5.0-Fachseiten,
-              persistente Grunddaten, Auswahlregeln, automatische Kopplung GRIT→RIT sowie GRET→RET, eine gegenläufig gekoppelte RIT-/RET-Zeitmatrix, ein eigener Abnahme-/Prüfstatus, eine detaillierte Inhaltsprüfung, ein Freigabestand mit Übergabepaket und jetzt zusätzlich die gegenseitige Übernahme gemeinsamer Eingaben zwischen GRIT und GRET.
+              Startseite, Auswahl GRIT/GRET, kompakte Navigation, getrennte Generatoren, Bausteinverwaltung, Entwicklungsplanung, strukturierte Vorschau, KI-Vorschläge mit Übernahme-/Verwerfen-Logik sowie automatische Speicherung pro Klient und Generator.
             </div>
           </div>
         </div>
@@ -2992,24 +2991,24 @@ const MODELS = {
         itemCount: 0,
         introTitle: "Einführung",
         introText: [
-          "Dieser Generator orientiert sich an der internen L!V-Grundlage zu RIT. Dort wird RIT als wohnortnahe und alltagsnahe Form der betreuten Tagesstruktur beschrieben. RIT ergänzt die räumlich externe Tagesgestaltung und entspricht den Grundsätzen, Zielen und Leistungen der betreuten Tagesstruktur.",
-          "Die Durchführung erfolgt am Wohnort selbst oder im nahen Umfeld und kann sowohl durch Mitarbeitende der Wohngruppe als auch durch die Tagesstruktur stattfinden.",
+          "GRIT unterstützt die strukturierte Beschreibung einer räumlich integrierten Tagesstruktur. Im Zentrum steht eine alltagsnahe Tagesgestaltung am Wohnort oder im nahen Umfeld, die fachlich begründet, teilhabeorientiert und personenzentriert beschrieben wird.",
+          "Der Generator hilft, Ressourcen, Unterstützungsbedarf, Durchführung, Begleitung, Ziele und Wirkung so zu erfassen, dass daraus eine nachvollziehbare Grundlage für Planung, Bausteinverwaltung und Entwicklungsplanung entsteht.",
         ],
         noteTitle: "Hinweis",
         noteText: [
-          "Die interne Grundlage beschreibt RIT ausdrücklich nicht als künstliches Spezialprogramm, sondern als vielfältige, fachlich gestaltete Tagesstrukturleistung mit Bezug zum realen Alltag. Zur Angebotspalette gehören basale, kreative und gemischte Angebote sowie Angebote im Haushalt.",
-          "Entscheidend ist eine nachvollziehbare fachliche Zuordnung, die Orientierung an Teilhabe und eine umsetzbare Gestaltung im realen Personalsetting. Mehr Auswahl führt nicht automatisch zu besseren Vorlagen. Eine gezielte, passende Auswahl ergibt oft klarere und fachlich stimmige Texte.",
+          "GRIT beschreibt keine zusätzliche Beschäftigungsliste, sondern eine fachlich gestaltete Tagesstruktur im realen Alltag. Relevant sind Situationen, in denen Teilhabe, Orientierung, Mitwirkung, Kommunikation, Regulation oder alltagspraktische Beteiligung sichtbar werden.",
+          "Wichtig bleibt die klare fachliche Zuordnung: Was ist die Ausgangslage, welche Unterstützung ist nötig, wie wird begleitet, woran nimmt die Person teil und woran zeigt sich die Wirkung? Wenige passende Auswahlen führen meist zu besseren Texten als zu viele allgemeine Angaben.",
         ],
         factsTitle: "Facts zu GRIT",
         facts: [
-          "GRIT unterstützt die strukturierte Erstellung von RIT-Planungen.",
-          "Die App orientiert sich an einer alltagsnahen, wohnortnahen und teilhabeorientierten Arbeitsweise.",
-          "RIT wird als fachlich gestaltete Tagesstrukturleistung verstanden.",
-          "Der Aufbau erfolgt Schritt für Schritt über mehrere thematische Seiten.",
-          "Erfasst werden Ausgangslage, Diagnostik, Unterstützungsbedarf, Durchführung, Begleitansätze, Ziele, Feinziele und Beobachtung.",
-          "Die Auswahlfelder sind so aufgebaut, dass fachlich stimmige Texte entstehen können.",
-          "Zusätzliche freie Ergänzungen bleiben möglich.",
-          "Am Ende stehen strukturierte Vorschau, KI-Ergebnis und Entwicklungsplanung zur Weiterverwendung bereit.",
+          "GRIT unterstützt die Planung und Beschreibung räumlich integrierter Tagesstruktur.",
+          "Die Arbeitsweise ist alltagsnah, wohnortnah, ressourcenorientiert und teilhabeorientiert.",
+          "Im Mittelpunkt stehen reale Alltagssituationen, Mitwirkung, Begleitung und beobachtbare Wirkung.",
+          "Der Aufbau führt Schritt für Schritt durch Ausgangslage, Diagnostik, Unterstützungsbedarf, Durchführung, Begleitung, Ziele und Beobachtung.",
+          "Zusätzliche Freitexte und KI-Vorschläge können gezielt übernommen, verworfen oder gelöscht werden.",
+          "Bausteine und Entwicklungsplanung nutzen die übernommenen Felder weiter.",
+          "GRIT und GRET bleiben pro Klient und Generator getrennt.",
+          "Am Ende stehen strukturierte Vorschau, Bausteine und Entwicklungsplanung zur Weiterverwendung bereit.",
         ],
       },
       {
@@ -4274,24 +4273,24 @@ const MODELS = {
         itemCount: 0,
         introTitle: "Einführung",
         introText: [
-          "GRET unterstützt die strukturierte Erstellung von Planungen für räumlich externe Tagesstruktur. Der Generator hilft dabei, relevante Aspekte der Begleitung im Tageszentrum geordnet zu erfassen und daraus einen fachlich stimmigen Text aufzubauen.",
-          "Im Fokus stehen Ressourcen, Unterstützungsbedarfe, Rahmenbedingungen, Begleitansätze, Ziele und Beobachtungen. So können Leistungen im Tageszentrum nachvollziehbar, alltagsnah und personenzentriert beschrieben werden.",
+          "GRET unterstützt die strukturierte Beschreibung einer räumlich externen Tagesstruktur. Im Zentrum steht die fachlich begründete Begleitung in einem externen Tagesstrukturrahmen, zum Beispiel im Tageszentrum, in Gruppenangeboten, bei Tätigkeiten, Wegen, Übergängen oder angepassten Beschäftigungs- und Teilhabesituationen.",
+          "Der Generator hilft, Ressourcen, Unterstützungsbedarf, Rahmenbedingungen, Durchführung, Begleitung, Ziele und Wirkung so zu erfassen, dass RET nachvollziehbar, personenzentriert und für die Entwicklungsplanung nutzbar beschrieben wird.",
         ],
         noteTitle: "Hinweis",
         noteText: [
-          "RET wird hier als fachlich gestaltete Tagesstrukturleistung im Tageszentrum verstanden. Die Begleitung findet im Tageszentrum sowie im dazugehörigen Rahmen statt und orientiert sich an Teilhabe, Orientierung, Kommunikation, Regulation und individuell passender Unterstützung.",
-          "Zur Angebotspalette können basale, kreative, aktivierende, regulierende und alltagspraktische Angebote gehören. Nicht jede Situation im Tageszentrum ist deshalb automatisch bereits RET. Entscheidend sind eine nachvollziehbare fachliche Zuordnung, die Orientierung an den individuellen Ressourcen und Unterstützungsbedarfen sowie eine stimmige Gestaltung unter realen Rahmenbedingungen.",
+          "RET wird als fachlich gestaltete Tagesstruktur ausserhalb des Wohnbereichs verstanden. Dazu gehören nicht nur einzelne Angebote, sondern auch Ankommen, Übergänge, Gruppenrahmen, Kommunikation, Mitwirkung, Regulation, Pausen, Wege und die passende Begleitung im jeweiligen Setting.",
+          "Nicht jede Aktivität ist automatisch eine fachlich beschriebene RET-Leistung. Entscheidend ist, dass der Bedarf, der Rahmen, die Begleitung, die Teilhabesituation und die beobachtbare Wirkung zusammenpassen und realistisch beschrieben werden.",
         ],
         factsTitle: "Facts zu GRET",
         facts: [
-          "GRET unterstützt die strukturierte Erstellung von Planungen für räumlich externe Tagesstruktur.",
-          "Die App orientiert sich an einer alltagsnahen, teilhabeorientierten und fachlich nachvollziehbaren Arbeitsweise.",
-          "Im Mittelpunkt stehen Präsenz, Orientierung, Kommunikation, Regulation, Mitwirkung und Begleitung im Tageszentrum.",
-          "Der Aufbau erfolgt Schritt für Schritt über mehrere thematische Seiten.",
-          "Erfasst werden Ausgangslage, diagnostische und fachliche Hinweise, Rahmenbedingungen im Tageszentrum, Durchführung, Begleitansätze, Ziele, Feinziele und Beobachtung.",
-          "Die Auswahlfelder sind so aufgebaut, dass fachlich stimmige Texte entstehen können.",
-          "Zusätzliche freie Ergänzungen bleiben möglich.",
-          "Am Ende entsteht ein fertiger RET-Text zur Weiterverwendung.",
+          "GRET unterstützt die Planung und Beschreibung räumlich externer Tagesstruktur.",
+          "Die Arbeitsweise ist personenzentriert, teilhabeorientiert und fachlich nachvollziehbar.",
+          "Im Mittelpunkt stehen Präsenz, Orientierung, Kommunikation, Mitwirkung, Regulation und Begleitung im externen Tagesstrukturrahmen.",
+          "Der Aufbau führt Schritt für Schritt durch Ausgangslage, Diagnostik, Rahmenbedingungen, Durchführung, Begleitung, Ziele und Beobachtung.",
+          "Zusätzliche Freitexte und KI-Vorschläge können gezielt übernommen, verworfen oder gelöscht werden.",
+          "Bausteine und Entwicklungsplanung nutzen die übernommenen Felder weiter.",
+          "GRIT und GRET bleiben pro Klient und Generator getrennt.",
+          "Am Ende stehen strukturierte Vorschau, Bausteine und Entwicklungsplanung zur Weiterverwendung bereit.",
         ],
       },
       {
