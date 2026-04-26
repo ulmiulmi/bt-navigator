@@ -6764,6 +6764,83 @@ td {
     break-inside: avoid;
     page-break-inside: avoid;
   }
+
+  body.print-overview .overview-print-sheet {
+    break-after: auto !important;
+    page-break-after: auto !important;
+  }
+
+  .overview-print-sheet .print-scale-box {
+    overflow: visible !important;
+  }
+
+  .overview-print-sheet .overview-columns {
+    min-width: 0 !important;
+    width: 100% !important;
+    grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+    gap: 5px !important;
+  }
+
+  .overview-print-sheet .day-card {
+    min-width: 0 !important;
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  .overview-print-sheet .day-head {
+    padding: 5px 6px !important;
+    border-top-width: 4px !important;
+  }
+
+  .overview-print-sheet .day-title {
+    font-size: 12px !important;
+    line-height: 1.15 !important;
+  }
+
+  .overview-print-sheet .day-body {
+    padding: 5px !important;
+    gap: 5px !important;
+  }
+
+  .overview-print-sheet .group-block,
+  .overview-print-sheet .sub-section,
+  .overview-print-sheet .synced-client-card {
+    padding: 4px !important;
+    border-radius: 6px !important;
+    font-size: 8.2px !important;
+    line-height: 1.22 !important;
+  }
+
+  .overview-print-sheet .subsection-title {
+    font-size: 8.2px !important;
+    line-height: 1.15 !important;
+    padding-bottom: 2px !important;
+  }
+
+  .overview-print-sheet .print-header {
+    margin-bottom: 5px !important;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 0.9fr) !important;
+    gap: 6px !important;
+  }
+
+  .overview-print-sheet .print-title {
+    font-size: 14px !important;
+    line-height: 1.1 !important;
+  }
+
+  .overview-print-sheet .print-subtitle,
+  .overview-print-sheet .print-meta-label,
+  .overview-print-sheet .print-meta-value {
+    font-size: 8.2px !important;
+    line-height: 1.2 !important;
+  }
+
+  .overview-print-sheet textarea {
+    min-height: 22px !important;
+    font-size: 8.2px !important;
+    line-height: 1.18 !important;
+    padding: 2px 3px !important;
+  }
 }
   </style>
 </head>
