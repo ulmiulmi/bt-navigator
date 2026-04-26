@@ -723,7 +723,9 @@ textarea {
 }
 .ep-grid textarea {
   min-height: 84px;
-  resize: vertical;
+  resize: none;
+  overflow-y: hidden;
+  field-sizing: content;
 }
 .ep-output {
   min-height: 180px;
@@ -741,6 +743,29 @@ textarea {
   }
   .ep-grid .full {
     grid-column: auto;
+  }
+}
+
+@media (max-width: 640px) {
+  .ep-panel {
+    padding: 12px;
+  }
+  .ep-grid {
+    gap: 12px;
+  }
+  .ep-grid input[type="text"],
+  .ep-grid input[type="date"],
+  .ep-grid textarea,
+  .ep-grid select {
+    font-size: 16px;
+    line-height: 1.5;
+    padding: 12px 14px;
+  }
+  .ep-grid textarea {
+    min-height: 112px;
+  }
+  .ep-panel .tool-row button {
+    flex: 1 1 100%;
   }
 }
 
@@ -2356,6 +2381,202 @@ button.secondary {
   background: #fff;
   overflow: hidden;
 }
+
+
+
+/* MOBILE_EP_VIEW_V5_KOMPAKT */
+.mobile-view-toggle { white-space: nowrap; }
+body.bt-mobile-view { overflow-x: hidden; }
+body.bt-mobile-view .app,
+body.bt-mobile-view #generatorView,
+body.bt-mobile-view .generator-main,
+body.bt-mobile-view .page-wrap,
+body.bt-mobile-view .page-card,
+body.bt-mobile-view .ep-panel,
+body.bt-mobile-view .ep-grid { width: 100%; max-width: 100%; min-width: 0; }
+body.bt-mobile-view .app { padding: 6px; }
+body.bt-mobile-view #generatorView .toolbar { position: sticky; top: 0; z-index: 90; margin-bottom: 8px; border-radius: 14px; padding: 8px; overflow: hidden; }
+body.bt-mobile-view #generatorView .toolbar-actions { display: flex; flex-wrap: nowrap; gap: 8px; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: thin; width: 100%; }
+body.bt-mobile-view #generatorView .toolbar-actions button { flex: 0 0 auto; width: auto; min-width: max-content; min-height: 38px; padding: 8px 12px; font-size: 14px; border-radius: 11px; }
+body.bt-mobile-view .toolbar .hint-line { display: none; }
+body.bt-mobile-view .generator-shell { display: block; }
+body.bt-mobile-view .generator-side { display: none !important; }
+body.bt-mobile-view .generator-header { padding: 10px 12px; }
+body.bt-mobile-view .generator-title h2 { font-size: 20px; line-height: 1.25; }
+body.bt-mobile-view .generator-client-banner,
+body.bt-mobile-view .generator-context-row,
+body.bt-mobile-view .generator-header .muted { display: none !important; }
+body.bt-mobile-view .tabs { display: flex; flex-wrap: nowrap; overflow-x: auto; -webkit-overflow-scrolling: touch; padding: 8px; gap: 7px; }
+body.bt-mobile-view .tab { flex: 0 0 auto; min-width: max-content; min-height: 36px; padding: 8px 10px; font-size: 13px; }
+body.bt-mobile-view .page-wrap { padding: 6px 0; }
+body.bt-mobile-view .page-card { border-radius: 14px; overflow: hidden; }
+body.bt-mobile-view .page-card h3 { font-size: 19px; padding: 12px 14px; }
+body.bt-mobile-view .page-hint { padding: 10px 14px; font-size: 14px; }
+body.bt-mobile-view .ep-panel { margin: 8px 0; padding: 10px; border-radius: 14px; }
+body.bt-mobile-view .ep-panel .panel-title { font-size: 16px; }
+body.bt-mobile-view .ep-note,
+body.bt-mobile-view .internal-ai-status,
+body.bt-mobile-view .ki-generator-note { font-size: 13px; line-height: 1.45; }
+body.bt-mobile-view #generatorView .tool-row,
+body.bt-mobile-view #generatorView .btn-row { display: flex; flex-wrap: nowrap; gap: 8px; overflow-x: auto; -webkit-overflow-scrolling: touch; width: 100%; }
+body.bt-mobile-view #generatorView .tool-row button,
+body.bt-mobile-view #generatorView .btn-row button { flex: 0 0 auto; width: auto; min-width: max-content; min-height: 38px; padding: 8px 12px; font-size: 13px; }
+.ep-section-nav { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0 8px; }
+.ep-section-nav button { min-height: 34px; padding: 7px 10px; font-size: 13px; }
+.ep-section { border: 1px solid var(--line); border-radius: 16px; background: #fff; overflow: hidden; margin: 12px 0; }
+.ep-section summary { list-style: none; cursor: pointer; padding: 13px 15px; font-weight: 800; color: var(--theme, var(--accent)); background: linear-gradient(180deg, var(--theme-soft, #f8fbff), #ffffff); border-bottom: 1px solid var(--line); display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+.ep-section summary::-webkit-details-marker { display: none; }
+.ep-section summary::after { content: "▾"; color: var(--muted); font-size: 15px; line-height: 1; transition: transform 0.14s ease; }
+.ep-section:not([open]) summary { border-bottom: none; }
+.ep-section[open] summary::after { transform: rotate(180deg); }
+.ep-section .ep-grid { padding: 12px; }
+body.bt-mobile-view .ep-section-nav { position: sticky; top: 58px; z-index: 70; display: flex; flex-wrap: nowrap; overflow-x: auto; -webkit-overflow-scrolling: touch; gap: 7px; padding: 8px; margin: 8px -4px 10px; border: 1px solid var(--theme-line, var(--line)); border-radius: 14px; background: rgba(255,255,255,.96); box-shadow: 0 8px 18px rgba(31,57,90,.08); }
+body.bt-mobile-view .ep-section-nav button { flex: 0 0 auto; min-height: 32px; padding: 6px 10px; font-size: 12px; box-shadow: none; }
+body.bt-mobile-view .ep-section { margin: 10px 0; border-radius: 14px; }
+body.bt-mobile-view .ep-section summary { padding: 12px 13px; font-size: 15px; }
+body.bt-mobile-view .ep-grid { grid-template-columns: 1fr !important; gap: 10px; }
+body.bt-mobile-view .ep-grid .full { grid-column: auto !important; }
+body.bt-mobile-view .ep-grid input[type="text"],
+body.bt-mobile-view .ep-grid input[type="date"],
+body.bt-mobile-view .ep-grid textarea,
+body.bt-mobile-view .ep-grid select,
+body.bt-mobile-view .internal-ai-grid input[type="text"],
+body.bt-mobile-view .internal-ai-grid input[type="password"],
+body.bt-mobile-view .internal-ai-grid textarea,
+body.bt-mobile-view .internal-ai-grid select { width: 100%; max-width: 100%; min-width: 0; font-size: 16px; line-height: 1.45; padding: 9px 10px; }
+body.bt-mobile-view .ep-grid textarea,
+body.bt-mobile-view .preview-box,
+body.bt-mobile-view .internal-ai-output,
+body.bt-mobile-view .ep-output { white-space: pre-wrap; overflow-wrap: anywhere; word-break: break-word; }
+body.bt-mobile-view .ep-grid textarea { min-height: 92px; max-height: 220px; overflow-y: auto; }
+body.bt-mobile-view .preview-box.ep-output { max-height: 360px; overflow-y: auto; }
+body.bt-mobile-view .nav-row { display: flex; gap: 10px; padding: 12px; }
+body.bt-mobile-view .nav-row button { flex: 1 1 0; width: auto; min-width: 0; }
+
+
+/* MOBILE_EP_WIDTH_FIX_V6 */
+body.bt-mobile-view,
+body.bt-mobile-view #generatorView {
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+body.bt-mobile-view #generatorView .generator-main,
+body.bt-mobile-view #generatorView .page-wrap,
+body.bt-mobile-view #generatorView .page-card,
+body.bt-mobile-view #generatorView .placeholder-body,
+body.bt-mobile-view #generatorView .ep-panel,
+body.bt-mobile-view #generatorView .internal-ai-panel,
+body.bt-mobile-view #generatorView .api-test-panel,
+body.bt-mobile-view #generatorView .ep-grid,
+body.bt-mobile-view #generatorView .internal-ai-grid,
+body.bt-mobile-view #generatorView .text-collapsible,
+body.bt-mobile-view #generatorView .ki-collapsible,
+body.bt-mobile-view #generatorView .actions-collapsible,
+body.bt-mobile-view #generatorView .status-collapsible,
+body.bt-mobile-view #generatorView .preview-box,
+body.bt-mobile-view #generatorView .ep-output {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  overflow-x: hidden;
+}
+body.bt-mobile-view #generatorView .page-wrap {
+  padding-left: 0;
+  padding-right: 0;
+}
+body.bt-mobile-view #generatorView .placeholder-body {
+  padding-left: 8px;
+  padding-right: 8px;
+}
+body.bt-mobile-view #generatorView .ep-panel,
+body.bt-mobile-view #generatorView .internal-ai-panel {
+  padding-left: 8px;
+  padding-right: 8px;
+}
+body.bt-mobile-view #generatorView .page-card h3,
+body.bt-mobile-view #generatorView .page-hint,
+body.bt-mobile-view #generatorView .ep-panel .panel-title,
+body.bt-mobile-view #generatorView .ep-note,
+body.bt-mobile-view #generatorView .internal-ai-status,
+body.bt-mobile-view #generatorView .api-test-note,
+body.bt-mobile-view #generatorView .ki-generator-note,
+body.bt-mobile-view #generatorView .preview-box,
+body.bt-mobile-view #generatorView .ep-output,
+body.bt-mobile-view #generatorView .internal-ai-output {
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: normal;
+  hyphens: auto;
+}
+body.bt-mobile-view #generatorView .ep-panel .tool-row,
+body.bt-mobile-view #generatorView .ep-panel .btn-row,
+body.bt-mobile-view #generatorView .ep-panel .copy-row,
+body.bt-mobile-view #generatorView .ep-panel .zielslot-actions,
+body.bt-mobile-view #generatorView .ep-panel .bausteinverwaltung-actions,
+body.bt-mobile-view #generatorView .internal-ai-panel .tool-row,
+body.bt-mobile-view #generatorView .internal-ai-panel .btn-row,
+body.bt-mobile-view #generatorView .api-test-panel .tool-row,
+body.bt-mobile-view #generatorView .api-test-panel .btn-row {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 8px;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  overflow: visible !important;
+}
+body.bt-mobile-view #generatorView .ep-panel .tool-row button,
+body.bt-mobile-view #generatorView .ep-panel .btn-row button,
+body.bt-mobile-view #generatorView .ep-panel .copy-row button,
+body.bt-mobile-view #generatorView .ep-panel .zielslot-actions button,
+body.bt-mobile-view #generatorView .ep-panel .bausteinverwaltung-actions button,
+body.bt-mobile-view #generatorView .internal-ai-panel .tool-row button,
+body.bt-mobile-view #generatorView .internal-ai-panel .btn-row button,
+body.bt-mobile-view #generatorView .api-test-panel .tool-row button,
+body.bt-mobile-view #generatorView .api-test-panel .btn-row button {
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  flex: 1 1 auto !important;
+  white-space: normal !important;
+  overflow-wrap: anywhere;
+  word-break: normal;
+  text-align: center;
+  line-height: 1.25;
+  font-size: 14px;
+  padding: 9px 10px;
+  min-height: 38px;
+}
+body.bt-mobile-view #generatorView .ep-grid input[type="text"],
+body.bt-mobile-view #generatorView .ep-grid input[type="date"],
+body.bt-mobile-view #generatorView .ep-grid textarea,
+body.bt-mobile-view #generatorView .ep-grid select,
+body.bt-mobile-view #generatorView .internal-ai-grid input[type="text"],
+body.bt-mobile-view #generatorView .internal-ai-grid input[type="password"],
+body.bt-mobile-view #generatorView .internal-ai-grid textarea,
+body.bt-mobile-view #generatorView .internal-ai-grid select {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+body.bt-mobile-view #generatorView .ep-section summary {
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+body.bt-mobile-view #generatorView .ep-section .ep-grid {
+  padding-left: 8px;
+  padding-right: 8px;
+}
+body.bt-mobile-view #generatorView .ep-section-nav {
+  max-width: calc(100vw - 12px);
+}
+body.bt-mobile-view #generatorView .ep-section-nav button {
+  white-space: nowrap;
+}
+
   </style>
 </head>
 <body>
@@ -2485,6 +2706,7 @@ button.secondary {
           <button type="button" class="secondary" onclick="goHome()">Zur Startseite</button>
           <button type="button" class="secondary" onclick="goWeekplan()">Zum Wochenplan</button>
           <button type="button" class="secondary" onclick="manualSaveAll()">Jetzt speichern</button>
+          <button type="button" class="secondary mobile-view-toggle" id="mobileViewToggleBtn" onclick="toggleMobileView()">Mobile Ansicht</button>
           <button type="button" id="switchBtn">Wechseln</button>
         </div>
         <div class="hint-line" id="toolbarHint"></div>
@@ -5320,6 +5542,13 @@ const SHARED_GRUNDDATEN_KEYS = [
 ];
 
 const EXTRA_TEXT_FIELDS = {
+  "2_Ausgangslage_A": [
+    { key: "ausgangslageRessourcen", label: "Ausgangslage – Ressourcen" },
+    { key: "ausgangslageUnterstuetzungsbedarf", label: "Ausgangslage – Unterstützungsbedarf" },
+    { key: "ausgangslageKommunikationTeilhabe", label: "Ausgangslage – Kommunikation / Teilhabe" },
+    { key: "ausgangslageFoerderfokus", label: "Ausgangslage – Bedeutung des Förderfokus" },
+    { key: "ausgangslageErgaenzung", label: "Ausgangslage – fachliche Ergänzung" },
+  ],
   "2b_Diagnostik": [
     { key: "diagnostikFreitext", label: "Diagnostik – Grundbeschreibung" },
     {
@@ -5342,6 +5571,9 @@ const EXTRA_TEXT_FIELDS = {
       key: "settingBegleitHinweis2",
       label: "Bedeutung für die Begleitung – Freitext",
     },
+    { key: "unterstuetzungsbedarfAlltag", label: "Unterstützungsbedarf – Alltag / Teilhabe" },
+    { key: "unterstuetzungsbedarfBegleitung", label: "Unterstützungsbedarf – Begleitung" },
+    { key: "unterstuetzungsbedarfFoerderfokus", label: "Unterstützungsbedarf – Bedeutung des Förderfokus" },
   ],
   "4_Durchfuehrung_A": [
     { key: "durchfuehrungAblauf", label: "Durchführung – Ablauf" },
@@ -5359,6 +5591,20 @@ const EXTRA_TEXT_FIELDS = {
       label: "Durchführung – Ergänzung zu den Checkboxen",
     },
   ],
+  "5_Durchfuehrung_B": [
+    { key: "durchfuehrungBTeilhabesituation", label: "Durchführung B – Teilhabesituation" },
+    { key: "durchfuehrungBRahmen", label: "Durchführung B – Rahmen / Setting" },
+    { key: "durchfuehrungBUnterstuetzung", label: "Durchführung B – Unterstützung" },
+    { key: "durchfuehrungBBeteiligung", label: "Durchführung B – Beteiligung / Mitwirkung" },
+    { key: "durchfuehrungBCheckboxExtra", label: "Durchführung B – Ergänzung zu den Checkboxen" },
+  ],
+  "6_Musik_Basal": [
+    { key: "musikBasalAngebot", label: "Musik / basal – Angebot / Sequenz" },
+    { key: "musikBasalZugang", label: "Musik / basal – Zugang / Kontakt" },
+    { key: "musikBasalRegulation", label: "Musik / basal – Regulation / Aktivierung" },
+    { key: "musikBasalRahmen", label: "Musik / basal – Rahmen / Material" },
+    { key: "musikBasalCheckboxExtra", label: "Musik / basal – Ergänzung zu den Checkboxen" },
+  ],
   "7_Begleitansatz_A": [
     { key: "begleitansatzHaltung", label: "Begleitansatz – Haltung" },
     { key: "begleitansatzBeziehung", label: "Begleitansatz – Beziehung" },
@@ -5374,6 +5620,13 @@ const EXTRA_TEXT_FIELDS = {
       key: "begleitansatzCheckboxExtra",
       label: "Begleitansatz – Ergänzung zu den Checkboxen",
     },
+  ],
+  "8_Begleitansatz_B": [
+    { key: "hilfestellungStruktur", label: "Hilfestellung – Struktur / Orientierung" },
+    { key: "hilfestellungKommunikation", label: "Hilfestellung – Kommunikation" },
+    { key: "hilfestellungRegulation", label: "Hilfestellung – Regulation / Entlastung" },
+    { key: "hilfestellungAktivierung", label: "Hilfestellung – Aktivierung / Mitwirkung" },
+    { key: "hilfestellungCheckboxExtra", label: "Hilfestellung – Ergänzung zu den Checkboxen" },
   ],
   "9_Ziele": [
     { key: "zielHauptziel", label: "Ziele – Hauptziel" },
@@ -5393,6 +5646,7 @@ const EXTRA_TEXT_FIELDS = {
     { key: "beobachtung_verhalten", label: "Beobachtung – Verhalten" },
     { key: "beobachtung_bedeutung", label: "Beobachtung – Bedeutung" },
     { key: "beobachtung_hinweis", label: "Beobachtung – Hinweis" },
+    { key: "beobachtung_pruefung", label: "Beobachtung – Überprüfungskriterien" },
   ],
 };
 
@@ -7992,6 +8246,8 @@ function defaultAppMeta() {
     correctedActiveByGenerator: { grit: false, gret: false },
     entwicklungsplanungFieldsByGenerator: { grit: {}, gret: {} },
     entwicklungsplanungTextByGenerator: { grit: "", gret: "" },
+    epMassnahmenSuggestionByGenerator: { grit: "", gret: "" },
+    observationCriteriaSuggestionByGenerator: { grit: "", gret: "" },
   };
 }
 
@@ -8058,6 +8314,14 @@ function loadAppMeta() {
           ? parsed.epMassnahmenSuggestionByGenerator
           : {}),
       },
+      observationCriteriaSuggestionByGenerator: {
+        ...defaultAppMeta().observationCriteriaSuggestionByGenerator,
+        ...(parsed &&
+        parsed.observationCriteriaSuggestionByGenerator &&
+        typeof parsed.observationCriteriaSuggestionByGenerator === "object"
+          ? parsed.observationCriteriaSuggestionByGenerator
+          : {}),
+      },
     };
   } catch (error) {
     return defaultAppMeta();
@@ -8108,12 +8372,43 @@ function updateAppMeta(partial = {}) {
       ...(APP.meta?.epMassnahmenSuggestionByGenerator || {}),
       ...(partial.epMassnahmenSuggestionByGenerator || {}),
     },
+    observationCriteriaSuggestionByGenerator: {
+      ...defaultAppMeta().observationCriteriaSuggestionByGenerator,
+      ...(APP.meta?.observationCriteriaSuggestionByGenerator || {}),
+      ...(partial.observationCriteriaSuggestionByGenerator || {}),
+    },
   };
   persistAppMeta();
   renderWorkspaceMeta();
   renderResumeButton();
   renderInternalAiPanel();
   renderEntwicklungsplanungPanel();
+}
+
+function getClientScopedGeneratorMetaKey(generatorKey = APP.currentGenerator, clientIndex = APP.currentClientIndex) {
+  const safeGenerator = generatorKey === "gret" ? "gret" : "grit";
+  const safeIndex = Number.isInteger(clientIndex) && clientIndex >= 0 ? clientIndex : 0;
+  return "client-" + safeIndex + ":" + safeGenerator;
+}
+
+function readClientScopedGeneratorMeta(mapName, fallbackValue) {
+  if (!APP.currentGenerator) return fallbackValue;
+  const map = APP.meta && APP.meta[mapName] && typeof APP.meta[mapName] === "object" ? APP.meta[mapName] : {};
+  const scopedKey = getClientScopedGeneratorMetaKey();
+  if (Object.prototype.hasOwnProperty.call(map, scopedKey)) return map[scopedKey];
+  if (APP.currentClientIndex === 0 && Object.prototype.hasOwnProperty.call(map, APP.currentGenerator)) return map[APP.currentGenerator];
+  return fallbackValue;
+}
+
+function writeClientScopedGeneratorMeta(mapName, value) {
+  if (!APP.currentGenerator) return;
+  const map = APP.meta && APP.meta[mapName] && typeof APP.meta[mapName] === "object" ? APP.meta[mapName] : {};
+  updateAppMeta({
+    [mapName]: {
+      ...map,
+      [getClientScopedGeneratorMetaKey()]: value,
+    },
+  });
 }
 
 function getSharedOpenAiKey() {
@@ -9606,6 +9901,9 @@ function updateView() {
   renderSharedOpenAiSettings();
   renderInternalAiPanel();
   renderEntwicklungsplanungPanel();
+  if (page.type === "entwicklungsplanung") {
+    scheduleEntwicklungsplanungTextareaResize(document.getElementById("pageHost"));
+  }
   document.getElementById("prevBtn").disabled = APP.currentPage === 0;
   document.getElementById("nextBtn").disabled =
     APP.currentPage === model.pages.length - 1;
@@ -9915,12 +10213,1484 @@ function renderItemsPage(page) {
             `
                 : ""
             }
+
+            ${["2_Ausgangslage_A", "2b_Diagnostik", "3_Ausgangslage_B"].includes(page.id) ? renderAusgangslageHelper(page) : ""}
+
+            ${["4_Durchfuehrung_A", "5_Durchfuehrung_B", "6_Musik_Basal"].includes(page.id) ? renderDurchfuehrungHelper(page) : ""}
+
+            ${page.id === "10_Feinziele" ? renderFeinzieleHelper() : ""}
+
+            ${["7_Begleitansatz_A", "8_Begleitansatz_B"].includes(page.id) ? renderBegleitansatzHelper(page) : ""}
+
+            ${page.id === "11_Beobachtung" ? renderObservationCriteriaHelper() : ""}
           </div>
         </div>
       `;
 }
 
-function defaultGoalPlanEntry(index) {
+
+function getAiContextScopeKey(generatorKey = APP.currentGenerator) {
+  return "client_" + getCurrentClientIndex() + "__" + (generatorKey || "none");
+}
+
+
+
+function getAusgangslageTargetConfig(pageId) {
+  if (pageId === "2b_Diagnostik") {
+    return [
+      { key: "diagnostikFreitext", label: "Diagnostik – Grundbeschreibung" },
+      { key: "diagnosenMedizinisch", label: "Medizinische / psychiatrische Diagnosen" },
+      { key: "entwicklungsHinweise", label: "Entwicklungsbezogene Hinweise" },
+      { key: "diagnostikKontext", label: "Bedeutung für Betreuung / Tagesstruktur" },
+    ];
+  }
+  if (pageId === "3_Ausgangslage_B") {
+    return [
+      { key: "settingOrt", label: "Ort / Bereich" },
+      { key: "settingZeit", label: "Zeitlicher Rahmen" },
+      { key: "settingBegleitung", label: "Begleitform" },
+      { key: "settingBesonderheiten", label: "Besonderheiten des Settings" },
+      { key: "settingRahmenHinweis", label: "Rahmenbedingungen – Freitext" },
+      { key: "settingBegleitHinweis2", label: "Bedeutung für die Begleitung – Freitext" },
+      { key: "unterstuetzungsbedarfAlltag", label: "Unterstützungsbedarf – Alltag / Teilhabe" },
+      { key: "unterstuetzungsbedarfBegleitung", label: "Unterstützungsbedarf – Begleitung" },
+      { key: "unterstuetzungsbedarfFoerderfokus", label: "Unterstützungsbedarf – Bedeutung des Förderfokus" },
+    ];
+  }
+  return [
+    { key: "ausgangslageRessourcen", label: "Ausgangslage – Ressourcen" },
+    { key: "ausgangslageUnterstuetzungsbedarf", label: "Ausgangslage – Unterstützungsbedarf" },
+    { key: "ausgangslageKommunikationTeilhabe", label: "Ausgangslage – Kommunikation / Teilhabe" },
+    { key: "ausgangslageFoerderfokus", label: "Ausgangslage – Bedeutung des Förderfokus" },
+    { key: "ausgangslageErgaenzung", label: "Ausgangslage – fachliche Ergänzung" },
+  ];
+}
+
+function getAusgangslageSuggestionKey(pageId = currentPageModel()?.id || "2_Ausgangslage_A") {
+  return getAiContextScopeKey() + "__" + pageId + "__ausgangslage";
+}
+
+function getAusgangslageSuggestion(pageId = currentPageModel()?.id || "2_Ausgangslage_A") {
+  const key = getAusgangslageSuggestionKey(pageId);
+  return String(APP.meta?.ausgangslageSuggestionByContext?.[key] || "").trim();
+}
+
+function setAusgangslageSuggestion(text, pageId = currentPageModel()?.id || "2_Ausgangslage_A") {
+  const key = getAusgangslageSuggestionKey(pageId);
+  updateAppMeta({
+    ausgangslageSuggestionByContext: {
+      ...(APP.meta?.ausgangslageSuggestionByContext || {}),
+      [key]: sanitizeTextForApi(String(text || "").trim()),
+    },
+  });
+}
+
+function setAusgangslageStatus(message) {
+  const el = document.getElementById("ausgangslageSuggestionStatus");
+  if (el) el.textContent = cleanInline(message || "");
+}
+
+function syncAusgangslageUi(message = "") {
+  const pageId = currentPageModel()?.id || "2_Ausgangslage_A";
+  const field = document.getElementById("ausgangslageSuggestionField");
+  if (field) field.textContent = getAusgangslageSuggestion(pageId) || "Noch kein Vorschlag für Ausgangslage / Unterstützungsbedarf vorhanden.";
+  if (message) setAusgangslageStatus(message);
+}
+
+function renderAusgangslageHelper(page) {
+  const pageId = page?.id || "2_Ausgangslage_A";
+  const suggestion = getAusgangslageSuggestion(pageId);
+  const title = pageId === "2b_Diagnostik"
+    ? "Diagnostik fachlich einordnen"
+    : pageId === "3_Ausgangslage_B"
+      ? "Unterstützungsbedarf / Rahmen fachlich formulieren"
+      : "Ausgangslage fachlich formulieren";
+  return `
+            <details class="ki-collapsible ausgangslage-helper" open>
+              <summary>KI-Hilfe Ausgangslage / Unterstützungsbedarf</summary>
+              <div class="ki-collapsible-body">
+                <div class="internal-ai-panel">
+                  <div class="panel-title">${escapeHtml(title)}</div>
+                  <div class="api-test-note">Erstellt aus den Auswahlfeldern dieser Seite, dem Förderfokus und dem Tagesstruktur-Kontext Vorschläge für die Zusatzfelder. Bestehende Felder werden nicht automatisch überschrieben.</div>
+                  <div class="tool-row">
+                    <button type="button" class="secondary" onclick="createAusgangslageSuggestion()">Ausgangslage / Unterstützungsbedarf formulieren</button>
+                    <button type="button" class="ghost" onclick="applyAusgangslageSuggestion()">Vorschlag übernehmen</button>
+                    <button type="button" class="ghost" onclick="clearAusgangslageSuggestion()">Vorschlag verwerfen</button>
+                    <button type="button" class="ghost" onclick="clearAusgangslageTargetFields()">Übernommene Felder leeren</button>
+                  </div>
+                  <div class="internal-ai-status" id="ausgangslageSuggestionStatus">Der Vorschlag wird aus den vorhandenen Eingaben erstellt und verwendet nur Initialen.</div>
+                  <div class="preview-box internal-ai-output compact-ai-output" id="ausgangslageSuggestionField">${escapeHtml(suggestion || "Noch kein Vorschlag für Ausgangslage / Unterstützungsbedarf vorhanden.")}</div>
+                </div>
+              </div>
+            </details>
+  `;
+}
+
+function collectAusgangslageSelections(pageId) {
+  if (APP.currentView === "generator") mergeCurrentFormIntoState();
+  const page = getPageById(pageId);
+  const state = getPageStateById(pageId) || {};
+  const values = [];
+  if (page) values.push(...buildGroupedSelectionLines(page, state));
+  if (cleanInline(state.freeText || "")) values.push(state.freeText);
+  getPageCustomTextEntries(page || { id: pageId }, state).forEach((entry) => {
+    if (cleanInline(entry.value || "")) values.push(entry.label + ": " + entry.value);
+  });
+  return trimEpSuggestionList(values, 16);
+}
+
+function collectAusgangslageContext(pageId) {
+  if (APP.currentView === "generator") mergeCurrentFormIntoState();
+  const gd = currentGeneratorState().grunddaten || {};
+  const pages = {};
+  ["2_Ausgangslage_A", "2b_Diagnostik", "3_Ausgangslage_B"].forEach((id) => {
+    pages[id] = collectAusgangslageSelections(id);
+  });
+  return {
+    pageId,
+    initials: cleanInline(gd.initialen || ""),
+    kliententyp: cleanInline(gd.kliententyp || ""),
+    setting: getEffectiveSettingTyp(),
+    zeit: cleanInline(gd.zeiten || ""),
+    current: collectAusgangslageSelections(pageId),
+    pages,
+  };
+}
+
+function buildAusgangslageSummary(items, fallback) {
+  const cleanItems = trimEpSuggestionList(items, 8);
+  return cleanItems.length ? cleanItems.join("; ") : fallback;
+}
+
+function buildLocalAusgangslageSuggestion(pageId) {
+  const context = collectAusgangslageContext(pageId);
+  const currentText = buildAusgangslageSummary(context.current || [], "die erfassten Angaben dieser Seite");
+  const page2Text = buildAusgangslageSummary(context.pages["2_Ausgangslage_A"] || [], "die erfasste alltagsrelevante Ausgangslage");
+  const diagText = buildAusgangslageSummary(context.pages["2b_Diagnostik"] || [], "die erfassten diagnostischen und fachlichen Hinweise");
+  const supportText = buildAusgangslageSummary(context.pages["3_Ausgangslage_B"] || [], "den erfassten Unterstützungsbedarf");
+  const focusLine = context.kliententyp
+    ? "Der Förderfokus „" + context.kliententyp + "“ wird als Leitmassstab genutzt, ohne ihn als eigenes Ziel oder Etikett zu formulieren."
+    : "Der Förderfokus ergibt sich aus den erfassten Eingaben und wird nicht als eigenes Ziel formuliert.";
+  const settingLine = context.setting ? "im " + context.setting + "-Rahmen" : "im erfassten Tagesstrukturrahmen";
+  const timeLine = context.zeit ? " Die erfassten Zeiten bilden den äusseren Rahmen: " + context.zeit + "." : "";
+
+  if (!context.current.length && !context.kliententyp) return "";
+
+  if (pageId === "2b_Diagnostik") {
+    return [
+      "Diagnostik – Grundbeschreibung:\nDie fachlichen Hinweise werden nicht als Etikett verwendet, sondern als Orientierung für Alltag, Teilhabe und Begleitung. Relevant sind: " + currentText + ".",
+      "Medizinische / psychiatrische Diagnosen:\nMedizinische oder psychiatrische Angaben werden nur insoweit berücksichtigt, wie sie für Belastbarkeit, Kommunikation, Regulation, Orientierung oder Teilhabe im Alltag bedeutsam sind. Grundlage sind die vorhandenen Angaben: " + currentText + ".",
+      "Entwicklungsbezogene Hinweise:\nFür die Entwicklungsplanung sind besonders die beobachtbaren Auswirkungen auf Mitwirkung, Kommunikation, Reizverarbeitung, Belastbarkeit und Orientierung relevant. " + focusLine,
+      "Bedeutung für Betreuung / Tagesstruktur:\nFür die Tagesstruktur bedeutet dies, dass Unterstützung alltagsnah, vorhersehbar und an den vorhandenen Möglichkeiten ausgerichtet wird. Hinweise aus Diagnostik und Hintergrund werden in konkrete Begleitung übersetzt, ohne neue Fakten zu ergänzen.",
+    ].join("\n\n");
+  }
+
+  if (pageId === "3_Ausgangslage_B") {
+    return [
+      "Ort / Bereich:\nDie Angaben beziehen sich auf den " + settingLine + ". Der konkrete Ort oder Bereich kann ergänzt werden, sofern er aus der Planung noch nicht eindeutig hervorgeht.",
+      "Zeitlicher Rahmen:\nDer Unterstützungsbedarf zeigt sich innerhalb der erfassten Tagesstrukturzeiten und wiederkehrenden Sequenzen." + timeLine,
+      "Begleitform:\nDie Begleitung erfolgt angepasst an Unterstützungsbedarf, Kommunikation, Belastbarkeit und aktuelle Situation. Im Vordergrund steht eine verlässliche, verständliche und dosierte Unterstützung.",
+      "Besonderheiten des Settings:\nBesonders zu beachten sind Orientierung, Übergänge, Reizgestaltung, Tempo, Kommunikation und die Möglichkeit, Beteiligung in kleinen Schritten sichtbar zu machen.",
+      "Rahmenbedingungen – Freitext:\nFür den Rahmen sind klare Abläufe, vorhersehbare Situationen und angepasste Unterstützung bedeutsam. Grundlage sind: " + supportText + ".",
+      "Bedeutung für die Begleitung – Freitext:\nDer Unterstützungsbedarf wird so berücksichtigt, dass Teilhabe im Alltag möglich bleibt. " + focusLine,
+      "Unterstützungsbedarf – Alltag / Teilhabe:\nIm Alltag benötigt die Person Unterstützung in den Bereichen, die auf dieser Seite erfasst wurden: " + currentText + ". Diese Unterstützung dient dazu, Beteiligung, Orientierung und Sicherheit in der Tagesstruktur zu ermöglichen.",
+      "Unterstützungsbedarf – Begleitung:\nMitarbeitende unterstützen durch klare Orientierung, angepasste Anleitung, verlässliche Präsenz und eine Gestaltung, die Belastbarkeit, Reizverarbeitung und Kommunikation berücksichtigt.",
+      "Unterstützungsbedarf – Bedeutung des Förderfokus:\n" + focusLine + " Daraus leitet sich ab, worauf die Begleitung besonders achten soll, ohne daraus ein zusätzliches Ziel zu machen.",
+    ].join("\n\n");
+  }
+
+  return [
+    "Ausgangslage – Ressourcen:\nIn der Ausgangslage werden vorhandene Ressourcen und beobachtbare Möglichkeiten aufgenommen. Sichtbar sind insbesondere: " + page2Text + ". Diese Ressourcen bilden den Ansatzpunkt für Teilhabe im Alltag.",
+    "Ausgangslage – Unterstützungsbedarf:\nDer Unterstützungsbedarf wird aus den vorhandenen Angaben abgeleitet und beschreibt, wobei die Person im Tagesstrukturrahmen Begleitung benötigt. Relevant sind: " + supportText + ".",
+    "Ausgangslage – Kommunikation / Teilhabe:\nKommunikation, Kontakt und Teilhabe werden personenzentriert betrachtet. Ausdrucksformen, Reaktionszeit, nonverbale Signale, bekannte Bezugspersonen und überschaubare Situationen werden berücksichtigt, soweit sie erfasst wurden.",
+    "Ausgangslage – Bedeutung des Förderfokus:\n" + focusLine + " Der Förderfokus steuert die fachliche Ausrichtung der Begleitung, wird aber nicht als eigenes Ziel formuliert.",
+    "Ausgangslage – fachliche Ergänzung:\nDie Angaben aus Ausgangslage, Diagnostik und Unterstützungsbedarf werden fachlich gebündelt. Dabei werden keine Checkboxlisten abgeschrieben und keine neuen Fakten ergänzt. Für die weitere Planung stehen alltagsnahe Teilhabe, klare Unterstützung und beobachtbare Wirkung im Vordergrund.",
+  ].join("\n\n");
+}
+
+function createAusgangslageSuggestion() {
+  const pageId = currentPageModel()?.id || "2_Ausgangslage_A";
+  const draft = buildLocalAusgangslageSuggestion(pageId);
+  if (!draft) {
+    setAusgangslageStatus("Bitte zuerst Ausgangslage, Diagnostik oder Unterstützungsbedarf auswählen oder erfassen.");
+    return;
+  }
+  setAusgangslageSuggestion(draft, pageId);
+  syncAusgangslageUi("Vorschlag wurde erstellt. Bestehende Felder wurden nicht überschrieben.");
+}
+
+function clearAusgangslageSuggestion() {
+  const pageId = currentPageModel()?.id || "2_Ausgangslage_A";
+  setAusgangslageSuggestion("", pageId);
+  syncAusgangslageUi("Der Vorschlag wurde verworfen. Bereits übernommene Feldinhalte bleiben erhalten.");
+}
+
+function clearAusgangslageTargetFields() {
+  const pageId = currentPageModel()?.id || "2_Ausgangslage_A";
+  const targets = getAusgangslageTargetConfig(pageId).map((entry) => ({
+    ...entry,
+    element: document.querySelector('#pageHost [data-extra-field="' + entry.key + '"]'),
+  }));
+  if (targets.some((entry) => !entry.element)) {
+    setAusgangslageStatus("Die Ausgangslage-Felder sind gerade nicht sichtbar. Bitte die geöffnete Seite beibehalten.");
+    return;
+  }
+  const filled = targets.filter((entry) => cleanInline(entry.element.value || ""));
+  if (!filled.length) {
+    setAusgangslageStatus("Die übernommenen Ausgangslage-Felder sind bereits leer.");
+    return;
+  }
+  const ok = window.confirm("Übernommene Ausgangslage-Felder wirklich leeren? Der Vorschlag unten bleibt unverändert.");
+  if (!ok) return;
+  targets.forEach((entry) => { entry.element.value = ""; });
+  saveFormState();
+  syncAusgangslageUi("Übernommene Ausgangslage-Felder wurden geleert. Der Vorschlag unten blieb unverändert.");
+}
+
+function parseAusgangslageSuggestion(text, pageId) {
+  const clean = sanitizeTextForApi(text || "").trim();
+  const config = getAusgangslageTargetConfig(pageId);
+  const result = {};
+  config.forEach((item, index) => {
+    const label = escapeRegExpText(item.label);
+    const nextLabels = config
+      .filter((_, i) => i !== index)
+      .map((entry) => escapeRegExpText(entry.label))
+      .join("|");
+    const pattern = new RegExp(
+      "(?:^|\\n)\\s*" + label + "\\s*:?\\s*([\\s\\S]*?)(?=\\n\\s*(?:" + nextLabels + ")\\s*:?|$)",
+      "i",
+    );
+    const match = clean.match(pattern);
+    result[item.key] = match && match[1] ? cleanInline(match[1]) : "";
+  });
+  if (!Object.values(result).some(Boolean) && config.length) result[config[0].key] = clean;
+  return result;
+}
+
+function applyAusgangslageSuggestion() {
+  const pageId = currentPageModel()?.id || "2_Ausgangslage_A";
+  const suggestion = getAusgangslageSuggestion(pageId);
+  if (!suggestion) {
+    setAusgangslageStatus("Es ist noch kein Vorschlag vorhanden.");
+    return;
+  }
+  const fallback = parseAusgangslageSuggestion(buildLocalAusgangslageSuggestion(pageId), pageId);
+  const sections = parseAusgangslageSuggestion(suggestion, pageId);
+  const targets = getAusgangslageTargetConfig(pageId).map((entry) => ({
+    ...entry,
+    value: cleanInline(sections[entry.key] || fallback[entry.key] || ""),
+    element: document.querySelector('#pageHost [data-extra-field="' + entry.key + '"]'),
+  }));
+  if (targets.some((entry) => !entry.element)) {
+    setAusgangslageStatus("Die Ausgangslage-Felder sind gerade nicht sichtbar. Bitte die geöffnete Seite beibehalten.");
+    return;
+  }
+  if (targets.some((entry) => !entry.value)) {
+    setAusgangslageStatus("Der Vorschlag konnte nicht alle Felder füllen. Bitte zuerst Ausgangslage / Unterstützungsbedarf auswählen oder erfassen.");
+    return;
+  }
+  const filled = targets.filter((entry) => cleanInline(entry.element.value || ""));
+  let replaceExisting = false;
+  if (filled.length) {
+    replaceExisting = window.confirm("Einige Ausgangslage-Felder enthalten bereits Text. OK = ersetzen. Abbrechen = nur leere Felder füllen.");
+  }
+  let written = 0;
+  let skipped = 0;
+  targets.forEach((entry) => {
+    if (cleanInline(entry.element.value || "") && !replaceExisting) {
+      skipped += 1;
+      return;
+    }
+    entry.element.value = entry.value;
+    written += 1;
+  });
+  saveFormState();
+  setAusgangslageSuggestion("", pageId);
+  syncAusgangslageUi(written + " Feld(er) übernommen." + (skipped ? " " + skipped + " bestehende Feld(er) blieben erhalten." : "") + " Der Vorschlag wurde nach der Übernahme geleert.");
+}
+
+if (typeof window !== "undefined") {
+  window.createAusgangslageSuggestion = createAusgangslageSuggestion;
+  window.applyAusgangslageSuggestion = applyAusgangslageSuggestion;
+  window.clearAusgangslageSuggestion = clearAusgangslageSuggestion;
+  window.clearAusgangslageTargetFields = clearAusgangslageTargetFields;
+}
+
+function getDurchfuehrungTargetConfig(pageId) {
+  if (pageId === "5_Durchfuehrung_B") {
+    return [
+      { key: "durchfuehrungBTeilhabesituation", label: "Durchführung B – Teilhabesituation" },
+      { key: "durchfuehrungBRahmen", label: "Durchführung B – Rahmen / Setting" },
+      { key: "durchfuehrungBUnterstuetzung", label: "Durchführung B – Unterstützung" },
+      { key: "durchfuehrungBBeteiligung", label: "Durchführung B – Beteiligung / Mitwirkung" },
+      { key: "durchfuehrungBCheckboxExtra", label: "Durchführung B – Ergänzung zu den Checkboxen" },
+    ];
+  }
+  if (pageId === "6_Musik_Basal") {
+    return [
+      { key: "musikBasalAngebot", label: "Musik / basal – Angebot / Sequenz" },
+      { key: "musikBasalZugang", label: "Musik / basal – Zugang / Kontakt" },
+      { key: "musikBasalRegulation", label: "Musik / basal – Regulation / Aktivierung" },
+      { key: "musikBasalRahmen", label: "Musik / basal – Rahmen / Material" },
+      { key: "musikBasalCheckboxExtra", label: "Musik / basal – Ergänzung zu den Checkboxen" },
+    ];
+  }
+  return [
+    { key: "durchfuehrungAblauf", label: "Durchführung – Ablauf" },
+    { key: "durchfuehrungUnterstuetzung", label: "Durchführung – Unterstützung" },
+    { key: "durchfuehrungStruktur", label: "Durchführung – Struktur" },
+    { key: "durchfuehrungBesonderheiten", label: "Durchführung – Besonderheiten" },
+    { key: "durchfuehrungCheckboxExtra", label: "Durchführung – Ergänzung zu den Checkboxen" },
+  ];
+}
+
+function getDurchfuehrungSuggestionKey(pageId = currentPageModel()?.id || "4_Durchfuehrung_A") {
+  return getAiContextScopeKey() + "__" + pageId + "__durchfuehrung";
+}
+
+function getDurchfuehrungSuggestion(pageId = currentPageModel()?.id || "4_Durchfuehrung_A") {
+  const key = getDurchfuehrungSuggestionKey(pageId);
+  return String(APP.meta?.durchfuehrungSuggestionByContext?.[key] || "").trim();
+}
+
+function setDurchfuehrungSuggestion(text, pageId = currentPageModel()?.id || "4_Durchfuehrung_A") {
+  const key = getDurchfuehrungSuggestionKey(pageId);
+  updateAppMeta({
+    durchfuehrungSuggestionByContext: {
+      ...(APP.meta?.durchfuehrungSuggestionByContext || {}),
+      [key]: sanitizeTextForApi(String(text || "").trim()),
+    },
+  });
+}
+
+function setDurchfuehrungStatus(message) {
+  const el = document.getElementById("durchfuehrungSuggestionStatus");
+  if (el) el.textContent = cleanInline(message || "");
+}
+
+function syncDurchfuehrungUi(message = "") {
+  const pageId = currentPageModel()?.id || "4_Durchfuehrung_A";
+  const field = document.getElementById("durchfuehrungSuggestionField");
+  if (field) field.textContent = getDurchfuehrungSuggestion(pageId) || "Noch kein Vorschlag für Durchführung / Aktivitäten vorhanden.";
+  if (message) setDurchfuehrungStatus(message);
+}
+
+function renderDurchfuehrungHelper(page) {
+  const pageId = page?.id || "4_Durchfuehrung_A";
+  const suggestion = getDurchfuehrungSuggestion(pageId);
+  const title =
+    pageId === "6_Musik_Basal"
+      ? "Musik / basale Sequenzen fachlich formulieren"
+      : pageId === "5_Durchfuehrung_B"
+        ? "Durchführung B / Aktivitäten fachlich formulieren"
+        : "Durchführung / Teilhabe fachlich formulieren";
+  return `
+            <details class="ki-collapsible durchfuehrung-helper" open>
+              <summary>KI-Hilfe Durchführung / Aktivitäten</summary>
+              <div class="ki-collapsible-body">
+                <div class="internal-ai-panel">
+                  <div class="panel-title">${escapeHtml(title)}</div>
+                  <div class="api-test-note">Erstellt aus den Auswahlfeldern dieser Seite, dem Förderfokus und dem Tagesstruktur-Kontext Vorschläge für die Zusatzfelder. Bestehende Felder werden nicht automatisch überschrieben.</div>
+                  <div class="tool-row">
+                    <button type="button" class="secondary" onclick="createDurchfuehrungSuggestion()">Durchführung / Aktivitäten formulieren</button>
+                    <button type="button" class="ghost" onclick="applyDurchfuehrungSuggestion()">Vorschlag übernehmen</button>
+                    <button type="button" class="ghost" onclick="clearDurchfuehrungSuggestion()">Vorschlag verwerfen</button>
+                    <button type="button" class="ghost" onclick="clearDurchfuehrungTargetFields()">Übernommene Felder leeren</button>
+                  </div>
+                  <div class="internal-ai-status" id="durchfuehrungSuggestionStatus">Der Vorschlag wird aus den vorhandenen Eingaben erstellt und verwendet nur Initialen.</div>
+                  <div class="preview-box internal-ai-output compact-ai-output" id="durchfuehrungSuggestionField">${escapeHtml(suggestion || "Noch kein Vorschlag für Durchführung / Aktivitäten vorhanden.")}</div>
+                </div>
+              </div>
+            </details>
+  `;
+}
+
+function collectDurchfuehrungSelections(pageId) {
+  if (APP.currentView === "generator") mergeCurrentFormIntoState();
+  const page = getPageById(pageId);
+  const state = getPageStateById(pageId) || {};
+  const values = [];
+  if (page) values.push(...buildGroupedSelectionLines(page, state));
+  if (cleanInline(state.freeText || "")) values.push(state.freeText);
+  getPageCustomTextEntries(page || { id: pageId }, state).forEach((entry) => {
+    if (cleanInline(entry.value || "")) values.push(entry.label + ": " + entry.value);
+  });
+  return trimEpSuggestionList(values, 12);
+}
+
+function collectDurchfuehrungContext(pageId) {
+  if (APP.currentView === "generator") mergeCurrentFormIntoState();
+  const gd = currentGeneratorState().grunddaten || {};
+  const pageContext = {};
+  ["4_Durchfuehrung_A", "5_Durchfuehrung_B", "6_Musik_Basal"].forEach((id) => {
+    pageContext[id] = collectDurchfuehrungSelections(id);
+  });
+  return {
+    pageId,
+    initials: cleanInline(gd.initialen || ""),
+    kliententyp: cleanInline(gd.kliententyp || ""),
+    setting: getEffectiveSettingTyp(),
+    zeit: cleanInline(gd.zeiten || ""),
+    current: collectDurchfuehrungSelections(pageId),
+    pages: pageContext,
+  };
+}
+
+function buildDurchfuehrungSummaryFromSelections(items) {
+  const cleanItems = trimEpSuggestionList(items, 8);
+  return cleanItems.length ? cleanItems.join("; ") : "die ausgewählten alltagsnahen Teilhabesituationen";
+}
+
+function buildLocalDurchfuehrungSuggestion(pageId) {
+  const context = collectDurchfuehrungContext(pageId);
+  const currentText = buildDurchfuehrungSummaryFromSelections(context.current || []);
+  const focusLine = context.kliententyp
+    ? "Der Förderfokus „" + context.kliententyp + "“ wird als Leitmassstab genutzt, ohne ihn als eigenes Ziel zu formulieren."
+    : "Der Förderfokus ergibt sich aus den erfassten Eingaben und wird nicht als eigenes Ziel formuliert.";
+  const settingLine = context.setting ? "im " + context.setting + "-Rahmen" : "im erfassten Tagesstrukturrahmen";
+  const timeLine = context.zeit ? " Die erfassten Zeiten werden als Rahmen berücksichtigt: " + context.zeit + "." : "";
+
+  if (!context.current.length && !context.kliententyp) return "";
+
+  if (pageId === "5_Durchfuehrung_B") {
+    return [
+      "Durchführung B – Teilhabesituation:\nDie Teilhabesituation wird " + settingLine + " alltagsnah, überschaubar und an den vorhandenen Möglichkeiten ausgerichtet. Im Vordergrund stehen: " + currentText + ".",
+      "Durchführung B – Rahmen / Setting:\nDie Durchführung erfolgt in einem klar erkennbaren Rahmen mit vorbereiteten Anfangs-, Übergangs- und Abschlusspunkten." + timeLine,
+      "Durchführung B – Unterstützung:\nDie Unterstützung erfolgt durch kurze Orientierung, angepasste Anleitung und verlässliche Präsenz. " + focusLine + " Tempo, Reizniveau und Unterstützungsintensität werden der Situation angepasst.",
+      "Durchführung B – Beteiligung / Mitwirkung:\nBeteiligung wird über kleine, sichtbare Mitwirkungsschritte ermöglicht. Eigeninitiative, Reaktion auf Angebote, Anwesenheit und Kontaktaufnahme werden aufgenommen und bestärkend begleitet.",
+      "Durchführung B – Ergänzung zu den Checkboxen:\nDie ausgewählten Aktivitäten werden fachlich gebündelt und nicht als Liste wiederholt: " + currentText + ". Entscheidend ist, welche Teilhabe dadurch im Alltag ermöglicht wird.",
+    ].join("\n\n");
+  }
+
+  if (pageId === "6_Musik_Basal") {
+    return [
+      "Musik / basal – Angebot / Sequenz:\nDie musikbezogene oder basale Sequenz wird " + settingLine + " als ruhige, kontakt- und wahrnehmungsorientierte Teilhabesituation gestaltet. Im Vordergrund stehen: " + currentText + ".",
+      "Musik / basal – Zugang / Kontakt:\nDer Zugang erfolgt über bekannte Reize, Stimme, Mimik, Gestik, Rhythmus, Klang, Körperwahrnehmung oder andere vorhandene Ausdrucksformen, soweit dies aus den Eingaben ableitbar ist.",
+      "Musik / basal – Regulation / Aktivierung:\nDie Sequenz kann regulierend, entlastend oder aktivierend gestaltet werden. " + focusLine + " Reaktionen werden aufmerksam beobachtet und Tempo, Nähe, Reizdichte sowie Pausen angepasst.",
+      "Musik / basal – Rahmen / Material:\nMaterial, Klangquellen, Hilfsmittel oder räumlicher Rahmen werden so vorbereitet, dass Sicherheit, Orientierung und Beteiligung möglich bleiben. Fehlende Materialangaben können im Verlauf ergänzt werden.",
+      "Musik / basal – Ergänzung zu den Checkboxen:\nDie ausgewählten Inhalte werden als fachlicher Baustein verstanden und nicht als reine Angebotsliste. Beobachtet wird, ob Kontakt, Reaktion, Entlastung oder Mitwirkung sichtbar werden.",
+    ].join("\n\n");
+  }
+
+  return [
+    "Durchführung – Ablauf:\nDie Durchführung erfolgt " + settingLine + " in überschaubaren, wiederkehrenden Sequenzen. Der Ablauf orientiert sich an den ausgewählten Teilhabesituationen: " + currentText + ".",
+    "Durchführung – Unterstützung:\nMitarbeitende unterstützen durch klare Orientierung, vorbereitete Handlungsschritte, kurze Hinweise und angepasste Begleitung. " + focusLine + " Unterstützung wird so dosiert, dass Beteiligung möglich bleibt.",
+    "Durchführung – Struktur:\nAnfang, Ablauf, Übergang und Abschluss werden vorhersehbar gestaltet. Wiederkehrende Signale, ruhiges Tempo und nachvollziehbare Handlungsschritte geben Orientierung." + timeLine,
+    "Durchführung – Besonderheiten:\nZu beachten sind Belastbarkeit, Kommunikation, Reizverarbeitung, Übergänge und die aktuelle Tagesform. Bei Unsicherheit oder Überforderung werden Pausen, Entlastung und Anpassung des Rahmens ermöglicht.",
+    "Durchführung – Ergänzung zu den Checkboxen:\nDie ausgewählten Durchführungselemente werden fachlich gebündelt und nicht als Liste abgeschrieben: " + currentText + ". Im Mittelpunkt steht, welche Teilhabe dadurch ermöglicht wird.",
+  ].join("\n\n");
+}
+
+function createDurchfuehrungSuggestion() {
+  const pageId = currentPageModel()?.id || "4_Durchfuehrung_A";
+  const draft = buildLocalDurchfuehrungSuggestion(pageId);
+  if (!draft) {
+    setDurchfuehrungStatus("Bitte zuerst Durchführung / Aktivitäten auswählen oder erfassen.");
+    return;
+  }
+  setDurchfuehrungSuggestion(draft, pageId);
+  syncDurchfuehrungUi("Vorschlag wurde erstellt. Bestehende Felder wurden nicht überschrieben.");
+}
+
+function clearDurchfuehrungSuggestion() {
+  const pageId = currentPageModel()?.id || "4_Durchfuehrung_A";
+  setDurchfuehrungSuggestion("", pageId);
+  syncDurchfuehrungUi("Der Vorschlag wurde verworfen. Bereits übernommene Feldinhalte bleiben erhalten.");
+}
+
+function clearDurchfuehrungTargetFields() {
+  const pageId = currentPageModel()?.id || "4_Durchfuehrung_A";
+  const targets = getDurchfuehrungTargetConfig(pageId).map((entry) => ({
+    ...entry,
+    element: document.querySelector('#pageHost [data-extra-field="' + entry.key + '"]'),
+  }));
+  if (targets.some((entry) => !entry.element)) {
+    setDurchfuehrungStatus("Die Durchführungsfelder sind gerade nicht sichtbar. Bitte die geöffnete Seite beibehalten.");
+    return;
+  }
+  const filled = targets.filter((entry) => cleanInline(entry.element.value || ""));
+  if (!filled.length) {
+    setDurchfuehrungStatus("Die übernommenen Durchführungsfelder sind bereits leer.");
+    return;
+  }
+  const ok = window.confirm("Übernommene Durchführungsfelder wirklich leeren? Der Vorschlag unten bleibt unverändert.");
+  if (!ok) return;
+  targets.forEach((entry) => { entry.element.value = ""; });
+  saveFormState();
+  syncDurchfuehrungUi("Übernommene Durchführungsfelder wurden geleert. Der Vorschlag unten blieb unverändert.");
+}
+
+function parseDurchfuehrungSuggestion(text, pageId) {
+  const clean = sanitizeTextForApi(text || "").trim();
+  const config = getDurchfuehrungTargetConfig(pageId);
+  const result = {};
+  config.forEach((item, index) => {
+    const label = escapeRegExpText(item.label);
+    const nextLabels = config
+      .filter((_, i) => i !== index)
+      .map((entry) => escapeRegExpText(entry.label))
+      .join("|");
+    const pattern = new RegExp(
+      "(?:^|\\n)\\s*" + label + "\\s*:?\\s*([\\s\\S]*?)(?=\\n\\s*(?:" + nextLabels + ")\\s*:?|$)",
+      "i",
+    );
+    const match = clean.match(pattern);
+    result[item.key] = match && match[1] ? cleanInline(match[1]) : "";
+  });
+  return result;
+}
+
+function applyDurchfuehrungSuggestion() {
+  const pageId = currentPageModel()?.id || "4_Durchfuehrung_A";
+  const suggestion = getDurchfuehrungSuggestion(pageId);
+  if (!suggestion) {
+    setDurchfuehrungStatus("Es ist noch kein Vorschlag vorhanden.");
+    return;
+  }
+  const fallback = parseDurchfuehrungSuggestion(buildLocalDurchfuehrungSuggestion(pageId), pageId);
+  const sections = parseDurchfuehrungSuggestion(suggestion, pageId);
+  const targets = getDurchfuehrungTargetConfig(pageId).map((entry) => ({
+    ...entry,
+    value: cleanInline(sections[entry.key] || fallback[entry.key] || ""),
+    element: document.querySelector('#pageHost [data-extra-field="' + entry.key + '"]'),
+  }));
+  if (targets.some((entry) => !entry.element)) {
+    setDurchfuehrungStatus("Die Durchführungsfelder sind gerade nicht sichtbar. Bitte die geöffnete Seite beibehalten.");
+    return;
+  }
+  if (targets.some((entry) => !entry.value)) {
+    setDurchfuehrungStatus("Der Vorschlag konnte nicht alle Felder füllen. Bitte zuerst Durchführung / Aktivitäten auswählen oder erfassen.");
+    return;
+  }
+  const filled = targets.filter((entry) => cleanInline(entry.element.value || ""));
+  let replaceExisting = false;
+  if (filled.length) {
+    replaceExisting = window.confirm("Einige Durchführungsfelder enthalten bereits Text. OK = ersetzen. Abbrechen = nur leere Felder füllen.");
+  }
+  let written = 0;
+  let skipped = 0;
+  targets.forEach((entry) => {
+    if (cleanInline(entry.element.value || "") && !replaceExisting) {
+      skipped += 1;
+      return;
+    }
+    entry.element.value = entry.value;
+    written += 1;
+  });
+  saveFormState();
+  setDurchfuehrungSuggestion("", pageId);
+  syncDurchfuehrungUi(written + " Feld(er) übernommen." + (skipped ? " " + skipped + " bestehende Feld(er) blieben erhalten." : "") + " Der Vorschlag wurde nach der Übernahme geleert.");
+}
+
+if (typeof window !== "undefined") {
+  window.createDurchfuehrungSuggestion = createDurchfuehrungSuggestion;
+  window.applyDurchfuehrungSuggestion = applyDurchfuehrungSuggestion;
+  window.clearDurchfuehrungSuggestion = clearDurchfuehrungSuggestion;
+  window.clearDurchfuehrungTargetFields = clearDurchfuehrungTargetFields;
+}
+
+
+function getFeinzielSuggestionKey() {
+  return getAiContextScopeKey() + "__10_Feinziele";
+}
+
+function getFeinzielSuggestion() {
+  const key = getFeinzielSuggestionKey();
+  return String(APP.meta?.feinzieleSuggestionByContext?.[key] || "").trim();
+}
+
+function setFeinzielSuggestion(text) {
+  const key = getFeinzielSuggestionKey();
+  updateAppMeta({
+    feinzieleSuggestionByContext: {
+      ...(APP.meta?.feinzieleSuggestionByContext || {}),
+      [key]: sanitizeTextForApi(String(text || "").trim()),
+    },
+  });
+}
+
+function setFeinzielStatus(message) {
+  const el = document.getElementById("feinzielSuggestionStatus");
+  if (el) el.textContent = cleanInline(message || "");
+}
+
+function syncFeinzielUi(message = "") {
+  const field = document.getElementById("feinzielSuggestionField");
+  if (field) {
+    field.textContent =
+      getFeinzielSuggestion() ||
+      "Noch kein Vorschlag für Unterziele vorhanden.";
+  }
+  if (message) setFeinzielStatus(message);
+}
+
+function renderFeinzieleHelper() {
+  const suggestion = getFeinzielSuggestion();
+  return `
+            <details class="ki-collapsible feinziele-helper" open>
+              <summary>KI-Hilfe Unterziele</summary>
+              <div class="ki-collapsible-body">
+                <div class="internal-ai-panel">
+                  <div class="panel-title">Feinziele als Unterziele formulieren</div>
+                  <div class="api-test-note">Erstellt aus den ausgewählten Feinzielen und dem vorhandenen Kontext fachliche Unterziel-Formulierungen. Bestehende Felder werden nicht automatisch überschrieben.</div>
+                  <div class="tool-row">
+                    <button type="button" class="secondary" onclick="createFeinzielSuggestion()">Unterziele formulieren</button>
+                    <button type="button" class="ghost" onclick="applyFeinzielSuggestion()">Vorschlag übernehmen</button>
+                    <button type="button" class="ghost" onclick="clearFeinzielSuggestion()">Vorschlag verwerfen</button>
+                    <button type="button" class="ghost" onclick="clearFeinzielTargetFields()">Übernommene Felder leeren</button>
+                  </div>
+                  <div class="internal-ai-status" id="feinzielSuggestionStatus">Der Vorschlag wird aus den Feinzielen, dem Zielrahmen und dem Förderfokus erstellt. Er verwendet nur Initialen.</div>
+                  <div class="preview-box internal-ai-output compact-ai-output" id="feinzielSuggestionField">${escapeHtml(suggestion || "Noch kein Vorschlag für Unterziele vorhanden.")}</div>
+                </div>
+              </div>
+            </details>
+  `;
+}
+
+function collectFeinzielRawItems() {
+  if (APP.currentView === "generator") mergeCurrentFormIntoState();
+  const page = getPageById("10_Feinziele");
+  const state = getPageStateById("10_Feinziele") || {};
+  const items = [];
+  if (page) {
+    getPageSelectionsByGroup(page, state).forEach((group) => {
+      (group.items || []).forEach((item) => {
+        const clean = cleanInline(item);
+        if (clean) items.push(clean);
+      });
+    });
+  }
+  if (cleanInline(state.freeText || "")) items.push(cleanInline(state.freeText));
+  getPageCustomTextEntries(page || { id: "10_Feinziele" }, state).forEach((entry) => {
+    if (/^feinziel[123]$/i.test(entry.key)) items.push(cleanInline(entry.value));
+  });
+  return trimEpSuggestionList(items, 3);
+}
+
+function collectFeinzielContext() {
+  const gd = currentGeneratorState().grunddaten || {};
+  const zielPage = getPageById("9_Ziele");
+  const zielState = getPageStateById("9_Ziele") || {};
+  const zielLines = zielPage ? buildGroupedSelectionLines(zielPage, zielState) : [];
+  const setting = getEffectiveSettingTyp();
+  return {
+    initials: cleanInline(gd.initialen || ""),
+    kliententyp: cleanInline(gd.kliententyp || ""),
+    setting,
+    fernziel: cleanInline(zielLines.join(" ")),
+  };
+}
+
+function buildLocalFeinzielSuggestion() {
+  const feinziele = collectFeinzielRawItems();
+  const context = collectFeinzielContext();
+  if (!feinziele.length && !context.fernziel && !context.kliententyp) return "";
+  const focus = context.kliententyp
+    ? "Der Förderfokus „" + context.kliententyp + "“ wird als Leitmassstab genutzt und nicht als eigenes Ziel formuliert."
+    : "Der Förderfokus ergibt sich aus den erfassten Eingaben und wird nicht als eigenes Ziel formuliert.";
+  const fernzielLine = context.fernziel
+    ? "Die Unterziele konkretisieren den gemeinsamen Zielrahmen und bleiben diesem fachlich zugeordnet."
+    : "Die Unterziele konkretisieren den gemeinsamen Zielrahmen und werden im Verlauf weiter daran ausgerichtet.";
+  const settingLine = context.setting ? "Die Formulierung bezieht sich auf den " + context.setting + "-Rahmen." : "Die Formulierung bezieht sich auf den erfassten Tagesstrukturrahmen.";
+
+  const makeUnterziel = (value) => {
+    const clean = cleanInline(value || "");
+    if (!clean) return "Dieses Unterziel ist noch nicht festgelegt und kann im Verlauf ergänzt werden.";
+    return "Im Rahmen der vorhandenen Möglichkeiten wird sichtbar gemacht, ob " + clean.replace(/^[•\-\s]+/, "").replace(/\.$/, "") + ". Die Formulierung bleibt alltagsnah, beobachtbar und am gemeinsamen Fernziel ausgerichtet.";
+  };
+
+  return [
+    "Feinziele – Zuordnung:\n" + fernzielLine + " " + focus + " " + settingLine,
+    "Feinziel 1:\n" + makeUnterziel(feinziele[0]),
+    "Feinziel 2:\n" + makeUnterziel(feinziele[1]),
+    "Feinziel 3:\n" + makeUnterziel(feinziele[2]),
+    "Feinziele – Hinweis:\nDie Unterziele werden nicht als neues Fernziel verstanden, sondern als überprüfbare Konkretisierung der Beteiligung, Kommunikation, Orientierung, Regulation oder Mitwirkung. Die Wirkung wird später über die Beobachtungen auf Seite 11 überprüft.",
+  ].join("\n\n");
+}
+
+function createFeinzielSuggestion() {
+  const draft = buildLocalFeinzielSuggestion();
+  if (!draft) {
+    setFeinzielStatus("Bitte zuerst Feinziele auswählen oder erfassen.");
+    return;
+  }
+  setFeinzielSuggestion(draft);
+  syncFeinzielUi("Vorschlag wurde erstellt. Bestehende Felder wurden nicht überschrieben.");
+}
+
+function clearFeinzielSuggestion() {
+  setFeinzielSuggestion("");
+  syncFeinzielUi("Der Vorschlag wurde verworfen. Bereits übernommene Felder bleiben erhalten.");
+}
+
+function clearFeinzielTargetFields() {
+  const targets = getFeinzielTargetConfig().map((entry) => ({
+    ...entry,
+    element: document.querySelector('#pageHost [data-extra-field="' + entry.key + '"]'),
+  }));
+  if (targets.some((entry) => !entry.element)) {
+    setFeinzielStatus("Die Feinziel-Felder sind gerade nicht sichtbar. Bitte Seite 10 geöffnet lassen.");
+    return;
+  }
+  const filled = targets.filter((entry) => cleanInline(entry.element.value || ""));
+  if (!filled.length) {
+    setFeinzielStatus("Die übernommenen Feinziel-Felder sind bereits leer.");
+    return;
+  }
+  const ok = window.confirm("Übernommene Feinziel-Felder wirklich leeren? Der Vorschlag unten bleibt unverändert.");
+  if (!ok) return;
+  targets.forEach((entry) => { entry.element.value = ""; });
+  saveFormState();
+  syncFeinzielUi("Übernommene Feinziel-Felder wurden geleert. Der Vorschlag unten blieb unverändert.");
+}
+
+function getFeinzielTargetConfig() {
+  return [
+    { key: "feinzieleZuordnung", label: "Feinziele – Zuordnung" },
+    { key: "feinziel1", label: "Feinziel 1" },
+    { key: "feinziel2", label: "Feinziel 2" },
+    { key: "feinziel3", label: "Feinziel 3" },
+    { key: "feinzielHinweis", label: "Feinziele – Hinweis" },
+  ];
+}
+
+function parseFeinzielSuggestion(text) {
+  const clean = sanitizeTextForApi(text || "").trim();
+  const config = getFeinzielTargetConfig();
+  const result = {};
+  config.forEach((item, index) => {
+    const label = escapeRegExpText(item.label);
+    const nextLabels = config
+      .filter((_, i) => i !== index)
+      .map((entry) => escapeRegExpText(entry.label))
+      .join("|");
+    const pattern = new RegExp(
+      "(?:^|\\n)\\s*" + label + "\\s*:?\\s*([\\s\\S]*?)(?=\\n\\s*(?:" + nextLabels + ")\\s*:?|$)",
+      "i",
+    );
+    const match = clean.match(pattern);
+    result[item.key] = match && match[1] ? cleanInline(match[1]) : "";
+  });
+  return result;
+}
+
+function applyFeinzielSuggestion() {
+  const suggestion = getFeinzielSuggestion();
+  if (!suggestion) {
+    setFeinzielStatus("Es ist noch kein Vorschlag vorhanden.");
+    return;
+  }
+  const fallback = parseFeinzielSuggestion(buildLocalFeinzielSuggestion());
+  const sections = parseFeinzielSuggestion(suggestion);
+  const targets = getFeinzielTargetConfig().map((entry) => ({
+    ...entry,
+    value: cleanInline(sections[entry.key] || fallback[entry.key] || ""),
+    element: document.querySelector('#pageHost [data-extra-field="' + entry.key + '"]'),
+  }));
+  if (targets.some((entry) => !entry.element)) {
+    setFeinzielStatus("Die Feinziel-Felder sind gerade nicht sichtbar. Bitte Seite 10 geöffnet lassen.");
+    return;
+  }
+  if (targets.some((entry) => !entry.value)) {
+    setFeinzielStatus("Der Vorschlag konnte nicht alle Felder füllen. Bitte zuerst Feinziele auswählen oder erfassen.");
+    return;
+  }
+  const filled = targets.filter((entry) => cleanInline(entry.element.value || ""));
+  let replaceExisting = false;
+  if (filled.length) {
+    replaceExisting = window.confirm("Einige Feinziel-Felder enthalten bereits Text. OK = ersetzen. Abbrechen = nur leere Felder füllen.");
+  }
+  let written = 0;
+  let skipped = 0;
+  targets.forEach((entry) => {
+    if (cleanInline(entry.element.value || "") && !replaceExisting) {
+      skipped += 1;
+      return;
+    }
+    entry.element.value = entry.value;
+    written += 1;
+  });
+  saveFormState();
+  setFeinzielSuggestion("");
+  syncFeinzielUi(written + " Feld(er) übernommen." + (skipped ? " " + skipped + " bestehende Feld(er) blieben erhalten." : "") + " Der Vorschlag wurde nach der Übernahme geleert.");
+}
+
+if (typeof window !== "undefined") {
+  window.createFeinzielSuggestion = createFeinzielSuggestion;
+  window.applyFeinzielSuggestion = applyFeinzielSuggestion;
+  window.clearFeinzielSuggestion = clearFeinzielSuggestion;
+  window.clearFeinzielTargetFields = clearFeinzielTargetFields;
+}
+
+function getBegleitansatzTargetConfig(pageId) {
+  if (pageId === "8_Begleitansatz_B") {
+    return [
+      { key: "hilfestellungStruktur", label: "Hilfestellung – Struktur / Orientierung" },
+      { key: "hilfestellungKommunikation", label: "Hilfestellung – Kommunikation" },
+      { key: "hilfestellungRegulation", label: "Hilfestellung – Regulation / Entlastung" },
+      { key: "hilfestellungAktivierung", label: "Hilfestellung – Aktivierung / Mitwirkung" },
+      { key: "hilfestellungCheckboxExtra", label: "Hilfestellung – Ergänzung zu den Checkboxen" },
+    ];
+  }
+  return [
+    { key: "begleitansatzHaltung", label: "Begleitansatz – Haltung" },
+    { key: "begleitansatzBeziehung", label: "Begleitansatz – Beziehung" },
+    { key: "begleitansatzKommunikation", label: "Begleitansatz – Kommunikation" },
+    { key: "begleitansatzBesonderheiten", label: "Begleitansatz – Besonderheiten" },
+    { key: "begleitansatzCheckboxExtra", label: "Begleitansatz – Ergänzung zu den Checkboxen" },
+  ];
+}
+
+function getBegleitansatzSuggestionKey(pageId) {
+  return getAiContextScopeKey() + "__" + pageId;
+}
+
+function getBegleitansatzSuggestion(pageId = currentPageModel()?.id || "7_Begleitansatz_A") {
+  const key = getBegleitansatzSuggestionKey(pageId);
+  return String(APP.meta?.begleitansatzSuggestionByContext?.[key] || "").trim();
+}
+
+function setBegleitansatzSuggestion(text, pageId = currentPageModel()?.id || "7_Begleitansatz_A") {
+  const key = getBegleitansatzSuggestionKey(pageId);
+  updateAppMeta({
+    begleitansatzSuggestionByContext: {
+      ...(APP.meta?.begleitansatzSuggestionByContext || {}),
+      [key]: sanitizeTextForApi(String(text || "").trim()),
+    },
+  });
+}
+
+function setBegleitansatzStatus(message) {
+  const el = document.getElementById("begleitansatzSuggestionStatus");
+  if (el) el.textContent = cleanInline(message || "");
+}
+
+function syncBegleitansatzUi(message = "") {
+  const pageId = currentPageModel()?.id || "7_Begleitansatz_A";
+  const field = document.getElementById("begleitansatzSuggestionField");
+  if (field) field.textContent = getBegleitansatzSuggestion(pageId) || "Noch kein Vorschlag für Hilfestellung / Massnahmen vorhanden.";
+  if (message) setBegleitansatzStatus(message);
+}
+
+function renderBegleitansatzHelper(page) {
+  const pageId = page?.id || "";
+  const suggestion = getBegleitansatzSuggestion(pageId);
+  const title = pageId === "8_Begleitansatz_B" ? "Hilfestellung / Massnahmen fachlich formulieren" : "Begleitansatz fachlich formulieren";
+  return `
+            <details class="ki-collapsible begleitansatz-helper" open>
+              <summary>KI-Hilfe Hilfestellung / Massnahmen</summary>
+              <div class="ki-collapsible-body">
+                <div class="internal-ai-panel">
+                  <div class="panel-title">${escapeHtml(title)}</div>
+                  <div class="api-test-note">Erstellt aus Begleitansatz A/B, Kliententyp, Fernziel und Baustein-Kontext Vorschläge für die Zusatzfelder. Bestehende Felder werden nicht automatisch überschrieben.</div>
+                  <div class="tool-row">
+                    <button type="button" class="secondary" onclick="createBegleitansatzSuggestion()">Hilfestellung / Massnahmen formulieren</button>
+                    <button type="button" class="ghost" onclick="applyBegleitansatzSuggestion()">Vorschlag übernehmen</button>
+                    <button type="button" class="ghost" onclick="clearBegleitansatzSuggestion()">Vorschlag verwerfen</button>
+                    <button type="button" class="ghost" onclick="clearBegleitansatzTargetFields()">Übernommene Felder leeren</button>
+                  </div>
+                  <div class="internal-ai-status" id="begleitansatzSuggestionStatus">Der Vorschlag wird lokal aus den vorhandenen Eingaben erstellt und verwendet nur Initialen.</div>
+                  <div class="preview-box internal-ai-output compact-ai-output" id="begleitansatzSuggestionField">${escapeHtml(suggestion || "Noch kein Vorschlag für Hilfestellung / Massnahmen vorhanden.")}</div>
+                </div>
+              </div>
+            </details>
+  `;
+}
+
+function getBegleitansatzSelectedTexts() {
+  if (APP.currentView === "generator") mergeCurrentFormIntoState();
+  const values = [];
+  ["7_Begleitansatz_A", "8_Begleitansatz_B"].forEach((pageId) => {
+    const page = getPageById(pageId);
+    const state = getPageStateById(pageId) || {};
+    if (page) values.push(...buildGroupedSelectionLines(page, state));
+    if (cleanInline(state.freeText || "")) values.push(state.freeText);
+  });
+  return trimEpSuggestionList(values, 12);
+}
+
+function buildLocalBegleitansatzSuggestion(pageId) {
+  if (APP.currentView === "generator") mergeCurrentFormIntoState();
+  const gd = currentGeneratorState().grunddaten || {};
+  const kliententyp = cleanInline(gd.kliententyp || "");
+  const setting = getEffectiveSettingTyp();
+  const selections = getBegleitansatzSelectedTexts();
+  const selectionText = selections.length ? selections.slice(0, 6).join("; ") : "klarer, vorhersehbarer und an die Situation angepasster Unterstützung";
+  const focusLine = kliententyp ? "Der Förderfokus „" + kliententyp + "“ wird als Leitmassstab genutzt und nicht als eigenes Ziel formuliert." : "Der Förderfokus orientiert sich an den vorhandenen Eingaben und am gemeinsamen Fernziel.";
+  if (!selections.length && !kliententyp) return "";
+  if (pageId === "8_Begleitansatz_B") {
+    return [
+      "Hilfestellung – Struktur / Orientierung:\nDie Hilfestellung erfolgt im " + setting + "-Rahmen klar, vorhersehbar und an wiederkehrenden Abläufen orientiert. " + focusLine + " Anfang, Ablauf, Übergang und Abschluss werden so gestaltet, dass die Situation nachvollziehbar bleibt.",
+      "Hilfestellung – Kommunikation:\nKommunikative Unterstützung erfolgt kurz, eindeutig und mit genügend Zeit zum Verstehen und Reagieren. Verbale Hinweise werden durch nonverbale Signale, Blickkontakt, Mimik, Gestik oder bekannte Orientierungshilfen ergänzt, soweit dies aus den Eingaben ableitbar ist.",
+      "Hilfestellung – Regulation / Entlastung:\nDie Begleitung achtet auf Belastbarkeit, Reizniveau sowie Anzeichen von Unsicherheit oder Anspannung. Bei Bedarf werden Tempo, Pausen, Nähe, Reizgestaltung und Unterstützungsintensität angepasst.",
+      "Hilfestellung – Aktivierung / Mitwirkung:\nAktivierende Begleitung greift vorhandene Ressourcen und kleine Beteiligungsschritte auf. Die Person wird durch überschaubare Impulse, positive Rückmeldung und angepasste Wahl- oder Mitwirkungsmöglichkeiten unterstützt.",
+      "Hilfestellung – Ergänzung zu den Checkboxen:\nDie ausgewählten Begleitformen werden fachlich gebündelt: " + selectionText + ". Die Wirkung wird anhand sichtbarer Beteiligung, Orientierung, Reaktion und Entlastung überprüft.",
+    ].join("\n\n");
+  }
+  return [
+    "Begleitansatz – Haltung:\nDie Begleitung erfolgt zugewandt, verlässlich und ressourcenorientiert. " + focusLine + " Ziel ist nicht eine Leistungssteigerung, sondern die Ermöglichung alltagsnaher Teilhabe im Rahmen der vorhandenen Möglichkeiten.",
+    "Begleitansatz – Beziehung:\nDie Beziehungsgestaltung stützt sich auf verlässliche Präsenz, wiederkehrende Bezugspunkte und eine ruhige, bestärkende Ansprache. Dadurch kann Kontakt angebahnt, gehalten und in überschaubaren Situationen weitergeführt werden.",
+    "Begleitansatz – Kommunikation:\nDie Kommunikation wird verständlich, kurz und situationsnah gestaltet. Vorhandene Ausdrucksformen werden aufgenommen; Reaktionszeit, nonverbale Signale und unterstützende Orientierung werden berücksichtigt.",
+    "Begleitansatz – Besonderheiten:\nBesonders zu beachten sind Belastbarkeit, Reizverarbeitung, Tempo und Übergänge. Die Begleitung wird so angepasst, dass Überforderung reduziert und Beteiligung in kleinen Schritten möglich wird.",
+    "Begleitansatz – Ergänzung zu den Checkboxen:\nDie ausgewählten Begleitformen werden fachlich gebündelt: " + selectionText + ". Die Umsetzung bleibt alltagsnah, überprüfbar und an den vorhandenen Eingaben ausgerichtet.",
+  ].join("\n\n");
+}
+
+function createBegleitansatzSuggestion() {
+  const pageId = currentPageModel()?.id || "";
+  const draft = buildLocalBegleitansatzSuggestion(pageId);
+  if (!draft) {
+    setBegleitansatzStatus("Bitte zuerst Begleitansatz A/B auswählen oder erfassen.");
+    return;
+  }
+  setBegleitansatzSuggestion(draft, pageId);
+  syncBegleitansatzUi("Vorschlag wurde erstellt. Bestehende Felder wurden nicht überschrieben.");
+}
+
+function clearBegleitansatzSuggestion() {
+  const pageId = currentPageModel()?.id || "";
+  setBegleitansatzSuggestion("", pageId);
+  syncBegleitansatzUi("Der Vorschlag wurde verworfen. Bereits übernommene Feldinhalte bleiben erhalten.");
+}
+
+function clearBegleitansatzTargetFields() {
+  const pageId = currentPageModel()?.id || "";
+  const targets = getBegleitansatzTargetConfig(pageId).map((entry) => ({
+    ...entry,
+    element: document.querySelector('#pageHost [data-extra-field="' + entry.key + '"]'),
+  }));
+  if (targets.some((entry) => !entry.element)) {
+    setBegleitansatzStatus("Die Begleitansatz-Felder sind gerade nicht sichtbar. Bitte die geöffnete Seite beibehalten.");
+    return;
+  }
+  const filled = targets.filter((entry) => cleanInline(entry.element.value || ""));
+  if (!filled.length) {
+    setBegleitansatzStatus("Die übernommenen Begleitansatz-Felder sind bereits leer.");
+    return;
+  }
+  const ok = window.confirm("Übernommene Begleitansatz-Felder wirklich leeren? Der Vorschlag unten bleibt unverändert.");
+  if (!ok) return;
+  targets.forEach((entry) => { entry.element.value = ""; });
+  saveFormState();
+  syncBegleitansatzUi("Übernommene Begleitansatz-Felder wurden geleert. Der Vorschlag unten blieb unverändert.");
+}
+
+function escapeRegExpText(value) {
+  return String(value || "").replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+function parseBegleitansatzSuggestion(text, pageId) {
+  const clean = sanitizeTextForApi(text || "").trim();
+  const config = getBegleitansatzTargetConfig(pageId);
+  const result = {};
+  config.forEach((item, index) => {
+    const label = escapeRegExpText(item.label);
+    const nextLabels = config
+      .filter((_, i) => i !== index)
+      .map((entry) => escapeRegExpText(entry.label))
+      .join("|");
+    const pattern = new RegExp(
+      "(?:^|\\n)\\s*" + label + "\\s*:?\\s*([\\s\\S]*?)(?=\\n\\s*(?:" + nextLabels + ")\\s*:?|$)",
+      "i",
+    );
+    const match = clean.match(pattern);
+    result[item.key] = match && match[1] ? cleanInline(match[1]) : "";
+  });
+  return result;
+}
+
+function applyBegleitansatzSuggestion() {
+  const pageId = currentPageModel()?.id || "";
+  const suggestion = getBegleitansatzSuggestion(pageId);
+  if (!suggestion) {
+    setBegleitansatzStatus("Es ist noch kein Vorschlag vorhanden.");
+    return;
+  }
+  const fallback = parseBegleitansatzSuggestion(buildLocalBegleitansatzSuggestion(pageId), pageId);
+  const sections = parseBegleitansatzSuggestion(suggestion, pageId);
+  const targets = getBegleitansatzTargetConfig(pageId).map((entry) => ({
+    ...entry,
+    value: cleanInline(sections[entry.key] || fallback[entry.key] || ""),
+    element: document.querySelector('#pageHost [data-extra-field="' + entry.key + '"]'),
+  }));
+  if (targets.some((entry) => !entry.element)) {
+    setBegleitansatzStatus("Die Begleitansatz-Felder sind gerade nicht sichtbar. Bitte die geöffnete Seite beibehalten.");
+    return;
+  }
+  if (targets.some((entry) => !entry.value)) {
+    setBegleitansatzStatus("Der Vorschlag konnte nicht alle Felder füllen. Bitte zuerst mehr Begleitansatz-Angaben auswählen oder erfassen.");
+    return;
+  }
+  const filled = targets.filter((entry) => cleanInline(entry.element.value || ""));
+  let replaceExisting = false;
+  if (filled.length) {
+    replaceExisting = window.confirm("Einige Felder enthalten bereits Text. OK = ersetzen. Abbrechen = nur leere Felder füllen.");
+  }
+  let written = 0;
+  let skipped = 0;
+  targets.forEach((entry) => {
+    if (cleanInline(entry.element.value || "") && !replaceExisting) {
+      skipped += 1;
+      return;
+    }
+    entry.element.value = entry.value;
+    written += 1;
+  });
+  saveFormState();
+  setBegleitansatzSuggestion("", pageId);
+  syncBegleitansatzUi(written + " Feld(er) übernommen." + (skipped ? " " + skipped + " bestehende Feld(er) blieben erhalten." : "") + " Der Vorschlag wurde nach der Übernahme geleert.");
+}
+
+
+function renderObservationCriteriaHelper() {
+  const suggestion = getObservationCriteriaSuggestion();
+  return `
+            <details class="ki-collapsible observation-criteria-helper" open>
+              <summary>KI-Hilfe Beobachtung / Wirkung</summary>
+              <div class="ki-collapsible-body">
+                <div class="internal-ai-panel">
+                  <div class="panel-title">Beobachtung fachlich formulieren</div>
+                  <div class="api-test-note">Erstellt aus den Angaben dieser Seite und dem vorhandenen Kontext Vorschläge für Situation, Verhalten, Bedeutung, Hinweis und Überprüfungskriterien. Bestehende Felder werden nicht automatisch überschrieben.</div>
+                  <div class="tool-row">
+                    <button type="button" class="secondary" onclick="sendObservationCriteriaSuggestionToOpenAi()">Beobachtung fachlich formulieren</button>
+                    <button type="button" class="ghost" onclick="applyObservationCriteriaSuggestion()">Vorschlag übernehmen</button>
+                    <button type="button" class="ghost" onclick="clearObservationCriteriaSuggestion()">Vorschlag verwerfen</button>
+                    <button type="button" class="ghost" onclick="clearObservationTargetFields()">Beobachtungsfelder leeren</button>
+                  </div>
+                  <div class="internal-ai-status" id="observationCriteriaSuggestionStatus">Der Vorschlag nutzt Beobachtung/Wirkung, Kliententyp, Fernziel und Baustein-Kontext. Er überschreibt nichts automatisch.</div>
+                  <div class="preview-box internal-ai-output compact-ai-output" id="observationCriteriaSuggestionField">${escapeHtml(suggestion || "Noch kein Vorschlag für Beobachtung / Wirkung vorhanden.")}</div>
+                </div>
+              </div>
+            </details>
+  `;
+}
+
+function getObservationCriteriaSuggestion() {
+  return String(
+    readClientScopedGeneratorMeta("observationCriteriaSuggestionByGenerator", "") || "",
+  ).trim();
+}
+
+function setObservationCriteriaSuggestion(text) {
+  writeClientScopedGeneratorMeta(
+    "observationCriteriaSuggestionByGenerator",
+    String(text || "").trim(),
+  );
+}
+
+function setObservationCriteriaStatus(message) {
+  const el = document.getElementById("observationCriteriaSuggestionStatus");
+  if (el) el.textContent = cleanInline(message || "");
+}
+
+function syncObservationCriteriaSuggestionUi(message = "") {
+  const field = document.getElementById("observationCriteriaSuggestionField");
+  if (field) {
+    field.textContent =
+      getObservationCriteriaSuggestion() ||
+      "Noch kein Vorschlag für Beobachtung / Wirkung vorhanden.";
+  }
+  if (message) setObservationCriteriaStatus(message);
+}
+
+function clearObservationCriteriaSuggestion() {
+  setObservationCriteriaSuggestion("");
+  syncObservationCriteriaSuggestionUi("Der Vorschlag wurde verworfen. Bereits übernommene Beobachtungsfelder bleiben erhalten.");
+}
+
+function getObservationTargetConfig() {
+  return [
+    { key: "beobachtung_situation", label: "Beobachtung – Situation" },
+    { key: "beobachtung_verhalten", label: "Beobachtung – Verhalten" },
+    { key: "beobachtung_bedeutung", label: "Beobachtung – Bedeutung" },
+    { key: "beobachtung_hinweis", label: "Beobachtung – Hinweis" },
+    { key: "beobachtung_pruefung", label: "Beobachtung – Überprüfungskriterien" },
+  ];
+}
+
+function clearObservationTargetFields() {
+  const targets = getObservationTargetConfig().map((entry) => ({
+    ...entry,
+    element: document.querySelector('#pageHost [data-extra-field="' + entry.key + '"]'),
+  }));
+  if (targets.some((entry) => !entry.element)) {
+    setObservationCriteriaStatus("Die Beobachtungsfelder sind gerade nicht sichtbar. Bitte Seite 11 geöffnet lassen.");
+    return;
+  }
+  const filled = targets.filter((entry) => cleanInline(entry.element.value || ""));
+  if (!filled.length) {
+    setObservationCriteriaStatus("Die Beobachtungsfelder sind bereits leer.");
+    return;
+  }
+  const ok = window.confirm("Beobachtungsfelder wirklich leeren? Der Vorschlag unten bleibt unverändert.");
+  if (!ok) return;
+  targets.forEach((entry) => { entry.element.value = ""; });
+  saveFormState();
+  syncObservationCriteriaSuggestionUi("Beobachtungsfelder wurden geleert. Der Vorschlag unten blieb unverändert.");
+}
+
+function collectObservationCriteriaPageData() {
+  if (APP.currentView === "generator") mergeCurrentFormIntoState();
+  const page = getPageById("11_Beobachtung");
+  const pageState = getPageStateById("11_Beobachtung") || {};
+  const selections = page ? buildGroupedSelectionLines(page, pageState) : [];
+  const customFields = page ? getPageCustomTextLines(page, pageState) : [];
+  return compactEpObject({
+    seite: page ? page.title : "11. Beobachtung und Wirkung",
+    ausgewaehlte_beobachtungen: selections,
+    freitext: pageState.freeText || "",
+    zusatzfelder: customFields,
+  });
+}
+
+function buildObservationCriteriaSuggestionSourceText() {
+  const payload = compactEpObject({
+    auftrag:
+      "Beobachtungsfelder für Seite 11 vollständig formulieren",
+    hinweis:
+      "Der Text ist ein Vorschlag für die Seite Beobachtung/Wirkung und darf bestehende Felder nicht automatisch ersetzen.",
+    beobachtung_und_wirkung: collectObservationCriteriaPageData(),
+    kontext: {
+      grunddaten: collectGrunddatenForEntwicklungsplanung(),
+      ziel_und_bausteine: {
+        zielsystem: buildNavigatorGoalTransferPayload(),
+        gespeicherte_bausteine: buildStoredGoalPlanningPayload(),
+      },
+    },
+  });
+  return JSON.stringify(payload, null, 2);
+}
+
+function buildLocalObservationCriteriaSuggestion() {
+  const data = collectObservationCriteriaPageData() || {};
+  const gd = collectGrunddatenForEntwicklungsplanung() || {};
+  const kliententyp = cleanInline(gd.kliententyp || "");
+  const setting = cleanInline(gd.settingTyp || gd.generator || "");
+  const observationTexts = collectEpSuggestionStrings(data, []);
+  const beobachtungen = trimEpSuggestionList(
+    observationTexts.filter((text) =>
+      /(reagiert|zeigt|beteiligt|nutzt|wirkt|lässt sich|nimmt teil|anwesend|orientiert|sicherheit|mitwirkung|kontakt|ruhe|übergang|weg)/i.test(text),
+    ),
+    8,
+  );
+  const contextTexts = collectEpSuggestionStrings(
+    {
+      zielsystem: buildNavigatorGoalTransferPayload(),
+      bausteine: buildStoredGoalPlanningPayload(),
+    },
+    [],
+  );
+  const situationen = trimEpSuggestionList(
+    contextTexts.filter((text) =>
+      /(rit|ret|morgen|nachmittag|montag|dienstag|mittwoch|donnerstag|freitag|teilhabe|durchführung|wohnbereich|gruppe|alltag|weg|musik|basal|zvieri|znüni|aussen|aktivität|sequenz)/i.test(text),
+    ),
+    8,
+  );
+
+  if (!beobachtungen.length && !situationen.length && !kliententyp) return "";
+
+  const situation = situationen.length
+    ? "Beobachtet wird die Beteiligung " + (setting ? "im Rahmen von " + setting + " " : "") + "in folgenden relevanten Situationen: " + situationen.slice(0, 4).join("; ") + "."
+    : "Beobachtet wird die Beteiligung " + (setting ? "im Rahmen von " + setting + " " : "") + "in den erfassten Tagesstruktur-Sequenzen.";
+
+  const verhalten = beobachtungen.length
+    ? "Im Vordergrund stehen sichtbare Reaktionen wie " + beobachtungen.slice(0, 5).join("; ") + "."
+    : "Im Vordergrund stehen sichtbare Reaktion, Beteiligung, Orientierung, Regulation und Mitwirkung in der konkreten Situation.";
+
+  const bedeutung =
+    (kliententyp
+      ? "Der fachliche Förderfokus „" + kliententyp + "“ dient als Leitmassstab für die Einschätzung der Wirkung. "
+      : "") +
+    "Bedeutsam ist, ob die gewählte Begleitung Teilhabe im Rahmen der individuellen Möglichkeiten unterstützt und ob der gemeinsame Zielrahmen aus Seite 9 im Alltag beobachtbar wird.";
+
+  const hinweis =
+    "Die Beobachtung erfolgt alltagsnah, wertfrei und anhand sichtbarer Reaktionen. Mitarbeitende achten darauf, ob Struktur, Anleitung, Kommunikation, Tempo, Reizniveau und Pausen zur aktuellen Situation passen.";
+
+  const pruefung =
+    (beobachtungen.length
+      ? "Als konkrete Überprüfungskriterien gelten: " + beobachtungen.slice(0, 4).join("; ") + ". "
+      : "") +
+    "Es wird überprüft, ob die beschriebenen Reaktionen in wiederkehrenden Situationen stabiler, häufiger oder mit weniger Unterstützung sichtbar werden. Bei ausbleibender Wirkung werden Rahmen, Tempo, Reizgestaltung, Anleitung und Unterstützungsform angepasst.";
+
+  return [
+    "Situation:\n" + situation,
+    "Verhalten:\n" + verhalten,
+    "Bedeutung:\n" + bedeutung,
+    "Hinweis:\n" + hinweis,
+    "Überprüfungskriterien:\n" + pruefung,
+  ].join("\n\n");
+}
+
+
+function getObservationCriteriaInstruction(extraHint = "") {
+  const extra = cleanInline(extraHint || "");
+  const leitmassstab = buildKliententypLeitmassstabInstruction();
+  let instruction = `Formuliere professionelle Beobachtungsangaben für Seite 11 Beobachtung und Wirkung.
+
+Verbindliche Vorgaben:
+- Nutze nur vorhandene Angaben aus Seite 11 und den mitgegebenen Kontextdaten.
+- Erfinde keine neuen Beobachtungen, Ziele, Diagnosen, Angebote oder Massnahmen.
+- Verwende ausschliesslich Initialen oder neutrale Bezeichnungen. Keine ausgeschriebenen Namen verwenden.
+- Formuliere beobachtbar, alltagsnah, sachlich und nicht wertend.
+- Der Kliententyp ist als fachlicher Förderfokus zu berücksichtigen, aber nicht als eigenes Ziel zu formulieren.
+- Das Fernziel aus Seite 9 bleibt unverändert.
+- Keine ganze Entwicklungsplanung, keine Analyse und keinen Rohdatenblock ausgeben.
+
+Gib exakt diese fünf Abschnitte zurück:
+Situation:
+...
+
+Verhalten:
+...
+
+Bedeutung:
+...
+
+Hinweis:
+...
+
+Überprüfungskriterien:
+...`;
+  instruction += "\n\n" + leitmassstab;
+  if (extra) instruction += "\n\nZusätzliche Hinweise:\n- " + extra;
+  return instruction;
+}
+
+
+async function sendObservationCriteriaSuggestionToOpenAi() {
+  if (APP.currentView === "generator") mergeCurrentFormIntoState();
+  storeEntwicklungsplanungAiSettingsFromPage();
+
+  const endpoint = cleanInline(
+    document.getElementById("epOpenAiEndpointInput")?.value ||
+      APP.meta?.epOpenAiEndpoint ||
+      "",
+  );
+  const apiKey = cleanInline(
+    document.getElementById("epOpenAiKeyInput")?.value ||
+      APP.meta?.sharedOpenAiKey ||
+      APP.meta?.epOpenAiKey ||
+      "",
+  );
+  const model = cleanInline(
+    document.getElementById("epOpenAiModelInput")?.value ||
+      APP.meta?.epOpenAiModel ||
+      "",
+  );
+  const style = cleanInline(
+    document.getElementById("epOpenAiStyleInput")?.value ||
+      APP.meta?.epOpenAiStyle ||
+      "responses",
+  );
+  const extraHint = cleanInline(
+    document.getElementById("epOpenAiInstructionInput")?.value ||
+      APP.meta?.epOpenAiInstruction ||
+      "",
+  );
+
+  const sourceText = buildObservationCriteriaSuggestionSourceText();
+  const instruction = getObservationCriteriaInstruction(extraHint);
+
+  if (!cleanInline(sourceText)) {
+    setObservationCriteriaStatus("Es sind noch keine Beobachtungsangaben vorhanden.");
+    return;
+  }
+
+  if (!endpoint || !apiKey || !model) {
+    const localDraft = buildLocalObservationCriteriaSuggestion();
+    if (!localDraft) {
+      setObservationCriteriaStatus(
+        "Bitte zuerst Beobachtungen auswählen oder erfassen. Für echte KI bitte zusätzlich OpenAI-Endpunkt, API-Key und Modell eintragen.",
+      );
+      return;
+    }
+    setObservationCriteriaSuggestion(localDraft);
+    syncObservationCriteriaSuggestionUi(
+      "Lokaler Vorschlag wurde erstellt. Für echte KI-Formulierung bitte OpenAI-Endpunkt, API-Key und Modell eintragen.",
+    );
+    return;
+  }
+
+  setObservationCriteriaStatus("Beobachtungsfelder werden über OpenAI / ChatGPT erstellt...");
+  const field = document.getElementById("observationCriteriaSuggestionField");
+  if (field) field.textContent = "Warte auf KI-Vorschlag...";
+
+  const payload =
+    style === "chat_completions"
+      ? {
+          model,
+          messages: [
+            { role: "system", content: instruction },
+            { role: "user", content: sourceText },
+          ],
+        }
+      : {
+          model,
+          input: [
+            {
+              role: "system",
+              content: [{ type: "input_text", text: instruction }],
+            },
+            {
+              role: "user",
+              content: [{ type: "input_text", text: sourceText }],
+            },
+          ],
+        };
+
+  try {
+    const response = await fetch(endpoint, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + apiKey,
+      },
+      body: JSON.stringify(sanitizePayloadForApi(payload)),
+    });
+
+    const contentType = response.headers.get("content-type") || "";
+    const parsed = contentType.includes("application/json")
+      ? await response.json()
+      : await response.text();
+
+    if (!response.ok) {
+      const details = typeof parsed === "string" ? parsed : JSON.stringify(parsed);
+      throw new Error("HTTP " + response.status + " – " + details.slice(0, 300));
+    }
+
+    const result = sanitizeTextForApi(
+      applyPreferredPersonLabel(extractChatGptApiTestText(parsed, style)),
+    );
+
+    if (!result) throw new Error("Die API-Antwort enthält keinen erkennbaren Text.");
+
+    setObservationCriteriaSuggestion(result);
+    syncObservationCriteriaSuggestionUi(
+      "Beobachtungsfelder wurden erstellt. Bestehende Felder wurden nicht überschrieben.",
+    );
+  } catch (error) {
+    console.warn("Beobachtungsfelder via OpenAI / ChatGPT fehlgeschlagen", error);
+    const localDraft = buildLocalObservationCriteriaSuggestion();
+    if (localDraft) {
+      setObservationCriteriaSuggestion(localDraft);
+      syncObservationCriteriaSuggestionUi(
+        "KI-Anfrage fehlgeschlagen; ein lokaler Vorschlag wurde angezeigt: " +
+          (error?.message || "unbekannter Fehler"),
+      );
+    } else {
+      syncObservationCriteriaSuggestionUi(
+        "Beobachtungsfelder fehlgeschlagen: " +
+          (error?.message || "unbekannter Fehler"),
+      );
+    }
+  }
+}
+
+function parseObservationSuggestionSections(text) {
+  const clean = sanitizeTextForApi(text || "").trim();
+  const result = {
+    beobachtung_situation: "",
+    beobachtung_verhalten: "",
+    beobachtung_bedeutung: "",
+    beobachtung_hinweis: "",
+    beobachtung_pruefung: "",
+  };
+  if (!clean) return result;
+  const patterns = [
+    ["beobachtung_situation", /(?:^|\n)\s*Situation\s*:?\s*([\s\S]*?)(?=\n\s*(?:Verhalten|Bedeutung|Hinweis|Überprüfungskriterien|Ueberpruefungskriterien|Prüfung|Pruefung)\s*:?|$)/i],
+    ["beobachtung_verhalten", /(?:^|\n)\s*Verhalten\s*:?\s*([\s\S]*?)(?=\n\s*(?:Situation|Bedeutung|Hinweis|Überprüfungskriterien|Ueberpruefungskriterien|Prüfung|Pruefung)\s*:?|$)/i],
+    ["beobachtung_bedeutung", /(?:^|\n)\s*Bedeutung\s*:?\s*([\s\S]*?)(?=\n\s*(?:Situation|Verhalten|Hinweis|Überprüfungskriterien|Ueberpruefungskriterien|Prüfung|Pruefung)\s*:?|$)/i],
+    ["beobachtung_hinweis", /(?:^|\n)\s*Hinweis\s*:?\s*([\s\S]*?)(?=\n\s*(?:Situation|Verhalten|Bedeutung|Überprüfungskriterien|Ueberpruefungskriterien|Prüfung|Pruefung)\s*:?|$)/i],
+    ["beobachtung_pruefung", /(?:^|\n)\s*(?:Überprüfungskriterien|Ueberpruefungskriterien|Prüfung|Pruefung)\s*:?\s*([\s\S]*?)$/i],
+  ];
+  patterns.forEach(([key, pattern]) => {
+    const match = clean.match(pattern);
+    if (match && match[1]) result[key] = cleanInline(match[1]);
+  });
+  if (!Object.values(result).some(Boolean)) result.beobachtung_pruefung = clean;
+  return result;
+}
+
+function applyObservationCriteriaSuggestion() {
+  const suggestion = getObservationCriteriaSuggestion();
+  if (!suggestion) {
+    setObservationCriteriaStatus("Es ist noch kein Vorschlag vorhanden.");
+    return;
+  }
+
+  const sections = parseObservationSuggestionSections(suggestion);
+  const fallbackSections = parseObservationSuggestionSections(buildLocalObservationCriteriaSuggestion());
+  [
+    "beobachtung_situation",
+    "beobachtung_verhalten",
+    "beobachtung_bedeutung",
+    "beobachtung_hinweis",
+    "beobachtung_pruefung",
+  ].forEach((key) => {
+    if (!cleanInline(sections[key] || "") && cleanInline(fallbackSections[key] || "")) {
+      sections[key] = fallbackSections[key];
+    }
+  });
+
+  const targets = [
+    ["beobachtung_situation", "Beobachtung – Situation"],
+    ["beobachtung_verhalten", "Beobachtung – Verhalten"],
+    ["beobachtung_bedeutung", "Beobachtung – Bedeutung"],
+    ["beobachtung_hinweis", "Beobachtung – Hinweis"],
+    ["beobachtung_pruefung", "Beobachtung – Überprüfungskriterien"],
+  ].map(([key, label]) => ({
+    key,
+    label,
+    value: cleanInline(sections[key] || ""),
+    element: document.querySelector('#pageHost [data-extra-field="' + key + '"]'),
+  }));
+
+  if (targets.some((entry) => !entry.element)) {
+    setObservationCriteriaStatus("Die Beobachtungsfelder sind gerade nicht sichtbar. Bitte Seite 11 geöffnet lassen.");
+    return;
+  }
+
+  const emptyTargets = targets.filter((entry) => !entry.value);
+  if (emptyTargets.length) {
+    setObservationCriteriaStatus(
+      "Der Vorschlag konnte nicht alle Beobachtungsfelder füllen. Bitte zuerst Beobachtungen auswählen oder erfassen.",
+    );
+    return;
+  }
+
+  const filledTargets = targets.filter((entry) => cleanInline(entry.element.value || ""));
+  let replaceExisting = false;
+  if (filledTargets.length) {
+    replaceExisting = window.confirm(
+      "Einige Beobachtungsfelder enthalten bereits Text. OK = bestehende Feldinhalte ersetzen. Abbrechen = nur leere Felder füllen.",
+    );
+  }
+
+  let written = 0;
+  let skipped = 0;
+  targets.forEach((entry) => {
+    const hasExisting = cleanInline(entry.element.value || "");
+    if (hasExisting && !replaceExisting) {
+      skipped += 1;
+      return;
+    }
+    entry.element.value = entry.value;
+    written += 1;
+  });
+
+  saveFormState();
+  setObservationCriteriaSuggestion("");
+  syncObservationCriteriaSuggestionUi(
+    written + " Beobachtungsfeld(er) übernommen." +
+      (skipped ? " " + skipped + " bestehende Feld(er) blieben erhalten." : "") +
+      " Der Vorschlag wurde nach der Übernahme geleert.",
+  );
+}
+
+
+function defaultGoalPlanEntry
+(index) {
   return {
     slot: index + 1,
     tag: "",
@@ -10113,10 +11883,21 @@ function renderEntwicklungsplanungPage(page) {
                           <button type="button" class="secondary" onclick="sendEpMassnahmenSuggestionToOpenAi()">Massnahmen professionell formulieren</button>
                           <button type="button" class="ghost" onclick="applyEpMassnahmenSuggestion()">Vorschlag übernehmen</button>
                           <button type="button" class="ghost" onclick="clearEpMassnahmenSuggestion()">Vorschlag verwerfen</button>
+                          <button type="button" class="ghost" onclick="clearEpMassnahmenTargetField()">Übernommenes Feld leeren</button>
                         </div>
                         <div class="preview-box internal-ai-output compact-ai-output" id="epMassnahmenSuggestionField">Noch kein Massnahmen-Vorschlag vorhanden.</div>
                       </div>
-                      <div class="ep-grid">
+                      <div class="ep-section-nav" aria-label="Entwicklungsplanung Navigation">
+                        <button type="button" class="ghost" onclick="jumpToEpSection('ep-section-hauptziel')">Hauptziel</button>
+                        <button type="button" class="ghost" onclick="jumpToEpSection('ep-section-unterziel1')">UZ 1</button>
+                        <button type="button" class="ghost" onclick="jumpToEpSection('ep-section-massnahme1')">M 1</button>
+                        <button type="button" class="ghost" onclick="jumpToEpSection('ep-section-unterziel2')">UZ 2</button>
+                        <button type="button" class="ghost" onclick="jumpToEpSection('ep-section-massnahme2')">M 2</button>
+                        <button type="button" class="ghost" onclick="jumpToEpSection('ep-section-gesamt')">Gesamt</button>
+                      </div>
+                      <details class="ep-section" id="ep-section-hauptziel" open>
+                        <summary>Hauptziel</summary>
+                        <div class="ep-grid">
                         <input type="text" id="epHauptzielTitel" class="full" placeholder="Hauptziel – Titel" />
                         <input type="text" id="epHauptzielCode" placeholder="Hauptziel – Zielcode" />
                         <input type="date" id="epHauptzielPruefung" placeholder="Überprüfung am" />
@@ -10134,7 +11915,11 @@ function renderEntwicklungsplanungPage(page) {
                         <textarea id="epHauptzielFormulierung" class="full" placeholder='Hauptziel – Formulierung im Stil: "Frau / Herr ... kann ..."' ></textarea>
                         <textarea id="epHauptzielStatusBemerkung" class="full" placeholder="Hauptziel – Bemerkung zum Status"></textarea>
                         <textarea id="epHauptzielBegruendung" class="full" placeholder="Begründung des Ziels / Ressourcen / Förderbedarf"></textarea>
-
+                        </div>
+                      </details>
+                      <details class="ep-section" id="ep-section-unterziel1" open>
+                        <summary>Unterziel 1</summary>
+                        <div class="ep-grid">
                         <input type="text" id="epUnterziel1Titel" class="full" placeholder="Unterziel 1 – Titel" />
                         <input type="text" id="epUnterziel1Code" placeholder="Unterziel 1 – Zielcode" />
                         <input type="date" id="epUnterziel1Start" placeholder="Startdatum" />
@@ -10156,7 +11941,11 @@ function renderEntwicklungsplanungPage(page) {
                         <textarea id="epUnterziel1Pruefkriterien" class="full" placeholder="Unterziel 1 – Überprüfungskriterien"></textarea>
                         <textarea id="epUnterziel1Beobachtung" class="full" placeholder="Unterziel 1 – Beobachtungen / Auswertung"></textarea>
                         <textarea id="epUnterziel1NaechsterSchritt" class="full" placeholder="Unterziel 1 – Nächster Schritt"></textarea>
-
+                        </div>
+                      </details>
+                      <details class="ep-section" id="ep-section-massnahme1" open>
+                        <summary>Massnahme 1</summary>
+                        <div class="ep-grid">
                         <input type="text" id="epMassnahme1Titel" class="full" placeholder="Handlungsplan / Massnahme 1 – Titel" />
                         <input type="text" id="epMassnahme1Code" placeholder="Massnahme 1 – Zielcode" />
                         <textarea id="epMassnahme1Material" class="full" placeholder="Massnahme 1 – Material"></textarea>
@@ -10167,7 +11956,11 @@ function renderEntwicklungsplanungPage(page) {
                         <textarea id="epMassnahme1Rolle" class="full" placeholder="Massnahme 1 – Rolle der Betreuungsperson"></textarea>
                         <textarea id="epMassnahme1Selbststaendigkeit" class="full" placeholder="Massnahme 1 – Selbstständigkeitsgrad"></textarea>
                         <textarea id="epMassnahme1Pruefung" class="full" placeholder="Massnahme 1 – Überprüfung"></textarea>
-
+                        </div>
+                      </details>
+                      <details class="ep-section" id="ep-section-unterziel2">
+                        <summary>Unterziel 2</summary>
+                        <div class="ep-grid">
                         <input type="text" id="epUnterziel2Titel" class="full" placeholder="Unterziel 2 – Titel" />
                         <input type="text" id="epUnterziel2Code" placeholder="Unterziel 2 – Zielcode" />
                         <input type="date" id="epUnterziel2Start" placeholder="Startdatum" />
@@ -10191,7 +11984,11 @@ function renderEntwicklungsplanungPage(page) {
                         <textarea id="epUnterziel2Pruefkriterien" class="full" placeholder="Unterziel 2 – Überprüfungskriterien"></textarea>
                         <textarea id="epUnterziel2Beobachtung" class="full" placeholder="Unterziel 2 – Beobachtungen / Auswertung"></textarea>
                         <textarea id="epUnterziel2NaechsterSchritt" class="full" placeholder="Unterziel 2 – Nächster Schritt"></textarea>
-
+                        </div>
+                      </details>
+                      <details class="ep-section" id="ep-section-massnahme2">
+                        <summary>Massnahme 2</summary>
+                        <div class="ep-grid">
                         <input type="text" id="epMassnahme2Titel" class="full" placeholder="Handlungsplan / Massnahme 2 – Titel" />
                         <input type="text" id="epMassnahme2Code" placeholder="Massnahme 2 – Zielcode" />
                         <textarea id="epMassnahme2Material" class="full" placeholder="Massnahme 2 – Material"></textarea>
@@ -10202,11 +11999,16 @@ function renderEntwicklungsplanungPage(page) {
                         <textarea id="epMassnahme2Rolle" class="full" placeholder="Massnahme 2 – Rolle der Betreuungsperson"></textarea>
                         <textarea id="epMassnahme2Selbststaendigkeit" class="full" placeholder="Massnahme 2 – Selbstständigkeitsgrad"></textarea>
                         <textarea id="epMassnahme2Pruefung" class="full" placeholder="Massnahme 2 – Überprüfung"></textarea>
-
+                        </div>
+                      </details>
+                      <details class="ep-section" id="ep-section-gesamt">
+                        <summary>Gesamtauswertung</summary>
+                        <div class="ep-grid">
                         <textarea id="epGesamtstand" class="full" placeholder="Gesamtauswertung – aktueller Stand"></textarea>
                         <textarea id="epGesamtbegruendung" class="full" placeholder="Gesamtauswertung – Begründung"></textarea>
                         <textarea id="epGesamtNaechsterSchritt" class="full" placeholder="Gesamtauswertung – empfohlener nächster Entwicklungsschritt"></textarea>
-                      </div>
+                        </div>
+                      </details>
                       <div class="ki-generator-note">Die Zugänge für die Entwicklungsplanung werden im unteren KI-Bereich verwaltet.</div>
                       <div class="tool-row">
                         <button type="button" class="ghost" onclick="sendEntwicklungsplanungToInternalAi()">Entwicklungsplanung an internen KI-Dienst senden</button>
@@ -10327,8 +12129,10 @@ function bindEvents() {
       if (field.id === "epOutputField" || field.id === "epStatus") return;
       const eventName = field.tagName === "SELECT" ? "change" : "input";
       field.addEventListener(eventName, () => {
+        autoResizeEntwicklungsplanungTextarea(field);
         saveEntwicklungsplanungFieldsFromPage();
       });
+      if (field.tagName === "TEXTAREA") autoResizeEntwicklungsplanungTextarea(field);
     });
 
   document.getElementById("prevBtn").onclick = () => {
@@ -10431,12 +12235,39 @@ function selectionRuleForPage(pageId) {
   };
 }
 
+function autoResizeEntwicklungsplanungTextarea(field) {
+  if (!field || field.tagName !== "TEXTAREA") return;
+  if (!field.closest || !field.closest("#pageHost .ep-grid")) return;
+  field.style.height = "auto";
+  const minHeight = Number.parseInt(window.getComputedStyle(field).minHeight, 10) || 84;
+  const nextHeight = Math.max(field.scrollHeight || 0, minHeight);
+  field.style.height = nextHeight + "px";
+}
+
+function autoResizeEntwicklungsplanungTextareas(scope) {
+  const root = scope || document;
+  const fields = root.querySelectorAll
+    ? root.querySelectorAll("#pageHost .ep-grid textarea")
+    : [];
+  fields.forEach(autoResizeEntwicklungsplanungTextarea);
+}
+
+function scheduleEntwicklungsplanungTextareaResize(scope) {
+  autoResizeEntwicklungsplanungTextareas(scope || document);
+  if (typeof requestAnimationFrame === "function") {
+    requestAnimationFrame(() => autoResizeEntwicklungsplanungTextareas(scope || document));
+  } else {
+    setTimeout(() => autoResizeEntwicklungsplanungTextareas(scope || document), 0);
+  }
+}
+
 function readFieldValue(field) {
   return field.value || "";
 }
 
 function writeFieldValue(field, value) {
   field.value = value || "";
+  autoResizeEntwicklungsplanungTextarea(field);
 }
 
 function collectFormState() {
@@ -12607,12 +14438,38 @@ function sanitizeTextForApi(text) {
   const initials = cleanInline(grunddaten.initialen);
   const replacement = initials || "der/die Klient/in";
 
+  const patterns = [];
   if (name) {
-    const escapedName = escapeRegExp(name);
-    result = result.replace(new RegExp(escapedName, "g"), replacement);
+    patterns.push(name);
+    name
+      .split(/\s+/)
+      .map((part) => cleanInline(part))
+      .filter((part) => part.length >= 3)
+      .forEach((part) => patterns.push(part));
   }
 
+  patterns
+    .filter(Boolean)
+    .sort((a, b) => b.length - a.length)
+    .forEach((value) => {
+      const escaped = escapeRegExp(value);
+      result = result.replace(new RegExp(escaped, "gi"), replacement);
+    });
+
   return result;
+}
+
+function sanitizePayloadForApi(value) {
+  if (typeof value === "string") return sanitizeTextForApi(value);
+  if (Array.isArray(value)) return value.map((item) => sanitizePayloadForApi(item));
+  if (value && typeof value === "object") {
+    const result = {};
+    Object.entries(value).forEach(([key, val]) => {
+      result[key] = sanitizePayloadForApi(val);
+    });
+    return result;
+  }
+  return value;
 }
 
 function buildStructuredPreviewForApi() {
@@ -12620,18 +14477,11 @@ function buildStructuredPreviewForApi() {
 }
 
 function isInternalAiOutputActive() {
-  if (!APP.currentGenerator) return false;
-  return !!APP.meta?.correctedActiveByGenerator?.[APP.currentGenerator];
+  return !!readClientScopedGeneratorMeta("correctedActiveByGenerator", false);
 }
 
 function setInternalAiOutputActive(isActive) {
-  if (!APP.currentGenerator) return;
-  updateAppMeta({
-    correctedActiveByGenerator: {
-      ...(APP.meta?.correctedActiveByGenerator || {}),
-      [APP.currentGenerator]: !!isActive,
-    },
-  });
+  writeClientScopedGeneratorMeta("correctedActiveByGenerator", !!isActive);
 }
 
 function applyPreferredPersonLabel(text) {
@@ -12663,24 +14513,20 @@ function buildGeneratedOriginalOutputText() {
     smoothRitRetText(normalizeOutputText(blocks.join("\n\n")), {
       personLabel: getCurrentDisplayName(),
     }) || "Noch kein KI-Ergebnis vorhanden.";
-  return applyPreferredPersonLabel(rawOutput);
+  return sanitizeTextForApi(applyPreferredPersonLabel(rawOutput));
 }
 
 function getInternalAiCorrectedOutput() {
-  if (!APP.currentGenerator) return "";
   return cleanInline(
-    APP.meta?.correctedOutputByGenerator?.[APP.currentGenerator] || "",
+    readClientScopedGeneratorMeta("correctedOutputByGenerator", "") || "",
   );
 }
 
 function setInternalAiCorrectedOutput(text) {
-  if (!APP.currentGenerator) return;
-  updateAppMeta({
-    correctedOutputByGenerator: {
-      ...(APP.meta?.correctedOutputByGenerator || {}),
-      [APP.currentGenerator]: String(text || "").trim(),
-    },
-  });
+  writeClientScopedGeneratorMeta(
+    "correctedOutputByGenerator",
+    String(text || "").trim(),
+  );
 }
 
 function storeInternalAiSettingsFromInputs() {
@@ -12855,7 +14701,7 @@ async function sendOutputToChatGptApiTest() {
         "Content-Type": "application/json",
         Authorization: "Bearer " + apiKey,
       },
-      body: JSON.stringify(payload),
+      body: JSON.stringify(sanitizePayloadForApi(payload)),
     });
 
     const contentType = response.headers.get("content-type") || "";
@@ -13039,7 +14885,7 @@ async function sendOutputToInternalAi() {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(payload),
+      body: JSON.stringify(sanitizePayloadForApi(payload)),
     });
 
     if (!response.ok) {
@@ -13051,7 +14897,9 @@ async function sendOutputToInternalAi() {
       ? await response.json()
       : await response.text();
 
-    const corrected = applyPreferredPersonLabel(extractInternalAiText(parsed));
+    const corrected = sanitizeTextForApi(
+      applyPreferredPersonLabel(extractInternalAiText(parsed)),
+    );
 
     if (!corrected) {
       throw new Error(
@@ -13106,37 +14954,28 @@ function clearInternalAiOutput() {
 }
 
 function getEntwicklungsplanungFields() {
-  if (!APP.currentGenerator) return {};
-  return (
-    APP.meta?.entwicklungsplanungFieldsByGenerator?.[APP.currentGenerator] || {}
-  );
+  const fields = readClientScopedGeneratorMeta("entwicklungsplanungFieldsByGenerator", {});
+  return fields && typeof fields === "object" ? fields : {};
 }
 
 function setEntwicklungsplanungFields(fields) {
-  if (!APP.currentGenerator) return;
-  updateAppMeta({
-    entwicklungsplanungFieldsByGenerator: {
-      ...(APP.meta?.entwicklungsplanungFieldsByGenerator || {}),
-      [APP.currentGenerator]: { ...(fields || {}) },
-    },
-  });
+  writeClientScopedGeneratorMeta(
+    "entwicklungsplanungFieldsByGenerator",
+    { ...(fields || {}) },
+  );
 }
 
 function getEntwicklungsplanungText() {
-  if (!APP.currentGenerator) return "";
   return cleanInline(
-    APP.meta?.entwicklungsplanungTextByGenerator?.[APP.currentGenerator] || "",
+    readClientScopedGeneratorMeta("entwicklungsplanungTextByGenerator", "") || "",
   );
 }
 
 function setEntwicklungsplanungText(text) {
-  if (!APP.currentGenerator) return;
-  updateAppMeta({
-    entwicklungsplanungTextByGenerator: {
-      ...(APP.meta?.entwicklungsplanungTextByGenerator || {}),
-      [APP.currentGenerator]: String(text || "").trim(),
-    },
-  });
+  writeClientScopedGeneratorMeta(
+    "entwicklungsplanungTextByGenerator",
+    String(text || "").trim(),
+  );
 }
 
 function readEntwicklungsplanungFieldsFromDom() {
@@ -13260,6 +15099,8 @@ function renderEntwicklungsplanungPanel() {
   if (bottomPreview) {
     bottomPreview.textContent = buildEntwicklungsplanungPreviewText();
   }
+
+  scheduleEntwicklungsplanungTextareaResize(document.getElementById("pageHost"));
 }
 
 function collectGrunddatenForEntwicklungsplanung() {
@@ -13684,6 +15525,7 @@ function applyNavigatorGoalsToEntwicklungsplanung() {
 
   setEntwicklungsplanungFields(fields);
   renderEntwicklungsplanungPanel();
+  scheduleEntwicklungsplanungTextareaResize(document.getElementById("pageHost"));
 
   const status = document.getElementById("epStatus");
   const msg = pool.length
@@ -14153,26 +15995,41 @@ function setEpActionStatus(message) {
 }
 
 function getEpMassnahmenSuggestion() {
-  if (!APP.currentGenerator) return "";
   return cleanInline(
-    APP.meta?.epMassnahmenSuggestionByGenerator?.[APP.currentGenerator] || "",
+    readClientScopedGeneratorMeta("epMassnahmenSuggestionByGenerator", "") || "",
   );
 }
 
 function setEpMassnahmenSuggestion(text) {
-  if (!APP.currentGenerator) return;
-  updateAppMeta({
-    epMassnahmenSuggestionByGenerator: {
-      ...(APP.meta?.epMassnahmenSuggestionByGenerator || {}),
-      [APP.currentGenerator]: String(text || "").trim(),
-    },
-  });
+  writeClientScopedGeneratorMeta(
+    "epMassnahmenSuggestionByGenerator",
+    String(text || "").trim(),
+  );
 }
 
 function clearEpMassnahmenSuggestion() {
   setEpMassnahmenSuggestion("");
   renderEntwicklungsplanungPanel();
-  setEpActionStatus("Der Massnahmen-Vorschlag wurde verworfen.");
+  setEpActionStatus("Der Massnahmen-Vorschlag wurde verworfen. Bereits übernommene Feldinhalte bleiben erhalten.");
+}
+
+function clearEpMassnahmenTargetField() {
+  const target = document.getElementById("epMassnahme1Ablauf");
+  if (!target) {
+    setEpActionStatus("Das Massnahmen-Feld ist gerade nicht sichtbar.");
+    return;
+  }
+  if (!cleanInline(target.value || "")) {
+    setEpActionStatus("Das übernommene Massnahmen-Feld ist bereits leer.");
+    return;
+  }
+  const ok = window.confirm("Übernommenes Massnahmen-Feld wirklich leeren? Der Vorschlag unten bleibt unverändert.");
+  if (!ok) return;
+  target.value = "";
+  autoResizeEntwicklungsplanungTextarea(target);
+  saveEntwicklungsplanungFieldsFromPage();
+  updatePreview();
+  setEpActionStatus("Das übernommene Massnahmen-Feld wurde geleert. Der Vorschlag unten blieb unverändert.");
 }
 
 function collectEpSuggestionStrings(value, bucket = []) {
@@ -14384,7 +16241,7 @@ async function sendEpMassnahmenSuggestionToOpenAi() {
         "Content-Type": "application/json",
         Authorization: "Bearer " + apiKey,
       },
-      body: JSON.stringify(payload),
+      body: JSON.stringify(sanitizePayloadForApi(payload)),
     });
 
     const contentType = response.headers.get("content-type") || "";
@@ -14397,8 +16254,8 @@ async function sendEpMassnahmenSuggestionToOpenAi() {
       throw new Error("HTTP " + response.status + " – " + details.slice(0, 300));
     }
 
-    const result = applyPreferredPersonLabel(
-      extractChatGptApiTestText(parsed, style),
+    const result = sanitizeTextForApi(
+      applyPreferredPersonLabel(extractChatGptApiTestText(parsed, style)),
     );
 
     if (!result) throw new Error("Die API-Antwort enthält keinen erkennbaren Text.");
@@ -14448,9 +16305,10 @@ function applyEpMassnahmenSuggestion() {
 
   target.value = suggestion;
   saveEntwicklungsplanungFieldsFromPage();
+  setEpMassnahmenSuggestion("");
   renderEntwicklungsplanungPanel();
   updatePreview();
-  setEpActionStatus("Der Massnahmen-Vorschlag wurde in „Massnahme 1 – Ablauf“ übernommen.");
+  setEpActionStatus("Der Massnahmen-Vorschlag wurde in „Massnahme 1 – Ablauf“ übernommen. Der Vorschlag wurde nach der Übernahme geleert.");
 }
 
 async function sendEntwicklungsplanungToInternalAi() {
@@ -14504,7 +16362,7 @@ async function sendEntwicklungsplanungToInternalAi() {
     const response = await fetch(endpoint, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
+      body: JSON.stringify(sanitizePayloadForApi(payload)),
     });
 
     if (!response.ok) {
@@ -14515,7 +16373,9 @@ async function sendEntwicklungsplanungToInternalAi() {
     const parsed = contentType.includes("application/json")
       ? await response.json()
       : await response.text();
-    const result = applyPreferredPersonLabel(extractInternalAiText(parsed));
+    const result = sanitizeTextForApi(
+      applyPreferredPersonLabel(extractInternalAiText(parsed)),
+    );
 
     if (!result) {
       throw new Error(
@@ -14632,7 +16492,7 @@ async function sendEntwicklungsplanungToOpenAi() {
         "Content-Type": "application/json",
         Authorization: "Bearer " + apiKey,
       },
-      body: JSON.stringify(payload),
+      body: JSON.stringify(sanitizePayloadForApi(payload)),
     });
 
     const contentType = response.headers.get("content-type") || "";
@@ -14648,8 +16508,8 @@ async function sendEntwicklungsplanungToOpenAi() {
       );
     }
 
-    const result = applyPreferredPersonLabel(
-      extractChatGptApiTestText(parsed, style),
+    const result = sanitizeTextForApi(
+      applyPreferredPersonLabel(extractChatGptApiTestText(parsed, style)),
     );
 
     if (!result) {
@@ -17082,6 +18942,350 @@ function escapeHtml(value) {
     .replaceAll("'", "&#39;");
 }
 
+
+
+/* FIX 2026-04-26: Entwicklungsplanung sichtbar befüllen
+   Die bisherige Übernahme schrieb nur wenige Ziel-/Unterzielfelder.
+   Diese Version übernimmt zusätzlich die bereits übernommenen KI-Zusatzfelder,
+   gespeicherte Bausteine und aktuelle Arbeitsseiten in die sichtbaren EP-Felder.
+*/
+function normalizeEpMultilineText(value) {
+  return String(value || "")
+    .replace(/\r\n?/g, "\n")
+    .replace(/[ \t]+\n/g, "\n")
+    .replace(/\n{3,}/g, "\n\n")
+    .trim();
+}
+
+function splitEpLines(value) {
+  return normalizeEpMultilineText(value)
+    .split(/\n+/)
+    .map((line) => cleanInline(String(line || "").replace(/^[•\-–]\s*/, "")))
+    .filter(Boolean);
+}
+
+function uniqueEpLines(items, max = 8) {
+  const seen = new Set();
+  const result = [];
+  (items || []).forEach((item) => {
+    splitEpLines(item).forEach((line) => {
+      const key = line.toLowerCase();
+      if (!key || seen.has(key)) return;
+      seen.add(key);
+      result.push(line);
+    });
+  });
+  return result.slice(0, max);
+}
+
+function joinEpLines(items, max = 8) {
+  return uniqueEpLines(items, max).join("\n");
+}
+
+function collectEpPageLinesForTransfer(pageId, max = 12) {
+  const page = getPageById(pageId);
+  if (!page) return [];
+  const state = getPageStateById(pageId) || {};
+  const lines = [];
+  try {
+    buildGroupedSelectionLines(page, state).forEach((line) => {
+      const clean = cleanInline(line);
+      if (clean) lines.push(clean);
+    });
+  } catch (error) {}
+  if (cleanInline(state.freeText || "")) lines.push(state.freeText);
+  try {
+    getPageCustomTextEntries(page, state).forEach((entry) => {
+      const label = cleanInline(entry.label || "");
+      const value = normalizeEpMultilineText(entry.value || "");
+      if (value) lines.push(label ? label + ": " + value : value);
+    });
+  } catch (error) {}
+  return uniqueEpLines(lines, max);
+}
+
+function collectEpPagesTextForTransfer(pageIds, max = 14) {
+  const lines = [];
+  (pageIds || []).forEach((pageId) => {
+    lines.push(...collectEpPageLinesForTransfer(pageId, max));
+  });
+  return joinEpLines(lines, max);
+}
+
+function firstEpText(values) {
+  for (const value of values || []) {
+    const clean = normalizeEpMultilineText(value || "");
+    if (clean) return clean;
+  }
+  return "";
+}
+
+function setEpFieldIfEmpty(fields, key, value) {
+  const cleanValue = normalizeEpMultilineText(value || "");
+  if (!cleanValue) return false;
+  if (cleanInline(fields[key] || "")) return false;
+  fields[key] = cleanValue;
+  return true;
+}
+
+function buildEpShortTitleFromTransfer(text, fallback = "") {
+  const clean = cleanInline(String(text || "").replace(/^[•\-–]\s*/, "").replace(/[.:;!?]+$/g, ""));
+  const base = clean || cleanInline(fallback || "");
+  if (!base) return "";
+  return base.split(/\s+/).slice(0, 9).join(" ");
+}
+
+function collectEpMaterialTextForTransfer() {
+  const materialKeys = /(material|hilfsmittel|werkzeug|vorbereitung|küche|wäsche|papier|farben|klebe|feuer|holz|fussbad|massage)/i;
+  const lines = [];
+  ["4_Durchfuehrung_A", "5_Durchfuehrung_B", "6_Musik_Basal", "7_Begleitansatz_A", "8_Begleitansatz_B"].forEach((pageId) => {
+    collectEpPageLinesForTransfer(pageId, 12).forEach((line) => {
+      if (materialKeys.test(line)) lines.push(line);
+    });
+  });
+  return joinEpLines(lines, 8);
+}
+
+function getEpStoredPlanForTransfer(index) {
+  const plans = getStoredGoalPlansForCurrentGenerator();
+  return plans[index] || null;
+}
+
+function buildEpPlanTransferText(plan, keys, fallbackText = "") {
+  if (!plan || typeof plan !== "object") return normalizeEpMultilineText(fallbackText || "");
+  const values = [];
+  (keys || []).forEach((key) => {
+    if (cleanInline(plan[key] || "")) values.push(plan[key]);
+  });
+  return joinEpLines(values, 14) || normalizeEpMultilineText(fallbackText || "");
+}
+
+function fillEpMassnahmeFromTransfer(fields, nr, plan, defaults) {
+  const suffix = String(nr);
+  const fallbackTitle = nr === 1 ? "Handlungsplan zur Tagesstruktur" : "Weiterer Handlungsschritt zur Tagesstruktur";
+  const durchfuehrung = buildEpPlanTransferText(
+    plan,
+    ["durchfuehrung", "aktivitaeten"],
+    defaults.durchfuehrung,
+  );
+  const massnahmen = buildEpPlanTransferText(
+    plan,
+    ["massnahmen"],
+    defaults.massnahmen,
+  );
+  const beobachtung = buildEpPlanTransferText(
+    plan,
+    ["beobachtung"],
+    defaults.beobachtung,
+  );
+  const material = buildEpPlanTransferText(
+    plan,
+    ["materialien"],
+    defaults.material,
+  );
+  const titleSource = firstEpText([
+    plan?.sequenz,
+    plan?.feinziel1,
+    plan?.aktivitaeten,
+    durchfuehrung,
+    defaults.unterziel,
+  ]);
+
+  setEpFieldIfEmpty(fields, "epMassnahme" + suffix + "Titel", buildEpShortTitleFromTransfer(titleSource, fallbackTitle));
+  setEpFieldIfEmpty(fields, "epMassnahme" + suffix + "Material", material);
+  setEpFieldIfEmpty(fields, "epMassnahme" + suffix + "Vorbereitung", firstEpText([defaults.rahmen, defaults.ausgangslage, massnahmen]));
+  setEpFieldIfEmpty(fields, "epMassnahme" + suffix + "Ablauf", durchfuehrung);
+  setEpFieldIfEmpty(fields, "epMassnahme" + suffix + "Phasen", firstEpText([
+    defaults.phasen,
+    durchfuehrung ? "Ankommen / Orientierung\nDurchführung / Mitwirkung\nAbschluss / Beobachtung" : "",
+  ]));
+  setEpFieldIfEmpty(fields, "epMassnahme" + suffix + "Orientierung", firstEpText([defaults.orientierung, massnahmen, defaults.rahmen]));
+  setEpFieldIfEmpty(fields, "epMassnahme" + suffix + "Rolle", massnahmen);
+  setEpFieldIfEmpty(fields, "epMassnahme" + suffix + "Selbststaendigkeit", firstEpText([
+    defaults.selbststaendigkeit,
+    defaults.unterziel,
+    defaults.ausgangslage,
+  ]));
+  setEpFieldIfEmpty(fields, "epMassnahme" + suffix + "Pruefung", beobachtung || defaults.beobachtung);
+}
+
+function applyNavigatorGoalsToEntwicklungsplanung() {
+  if (APP.currentView === "generator") mergeCurrentFormIntoState();
+
+  const pool = collectNavigatorGoalTransferData();
+  const zielItems = pool
+    .filter((item) => item.typ === "ziel")
+    .map((item) => item.text);
+  const feinItems = pool
+    .filter((item) => item.typ === "feinziel")
+    .map((item) => item.text);
+
+  const fields = {
+    ...getEntwicklungsplanungFields(),
+  };
+
+  const hauptzielQuelle = zielItems[0] || feinItems[0] || "";
+  const unterziel1Quelle = feinItems[0] || zielItems[1] || zielItems[0] || "";
+  const unterziel2Quelle = feinItems[1] || zielItems[2] || feinItems[0] || "";
+
+  if (hauptzielQuelle) {
+    setEpFieldIfEmpty(fields, "epHauptzielBeschreibung", hauptzielQuelle);
+    setEpFieldIfEmpty(fields, "epHauptzielTitel", buildShortEpTitle(hauptzielQuelle));
+    setEpFieldIfEmpty(fields, "epHauptzielFormulierung", hauptzielQuelle);
+  }
+
+  if (unterziel1Quelle) {
+    setEpFieldIfEmpty(fields, "epUnterziel1Beschreibung", unterziel1Quelle);
+    setEpFieldIfEmpty(fields, "epUnterziel1Titel", buildShortEpTitle(unterziel1Quelle));
+    setEpFieldIfEmpty(fields, "epUnterziel1Foerderinhalt", unterziel1Quelle);
+  }
+
+  if (unterziel2Quelle) {
+    setEpFieldIfEmpty(fields, "epUnterziel2Beschreibung", unterziel2Quelle);
+    setEpFieldIfEmpty(fields, "epUnterziel2Titel", buildShortEpTitle(unterziel2Quelle));
+    setEpFieldIfEmpty(fields, "epUnterziel2Foerderinhalt", unterziel2Quelle);
+  }
+
+  const ausgangslage = collectEpPagesTextForTransfer(
+    ["2_Ausgangslage_A", "2b_Diagnostik", "3_Ausgangslage_B"],
+    14,
+  );
+  const rahmen = collectEpPagesTextForTransfer(["3_Ausgangslage_B"], 9);
+  const durchfuehrung = collectEpPagesTextForTransfer(
+    ["4_Durchfuehrung_A", "5_Durchfuehrung_B", "6_Musik_Basal"],
+    14,
+  );
+  const hilfestellung = collectEpPagesTextForTransfer(
+    ["7_Begleitansatz_A", "8_Begleitansatz_B"],
+    12,
+  );
+  const beobachtung = collectEpPagesTextForTransfer(["11_Beobachtung"], 10);
+  const material = collectEpMaterialTextForTransfer();
+  const kliententyp = cleanInline(collectGrunddatenForEntwicklungsplanung()?.kliententyp || "");
+  const foerderfokus = kliententyp
+    ? "Fachlicher Förderfokus: " + kliententyp + "."
+    : "";
+  const pruefung = beobachtung || collectEpPagesTextForTransfer(["10_Feinziele"], 6);
+  const nextStep = firstEpText([
+    beobachtung ? "Beobachtung weiterführen und Unterstützung anhand der sichtbaren Wirkung anpassen." : "",
+    hilfestellung ? "Hilfestellung, Tempo und Rahmen anhand der Reaktion laufend anpassen." : "",
+  ]);
+
+  setEpFieldIfEmpty(fields, "epHauptzielBegruendung", joinEpLines([ausgangslage, foerderfokus], 12));
+  setEpFieldIfEmpty(fields, "epHauptzielFachbezug", firstEpText([foerderfokus, collectGrunddatenForEntwicklungsplanung()?.settingTyp]));
+
+  setEpFieldIfEmpty(fields, "epUnterziel1Ausgangslage", ausgangslage);
+  setEpFieldIfEmpty(fields, "epUnterziel1Rahmenbedingungen", rahmen);
+  setEpFieldIfEmpty(fields, "epUnterziel1Hilfsmittel", material);
+  setEpFieldIfEmpty(fields, "epUnterziel1Hilfestellung", hilfestellung);
+  setEpFieldIfEmpty(fields, "epUnterziel1Pruefkriterien", pruefung);
+  setEpFieldIfEmpty(fields, "epUnterziel1Beobachtung", beobachtung);
+  setEpFieldIfEmpty(fields, "epUnterziel1NaechsterSchritt", nextStep);
+
+  setEpFieldIfEmpty(fields, "epUnterziel2Ausgangslage", ausgangslage);
+  setEpFieldIfEmpty(fields, "epUnterziel2Rahmenbedingungen", rahmen);
+  setEpFieldIfEmpty(fields, "epUnterziel2Hilfsmittel", material);
+  setEpFieldIfEmpty(fields, "epUnterziel2Hilfestellung", hilfestellung);
+  setEpFieldIfEmpty(fields, "epUnterziel2Pruefkriterien", pruefung);
+  setEpFieldIfEmpty(fields, "epUnterziel2Beobachtung", beobachtung);
+  setEpFieldIfEmpty(fields, "epUnterziel2NaechsterSchritt", nextStep);
+
+  const plan1 = getEpStoredPlanForTransfer(0);
+  const plan2 = getEpStoredPlanForTransfer(1);
+  const defaults = {
+    unterziel: unterziel1Quelle,
+    ausgangslage,
+    rahmen,
+    durchfuehrung,
+    massnahmen: hilfestellung,
+    material,
+    beobachtung,
+    orientierung: collectEpPagesTextForTransfer(["2_Ausgangslage_A", "3_Ausgangslage_B", "7_Begleitansatz_A"], 9),
+    selbststaendigkeit: firstEpText([unterziel1Quelle, foerderfokus, ausgangslage]),
+    phasen: "",
+  };
+  fillEpMassnahmeFromTransfer(fields, 1, plan1, defaults);
+  fillEpMassnahmeFromTransfer(fields, 2, plan2 || plan1, {
+    ...defaults,
+    unterziel: unterziel2Quelle || unterziel1Quelle,
+  });
+
+  setEpFieldIfEmpty(fields, "epGesamtstand", joinEpLines([ausgangslage, beobachtung], 12));
+  setEpFieldIfEmpty(fields, "epGesamtbegruendung", joinEpLines([foerderfokus, hilfestellung], 10));
+  setEpFieldIfEmpty(fields, "epGesamtNaechsterSchritt", nextStep);
+
+  setEntwicklungsplanungFields(fields);
+  renderEntwicklungsplanungPanel();
+  updatePreview();
+
+  const filledCount = Object.values(fields).filter((value) => cleanInline(value || "")).length;
+  const msg = filledCount
+    ? "Bausteine, Ziele, Unterziele und vorhandene KI-Zielfelder wurden in die sichtbaren Felder der Entwicklungsplanung übernommen. Bereits ausgefüllte Felder blieben erhalten."
+    : "Bei GRIT / GRET sind noch keine verwertbaren Inhalte für die Entwicklungsplanung vorhanden.";
+  const status = document.getElementById("epStatus");
+  if (status) status.textContent = msg;
+  setEpActionStatus(msg);
+}
+if (typeof window !== "undefined") {
+  window.applyNavigatorGoalsToEntwicklungsplanung = applyNavigatorGoalsToEntwicklungsplanung;
+}
+
+
+/* MOBILE_EP_VIEW_V5_KOMPAKT */
+const BT_NAVIGATOR_VIEW_MODE_KEY = "btNavigatorViewMode";
+
+function readBtNavigatorViewMode() {
+  try {
+    return localStorage.getItem(BT_NAVIGATOR_VIEW_MODE_KEY) || "normal";
+  } catch (error) {
+    return "normal";
+  }
+}
+
+function writeBtNavigatorViewMode(mode) {
+  try {
+    localStorage.setItem(BT_NAVIGATOR_VIEW_MODE_KEY, mode || "normal");
+  } catch (error) {}
+}
+
+function isBtMobileViewActive() {
+  return readBtNavigatorViewMode() === "mobile";
+}
+
+function applyBtNavigatorResponsiveView() {
+  const mobile = isBtMobileViewActive();
+  document.body.classList.toggle("bt-mobile-view", mobile);
+  document.body.classList.toggle("bt-normal-view", !mobile);
+  const button = document.getElementById("mobileViewToggleBtn");
+  if (button) {
+    button.textContent = mobile ? "Normale Ansicht" : "Mobile Ansicht";
+    button.setAttribute(
+      "aria-label",
+      mobile ? "Zur normalen Ansicht wechseln" : "Zur mobilen Kompaktansicht wechseln",
+    );
+  }
+  scheduleEntwicklungsplanungTextareaResize(document.getElementById("pageHost") || document);
+}
+
+function toggleMobileView() {
+  writeBtNavigatorViewMode(isBtMobileViewActive() ? "normal" : "mobile");
+  applyBtNavigatorResponsiveView();
+}
+
+function jumpToEpSection(sectionId) {
+  const section = document.getElementById(sectionId);
+  if (!section) return;
+  section.open = true;
+  section.scrollIntoView({ behavior: "smooth", block: "start" });
+  scheduleEntwicklungsplanungTextareaResize(section);
+}
+
+if (typeof window !== "undefined") {
+  window.toggleMobileView = toggleMobileView;
+  window.jumpToEpSection = jumpToEpSection;
+  window.addEventListener("resize", () => applyBtNavigatorResponsiveView());
+}
+
 document
   .getElementById("workspaceImportInput")
   ?.addEventListener("change", handleWorkspaceImport);
@@ -17094,6 +19298,7 @@ renderClientContextNotice();
 renderGeneratorContextStatus();
 renderWorkspaceMeta();
 setView("start");
+applyBtNavigatorResponsiveView();
   </script>
 
 </body>
