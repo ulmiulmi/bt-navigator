@@ -8917,31 +8917,222 @@ function isBrowserSnapshotsLockedMarker(value) {
   return value && value.__locked === true;
 }
 
-function promptBrowserSnapshotPasswordForEncrypt() {
-  const password = prompt(
-    "Browser-Stände verschlüsseln\n\nPasswort eingeben. Dieses Passwort wird für aktueller / vorheriger / Notfall-Stand verwendet.",
-  );
-  if (password === null) return null;
-  if (String(password).length < 8) {
-    alert("Bitte ein Passwort mit mindestens 8 Zeichen verwenden.");
-    return null;
+
+async function getSavedNavigatorPasswordFromBrowserManager() {
+  try {
+    if (!('credentials' in navigator) || typeof PasswordCredential === 'undefined') return '';
+    const credential = await navigator.credentials.get({ password: true, mediation: 'optional' });
+    if (credential && credential.password) return String(credential.password || '');
+  } catch (error) {
+    console.warn('Passwortmanager konnte kein Passwort bereitstellen.', error);
   }
-  const confirmation = prompt("Passwort zur Sicherheit nochmals eingeben.");
-  if (confirmation === null) return null;
-  if (password !== confirmation) {
-    alert("Die Passwörter stimmen nicht überein.");
-    return null;
+  return '';
+}
+
+async function rememberNavigatorPasswordInBrowserManager(password) {
+  try {
+    if (!password || !('credentials' in navigator) || typeof PasswordCredential === 'undefined') return;
+    const credential = new PasswordCredential({
+      id: 'BT-Navigator',
+      name: 'BT-Navigator',
+      password: String(password),
+    });
+    await navigator.credentials.store(credential);
+  } catch (error) {
+    console.warn('Passwort konnte nicht im Browser-Passwortmanager gespeichert werden.', error);
   }
+}
+
+function requestNavigatorPassword(options = {}) {
+  const title = options.title || 'BT-Navigator Passwort';
+  const message = options.message || '';
+  const confirmPassword = !!options.confirm;
+  const autocomplete = options.autocomplete || (confirmPassword ? 'new-password' : 'current-password');
+  const minLength = Number.isFinite(options.minLength) ? options.minLength : 1;
+
+  return new Promise((resolve) => {
+    const overlay = document.createElement('div');
+    overlay.setAttribute('role', 'dialog');
+    overlay.setAttribute('aria-modal', 'true');
+    overlay.style.position = 'fixed';
+    overlay.style.inset = '0';
+    overlay.style.zIndex = '99999';
+    overlay.style.background = 'rgba(15, 23, 42, 0.42)';
+    overlay.style.display = 'grid';
+    overlay.style.placeItems = 'center';
+    overlay.style.padding = '18px';
+
+    const form = document.createElement('form');
+    form.method = 'post';
+    form.autocomplete = 'on';
+    form.style.width = 'min(420px, 100%)';
+    form.style.border = '1px solid #d8e1ee';
+    form.style.borderRadius = '18px';
+    form.style.background = '#fff';
+    form.style.boxShadow = '0 18px 46px rgba(31, 57, 90, 0.22)';
+    form.style.padding = '18px';
+    form.style.display = 'grid';
+    form.style.gap = '12px';
+
+    const heading = document.createElement('div');
+    heading.textContent = title;
+    heading.style.fontWeight = '900';
+    heading.style.fontSize = '18px';
+    heading.style.color = '#1f2a37';
+    form.appendChild(heading);
+
+    if (message) {
+      const note = document.createElement('div');
+      note.textContent = message;
+      note.style.color = '#607086';
+      note.style.fontSize = '13px';
+      note.style.lineHeight = '1.45';
+      form.appendChild(note);
+    }
+
+    const username = document.createElement('input');
+    username.type = 'text';
+    username.name = 'username';
+    username.autocomplete = 'username';
+    username.value = 'BT-Navigator';
+    username.readOnly = true;
+    username.style.position = 'absolute';
+    username.style.left = '-9999px';
+    username.style.width = '1px';
+    username.style.height = '1px';
+    username.style.opacity = '0.01';
+    form.appendChild(username);
+
+    const password = document.createElement('input');
+    password.type = 'password';
+    password.name = 'password';
+    password.autocomplete = autocomplete;
+    password.placeholder = confirmPassword ? 'Passwort festlegen' : 'Passwort eingeben';
+    password.required = true;
+    password.minLength = minLength;
+    password.style.width = '100%';
+    password.style.border = '1px solid #d8e2ea';
+    password.style.borderRadius = '12px';
+    password.style.padding = '12px 14px';
+    password.style.font = 'inherit';
+    password.style.fontSize = '16px';
+    form.appendChild(password);
+
+    let confirmation = null;
+    if (confirmPassword) {
+      confirmation = document.createElement('input');
+      confirmation.type = 'password';
+      confirmation.name = 'password_confirmation';
+      confirmation.autocomplete = 'new-password';
+      confirmation.placeholder = 'Passwort wiederholen';
+      confirmation.required = true;
+      confirmation.minLength = minLength;
+      confirmation.style.width = '100%';
+      confirmation.style.border = '1px solid #d8e2ea';
+      confirmation.style.borderRadius = '12px';
+      confirmation.style.padding = '12px 14px';
+      confirmation.style.font = 'inherit';
+      confirmation.style.fontSize = '16px';
+      form.appendChild(confirmation);
+    }
+
+    const managerHint = document.createElement('div');
+    managerHint.textContent = 'Das Passwort kann vom Browser-Passwortmanager gespeichert oder automatisch ausgefüllt werden. Es wird nicht dauerhaft im BT-Navigator gespeichert.';
+    managerHint.style.color = '#607086';
+    managerHint.style.fontSize = '12px';
+    managerHint.style.lineHeight = '1.4';
+    form.appendChild(managerHint);
+
+    const errorLine = document.createElement('div');
+    errorLine.style.color = '#b42318';
+    errorLine.style.fontSize = '13px';
+    errorLine.style.minHeight = '18px';
+    form.appendChild(errorLine);
+
+    const row = document.createElement('div');
+    row.style.display = 'flex';
+    row.style.gap = '10px';
+    row.style.flexWrap = 'wrap';
+
+    const cancel = document.createElement('button');
+    cancel.type = 'button';
+    cancel.textContent = 'Abbrechen';
+    cancel.className = 'ghost';
+    cancel.style.flex = '1 1 130px';
+
+    const submit = document.createElement('button');
+    submit.type = 'submit';
+    submit.textContent = confirmPassword ? 'Passwort speichern' : 'Entsperren';
+    submit.style.flex = '1 1 130px';
+
+    row.appendChild(cancel);
+    row.appendChild(submit);
+    form.appendChild(row);
+    overlay.appendChild(form);
+    document.body.appendChild(overlay);
+
+    const close = (value) => {
+      overlay.remove();
+      resolve(value);
+    };
+
+    cancel.addEventListener('click', () => close(null));
+    overlay.addEventListener('click', (event) => {
+      if (event.target === overlay) close(null);
+    });
+
+    const onKeydown = (event) => {
+      if (!document.body.contains(overlay)) {
+        document.removeEventListener('keydown', onKeydown);
+        return;
+      }
+      if (event.key === 'Escape') {
+        document.removeEventListener('keydown', onKeydown);
+        close(null);
+      }
+    };
+    document.addEventListener('keydown', onKeydown);
+
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const value = String(password.value || '');
+      if (value.length < minLength) {
+        errorLine.textContent = 'Bitte ein Passwort mit mindestens ' + minLength + ' Zeichen verwenden.';
+        password.focus();
+        return;
+      }
+      if (confirmation && value !== String(confirmation.value || '')) {
+        errorLine.textContent = 'Die Passwörter stimmen nicht überein.';
+        confirmation.focus();
+        return;
+      }
+      close(value);
+    });
+
+    setTimeout(() => password.focus(), 80);
+  });
+}
+
+async function promptBrowserSnapshotPasswordForEncrypt() {
+  const password = await requestNavigatorPassword({
+    title: "Browser-Stände verschlüsseln",
+    message: "Dieses Passwort wird für aktueller / vorheriger / Notfall-Stand verwendet.",
+    confirm: true,
+    autocomplete: "new-password",
+    minLength: 8,
+  });
+  if (password) await rememberNavigatorPasswordInBrowserManager(password);
   return password;
 }
 
-function promptBrowserSnapshotPasswordForDecrypt() {
-  const password = prompt("Passwort für die verschlüsselten Browser-Stände eingeben.");
-  if (password === null) return null;
-  if (!String(password)) {
-    alert("Passwort fehlt.");
-    return null;
-  }
+async function promptBrowserSnapshotPasswordForDecrypt() {
+  const password = await requestNavigatorPassword({
+    title: "Browser-Stände entsperren",
+    message: "Passwort für die verschlüsselten Browser-Stände eingeben.",
+    confirm: false,
+    autocomplete: "current-password",
+    minLength: 1,
+  });
   return password;
 }
 
@@ -9008,7 +9199,7 @@ async function getBrowserSnapshotsForWrite(promptForPassword = false) {
     }
 
     let password = getBrowserSnapshotSessionPassword();
-    if (!password && promptForPassword) password = promptBrowserSnapshotPasswordForDecrypt();
+    if (!password && promptForPassword) password = await promptBrowserSnapshotPasswordForDecrypt();
     if (!password) return defaultBrowserSnapshots();
 
     encryptedBrowserSnapshotsCache = await decryptBrowserSnapshotsWithPassword(parsed, password);
@@ -9035,7 +9226,7 @@ async function getBrowserSnapshotsForRead(promptForPassword = true) {
     if (encryptedBrowserSnapshotsCache) return encryptedBrowserSnapshotsCache;
 
     let password = getBrowserSnapshotSessionPassword();
-    if (!password && promptForPassword) password = promptBrowserSnapshotPasswordForDecrypt();
+    if (!password && promptForPassword) password = await promptBrowserSnapshotPasswordForDecrypt();
     if (!password) return { ...defaultBrowserSnapshots(), __locked: true };
 
     encryptedBrowserSnapshotsCache = await decryptBrowserSnapshotsWithPassword(parsed, password);
@@ -9060,7 +9251,7 @@ async function persistBrowserSnapshotsEncrypted(snapshots, options = {}) {
 
   if (!password && options.promptForPassword) {
     if (alreadyEncrypted && !encryptedBrowserSnapshotsCache?.current) {
-      password = promptBrowserSnapshotPasswordForDecrypt();
+      password = await promptBrowserSnapshotPasswordForDecrypt();
       if (!password) return false;
       try {
         await decryptBrowserSnapshotsWithPassword(parsed, password);
@@ -9070,7 +9261,7 @@ async function persistBrowserSnapshotsEncrypted(snapshots, options = {}) {
         return false;
       }
     } else {
-      password = promptBrowserSnapshotPasswordForEncrypt();
+      password = await promptBrowserSnapshotPasswordForEncrypt();
       if (!password) return false;
     }
     setBrowserSnapshotSessionPassword(password);
@@ -18946,21 +19137,15 @@ async function encryptNavigatorPayload(payload, kind) {
   }
 
   const label = getEncryptedFileKindLabel(kind);
-  const password = prompt(
-    label + " verschlüsseln\n\nPasswort eingeben. Ohne dieses Passwort kann die Datei später nicht geöffnet werden.",
-  );
-  if (password === null) return null;
-  if (String(password).length < 8) {
-    alert("Bitte ein Passwort mit mindestens 8 Zeichen verwenden.");
-    return null;
-  }
-
-  const confirmation = prompt("Passwort zur Sicherheit nochmals eingeben.");
-  if (confirmation === null) return null;
-  if (password !== confirmation) {
-    alert("Die Passwörter stimmen nicht überein. Datei wurde nicht gespeichert.");
-    return null;
-  }
+  const password = await requestNavigatorPassword({
+    title: label + " verschlüsseln",
+    message: "Ohne dieses Passwort kann die Datei später nicht geöffnet werden.",
+    confirm: true,
+    autocomplete: "new-password",
+    minLength: 8,
+  });
+  if (!password) return null;
+  await rememberNavigatorPasswordInBrowserManager(password);
 
   const encoder = new TextEncoder();
   const salt = crypto.getRandomValues(new Uint8Array(16));
@@ -19035,8 +19220,14 @@ async function parseNavigatorImportText(raw, expectedKind) {
     return null;
   }
 
-  const password = prompt("Passwort für die verschlüsselte BT-Navigator-Datei eingeben.");
-  if (password === null) return null;
+  const password = await requestNavigatorPassword({
+    title: "Verschlüsselte BT-Navigator-Datei öffnen",
+    message: "Passwort für die verschlüsselte Datei eingeben.",
+    confirm: false,
+    autocomplete: "current-password",
+    minLength: 1,
+  });
+  if (!password) return null;
 
   try {
     const salt = base64ToBytes(parsed?.kdf?.salt);
@@ -19056,6 +19247,7 @@ async function parseNavigatorImportText(raw, expectedKind) {
       key,
       cipherBytes,
     );
+    await rememberNavigatorPasswordInBrowserManager(password);
     return JSON.parse(decoder.decode(plainBuffer));
   } catch (error) {
     console.warn("Entschlüsselung fehlgeschlagen", error);
@@ -19212,7 +19404,7 @@ async function decryptBrowserSnapshotsWithPassword(parsed, password) {
 async function unlockBrowserSnapshotsFromUi() {
   const raw = localStorage.getItem(browserSnapshotKey());
   if (!raw) {
-    const password = promptBrowserSnapshotPasswordForEncrypt();
+    const password = await promptBrowserSnapshotPasswordForEncrypt();
     if (!password) return;
     setBrowserSnapshotSessionPassword(password);
     encryptedBrowserSnapshotsCache = defaultBrowserSnapshots();
@@ -19225,7 +19417,7 @@ async function unlockBrowserSnapshotsFromUi() {
   try {
     const parsed = JSON.parse(raw);
     if (!isEncryptedNavigatorFile(parsed)) {
-      const password = promptBrowserSnapshotPasswordForEncrypt();
+      const password = await promptBrowserSnapshotPasswordForEncrypt();
       if (!password) return;
       encryptedBrowserSnapshotsCache = normalizeBrowserSnapshots(parsed);
       setBrowserSnapshotSessionPassword(password);
@@ -19235,7 +19427,7 @@ async function unlockBrowserSnapshotsFromUi() {
       return;
     }
 
-    const password = promptBrowserSnapshotPasswordForDecrypt();
+    const password = await promptBrowserSnapshotPasswordForDecrypt();
     if (!password) return;
     encryptedBrowserSnapshotsCache = await decryptBrowserSnapshotsWithPassword(parsed, password);
     setBrowserSnapshotSessionPassword(password);
