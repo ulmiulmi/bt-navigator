@@ -2167,6 +2167,84 @@ button.secondary {
   }
 }
 
+
+.redline-panel {
+  padding: 18px;
+  display: grid;
+  gap: 14px;
+}
+.redline-card {
+  border: 1px solid var(--theme-line, var(--line));
+  border-radius: 20px;
+  background: linear-gradient(180deg, #ffffff 0%, var(--theme-soft, #fbfdff) 100%);
+  box-shadow: 0 10px 24px var(--theme-glow, rgba(31, 57, 90, 0.06));
+  padding: 16px;
+  display: grid;
+  gap: 14px;
+}
+.redline-title {
+  font-size: 18px;
+  font-weight: 900;
+  color: var(--theme, var(--accent));
+}
+.redline-note,
+.redline-status {
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: #fff;
+  padding: 12px 14px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+.redline-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+.redline-grid label {
+  display: grid;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--muted);
+}
+.redline-grid label.full {
+  grid-column: 1 / -1;
+}
+.redline-grid textarea {
+  width: 100%;
+  min-height: 92px;
+  resize: none;
+  overflow-y: hidden;
+  border: 1px solid var(--theme-line, var(--line));
+  border-radius: 14px;
+  background: #fff;
+  padding: 12px 14px;
+  line-height: 1.55;
+}
+.redline-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.redline-actions button {
+  flex: 1 1 180px;
+}
+@media (max-width: 720px) {
+  .redline-panel {
+    padding: 12px;
+  }
+  .redline-grid {
+    grid-template-columns: 1fr;
+  }
+  .redline-grid label.full {
+    grid-column: auto;
+  }
+  .redline-actions button {
+    flex: 1 1 100%;
+  }
+}
+
 .zielplanung-wrap {
   display: grid;
   gap: 16px;
@@ -2394,63 +2472,6 @@ button.secondary {
 }
 
 
-
-
-/* GENERATOR_TOOLBAR_MOBILE_COMPACT_V1 */
-@media (max-width: 760px) {
-  #generatorView .toolbar {
-    position: sticky;
-    top: 0;
-    z-index: 140;
-    display: block;
-    margin: 0 0 10px 0;
-    padding: 8px;
-    border-radius: 16px;
-    overflow: hidden;
-  }
-  #generatorView .toolbar-actions {
-    width: 100%;
-    display: grid !important;
-    grid-template-columns: repeat(5, minmax(0, 1fr));
-    gap: 6px;
-    overflow: visible !important;
-  }
-  #generatorView .toolbar-actions button {
-    width: 100% !important;
-    min-width: 0 !important;
-    min-height: 42px !important;
-    padding: 7px 4px !important;
-    border-radius: 13px !important;
-    font-size: 0 !important;
-    line-height: 1.1 !important;
-    white-space: normal !important;
-    overflow: hidden;
-    text-align: center;
-    box-shadow: none !important;
-  }
-  #generatorView .toolbar-actions button::after {
-    content: attr(data-mobile-label);
-    display: block;
-    font-size: 11px;
-    line-height: 1.12;
-    font-weight: 900;
-    letter-spacing: -0.01em;
-  }
-  #generatorView .toolbar-actions #switchBtn::after {
-    color: #fff;
-    font-size: 13px;
-  }
-  #generatorView .toolbar .hint-line {
-    display: none !important;
-  }
-}
-@media (max-width: 380px) {
-  #generatorView .toolbar { padding: 6px; }
-  #generatorView .toolbar-actions { gap: 5px; }
-  #generatorView .toolbar-actions button { min-height: 39px !important; padding: 6px 2px !important; }
-  #generatorView .toolbar-actions button::after { font-size: 10px; }
-  #generatorView .toolbar-actions #switchBtn::after { font-size: 12px; }
-}
 
 /* MOBILE_EP_VIEW_V5_KOMPAKT */
 .mobile-view-toggle { white-space: nowrap; }
@@ -3217,81 +3238,6 @@ body.bt-mobile-view #pageHost .extra-text-card {
 .ziele-helper .tool-row button,
 .internal-ai-panel .tool-row button { min-height: 40px; }
 body.bt-mobile-view .app-version-note { margin-top: 10px; border-radius: 14px; }
-
-
-/* PROFI_FEINSCHLIFF_V2: ruhigere Startseite, klare Aktiv-Leiste, einheitlichere UI */
-#startView .title-card,
-#startView .title-card::before,
-#startView .headline .green,
-#startView .headline .purple,
-#startView .headline strong,
-#startView .subtitle,
-#startView .emoji,
-#startView .leaf,
-#startView .laptop,
-#startView .screen-inner::after,
-#startView .panel,
-#startView .pill,
-#startView .clipboard,
-#startView .checkline::before,
-#startView .shield,
-#startView .start-row button,
-#startView .confetti i {
-  animation-duration: 5.6s !important;
-  animation-timing-function: ease-in-out !important;
-}
-#startView .confetti i { opacity: .48; }
-#startView .title-card { box-shadow: 0 16px 38px rgba(31, 57, 90, 0.11); }
-#startView .start-row button { animation-duration: 2.6s !important; }
-
-.generator-context-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  align-items: center;
-  margin-top: 8px;
-  padding: 10px;
-  border: 1px solid var(--theme-line, var(--line));
-  border-radius: 16px;
-  background: linear-gradient(180deg, #ffffff 0%, var(--theme-soft, #f8fbff) 100%);
-}
-.context-pill,
-.save-status-pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  min-height: 30px;
-  padding: 7px 11px;
-  border: 1px solid var(--theme-line, var(--line));
-  border-radius: 999px;
-  background: #fff;
-  color: var(--text);
-  font-size: 13px;
-  font-weight: 800;
-  line-height: 1.2;
-}
-.context-pill.mode-pill {
-  color: #fff;
-  background: var(--theme, var(--accent));
-  border-color: var(--theme, var(--accent));
-  box-shadow: 0 7px 16px var(--theme-glow, rgba(31,57,90,.08));
-}
-.save-status-pill.saved { color: #0f766e; border-color: #b7eadb; background: #f2fffa; }
-.save-status-pill.dirty { color: #8a6700; border-color: #f0dfad; background: #fff8ea; }
-body.bt-mobile-view .generator-client-banner,
-body.bt-mobile-view .generator-context-row { display: flex !important; }
-body.bt-mobile-view .generator-context-row {
-  padding: 7px;
-  gap: 6px;
-  margin-top: 6px;
-  overflow-x: auto;
-  flex-wrap: nowrap;
-  -webkit-overflow-scrolling: touch;
-}
-body.bt-mobile-view .context-pill,
-body.bt-mobile-view .save-status-pill { flex: 0 0 auto; min-height: 28px; padding: 6px 9px; font-size: 12px; }
-body.bt-mobile-view .generator-client-banner { padding: 8px 10px; font-size: 13px; border-radius: 12px; }
-button, .tab, .mode-chip, .client-summary-generator { letter-spacing: .005em; }
 </style>
 </head>
 <body>
@@ -3465,11 +3411,11 @@ button, .tab, .mode-chip, .client-summary-generator { letter-spacing: .005em; }
     <section class="hidden" id="generatorView">
       <div class="toolbar">
         <div class="toolbar-actions">
-          <button type="button" class="secondary" data-mobile-label="Start" onclick="goHome()">Zur Startseite</button>
-          <button type="button" class="secondary" data-mobile-label="Plan" onclick="goWeekplan()">Zum Wochenplan</button>
-          <button type="button" class="secondary" data-mobile-label="Sichern" onclick="manualSaveAll()">Jetzt speichern</button>
-          <button type="button" class="secondary mobile-view-toggle" id="mobileViewToggleBtn" data-mobile-label="Mobil" onclick="toggleMobileView()">Mobile Ansicht</button>
-          <button type="button" id="switchBtn" data-mobile-label="Wechsel">Wechseln</button>
+          <button type="button" class="secondary" onclick="goHome()">Zur Startseite</button>
+          <button type="button" class="secondary" onclick="goWeekplan()">Zum Wochenplan</button>
+          <button type="button" class="secondary" onclick="manualSaveAll()">Jetzt speichern</button>
+          <button type="button" class="secondary mobile-view-toggle" id="mobileViewToggleBtn" onclick="toggleMobileView()">Mobile Ansicht</button>
+          <button type="button" id="switchBtn">Wechseln</button>
         </div>
         <div class="hint-line" id="toolbarHint"></div>
       </div>
@@ -3547,8 +3493,8 @@ button, .tab, .mode-chip, .client-summary-generator { letter-spacing: .005em; }
                       <button type="button" class="ghost" onclick="resetCurrentGenerator()">Generator zurücksetzen</button>
                     </div>
                     <div class="tool-row">
-                      <button type="button" class="ghost" onclick="downloadWorkspaceSnapshot()">Arbeitsstand sichern</button>
-                      <button type="button" class="ghost" onclick="triggerWorkspaceImport()">Arbeitsstand laden</button>
+                      <button type="button" class="ghost" onclick="downloadWorkspaceSnapshot()">Speichern unter …</button>
+                      <button type="button" class="ghost" onclick="triggerWorkspaceImport()">Importieren</button>
                     </div>
                     <div class="browser-snapshot-tools">
                       <div class="browser-snapshot-title">Browser-Stände</div>
@@ -3755,6 +3701,14 @@ const MODELS = {
         section: "Grunddaten",
         hint: "Hier werden die grundlegenden Angaben für den weiteren Aufbau des RIT erfasst.",
         type: "grunddaten",
+        itemCount: 0,
+      },
+      {
+        id: "redline_zielerfassung",
+        title: "1b. Zielerfassung / Redline (optional)",
+        section: "Bestehende Zielerfassung / Redline",
+        hint: "Optionaler früher Schritt: Wenn bereits Zielerfassungen, Redline-Texte oder bisherige Entwicklungsplanungen vorhanden sind, hier einfügen. Wenn nichts vorhanden ist, diese Seite einfach überspringen. Vorhandene Ziele können in Seite 9/10 und in die Entwicklungsplanung übernommen werden; bereits gefüllte Felder werden nicht ungefragt überschrieben.",
+        type: "redline",
         itemCount: 0,
       },
       {
@@ -4960,7 +4914,7 @@ const MODELS = {
         id: "entwicklungsplanung",
         title: "14. Entwicklungsplanung",
         section: "Entwicklungsplanung",
-        hint: "Hier ergänzt du die Planungsfelder, kannst Ziele aus GRIT / GRET übernehmen und lässt die Entwicklungsplanung über einen getrennten KI-Zugang erstellen.",
+        hint: "Hier ergänzt du die Planungsfelder, kannst Ziele aus GRIT / GRET sowie vorhandene Zielerfassung / Redline übernehmen und lässt die Entwicklungsplanung über einen getrennten KI-Zugang erstellen.",
         type: "entwicklungsplanung",
         itemCount: 0,
       },
@@ -5037,6 +4991,14 @@ const MODELS = {
         section: "Grunddaten",
         hint: "Hier werden die grundlegenden Angaben für den weiteren Aufbau des RET erfasst.",
         type: "grunddaten",
+        itemCount: 0,
+      },
+      {
+        id: "redline_zielerfassung",
+        title: "1b. Zielerfassung / Redline (optional)",
+        section: "Bestehende Zielerfassung / Redline",
+        hint: "Optionaler früher Schritt: Wenn bereits Zielerfassungen, Redline-Texte oder bisherige Entwicklungsplanungen vorhanden sind, hier einfügen. Wenn nichts vorhanden ist, diese Seite einfach überspringen. Vorhandene Ziele können in Seite 9/10 und in die Entwicklungsplanung übernommen werden; bereits gefüllte Felder werden nicht ungefragt überschrieben.",
+        type: "redline",
         itemCount: 0,
       },
       {
@@ -6270,7 +6232,7 @@ const MODELS = {
         id: "entwicklungsplanung",
         title: "14. Entwicklungsplanung",
         section: "Entwicklungsplanung",
-        hint: "Hier ergänzt du die Planungsfelder, kannst Ziele aus GRIT / GRET übernehmen und lässt die Entwicklungsplanung über einen getrennten KI-Zugang erstellen.",
+        hint: "Hier ergänzt du die Planungsfelder, kannst Ziele aus GRIT / GRET sowie vorhandene Zielerfassung / Redline übernehmen und lässt die Entwicklungsplanung über einen getrennten KI-Zugang erstellen.",
         type: "entwicklungsplanung",
         itemCount: 0,
       },
@@ -6412,6 +6374,26 @@ const EXTRA_TEXT_FIELDS = {
     { key: "beobachtung_pruefung", label: "Beobachtung – Überprüfungskriterien" },
   ],
 };
+
+
+const REDLINE_PAGE_ID = "redline_zielerfassung";
+const REDLINE_FIELDS = [
+  { key: "rawText", label: "Originaltext / Redline komplett", full: true },
+  { key: "hauptziel", label: "Bestehendes Hauptziel", full: true },
+  { key: "unterziel1", label: "Bestehendes Unterziel 1", full: true },
+  { key: "massnahme1", label: "Bestehende Massnahme 1", full: true },
+  { key: "unterziel2", label: "Bestehendes Unterziel 2", full: true },
+  { key: "massnahme2", label: "Bestehende Massnahme 2", full: true },
+  { key: "beobachtung", label: "Bestehende Beobachtung / Auswertung", full: true },
+  { key: "hinweis", label: "Wichtige Hinweise / offene Punkte", full: true },
+];
+
+function defaultRedlineFields() {
+  return REDLINE_FIELDS.reduce((acc, field) => {
+    acc[field.key] = "";
+    return acc;
+  }, {});
+}
 
 const CONTENT_AUDIT_CONFIG = [
   { pageId: "2b_Diagnostik", label: "Diagnostik", minFilled: 2 },
@@ -7554,8 +7536,6 @@ body[data-weekplan-mode] .footer-note { color: #526075; }
   .client-plan-summary { gap: 8px; }
   .client-plan-summary-mode { display: none; }
 }
-
-
 </style>
 </head>
 <body class="print-all" data-weekplan-mode="rit">
@@ -7611,8 +7591,8 @@ body[data-weekplan-mode] .footer-note { color: #526075; }
           <div class="weekplan-action-title">Speichern</div>
           <div class="weekplan-action-row">
             <button class="secondary" type="button" onclick="manualSaveWeekplan()">Jetzt speichern</button>
-            <button class="secondary" type="button" onclick="window.parent && typeof window.parent.downloadWorkspaceSnapshot === 'function' && window.parent.downloadWorkspaceSnapshot()">Arbeitsstand sichern</button>
-            <button class="secondary" type="button" onclick="window.parent && typeof window.parent.triggerWorkspaceImport === 'function' && window.parent.triggerWorkspaceImport()">Arbeitsstand laden</button>
+            <button class="secondary" type="button" onclick="window.parent && typeof window.parent.downloadWorkspaceSnapshot === 'function' && window.parent.downloadWorkspaceSnapshot()">Speichern unter …</button>
+            <button class="secondary" type="button" onclick="window.parent && typeof window.parent.triggerWorkspaceImport === 'function' && window.parent.triggerWorkspaceImport()">Importieren</button>
           </div>
         </div>
 
@@ -8235,7 +8215,7 @@ body[data-weekplan-mode] .footer-note { color: #526075; }
               </div>
               <div class="client-plan-summary-mode">\${modeMeta.label}</div>
               <div class="client-plan-summary-actions" onclick="event.stopPropagation()">
-                <button class="secondary client-summary-generator wp-generator-link" type="button" onclick="event.stopPropagation(); const card = this.closest('.client-card'); const nameInput = card ? card.querySelector('.client-name') : null; const clientName = nameInput && nameInput.value ? nameInput.value : 'Klient ' + (\${i} + 1); if (window.parent && typeof window.parent.openGeneratorFromWeekplan === 'function') { window.parent.openGeneratorFromWeekplan(\${i}, clientName); }">Generator öffnen</button>
+                <button class="secondary client-summary-generator wp-generator-link" type="button" onclick="event.stopPropagation(); const card = this.closest('.client-card'); const nameInput = card ? card.querySelector('.client-name') : null; const clientName = nameInput && nameInput.value ? nameInput.value : 'Klient ' + (\${i} + 1); if (window.parent && typeof window.parent.openGeneratorFromWeekplan === 'function') { window.parent.openGeneratorFromWeekplan(\${i}, clientName); }">Zum Generator</button>
                 <details class="client-actions-menu" onclick="event.stopPropagation()">
                   <summary class="secondary client-actions-trigger" title="Klienten-Aktionen">☰</summary>
                   <div class="client-actions-panel">
@@ -8760,7 +8740,7 @@ body[data-weekplan-mode] .footer-note { color: #526075; }
       const btn = document.createElement('button');
       btn.type = 'button';
       btn.className = 'secondary wp-generator-link';
-      btn.textContent = 'Generator öffnen';
+      btn.textContent = 'Zum Generator';
       btn.addEventListener('click', () => {
         const nameInput = card.querySelector('.client-name');
         const clientName = nameInput ? nameInput.value : \`Klient \${index + 1}\`;
@@ -10586,7 +10566,11 @@ function showHomeRules() {
 }
 
 function goHome() {
-  if (APP.currentGenerator) mergeCurrentFormIntoState();
+  if (APP.currentGenerator) {
+    mergeCurrentFormIntoState();
+    saveRedlineFieldsFromPage();
+    saveEntwicklungsplanungFieldsFromPage();
+  }
   APP.currentGenerator = null;
   APP.currentPage = 0;
   setView("home");
@@ -10595,7 +10579,11 @@ function goHome() {
 }
 
 function goWeekplan() {
-  if (APP.currentGenerator) mergeCurrentFormIntoState();
+  if (APP.currentGenerator) {
+    mergeCurrentFormIntoState();
+    saveRedlineFieldsFromPage();
+    saveEntwicklungsplanungFieldsFromPage();
+  }
   setView("weekplan");
   setTimeout(syncGenerator1DataToWeekplan, 60);
   setTimeout(setupWeekplanFrameFitting, 120);
@@ -10613,7 +10601,11 @@ function getStartPageIndex(generatorKey) {
 }
 
 function openApp(which) {
-  if (APP.currentGenerator) mergeCurrentFormIntoState();
+  if (APP.currentGenerator) {
+    mergeCurrentFormIntoState();
+    saveRedlineFieldsFromPage();
+    saveEntwicklungsplanungFieldsFromPage();
+  }
   APP.currentGenerator = which;
   APP.currentPage = getStartPageIndex(which);
   setView("generator");
@@ -10680,13 +10672,13 @@ function renderGenerator() {
     "badge " + model.colorClass;
   document.getElementById("generatorTitle").textContent = model.title;
   document.getElementById("generatorSubtitle").textContent = model.subtitle;
-  const switchButton = document.getElementById("switchBtn");
-  switchButton.textContent = model.switchLabel;
-  switchButton.dataset.mobileLabel = model.switchTarget === "gret" ? "GRET" : "GRIT";
-  switchButton.className =
+  document.getElementById("switchBtn").textContent = model.switchLabel;
+  document.getElementById("switchBtn").className =
     model.switchTarget === "gret" ? "switch-to-gret" : "switch-to-grit";
-  switchButton.onclick = () => {
+  document.getElementById("switchBtn").onclick = () => {
     mergeCurrentFormIntoState();
+    saveRedlineFieldsFromPage();
+    saveEntwicklungsplanungFieldsFromPage();
     applyInverseTimeSlotsToGenerator(model.key, model.switchTarget);
     APP.currentGenerator = model.switchTarget;
     APP.currentPage = getStartPageIndex(model.switchTarget);
@@ -10705,6 +10697,7 @@ function getCompactTabLabel(page, index) {
   const map = {
     start: "Start",
     grunddaten: "Grunddaten",
+    redline_zielerfassung: "1b · Redline",
     "2_Ausgangslage_A": "2 · Ausgangslage",
     "2b_Diagnostik": "2b · Diagnostik",
     "3_Ausgangslage_B": "3 · Bedarf",
@@ -10725,6 +10718,7 @@ function getCompactTabLabel(page, index) {
 
 function getTabContextLabel(page) {
   const id = page && page.id ? String(page.id) : "";
+  if (["redline_zielerfassung"].includes(id)) return "Grundlage";
   if (["2_Ausgangslage_A", "2b_Diagnostik", "3_Ausgangslage_B"].includes(id)) return "Ausgangslage";
   if (["4_Durchfuehrung_A", "5_Durchfuehrung_B", "6_Musik_Basal"].includes(id)) return "Durchführung";
   if (["7_Begleitansatz_A", "8_Begleitansatz_B"].includes(id)) return "Hilfestellung";
@@ -10752,6 +10746,8 @@ function renderTabs() {
   host.querySelectorAll("[data-tab-index]").forEach((button) => {
     button.addEventListener("click", () => {
       mergeCurrentFormIntoState();
+      saveRedlineFieldsFromPage();
+      saveEntwicklungsplanungFieldsFromPage();
       APP.currentPage = Number(button.dataset.tabIndex || 0);
       updateView();
     });
@@ -10798,6 +10794,8 @@ function buildFooterNote(page, totalPages) {
       getEffectiveSettingTyp() +
       "-Kopplung"
     );
+  if (page.type === "redline")
+    return base + " • optional: vorhandene Zielerfassung übernehmen oder überspringen";
   if (page.type === "items") {
     const rule = selectionRuleForPage(page.id);
     const bits = [base, page.itemCount + " auswählbare Einträge"];
@@ -10821,6 +10819,10 @@ function renderCurrentPage(page) {
   }
   if (page.type === "grunddaten") {
     pageHost.innerHTML = renderGrunddatenPage(page);
+    return;
+  }
+  if (page.type === "redline") {
+    pageHost.innerHTML = renderRedlinePage(page);
     return;
   }
   if (page.type === "output") {
@@ -11190,9 +11192,9 @@ function renderAusgangslageHelper(page) {
                   <div class="api-test-note">Erstellt aus den Auswahlfeldern dieser Seite, dem Förderfokus und dem Tagesstruktur-Kontext Vorschläge für die Zusatzfelder. Bestehende Felder werden nicht automatisch überschrieben.</div>
                   <div class="tool-row">
                     <button type="button" class="secondary" onclick="createAusgangslageSuggestion()">Ausgangslage / Unterstützungsbedarf formulieren</button>
-                    <button type="button" class="ghost" onclick="applyAusgangslageSuggestion()">Übernehmen</button>
-                    <button type="button" class="ghost" onclick="clearAusgangslageSuggestion()">Verwerfen</button>
-                    <button type="button" class="ghost" onclick="clearAusgangslageTargetFields()">Felder leeren</button>
+                    <button type="button" class="ghost" onclick="applyAusgangslageSuggestion()">Vorschlag übernehmen</button>
+                    <button type="button" class="ghost" onclick="clearAusgangslageSuggestion()">Vorschlag verwerfen</button>
+                    <button type="button" class="ghost" onclick="clearAusgangslageTargetFields()">Übernommene Felder leeren</button>
                   </div>
                   <div class="internal-ai-status" id="ausgangslageSuggestionStatus">Der Vorschlag wird aus den vorhandenen Eingaben erstellt und verwendet nur Initialen.</div>
                   <div class="preview-box internal-ai-output compact-ai-output" id="ausgangslageSuggestionField">${escapeHtml(suggestion || "Noch kein Vorschlag für Ausgangslage / Unterstützungsbedarf vorhanden.")}</div>
@@ -11471,9 +11473,9 @@ function renderDurchfuehrungHelper(page) {
                   <div class="api-test-note">Erstellt aus den Auswahlfeldern dieser Seite, dem Förderfokus und dem Tagesstruktur-Kontext Vorschläge für die Zusatzfelder. Bestehende Felder werden nicht automatisch überschrieben.</div>
                   <div class="tool-row">
                     <button type="button" class="secondary" onclick="createDurchfuehrungSuggestion()">Durchführung / Aktivitäten formulieren</button>
-                    <button type="button" class="ghost" onclick="applyDurchfuehrungSuggestion()">Übernehmen</button>
-                    <button type="button" class="ghost" onclick="clearDurchfuehrungSuggestion()">Verwerfen</button>
-                    <button type="button" class="ghost" onclick="clearDurchfuehrungTargetFields()">Felder leeren</button>
+                    <button type="button" class="ghost" onclick="applyDurchfuehrungSuggestion()">Vorschlag übernehmen</button>
+                    <button type="button" class="ghost" onclick="clearDurchfuehrungSuggestion()">Vorschlag verwerfen</button>
+                    <button type="button" class="ghost" onclick="clearDurchfuehrungTargetFields()">Übernommene Felder leeren</button>
                   </div>
                   <div class="internal-ai-status" id="durchfuehrungSuggestionStatus">Der Vorschlag wird aus den vorhandenen Eingaben erstellt und verwendet nur Initialen.</div>
                   <div class="preview-box internal-ai-output compact-ai-output" id="durchfuehrungSuggestionField">${escapeHtml(suggestion || "Noch kein Vorschlag für Durchführung / Aktivitäten vorhanden.")}</div>
@@ -11724,8 +11726,8 @@ function renderZieleHelper() {
                   <div class="api-test-note">Erstellt aus dem ausgewählten Ziel, der Ausgangslage, dem Unterstützungsbedarf und dem Tagesstruktur-Kontext Vorschläge für die Zielfelder. Bestehende Felder werden nicht automatisch überschrieben.</div>
                   <div class="tool-row">
                     <button type="button" class="secondary" onclick="createZieleSuggestion()">Ziel formulieren</button>
-                    <button type="button" class="ghost" onclick="applyZieleSuggestion()">Übernehmen</button>
-                    <button type="button" class="ghost" onclick="clearZieleSuggestion()">Verwerfen</button>
+                    <button type="button" class="ghost" onclick="applyZieleSuggestion()">Vorschlag übernehmen</button>
+                    <button type="button" class="ghost" onclick="clearZieleSuggestion()">Vorschlag verwerfen</button>
                     <button type="button" class="ghost" onclick="clearZieleTargetFields()">Übernommene Zielfelder leeren</button>
                   </div>
                   <div class="internal-ai-status" id="zieleSuggestionStatus">Der Vorschlag nutzt nur vorhandene Angaben und formuliert das Fernziel mit Bezug zu RIT/RET. Er verwendet nur Initialen.</div>
@@ -11985,9 +11987,9 @@ function renderFeinzieleHelper() {
                   <div class="api-test-note">Erstellt aus den ausgewählten Feinzielen und dem vorhandenen Kontext fachliche Unterziel-Formulierungen. Bestehende Felder werden nicht automatisch überschrieben.</div>
                   <div class="tool-row">
                     <button type="button" class="secondary" onclick="createFeinzielSuggestion()">Unterziele formulieren</button>
-                    <button type="button" class="ghost" onclick="applyFeinzielSuggestion()">Übernehmen</button>
-                    <button type="button" class="ghost" onclick="clearFeinzielSuggestion()">Verwerfen</button>
-                    <button type="button" class="ghost" onclick="clearFeinzielTargetFields()">Felder leeren</button>
+                    <button type="button" class="ghost" onclick="applyFeinzielSuggestion()">Vorschlag übernehmen</button>
+                    <button type="button" class="ghost" onclick="clearFeinzielSuggestion()">Vorschlag verwerfen</button>
+                    <button type="button" class="ghost" onclick="clearFeinzielTargetFields()">Übernommene Felder leeren</button>
                   </div>
                   <div class="internal-ai-status" id="feinzielSuggestionStatus">Der Vorschlag wird aus den Feinzielen, dem Zielrahmen und dem Förderfokus erstellt. Er verwendet nur Initialen.</div>
                   <div class="preview-box internal-ai-output compact-ai-output" id="feinzielSuggestionField">${escapeHtml(suggestion || "Noch kein Vorschlag für Unterziele vorhanden.")}</div>
@@ -12236,9 +12238,9 @@ function renderBegleitansatzHelper(page) {
                   <div class="api-test-note">Erstellt aus Begleitansatz A/B, Kliententyp, Fernziel und Baustein-Kontext Vorschläge für die Zusatzfelder. Bestehende Felder werden nicht automatisch überschrieben.</div>
                   <div class="tool-row">
                     <button type="button" class="secondary" onclick="createBegleitansatzSuggestion()">Hilfestellung / Massnahmen formulieren</button>
-                    <button type="button" class="ghost" onclick="applyBegleitansatzSuggestion()">Übernehmen</button>
-                    <button type="button" class="ghost" onclick="clearBegleitansatzSuggestion()">Verwerfen</button>
-                    <button type="button" class="ghost" onclick="clearBegleitansatzTargetFields()">Felder leeren</button>
+                    <button type="button" class="ghost" onclick="applyBegleitansatzSuggestion()">Vorschlag übernehmen</button>
+                    <button type="button" class="ghost" onclick="clearBegleitansatzSuggestion()">Vorschlag verwerfen</button>
+                    <button type="button" class="ghost" onclick="clearBegleitansatzTargetFields()">Übernommene Felder leeren</button>
                   </div>
                   <div class="internal-ai-status" id="begleitansatzSuggestionStatus">Der Vorschlag wird lokal aus den vorhandenen Eingaben erstellt und verwendet nur Initialen.</div>
                   <div class="preview-box internal-ai-output compact-ai-output" id="begleitansatzSuggestionField">${escapeHtml(suggestion || "Noch kein Vorschlag für Hilfestellung / Massnahmen vorhanden.")}</div>
@@ -12404,9 +12406,9 @@ function renderObservationCriteriaHelper() {
                   <div class="api-test-note">Erstellt aus den Angaben dieser Seite und dem vorhandenen Kontext Vorschläge für Situation, Verhalten, Bedeutung, Hinweis und Überprüfungskriterien. Bestehende Felder werden nicht automatisch überschrieben.</div>
                   <div class="tool-row">
                     <button type="button" class="secondary" onclick="sendObservationCriteriaSuggestionToOpenAi()">Beobachtung fachlich formulieren</button>
-                    <button type="button" class="ghost" onclick="applyObservationCriteriaSuggestion()">Übernehmen</button>
-                    <button type="button" class="ghost" onclick="clearObservationCriteriaSuggestion()">Verwerfen</button>
-                    <button type="button" class="ghost" onclick="clearObservationTargetFields()">Felder leeren</button>
+                    <button type="button" class="ghost" onclick="applyObservationCriteriaSuggestion()">Vorschlag übernehmen</button>
+                    <button type="button" class="ghost" onclick="clearObservationCriteriaSuggestion()">Vorschlag verwerfen</button>
+                    <button type="button" class="ghost" onclick="clearObservationTargetFields()">Beobachtungsfelder leeren</button>
                   </div>
                   <div class="internal-ai-status" id="observationCriteriaSuggestionStatus">Der Vorschlag nutzt Beobachtung/Wirkung, Kliententyp, Fernziel und Baustein-Kontext. Er überschreibt nichts automatisch.</div>
                   <div class="preview-box internal-ai-output compact-ai-output" id="observationCriteriaSuggestionField">${escapeHtml(suggestion || "Noch kein Vorschlag für Beobachtung / Wirkung vorhanden.")}</div>
@@ -13014,6 +13016,210 @@ function renderZielplanungPage(page) {
       `;
 }
 
+
+function getRedlineFields() {
+  const pageState = ensurePageState(APP.currentGenerator, REDLINE_PAGE_ID);
+  const fields = pageState.redlineFields && typeof pageState.redlineFields === "object"
+    ? pageState.redlineFields
+    : {};
+  return { ...defaultRedlineFields(), ...fields };
+}
+
+function setRedlineFields(fields) {
+  const generatorState = ensureGeneratorState(APP.currentGenerator);
+  const pageState = ensurePageState(APP.currentGenerator, REDLINE_PAGE_ID);
+  APP.state[APP.currentGenerator] = {
+    ...generatorState,
+    settingTyp: getLinkedSettingTypFromGenerator(APP.currentGenerator),
+    pages: {
+      ...generatorState.pages,
+      [REDLINE_PAGE_ID]: {
+        ...pageState,
+        redlineFields: { ...defaultRedlineFields(), ...(fields || {}) },
+      },
+    },
+  };
+  persistAllState();
+}
+
+function renderRedlinePage(page) {
+  const values = getRedlineFields();
+  const fieldHtml = REDLINE_FIELDS.map((field) => `
+    <label class="${field.full ? "full" : ""}">
+      <span>${escapeHtml(field.label)}</span>
+      <textarea data-redline-field="${escapeHtml(field.key)}" placeholder="${escapeHtml(field.label)}">${escapeHtml(values[field.key] || "")}</textarea>
+    </label>
+  `).join("");
+  return `
+    <div class="page-card">
+      <h3>${escapeHtml(page.title)}</h3>
+      <div class="page-hint">${escapeHtml(page.hint)}</div>
+      <div class="redline-panel">
+        <section class="redline-card">
+          <div class="redline-title">Bestehende Zielerfassung / Redline sichern</div>
+          <div class="redline-note">Diese Seite ist optional. Wenn nichts vorhanden ist, überspringen. Wenn Redline- oder Zieltexte vorhanden sind, haben sie Vorrang: Die Übernahme füllt nur leere Ziele- und EP-Felder und überschreibt nichts ungefragt.</div>
+          <div class="redline-grid">
+            ${fieldHtml}
+          </div>
+          <div class="redline-actions">
+            <button type="button" class="secondary" data-redline-action="applyToEp">In Ziele und EP übernehmen</button>
+            <button type="button" class="ghost" data-redline-action="skip">Keine Redline vorhanden – weiter</button>
+            <button type="button" class="ghost" data-redline-action="goEp">Zur Entwicklungsplanung</button>
+            <button type="button" class="ghost" data-redline-action="clear">Redline-Felder leeren</button>
+          </div>
+          <div class="redline-status" id="redlineStatus">Bereit. Leere Felder werden ergänzt; vorhandene Einträge bleiben erhalten.</div>
+        </section>
+      </div>
+    </div>
+  `;
+}
+
+function saveRedlineFieldsFromPage() {
+  if (!APP.currentGenerator) return;
+  const current = getRedlineFields();
+  document.querySelectorAll('#pageHost [data-redline-field]').forEach((field) => {
+    const key = String(field.dataset.redlineField || "");
+    if (!key) return;
+    current[key] = readFieldValue(field);
+  });
+  setRedlineFields(current);
+}
+
+function getRedlineSummaryLines() {
+  const fields = getRedlineFields();
+  const lines = [];
+  REDLINE_FIELDS.forEach((field) => {
+    const value = cleanInline(fields[field.key] || "");
+    if (value) lines.push(field.label + ": " + value);
+  });
+  return normalizeFertigtextLines(lines);
+}
+
+function buildRedlinePayload() {
+  const fields = getRedlineFields();
+  const payload = {};
+  REDLINE_FIELDS.forEach((field) => {
+    const value = String(fields[field.key] || "").trim();
+    if (value) payload[field.key] = value;
+  });
+  return compactEpObject(payload);
+}
+
+function setRedlineStatus(message) {
+  const el = document.getElementById("redlineStatus");
+  if (el) el.textContent = cleanInline(message || "");
+}
+
+function clearRedlineFields() {
+  const fields = getRedlineFields();
+  const hasContent = Object.values(fields).some((value) => cleanInline(value || ""));
+  if (!hasContent) {
+    setRedlineStatus("Es sind keine Redline-Felder gefüllt.");
+    return;
+  }
+  if (!window.confirm("Redline-Felder wirklich leeren? Die Entwicklungsplanung und Zielseiten bleiben unverändert.")) return;
+  setRedlineFields(defaultRedlineFields());
+  updateView();
+  setRedlineStatus("Redline-Felder wurden geleert. Zielseiten und Entwicklungsplanung blieben unverändert.");
+}
+
+function applyRedlineToEntwicklungsplanung() {
+  saveRedlineFieldsFromPage();
+  const redline = getRedlineFields();
+  const fields = { ...getEntwicklungsplanungFields() };
+  const mapping = [
+    ["hauptziel", "epHauptzielBeschreibung", "epHauptzielTitel"],
+    ["unterziel1", "epUnterziel1Beschreibung", "epUnterziel1Titel"],
+    ["massnahme1", "epMassnahme1Ablauf", "epMassnahme1Titel"],
+    ["unterziel2", "epUnterziel2Beschreibung", "epUnterziel2Titel"],
+    ["massnahme2", "epMassnahme2Ablauf", "epMassnahme2Titel"],
+    ["beobachtung", "epGesamtstand", null],
+    ["hinweis", "epGesamtNaechsterSchritt", null],
+  ];
+  let changed = 0;
+  const copyIfEmpty = (target, key, value) => {
+    const cleanValue = cleanInline(value || "");
+    if (!cleanValue) return false;
+    if (cleanInline(target[key] || "")) return false;
+    target[key] = cleanValue;
+    return true;
+  };
+
+  mapping.forEach(([sourceKey, targetKey, titleKey]) => {
+    const value = cleanInline(redline[sourceKey] || "");
+    if (!value) return;
+    if (copyIfEmpty(fields, targetKey, value)) changed += 1;
+    if (titleKey && copyIfEmpty(fields, titleKey, buildShortEpTitle(value))) changed += 1;
+  });
+
+  const generatorState = ensureGeneratorState(APP.currentGenerator);
+  const zielPageState = ensurePageState(APP.currentGenerator, "9_Ziele");
+  const feinzielePageState = ensurePageState(APP.currentGenerator, "10_Feinziele");
+  const zielTextFields = {
+    ...(zielPageState.textFields && typeof zielPageState.textFields === "object"
+      ? zielPageState.textFields
+      : {}),
+  };
+  const feinzieleTextFields = {
+    ...(feinzielePageState.textFields && typeof feinzielePageState.textFields === "object"
+      ? feinzielePageState.textFields
+      : {}),
+  };
+
+  if (copyIfEmpty(zielTextFields, "zielHauptziel", redline.hauptziel)) changed += 1;
+  if (copyIfEmpty(zielTextFields, "zielBedeutung", redline.rawText)) changed += 1;
+  if (copyIfEmpty(zielTextFields, "zielHinweis", redline.hinweis)) changed += 1;
+  if (copyIfEmpty(feinzieleTextFields, "feinziel1", redline.unterziel1)) changed += 1;
+  if (copyIfEmpty(feinzieleTextFields, "feinziel2", redline.unterziel2)) changed += 1;
+  if (copyIfEmpty(feinzieleTextFields, "feinzielHinweis", redline.beobachtung)) changed += 1;
+
+  if (!changed) {
+    setRedlineStatus("Es wurden keine Felder geändert, weil bereits passende Inhalte vorhanden sind oder keine Redline-Inhalte eingetragen wurden.");
+    return;
+  }
+
+  APP.state[APP.currentGenerator] = {
+    ...generatorState,
+    settingTyp: getLinkedSettingTypFromGenerator(APP.currentGenerator),
+    pages: {
+      ...generatorState.pages,
+      "9_Ziele": {
+        ...zielPageState,
+        textFields: zielTextFields,
+      },
+      "10_Feinziele": {
+        ...feinzielePageState,
+        textFields: feinzieleTextFields,
+      },
+    },
+  };
+  setEntwicklungsplanungFields(fields);
+  persistAllState();
+  renderEntwicklungsplanungPanel();
+  updatePreview();
+  setRedlineStatus("Redline-Inhalte wurden in leere Ziel-, Unterziel- und EP-Felder übernommen. Bereits gefüllte Felder blieben erhalten.");
+}
+
+function goToEntwicklungsplanungPage() {
+  saveRedlineFieldsFromPage();
+  const index = currentModel().pages.findIndex((page) => page.type === "entwicklungsplanung");
+  if (index >= 0) {
+    APP.currentPage = index;
+    updateView();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+}
+
+function skipRedlinePage() {
+  saveRedlineFieldsFromPage();
+  if (APP.currentPage < currentModel().pages.length - 1) {
+    APP.currentPage += 1;
+    updateView();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+}
+
+
 function renderEntwicklungsplanungPage(page) {
   return `
         <div class="page-card">
@@ -13032,9 +13238,9 @@ function renderEntwicklungsplanungPage(page) {
                         <div class="ep-note">Aus vorhandenen Generator-, Baustein- und EP-Daten wird zuerst nur ein Vorschlag für Massnahmen / Begleitung erstellt. Bestehende Felder werden nicht automatisch überschrieben.</div>
                         <div class="tool-row">
                           <button type="button" class="secondary" onclick="sendEpMassnahmenSuggestionToOpenAi()">Massnahmen professionell formulieren</button>
-                          <button type="button" class="ghost" onclick="applyEpMassnahmenSuggestion()">Übernehmen</button>
-                          <button type="button" class="ghost" onclick="clearEpMassnahmenSuggestion()">Verwerfen</button>
-                          <button type="button" class="ghost" onclick="clearEpMassnahmenTargetField()">Feld leeren</button>
+                          <button type="button" class="ghost" onclick="applyEpMassnahmenSuggestion()">Vorschlag übernehmen</button>
+                          <button type="button" class="ghost" onclick="clearEpMassnahmenSuggestion()">Vorschlag verwerfen</button>
+                          <button type="button" class="ghost" onclick="clearEpMassnahmenTargetField()">Übernommenes Feld leeren</button>
                         </div>
                         <div class="preview-box internal-ai-output compact-ai-output" id="epMassnahmenSuggestionField">Noch kein Massnahmen-Vorschlag vorhanden.</div>
                       </div>
@@ -13224,6 +13430,38 @@ function bindEvents() {
     });
   });
 
+  pageHost.querySelectorAll("[data-redline-field]").forEach((field) => {
+    field.addEventListener("input", () => {
+      saveRedlineFieldsFromPage();
+      autoResizeNavigatorTextarea(field);
+    });
+    field.addEventListener("change", () => {
+      saveRedlineFieldsFromPage();
+      autoResizeNavigatorTextarea(field);
+    });
+  });
+
+  pageHost.querySelectorAll("[data-redline-action]").forEach((button) => {
+    button.addEventListener("click", () => {
+      const action = String(button.dataset.redlineAction || "");
+      if (action === "applyToEp") {
+        applyRedlineToEntwicklungsplanung();
+        return;
+      }
+      if (action === "skip") {
+        skipRedlinePage();
+        return;
+      }
+      if (action === "goEp") {
+        goToEntwicklungsplanungPage();
+        return;
+      }
+      if (action === "clear") {
+        clearRedlineFields();
+      }
+    });
+  });
+
   pageHost.querySelectorAll("[data-goalplan-active-slot]").forEach((field) => {
     field.addEventListener("change", () => {
       mergeCurrentFormIntoState();
@@ -13295,6 +13533,7 @@ function bindEvents() {
   document.getElementById("prevBtn").onclick = () => {
     if (APP.currentPage > 0) {
       mergeCurrentFormIntoState();
+      saveRedlineFieldsFromPage();
       saveEntwicklungsplanungFieldsFromPage();
       APP.currentPage -= 1;
       updateView();
@@ -13305,6 +13544,7 @@ function bindEvents() {
   document.getElementById("nextBtn").onclick = () => {
     if (APP.currentPage < currentModel().pages.length - 1) {
       mergeCurrentFormIntoState();
+      saveRedlineFieldsFromPage();
       saveEntwicklungsplanungFieldsFromPage();
       APP.currentPage += 1;
       updateView();
@@ -13954,6 +14194,16 @@ function buildPreviewSections() {
     lines: buildGrunddatenListLinesFromCurrentForm(),
     empty: "Noch keine Grunddaten erfasst.",
   });
+
+  const redlineLines = getRedlineSummaryLines();
+  if (redlineLines.length) {
+    sections.push({
+      heading: "Bestehende Zielerfassung / Redline",
+      outputHeading: "Bestehende Zielerfassung / Redline",
+      lines: redlineLines,
+      empty: "",
+    });
+  }
 
   let zielsystemInserted = false;
   model.pages
@@ -16653,6 +16903,7 @@ function buildNavigatorAllInputData() {
             "Der Kliententyp ist als vorrangiger Förder- und Unterstützungsfokus zu nutzen und nicht als eigenes Ziel zu formulieren.",
         }
       : null,
+    bestehende_zielerfassung_redline: buildRedlinePayload(),
     zielsystem_aktuell_und_gespeichert: buildNavigatorGoalTransferPayload(),
     gespeicherte_bausteine_1_10: buildStoredGoalPlanningPayload(),
     aktuelle_arbeitsseiten_4_8_10_11: buildGoalPlanSourcePagesPayload({
@@ -17067,6 +17318,9 @@ function buildEntwicklungsplanungSourceText() {
             "Als vorrangiger fachlicher Leitmassstab verwenden. Nicht als Ziel formulieren, sondern in Massnahmen, Durchführung, Begleitung und Beobachtung einweben.",
         }
       : null,
+    bestehende_zielerfassung_redline: buildRedlinePayload(),
+    redline_regel:
+      "Vorhandene Zielerfassungen / Redline-Texte haben Vorrang. Sie dürfen sprachlich geglättet und fachlich eingeordnet, aber nicht inhaltlich ersetzt oder frei erweitert werden.",
     gemeinsames_fernziel_aus_seite_9: collectCurrentFernzielForGoalPlanning(),
     unterziele_aus_feinzielen: zielsystem?.feinziele_und_unterziele || null,
     zielrahmen_aus_generator: zielsystem?.uebergeordnete_ziele || null,
@@ -20443,7 +20697,6 @@ function applyBtNavigatorResponsiveView() {
   const button = document.getElementById("mobileViewToggleBtn");
   if (button) {
     button.textContent = mobile ? "Normale Ansicht" : "Mobile Ansicht";
-    button.dataset.mobileLabel = mobile ? "Normal" : "Mobil";
     button.setAttribute(
       "aria-label",
       mobile ? "Zur normalen Ansicht wechseln" : "Zur mobilen Kompaktansicht wechseln",
