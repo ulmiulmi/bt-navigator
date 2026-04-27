@@ -2379,7 +2379,18 @@ button.secondary {
   border: 0;
   display: block;
   background: #fff;
-  overflow: hidden;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+@media (max-width: 740px) {
+  #weekplanView .weekplan-frame-wrap {
+    overflow: visible;
+    border-radius: 16px;
+  }
+  #weekplanView iframe {
+    min-height: calc(100vh - 32px);
+  }
 }
 
 
@@ -3105,6 +3116,50 @@ body.bt-mobile-view #pageHost .extra-text-card {
     #startView .emoji.big { right: 5%; bottom: 72px; }
   }
 
+
+
+/* PRO_UI_V1: ruhigere Produktansicht, kompakte Tabs, einheitliche KI-Boxen */
+.tabs {
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+}
+.tab {
+  white-space: nowrap;
+  min-width: max-content;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.tab .tab-short { font-weight: 900; }
+.tab .tab-context { font-size: 12px; opacity: .78; font-weight: 700; }
+.app-version-note {
+  margin: 18px auto 0;
+  max-width: 1320px;
+  padding: 10px 14px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: rgba(255,255,255,.88);
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.35;
+  text-align: center;
+  box-shadow: 0 8px 20px rgba(31,57,90,.05);
+}
+.ki-collapsible .internal-ai-panel,
+.ziele-helper .internal-ai-panel,
+.actions-collapsible .internal-ai-panel {
+  border-color: var(--theme-line, var(--line));
+  box-shadow: 0 8px 18px var(--theme-glow, rgba(31,57,90,.05));
+}
+.ki-collapsible .panel-title,
+.ziele-helper .panel-title,
+.internal-ai-panel .panel-title { color: var(--theme, var(--accent)); }
+.ki-collapsible .tool-row button,
+.ziele-helper .tool-row button,
+.internal-ai-panel .tool-row button { min-height: 40px; }
+body.bt-mobile-view .app-version-note { margin-top: 10px; border-radius: 14px; }
 </style>
 </head>
 <body>
@@ -3492,6 +3547,7 @@ body.bt-mobile-view #pageHost .extra-text-card {
         </aside>
       </div>
     </section>
+    <div class="app-version-note">BT-Navigator V1.0 · RIT / RET · Daten werden lokal im Browser gespeichert</div>
   </div>
 
   <script>
@@ -6255,36 +6311,10 @@ const WEEKPLAN_HTML = `<!DOCTYPE html>
   --muted: #6b7785;
   --accent: #4f7cff;
   --accent-soft: #eef3ff;
-  --rit-main: #5c3991;
-  --rit-soft: #f1ecf8;
-  --rit-line: #dacdf0;
-  --rit-glow: rgba(92, 57, 145, 0.14);
-  --ret-main: #2f7d5a;
-  --ret-soft: #eaf7f1;
-  --ret-line: #cfe7d9;
-  --ret-glow: rgba(47, 125, 90, 0.14);
-  --mode-main: var(--rit-main);
-  --mode-soft: var(--rit-soft);
-  --mode-line: var(--rit-line);
-  --mode-glow: var(--rit-glow);
   --shadow: 0 10px 24px rgba(18, 35, 58, 0.08);
   --radius: 16px;
   --page-w: 277mm;
   --page-h: 190mm;
-}
-
-body[data-weekplan-mode="rit"] {
-  --mode-main: var(--rit-main);
-  --mode-soft: var(--rit-soft);
-  --mode-line: var(--rit-line);
-  --mode-glow: var(--rit-glow);
-}
-
-body[data-weekplan-mode="ret"] {
-  --mode-main: var(--ret-main);
-  --mode-soft: var(--ret-soft);
-  --mode-line: var(--ret-line);
-  --mode-glow: var(--ret-glow);
 }
 
 * {
@@ -6294,9 +6324,7 @@ body[data-weekplan-mode="ret"] {
 body {
   margin: 0;
   font-family: Arial, Helvetica, sans-serif;
-  background:
-    linear-gradient(180deg, var(--mode-soft) 0%, var(--bg) 280px),
-    var(--bg);
+  background: var(--bg);
   color: var(--text);
 }
 
@@ -6320,32 +6348,6 @@ body {
 .topbar {
   padding: 20px;
   margin-bottom: 18px;
-  border-color: var(--mode-line);
-  background: linear-gradient(180deg, #ffffff 0%, var(--mode-soft) 100%);
-  box-shadow: 0 14px 34px var(--mode-glow);
-}
-
-.topbar .title {
-  color: var(--mode-main);
-}
-
-.topbar .subtitle,
-.topbar .hint {
-  color: #3f4a5a;
-}
-
-.topbar input,
-.topbar textarea,
-.topbar select {
-  border-color: var(--mode-line);
-}
-
-.topbar input:focus,
-.topbar textarea:focus,
-.topbar select:focus {
-  outline: none;
-  border-color: var(--mode-main);
-  box-shadow: 0 0 0 3px var(--mode-soft);
 }
 
 .title {
@@ -6586,22 +6588,6 @@ textarea {
   white-space: nowrap;
 }
 
-.weekplan-action-group {
-  border-color: var(--mode-line);
-  background: linear-gradient(180deg, #ffffff 0%, var(--mode-soft) 100%);
-}
-
-.weekplan-action-title,
-.section-title {
-  color: var(--mode-main);
-}
-
-.client-count-display {
-  border-color: var(--mode-line);
-  background: #fff;
-  color: var(--mode-main);
-}
-
 .mode-switch {
   display: flex;
   gap: 8px;
@@ -6612,25 +6598,24 @@ textarea {
 
 .mode-switch-label {
   font-size: 13px;
-  font-weight: 800;
-  color: var(--mode-main);
+  font-weight: 700;
+  color: var(--muted);
   margin-right: 4px;
 }
 
 .mode-chip {
-  border: 1px solid var(--mode-line);
+  border: 1px solid #c8d6ff;
   background: #fff;
-  color: var(--mode-main);
+  color: var(--accent);
   border-radius: 999px;
   padding: 9px 14px;
   min-width: 74px;
-  box-shadow: 0 6px 14px var(--mode-glow);
 }
 
 .mode-chip.active {
-  background: var(--mode-main);
+  background: var(--accent);
   color: #fff;
-  border-color: var(--mode-main);
+  border-color: var(--accent);
 }
 
 button {
@@ -6643,14 +6628,13 @@ button {
 }
 
 .primary {
-  background: var(--mode-main);
+  background: var(--accent);
   color: #fff;
-  box-shadow: 0 8px 18px var(--mode-glow);
 }
 .secondary {
-  background: #fff;
-  color: var(--mode-main);
-  border: 1px solid var(--mode-line);
+  background: var(--accent-soft);
+  color: var(--accent);
+  border: 1px solid #c8d6ff;
 }
 
 .hint {
@@ -6697,10 +6681,10 @@ button {
   gap: 8px;
   min-height: 38px;
   padding: 8px 12px;
-  border: 1px solid var(--mode-line);
+  border: 1px solid #c8d6ff;
   border-radius: 12px;
-  background: var(--mode-soft);
-  color: var(--mode-main);
+  background: var(--accent-soft);
+  color: var(--accent);
   font-weight: 800;
   user-select: none;
 }
@@ -6745,7 +6729,7 @@ button {
   width: 18px;
   height: 18px;
   margin: 2px 0 0;
-  accent-color: var(--mode-main);
+  accent-color: var(--accent);
 }
 
 .overview-view-option strong {
@@ -6775,12 +6759,6 @@ button {
   padding: 16px;
   margin-bottom: 20px;
   overflow-x: auto;
-  border-color: var(--mode-line);
-  box-shadow: 0 12px 28px var(--mode-glow);
-}
-
-.section-intro {
-  border-color: var(--mode-line);
 }
 
 .overview-columns {
@@ -6870,9 +6848,6 @@ button {
 .group-block {
   display: grid;
   gap: 10px;
-  border-color: var(--mode-line);
-  border-left: 4px solid var(--mode-main);
-  background: linear-gradient(180deg, #ffffff 0%, var(--mode-soft) 100%);
 }
 
 .group-block textarea {
@@ -6885,8 +6860,8 @@ button {
 }
 
 .synced-client-card {
-  background: var(--mode-soft);
-  border-color: var(--mode-line);
+  background: #f8fbff;
+  border-color: #dce6fb;
   display: grid;
   gap: 8px;
 }
@@ -6990,10 +6965,7 @@ button {
 }
 
 .client-card {
-  overflow: hidden;
-  border-color: var(--mode-line);
-  border-radius: 22px;
-  box-shadow: 0 12px 28px var(--mode-glow);
+  overflow: visible;
 }
 
 .client-plan-details {
@@ -7009,19 +6981,7 @@ button {
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  background: linear-gradient(180deg, #ffffff 0%, var(--mode-soft) 100%);
-  border-top: 0;
-  box-shadow: inset 0 6px 0 var(--mode-main);
-  border-radius: 22px 22px 0 0;
-  padding-top: 22px;
-}
-
-.client-plan-details:not([open]) .client-plan-summary {
-  border-radius: 22px;
-}
-
-.client-plan-details[open] .client-plan-summary {
-  border-radius: 22px 22px 0 0;
+  background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
 }
 
 .client-plan-summary::-webkit-details-marker {
@@ -7048,14 +7008,14 @@ button {
 .client-plan-summary-label {
   font-size: 13px;
   font-weight: 800;
-  color: var(--mode-main);
+  color: var(--muted);
   margin-bottom: 4px;
 }
 
 .client-plan-summary-name {
   font-size: 20px;
   font-weight: 800;
-  color: var(--mode-main);
+  color: var(--text);
   line-height: 1.2;
 }
 
@@ -7075,9 +7035,7 @@ button {
 }
 
 .client-plan-content {
-  border-top: 1px solid var(--mode-line);
-  border-radius: 0 0 22px 22px;
-  overflow: hidden;
+  border-top: 1px solid var(--line);
 }
 
 .client-name {
@@ -7413,7 +7371,58 @@ td {
     page-break-inside: avoid;
   }
 }
-  </style>
+  
+
+/* WEEKPLAN_PRO_UI_V1: RIT violett / RET grün, klare Modusleiste, runde Karten */
+body[data-weekplan-mode="rit"] { --mode-main: #5c3991; --mode-soft: #f1ecf8; --mode-line: #dacdf0; --mode-glow: rgba(92, 57, 145, 0.14); }
+body[data-weekplan-mode="ret"] { --mode-main: #2f7d5a; --mode-soft: #eaf7f1; --mode-line: #cfe7d9; --mode-glow: rgba(47, 125, 90, 0.14); }
+body[data-weekplan-mode] { background: linear-gradient(180deg, var(--mode-soft) 0%, var(--bg) 280px), var(--bg); }
+body[data-weekplan-mode] .topbar { border-color: var(--mode-line); background: linear-gradient(180deg, #ffffff 0%, var(--mode-soft) 100%); box-shadow: 0 14px 34px var(--mode-glow); }
+body[data-weekplan-mode] .topbar .title,
+body[data-weekplan-mode] .section-title,
+body[data-weekplan-mode] .weekplan-action-title,
+body[data-weekplan-mode] .mode-switch-label { color: var(--mode-main); }
+.weekplan-mode-banner {
+  margin: 8px 0 14px; padding: 12px 14px; border: 1px solid var(--mode-line, var(--line)); border-radius: 18px;
+  background: linear-gradient(180deg, #ffffff 0%, var(--mode-soft, #f8fbff) 100%); color: var(--mode-main, var(--accent));
+  box-shadow: 0 10px 24px var(--mode-glow, rgba(18,35,58,.08)); display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+}
+.weekplan-mode-banner span { font-size: 12px; font-weight: 900; letter-spacing: .03em; text-transform: uppercase; opacity: .75; }
+.weekplan-mode-banner strong { font-size: clamp(18px, 4vw, 26px); line-height: 1.15; }
+.weekplan-mode-banner small { color: #425166; font-weight: 700; line-height: 1.35; }
+body[data-weekplan-mode] .mode-chip { border-color: var(--mode-line); color: var(--mode-main); box-shadow: 0 6px 14px var(--mode-glow); }
+body[data-weekplan-mode] .mode-chip.active,
+body[data-weekplan-mode] .primary { background: var(--mode-main); border-color: var(--mode-main); color: #fff; box-shadow: 0 8px 18px var(--mode-glow); }
+body[data-weekplan-mode] .secondary { background: #fff; color: var(--mode-main); border: 1px solid var(--mode-line); }
+body[data-weekplan-mode] input:focus,
+body[data-weekplan-mode] textarea:focus,
+body[data-weekplan-mode] select:focus { outline: none; border-color: var(--mode-main); box-shadow: 0 0 0 3px var(--mode-soft); }
+body[data-weekplan-mode] .weekplan-action-group,
+body[data-weekplan-mode] .section-intro,
+body[data-weekplan-mode] .overview-shell { border-color: var(--mode-line); }
+body[data-weekplan-mode] .weekplan-action-group { background: linear-gradient(180deg, #ffffff 0%, var(--mode-soft) 100%); }
+body[data-weekplan-mode] .client-count-display { border-color: var(--mode-line); color: var(--mode-main); }
+body[data-weekplan-mode] input[type="checkbox"],
+body[data-weekplan-mode] input[type="radio"] { accent-color: var(--mode-main); }
+body[data-weekplan-mode] .overview-shell { box-shadow: 0 12px 28px var(--mode-glow); }
+body[data-weekplan-mode] .group-block { border-color: var(--mode-line); border-left: 4px solid var(--mode-main); background: linear-gradient(180deg, #ffffff 0%, var(--mode-soft) 100%); }
+body[data-weekplan-mode] .synced-client-card { background: var(--mode-soft); border-color: var(--mode-line); }
+body[data-weekplan-mode] .client-card { overflow: hidden; border-color: var(--mode-line); border-radius: 22px; box-shadow: 0 12px 28px var(--mode-glow); }
+body[data-weekplan-mode] .client-plan-summary { background: linear-gradient(180deg, #ffffff 0%, var(--mode-soft) 100%); box-shadow: inset 0 6px 0 var(--mode-main); border-radius: 22px 22px 0 0; padding-top: 22px; }
+body[data-weekplan-mode] .client-plan-details:not([open]) .client-plan-summary { border-radius: 22px; }
+body[data-weekplan-mode] .client-plan-details[open] .client-plan-summary { border-radius: 22px 22px 0 0; }
+body[data-weekplan-mode] .client-plan-summary-label,
+body[data-weekplan-mode] .client-plan-summary-name { color: var(--mode-main); }
+.client-plan-summary-mode { align-self: center; flex: 0 0 auto; padding: 6px 9px; border-radius: 999px; border: 1px solid var(--mode-line, var(--line)); background: #fff; color: var(--mode-main, var(--accent)); font-size: 12px; font-weight: 900; line-height: 1; }
+body[data-weekplan-mode] .client-plan-content { border-top: 1px solid var(--mode-line); border-radius: 0 0 22px 22px; overflow: hidden; }
+body[data-weekplan-mode] .overview-view-menu summary { border-color: var(--mode-line); background: var(--mode-soft); color: var(--mode-main); }
+body[data-weekplan-mode] .footer-note { color: #526075; }
+@media (max-width: 740px) {
+  .weekplan-mode-banner { align-items: flex-start; display: grid; gap: 4px; }
+  .client-plan-summary { gap: 8px; }
+  .client-plan-summary-mode { display: none; }
+}
+</style>
 </head>
 <body class="print-all" data-weekplan-mode="rit">
   <div class="page">
@@ -7425,6 +7434,12 @@ td {
         <span class="mode-switch-label">Modus</span>
         <button class="mode-chip" type="button" data-mode-switch="rit" onclick="setMode('rit')">RIT</button>
         <button class="mode-chip" type="button" data-mode-switch="ret" onclick="setMode('ret')">RET</button>
+      </div>
+
+      <div class="weekplan-mode-banner" id="weekplanModeBanner">
+        <span>Aktuell offen</span>
+        <strong>RIT-Wochenplan</strong>
+        <small>Violette Akzente markieren den RIT-Modus.</small>
       </div>
 
       <div class="controls">
@@ -8084,6 +8099,7 @@ td {
                 <div class="client-plan-summary-label">Klient \${i + 1}</div>
                 <div class="client-plan-summary-name">\${escapeHtml(summaryClientName)}</div>
               </div>
+              <div class="client-plan-summary-mode">\${modeMeta.label}</div>
               <div class="client-plan-summary-actions" onclick="event.stopPropagation()">
                 <button class="secondary client-summary-generator wp-generator-link" type="button" onclick="event.stopPropagation(); const card = this.closest('.client-card'); const nameInput = card ? card.querySelector('.client-name') : null; const clientName = nameInput && nameInput.value ? nameInput.value : 'Klient ' + (\${i} + 1); if (window.parent && typeof window.parent.openGeneratorFromWeekplan === 'function') { window.parent.openGeneratorFromWeekplan(\${i}, clientName); }">Zum Generator</button>
                 <details class="client-actions-menu" onclick="event.stopPropagation()">
@@ -8288,6 +8304,7 @@ td {
       });
 
       const title = document.querySelector('.topbar .title');
+      const banner = document.getElementById('weekplanModeBanner');
       const subtitle = document.getElementById('modeSubtitle');
       const hint = document.getElementById('modeHint');
       const overviewSubtitle = document.getElementById('overviewSectionSubtitle');
@@ -8295,6 +8312,9 @@ td {
 
       if (title) {
         title.textContent = 'Wochenplan – ' + modeMeta.label;
+      }
+      if (banner) {
+        banner.innerHTML = '<span>Aktuell offen</span><strong>' + modeMeta.label + '-Wochenplan</strong><small>' + (modeMeta.key === 'ret' ? 'Grüne Akzente markieren den RET-Modus.' : 'Violette Akzente markieren den RIT-Modus.') + '</small>';
       }
 
       if (subtitle) {
@@ -8649,7 +8669,7 @@ td {
   }
 
   document.addEventListener('toggle', (event) => {
-    if (event.target && event.target.matches && event.target.matches('.client-plan-details, .client-actions-menu')) {
+    if (event.target && event.target.matches && event.target.matches('.client-plan-details, .client-actions-menu, .synced-client-details, .overview-view-menu')) {
       requestParentFrameFit();
     }
   }, true);
@@ -9414,7 +9434,7 @@ function fitWeekplanFrameToWidth(frame) {
       const style = doc.createElement("style");
       style.id = "btNavigatorWeekplanFitStyle";
       style.textContent = `
-            html, body { overflow: hidden !important; }
+            html, body { overflow-x: hidden !important; overflow-y: auto !important; -webkit-overflow-scrolling: touch; }
             body { margin: 0 !important; }
             #btNavigatorWeekplanFitRoot {
               transform-origin: top left;
@@ -10544,16 +10564,53 @@ function renderGenerator() {
   updateView();
 }
 
+function getCompactTabLabel(page, index) {
+  const id = page && page.id ? String(page.id) : "";
+  const map = {
+    start: "Start",
+    grunddaten: "Grunddaten",
+    "2_Ausgangslage_A": "2 · Ausgangslage",
+    "2b_Diagnostik": "2b · Diagnostik",
+    "3_Ausgangslage_B": "3 · Bedarf",
+    "4_Durchfuehrung_A": "4 · Durchführung",
+    "5_Durchfuehrung_B": "5 · Teilhabe",
+    "6_Musik_Basal": "6 · Musik/Basal",
+    "7_Begleitansatz_A": "7 · Begleitung A",
+    "8_Begleitansatz_B": "8 · Begleitung B",
+    "9_Ziele": "9 · Ziele",
+    "10_Feinziele": "10 · Feinziele",
+    "11_Beobachtung": "11 · Beobachtung",
+    "10b_Zielplanung_1_10": "12 · Bausteine",
+    fertig: "13 · KI",
+    entwicklungsplanung: "14 · EP",
+  };
+  return map[id] || (index + 1) + " · " + String(page?.section || page?.title || "Seite");
+}
+
+function getTabContextLabel(page) {
+  const id = page && page.id ? String(page.id) : "";
+  if (["2_Ausgangslage_A", "2b_Diagnostik", "3_Ausgangslage_B"].includes(id)) return "Ausgangslage";
+  if (["4_Durchfuehrung_A", "5_Durchfuehrung_B", "6_Musik_Basal"].includes(id)) return "Durchführung";
+  if (["7_Begleitansatz_A", "8_Begleitansatz_B"].includes(id)) return "Hilfestellung";
+  if (["9_Ziele", "10_Feinziele", "11_Beobachtung", "10b_Zielplanung_1_10"].includes(id)) return "Ziele";
+  if (["fertig", "entwicklungsplanung"].includes(id)) return "Abschluss";
+  return "";
+}
+
 function renderTabs() {
   const model = currentModel();
   const host = document.getElementById("tabsHost");
   host.innerHTML = model.pages
     .map(
-      (page, index) => `
-        <button type="button" class="tab ${index === APP.currentPage ? "active " + model.colorClass : ""}" data-tab-index="${index}">
-          ${escapeHtml(page.title)}
+      (page, index) => {
+        const compact = getCompactTabLabel(page, index);
+        const context = getTabContextLabel(page);
+        return `
+        <button type="button" class="tab ${index === APP.currentPage ? "active " + model.colorClass : ""}" data-tab-index="${index}" title="${escapeHtml(page.title)}">
+          <span class="tab-short">${escapeHtml(compact)}</span>${context ? `<span class="tab-context">${escapeHtml(context)}</span>` : ""}
         </button>
-      `,
+      `;
+      },
     )
     .join("");
   host.querySelectorAll("[data-tab-index]").forEach((button) => {
@@ -10897,6 +10954,8 @@ function renderItemsPage(page) {
             ${["2_Ausgangslage_A", "2b_Diagnostik", "3_Ausgangslage_B"].includes(page.id) ? renderAusgangslageHelper(page) : ""}
 
             ${["4_Durchfuehrung_A", "5_Durchfuehrung_B", "6_Musik_Basal"].includes(page.id) ? renderDurchfuehrungHelper(page) : ""}
+
+            ${page.id === "9_Ziele" ? renderZieleHelper() : ""}
 
             ${page.id === "10_Feinziele" ? renderFeinzieleHelper() : ""}
 
@@ -11472,6 +11531,277 @@ if (typeof window !== "undefined") {
   window.clearDurchfuehrungTargetFields = clearDurchfuehrungTargetFields;
 }
 
+
+
+function getZieleTargetConfig() {
+  return [
+    { key: "zielHauptziel", label: "Ziele – Hauptziel" },
+    { key: "zielBedeutung", label: "Ziele – Bedeutung" },
+    { key: "zielBezug", label: "Ziele – Bezug" },
+    { key: "zielHinweis", label: "Ziele – Hinweis" },
+  ];
+}
+
+function getZieleSuggestionKey() {
+  return getAiContextScopeKey() + "__9_Ziele__ziele";
+}
+
+function getZieleSuggestion() {
+  const key = getZieleSuggestionKey();
+  return String(APP.meta?.zieleSuggestionByContext?.[key] || "").trim();
+}
+
+function setZieleSuggestion(text) {
+  const key = getZieleSuggestionKey();
+  updateAppMeta({
+    zieleSuggestionByContext: {
+      ...(APP.meta?.zieleSuggestionByContext || {}),
+      [key]: sanitizeTextForApi(String(text || "").trim()),
+    },
+  });
+}
+
+function setZieleStatus(message) {
+  const el = document.getElementById("zieleSuggestionStatus");
+  if (el) el.textContent = cleanInline(message || "");
+}
+
+function syncZieleUi(message = "") {
+  const field = document.getElementById("zieleSuggestionField");
+  if (field) {
+    field.textContent =
+      getZieleSuggestion() ||
+      "Noch kein Vorschlag für Ziele vorhanden.";
+  }
+  if (message) setZieleStatus(message);
+  scheduleNavigatorTextareaResize(document.getElementById("pageHost"));
+}
+
+function renderZieleHelper() {
+  const suggestion = getZieleSuggestion();
+  return `
+            <details class="ki-collapsible ziele-helper" open>
+              <summary>KI-Hilfe Ziele</summary>
+              <div class="ki-collapsible-body">
+                <div class="internal-ai-panel">
+                  <div class="panel-title">Hauptziel fachlich formulieren</div>
+                  <div class="api-test-note">Erstellt aus dem ausgewählten Ziel, der Ausgangslage, dem Unterstützungsbedarf und dem Tagesstruktur-Kontext Vorschläge für die Zielfelder. Bestehende Felder werden nicht automatisch überschrieben.</div>
+                  <div class="tool-row">
+                    <button type="button" class="secondary" onclick="createZieleSuggestion()">Ziel formulieren</button>
+                    <button type="button" class="ghost" onclick="applyZieleSuggestion()">Vorschlag übernehmen</button>
+                    <button type="button" class="ghost" onclick="clearZieleSuggestion()">Vorschlag verwerfen</button>
+                    <button type="button" class="ghost" onclick="clearZieleTargetFields()">Übernommene Zielfelder leeren</button>
+                  </div>
+                  <div class="internal-ai-status" id="zieleSuggestionStatus">Der Vorschlag nutzt nur vorhandene Angaben und formuliert das Fernziel mit Bezug zu RIT/RET. Er verwendet nur Initialen.</div>
+                  <div class="preview-box internal-ai-output compact-ai-output" id="zieleSuggestionField">${escapeHtml(suggestion || "Noch kein Vorschlag für Ziele vorhanden.")}</div>
+                </div>
+              </div>
+            </details>
+  `;
+}
+
+function collectZielePageData() {
+  if (APP.currentView === "generator") mergeCurrentFormIntoState();
+  const page = getPageById("9_Ziele");
+  const state = getPageStateById("9_Ziele") || {};
+  const selected = page ? buildGroupedSelectionLines(page, state) : [];
+  const customEntries = page ? getPageCustomTextEntries(page, state) : [];
+  return {
+    selected,
+    freeText: cleanInline(state.freeText || ""),
+    customEntries,
+  };
+}
+
+function collectZieleContext() {
+  if (APP.currentView === "generator") mergeCurrentFormIntoState();
+  const gd = currentGeneratorState().grunddaten || {};
+  const contextPages = [
+    "2_Ausgangslage_A",
+    "2b_Diagnostik",
+    "3_Ausgangslage_B",
+    "4_Durchfuehrung_A",
+    "5_Durchfuehrung_B",
+    "6_Musik_Basal",
+    "7_Begleitansatz_A",
+    "8_Begleitansatz_B",
+  ];
+  const contextTexts = [];
+  contextPages.forEach((pageId) => {
+    const page = getPageById(pageId);
+    const state = getPageStateById(pageId) || {};
+    if (!page) return;
+    contextTexts.push(...buildGroupedSelectionLines(page, state));
+    if (cleanInline(state.freeText || "")) contextTexts.push(state.freeText);
+    getPageCustomTextEntries(page, state).forEach((entry) => {
+      if (cleanInline(entry.value || "")) contextTexts.push(entry.label + ": " + entry.value);
+    });
+  });
+  return {
+    initials: cleanInline(gd.initialen || ""),
+    kliententyp: cleanInline(gd.kliententyp || ""),
+    setting: getEffectiveSettingTyp(),
+    generator: currentModel().shortTitle,
+    contextTexts: trimEpSuggestionList(contextTexts, 18),
+  };
+}
+
+function buildLocalZieleSuggestion() {
+  const data = collectZielePageData();
+  const context = collectZieleContext();
+
+  function normalizeZieleSource(value) {
+    return cleanInline(String(value || ""))
+      .replace(/^[•\-\s]+/, "")
+      .replace(/^[^:]{3,90}:\s*/, "")
+      .replace(/\s+/g, " ")
+      .trim();
+  }
+
+  function ensureSentence(value) {
+    const text = normalizeZieleSource(value);
+    if (!text) return "";
+    return /[.!?]$/.test(text) ? text : text + ".";
+  }
+
+  const selectedGoal = ensureSentence(
+    data.freeText ||
+      (data.selected || []).map(normalizeZieleSource).filter(Boolean).join(" ") ||
+      (data.customEntries || []).find((entry) => entry.key === "zielHauptziel")?.value ||
+      "",
+  );
+
+  const contextItems = trimEpSuggestionList(context.contextTexts || [], 10);
+  const sourceText = contextItems.length
+    ? contextItems.join("; ")
+    : "Es wurden noch keine zusätzlichen Kontextangaben aus Ausgangslage, Unterstützungsbedarf, Durchführung oder Begleitung erfasst.";
+  const settingLine = context.setting ? context.setting + "-Rahmen" : "erfassten Tagesstrukturrahmen";
+  const personRef = context.initials || "die betreute Person";
+  const focusLine = context.kliententyp
+    ? "Der Förderfokus „" + context.kliententyp + "“ darf nur als fachlicher Leitmassstab mitgedacht werden; er wird nicht als Diagnose, Etikett oder eigenes Ziel formuliert."
+    : "Ein Förderfokus wird nur berücksichtigt, soweit er in den vorhandenen Angaben erfasst ist.";
+
+  if (!selectedGoal) return "";
+
+  return [
+    "Ziele – Hauptziel:\n" +
+      "Für " + personRef + " wird folgendes übergeordnetes Fernziel verwendet: " +
+      selectedGoal +
+      " Das Fernziel bleibt auf den " + settingLine + " bezogen und wird nicht durch zusätzliche Annahmen erweitert.",
+    "Ziele – Bedeutung:\n" +
+      "Die Bedeutung des Fernziels ergibt sich aus den vorhandenen Angaben: " +
+      sourceText +
+      ". " + focusLine,
+    "Ziele – Bezug:\n" +
+      "Der Bezug zur Tagesstruktur entsteht nur aus den erfassten Angaben zu Ausgangslage, Unterstützungsbedarf, Durchführung und Begleitung. Die spätere Umsetzung soll daran anschliessen und auf Seite 10 in Unterzielen sowie auf Seite 11 in beobachtbaren Wirkungen konkretisiert werden.",
+    "Ziele – Hinweis:\n" +
+      "Keine neuen Diagnosen, Angebote, Massnahmen oder Beobachtungen ergänzen. Der vollständige Name wird nicht verwendet; es gelten nur Initialen oder neutrale Bezeichnungen. Bestehende Zielfelder werden erst nach manueller Übernahme verändert.",
+  ].join("\n\n");
+}
+function createZieleSuggestion() {
+  const draft = buildLocalZieleSuggestion();
+  if (!draft) {
+    setZieleStatus("Bitte zuerst ein Ziel auswählen oder Angaben in Ausgangslage / Unterstützungsbedarf erfassen.");
+    return;
+  }
+  setZieleSuggestion(draft);
+  syncZieleUi("Vorschlag wurde erstellt. Bestehende Zielfelder wurden nicht überschrieben.");
+}
+
+function clearZieleSuggestion() {
+  setZieleSuggestion("");
+  syncZieleUi("Der Vorschlag wurde verworfen. Bereits übernommene Zielfelder bleiben erhalten.");
+}
+
+function clearZieleTargetFields() {
+  const targets = getZieleTargetConfig().map((entry) => ({
+    ...entry,
+    element: document.querySelector('#pageHost [data-extra-field="' + entry.key + '"]'),
+  }));
+  if (targets.some((entry) => !entry.element)) {
+    setZieleStatus("Die Zielfelder sind gerade nicht sichtbar. Bitte Seite 9 geöffnet lassen.");
+    return;
+  }
+  const filled = targets.filter((entry) => cleanInline(entry.element.value || ""));
+  if (!filled.length) {
+    setZieleStatus("Die Zielfelder sind bereits leer.");
+    return;
+  }
+  const ok = window.confirm("Übernommene Zielfelder wirklich leeren? Der Vorschlag unten bleibt unverändert.");
+  if (!ok) return;
+  targets.forEach((entry) => { entry.element.value = ""; });
+  saveFormState();
+  syncZieleUi("Übernommene Zielfelder wurden geleert. Der Vorschlag unten blieb unverändert.");
+}
+
+function parseZieleSuggestion(text) {
+  const clean = sanitizeTextForApi(text || "").trim();
+  const config = getZieleTargetConfig();
+  const result = {};
+  config.forEach((item, index) => {
+    const label = escapeRegExpText(item.label);
+    const nextLabels = config
+      .filter((_, i) => i !== index)
+      .map((entry) => escapeRegExpText(entry.label))
+      .join("|");
+    const pattern = new RegExp(
+      "(?:^|\\n)\\s*" + label + "\\s*:?\\s*([\\s\\S]*?)(?=\\n\\s*(?:" + nextLabels + ")\\s*:?|$)",
+      "i",
+    );
+    const match = clean.match(pattern);
+    result[item.key] = match && match[1] ? cleanInline(match[1]) : "";
+  });
+  if (!Object.values(result).some(Boolean) && config.length) result[config[0].key] = clean;
+  return result;
+}
+
+function applyZieleSuggestion() {
+  const suggestion = getZieleSuggestion();
+  if (!suggestion) {
+    setZieleStatus("Es ist noch kein Vorschlag vorhanden.");
+    return;
+  }
+  const fallback = parseZieleSuggestion(buildLocalZieleSuggestion());
+  const sections = parseZieleSuggestion(suggestion);
+  const targets = getZieleTargetConfig().map((entry) => ({
+    ...entry,
+    value: cleanInline(sections[entry.key] || fallback[entry.key] || ""),
+    element: document.querySelector('#pageHost [data-extra-field="' + entry.key + '"]'),
+  }));
+  if (targets.some((entry) => !entry.element)) {
+    setZieleStatus("Die Zielfelder sind gerade nicht sichtbar. Bitte Seite 9 geöffnet lassen.");
+    return;
+  }
+  if (targets.some((entry) => !entry.value)) {
+    setZieleStatus("Der Vorschlag konnte nicht alle Zielfelder füllen. Bitte zuerst ein Ziel auswählen oder Kontext erfassen.");
+    return;
+  }
+  const filled = targets.filter((entry) => cleanInline(entry.element.value || ""));
+  let replaceExisting = false;
+  if (filled.length) {
+    replaceExisting = window.confirm("Einige Zielfelder enthalten bereits Text. OK = ersetzen. Abbrechen = nur leere Felder füllen.");
+  }
+  let written = 0;
+  let skipped = 0;
+  targets.forEach((entry) => {
+    if (cleanInline(entry.element.value || "") && !replaceExisting) {
+      skipped += 1;
+      return;
+    }
+    entry.element.value = entry.value;
+    written += 1;
+  });
+  saveFormState();
+  setZieleSuggestion("");
+  syncZieleUi(written + " Zielfeld(er) übernommen." + (skipped ? " " + skipped + " bestehende Feld(er) blieben erhalten." : "") + " Der Vorschlag wurde nach der Übernahme geleert.");
+}
+
+if (typeof window !== "undefined") {
+  window.createZieleSuggestion = createZieleSuggestion;
+  window.applyZieleSuggestion = applyZieleSuggestion;
+  window.clearZieleSuggestion = clearZieleSuggestion;
+  window.clearZieleTargetFields = clearZieleTargetFields;
+}
 
 function getFeinzielSuggestionKey() {
   return getAiContextScopeKey() + "__10_Feinziele";
