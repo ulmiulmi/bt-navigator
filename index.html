@@ -2395,6 +2395,63 @@ button.secondary {
 
 
 
+
+/* GENERATOR_TOOLBAR_MOBILE_COMPACT_V1 */
+@media (max-width: 760px) {
+  #generatorView .toolbar {
+    position: sticky;
+    top: 0;
+    z-index: 140;
+    display: block;
+    margin: 0 0 10px 0;
+    padding: 8px;
+    border-radius: 16px;
+    overflow: hidden;
+  }
+  #generatorView .toolbar-actions {
+    width: 100%;
+    display: grid !important;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 6px;
+    overflow: visible !important;
+  }
+  #generatorView .toolbar-actions button {
+    width: 100% !important;
+    min-width: 0 !important;
+    min-height: 42px !important;
+    padding: 7px 4px !important;
+    border-radius: 13px !important;
+    font-size: 0 !important;
+    line-height: 1.1 !important;
+    white-space: normal !important;
+    overflow: hidden;
+    text-align: center;
+    box-shadow: none !important;
+  }
+  #generatorView .toolbar-actions button::after {
+    content: attr(data-mobile-label);
+    display: block;
+    font-size: 11px;
+    line-height: 1.12;
+    font-weight: 900;
+    letter-spacing: -0.01em;
+  }
+  #generatorView .toolbar-actions #switchBtn::after {
+    color: #fff;
+    font-size: 13px;
+  }
+  #generatorView .toolbar .hint-line {
+    display: none !important;
+  }
+}
+@media (max-width: 380px) {
+  #generatorView .toolbar { padding: 6px; }
+  #generatorView .toolbar-actions { gap: 5px; }
+  #generatorView .toolbar-actions button { min-height: 39px !important; padding: 6px 2px !important; }
+  #generatorView .toolbar-actions button::after { font-size: 10px; }
+  #generatorView .toolbar-actions #switchBtn::after { font-size: 12px; }
+}
+
 /* MOBILE_EP_VIEW_V5_KOMPAKT */
 .mobile-view-toggle { white-space: nowrap; }
 body.bt-mobile-view { overflow-x: hidden; }
@@ -3160,6 +3217,81 @@ body.bt-mobile-view #pageHost .extra-text-card {
 .ziele-helper .tool-row button,
 .internal-ai-panel .tool-row button { min-height: 40px; }
 body.bt-mobile-view .app-version-note { margin-top: 10px; border-radius: 14px; }
+
+
+/* PROFI_FEINSCHLIFF_V2: ruhigere Startseite, klare Aktiv-Leiste, einheitlichere UI */
+#startView .title-card,
+#startView .title-card::before,
+#startView .headline .green,
+#startView .headline .purple,
+#startView .headline strong,
+#startView .subtitle,
+#startView .emoji,
+#startView .leaf,
+#startView .laptop,
+#startView .screen-inner::after,
+#startView .panel,
+#startView .pill,
+#startView .clipboard,
+#startView .checkline::before,
+#startView .shield,
+#startView .start-row button,
+#startView .confetti i {
+  animation-duration: 5.6s !important;
+  animation-timing-function: ease-in-out !important;
+}
+#startView .confetti i { opacity: .48; }
+#startView .title-card { box-shadow: 0 16px 38px rgba(31, 57, 90, 0.11); }
+#startView .start-row button { animation-duration: 2.6s !important; }
+
+.generator-context-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  margin-top: 8px;
+  padding: 10px;
+  border: 1px solid var(--theme-line, var(--line));
+  border-radius: 16px;
+  background: linear-gradient(180deg, #ffffff 0%, var(--theme-soft, #f8fbff) 100%);
+}
+.context-pill,
+.save-status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 30px;
+  padding: 7px 11px;
+  border: 1px solid var(--theme-line, var(--line));
+  border-radius: 999px;
+  background: #fff;
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 800;
+  line-height: 1.2;
+}
+.context-pill.mode-pill {
+  color: #fff;
+  background: var(--theme, var(--accent));
+  border-color: var(--theme, var(--accent));
+  box-shadow: 0 7px 16px var(--theme-glow, rgba(31,57,90,.08));
+}
+.save-status-pill.saved { color: #0f766e; border-color: #b7eadb; background: #f2fffa; }
+.save-status-pill.dirty { color: #8a6700; border-color: #f0dfad; background: #fff8ea; }
+body.bt-mobile-view .generator-client-banner,
+body.bt-mobile-view .generator-context-row { display: flex !important; }
+body.bt-mobile-view .generator-context-row {
+  padding: 7px;
+  gap: 6px;
+  margin-top: 6px;
+  overflow-x: auto;
+  flex-wrap: nowrap;
+  -webkit-overflow-scrolling: touch;
+}
+body.bt-mobile-view .context-pill,
+body.bt-mobile-view .save-status-pill { flex: 0 0 auto; min-height: 28px; padding: 6px 9px; font-size: 12px; }
+body.bt-mobile-view .generator-client-banner { padding: 8px 10px; font-size: 13px; border-radius: 12px; }
+button, .tab, .mode-chip, .client-summary-generator { letter-spacing: .005em; }
 </style>
 </head>
 <body>
@@ -3333,11 +3465,11 @@ body.bt-mobile-view .app-version-note { margin-top: 10px; border-radius: 14px; }
     <section class="hidden" id="generatorView">
       <div class="toolbar">
         <div class="toolbar-actions">
-          <button type="button" class="secondary" onclick="goHome()">Zur Startseite</button>
-          <button type="button" class="secondary" onclick="goWeekplan()">Zum Wochenplan</button>
-          <button type="button" class="secondary" onclick="manualSaveAll()">Jetzt speichern</button>
-          <button type="button" class="secondary mobile-view-toggle" id="mobileViewToggleBtn" onclick="toggleMobileView()">Mobile Ansicht</button>
-          <button type="button" id="switchBtn">Wechseln</button>
+          <button type="button" class="secondary" data-mobile-label="Start" onclick="goHome()">Zur Startseite</button>
+          <button type="button" class="secondary" data-mobile-label="Plan" onclick="goWeekplan()">Zum Wochenplan</button>
+          <button type="button" class="secondary" data-mobile-label="Sichern" onclick="manualSaveAll()">Jetzt speichern</button>
+          <button type="button" class="secondary mobile-view-toggle" id="mobileViewToggleBtn" data-mobile-label="Mobil" onclick="toggleMobileView()">Mobile Ansicht</button>
+          <button type="button" id="switchBtn" data-mobile-label="Wechsel">Wechseln</button>
         </div>
         <div class="hint-line" id="toolbarHint"></div>
       </div>
@@ -3415,8 +3547,8 @@ body.bt-mobile-view .app-version-note { margin-top: 10px; border-radius: 14px; }
                       <button type="button" class="ghost" onclick="resetCurrentGenerator()">Generator zurücksetzen</button>
                     </div>
                     <div class="tool-row">
-                      <button type="button" class="ghost" onclick="downloadWorkspaceSnapshot()">Speichern unter …</button>
-                      <button type="button" class="ghost" onclick="triggerWorkspaceImport()">Importieren</button>
+                      <button type="button" class="ghost" onclick="downloadWorkspaceSnapshot()">Arbeitsstand sichern</button>
+                      <button type="button" class="ghost" onclick="triggerWorkspaceImport()">Arbeitsstand laden</button>
                     </div>
                     <div class="browser-snapshot-tools">
                       <div class="browser-snapshot-title">Browser-Stände</div>
@@ -7422,6 +7554,8 @@ body[data-weekplan-mode] .footer-note { color: #526075; }
   .client-plan-summary { gap: 8px; }
   .client-plan-summary-mode { display: none; }
 }
+
+
 </style>
 </head>
 <body class="print-all" data-weekplan-mode="rit">
@@ -7477,8 +7611,8 @@ body[data-weekplan-mode] .footer-note { color: #526075; }
           <div class="weekplan-action-title">Speichern</div>
           <div class="weekplan-action-row">
             <button class="secondary" type="button" onclick="manualSaveWeekplan()">Jetzt speichern</button>
-            <button class="secondary" type="button" onclick="window.parent && typeof window.parent.downloadWorkspaceSnapshot === 'function' && window.parent.downloadWorkspaceSnapshot()">Speichern unter …</button>
-            <button class="secondary" type="button" onclick="window.parent && typeof window.parent.triggerWorkspaceImport === 'function' && window.parent.triggerWorkspaceImport()">Importieren</button>
+            <button class="secondary" type="button" onclick="window.parent && typeof window.parent.downloadWorkspaceSnapshot === 'function' && window.parent.downloadWorkspaceSnapshot()">Arbeitsstand sichern</button>
+            <button class="secondary" type="button" onclick="window.parent && typeof window.parent.triggerWorkspaceImport === 'function' && window.parent.triggerWorkspaceImport()">Arbeitsstand laden</button>
           </div>
         </div>
 
@@ -8101,7 +8235,7 @@ body[data-weekplan-mode] .footer-note { color: #526075; }
               </div>
               <div class="client-plan-summary-mode">\${modeMeta.label}</div>
               <div class="client-plan-summary-actions" onclick="event.stopPropagation()">
-                <button class="secondary client-summary-generator wp-generator-link" type="button" onclick="event.stopPropagation(); const card = this.closest('.client-card'); const nameInput = card ? card.querySelector('.client-name') : null; const clientName = nameInput && nameInput.value ? nameInput.value : 'Klient ' + (\${i} + 1); if (window.parent && typeof window.parent.openGeneratorFromWeekplan === 'function') { window.parent.openGeneratorFromWeekplan(\${i}, clientName); }">Zum Generator</button>
+                <button class="secondary client-summary-generator wp-generator-link" type="button" onclick="event.stopPropagation(); const card = this.closest('.client-card'); const nameInput = card ? card.querySelector('.client-name') : null; const clientName = nameInput && nameInput.value ? nameInput.value : 'Klient ' + (\${i} + 1); if (window.parent && typeof window.parent.openGeneratorFromWeekplan === 'function') { window.parent.openGeneratorFromWeekplan(\${i}, clientName); }">Generator öffnen</button>
                 <details class="client-actions-menu" onclick="event.stopPropagation()">
                   <summary class="secondary client-actions-trigger" title="Klienten-Aktionen">☰</summary>
                   <div class="client-actions-panel">
@@ -8626,7 +8760,7 @@ body[data-weekplan-mode] .footer-note { color: #526075; }
       const btn = document.createElement('button');
       btn.type = 'button';
       btn.className = 'secondary wp-generator-link';
-      btn.textContent = 'Zum Generator';
+      btn.textContent = 'Generator öffnen';
       btn.addEventListener('click', () => {
         const nameInput = card.querySelector('.client-name');
         const clientName = nameInput ? nameInput.value : \`Klient \${index + 1}\`;
@@ -10546,10 +10680,12 @@ function renderGenerator() {
     "badge " + model.colorClass;
   document.getElementById("generatorTitle").textContent = model.title;
   document.getElementById("generatorSubtitle").textContent = model.subtitle;
-  document.getElementById("switchBtn").textContent = model.switchLabel;
-  document.getElementById("switchBtn").className =
+  const switchButton = document.getElementById("switchBtn");
+  switchButton.textContent = model.switchLabel;
+  switchButton.dataset.mobileLabel = model.switchTarget === "gret" ? "GRET" : "GRIT";
+  switchButton.className =
     model.switchTarget === "gret" ? "switch-to-gret" : "switch-to-grit";
-  document.getElementById("switchBtn").onclick = () => {
+  switchButton.onclick = () => {
     mergeCurrentFormIntoState();
     applyInverseTimeSlotsToGenerator(model.key, model.switchTarget);
     APP.currentGenerator = model.switchTarget;
@@ -11054,9 +11190,9 @@ function renderAusgangslageHelper(page) {
                   <div class="api-test-note">Erstellt aus den Auswahlfeldern dieser Seite, dem Förderfokus und dem Tagesstruktur-Kontext Vorschläge für die Zusatzfelder. Bestehende Felder werden nicht automatisch überschrieben.</div>
                   <div class="tool-row">
                     <button type="button" class="secondary" onclick="createAusgangslageSuggestion()">Ausgangslage / Unterstützungsbedarf formulieren</button>
-                    <button type="button" class="ghost" onclick="applyAusgangslageSuggestion()">Vorschlag übernehmen</button>
-                    <button type="button" class="ghost" onclick="clearAusgangslageSuggestion()">Vorschlag verwerfen</button>
-                    <button type="button" class="ghost" onclick="clearAusgangslageTargetFields()">Übernommene Felder leeren</button>
+                    <button type="button" class="ghost" onclick="applyAusgangslageSuggestion()">Übernehmen</button>
+                    <button type="button" class="ghost" onclick="clearAusgangslageSuggestion()">Verwerfen</button>
+                    <button type="button" class="ghost" onclick="clearAusgangslageTargetFields()">Felder leeren</button>
                   </div>
                   <div class="internal-ai-status" id="ausgangslageSuggestionStatus">Der Vorschlag wird aus den vorhandenen Eingaben erstellt und verwendet nur Initialen.</div>
                   <div class="preview-box internal-ai-output compact-ai-output" id="ausgangslageSuggestionField">${escapeHtml(suggestion || "Noch kein Vorschlag für Ausgangslage / Unterstützungsbedarf vorhanden.")}</div>
@@ -11335,9 +11471,9 @@ function renderDurchfuehrungHelper(page) {
                   <div class="api-test-note">Erstellt aus den Auswahlfeldern dieser Seite, dem Förderfokus und dem Tagesstruktur-Kontext Vorschläge für die Zusatzfelder. Bestehende Felder werden nicht automatisch überschrieben.</div>
                   <div class="tool-row">
                     <button type="button" class="secondary" onclick="createDurchfuehrungSuggestion()">Durchführung / Aktivitäten formulieren</button>
-                    <button type="button" class="ghost" onclick="applyDurchfuehrungSuggestion()">Vorschlag übernehmen</button>
-                    <button type="button" class="ghost" onclick="clearDurchfuehrungSuggestion()">Vorschlag verwerfen</button>
-                    <button type="button" class="ghost" onclick="clearDurchfuehrungTargetFields()">Übernommene Felder leeren</button>
+                    <button type="button" class="ghost" onclick="applyDurchfuehrungSuggestion()">Übernehmen</button>
+                    <button type="button" class="ghost" onclick="clearDurchfuehrungSuggestion()">Verwerfen</button>
+                    <button type="button" class="ghost" onclick="clearDurchfuehrungTargetFields()">Felder leeren</button>
                   </div>
                   <div class="internal-ai-status" id="durchfuehrungSuggestionStatus">Der Vorschlag wird aus den vorhandenen Eingaben erstellt und verwendet nur Initialen.</div>
                   <div class="preview-box internal-ai-output compact-ai-output" id="durchfuehrungSuggestionField">${escapeHtml(suggestion || "Noch kein Vorschlag für Durchführung / Aktivitäten vorhanden.")}</div>
@@ -11588,8 +11724,8 @@ function renderZieleHelper() {
                   <div class="api-test-note">Erstellt aus dem ausgewählten Ziel, der Ausgangslage, dem Unterstützungsbedarf und dem Tagesstruktur-Kontext Vorschläge für die Zielfelder. Bestehende Felder werden nicht automatisch überschrieben.</div>
                   <div class="tool-row">
                     <button type="button" class="secondary" onclick="createZieleSuggestion()">Ziel formulieren</button>
-                    <button type="button" class="ghost" onclick="applyZieleSuggestion()">Vorschlag übernehmen</button>
-                    <button type="button" class="ghost" onclick="clearZieleSuggestion()">Vorschlag verwerfen</button>
+                    <button type="button" class="ghost" onclick="applyZieleSuggestion()">Übernehmen</button>
+                    <button type="button" class="ghost" onclick="clearZieleSuggestion()">Verwerfen</button>
                     <button type="button" class="ghost" onclick="clearZieleTargetFields()">Übernommene Zielfelder leeren</button>
                   </div>
                   <div class="internal-ai-status" id="zieleSuggestionStatus">Der Vorschlag nutzt nur vorhandene Angaben und formuliert das Fernziel mit Bezug zu RIT/RET. Er verwendet nur Initialen.</div>
@@ -11849,9 +11985,9 @@ function renderFeinzieleHelper() {
                   <div class="api-test-note">Erstellt aus den ausgewählten Feinzielen und dem vorhandenen Kontext fachliche Unterziel-Formulierungen. Bestehende Felder werden nicht automatisch überschrieben.</div>
                   <div class="tool-row">
                     <button type="button" class="secondary" onclick="createFeinzielSuggestion()">Unterziele formulieren</button>
-                    <button type="button" class="ghost" onclick="applyFeinzielSuggestion()">Vorschlag übernehmen</button>
-                    <button type="button" class="ghost" onclick="clearFeinzielSuggestion()">Vorschlag verwerfen</button>
-                    <button type="button" class="ghost" onclick="clearFeinzielTargetFields()">Übernommene Felder leeren</button>
+                    <button type="button" class="ghost" onclick="applyFeinzielSuggestion()">Übernehmen</button>
+                    <button type="button" class="ghost" onclick="clearFeinzielSuggestion()">Verwerfen</button>
+                    <button type="button" class="ghost" onclick="clearFeinzielTargetFields()">Felder leeren</button>
                   </div>
                   <div class="internal-ai-status" id="feinzielSuggestionStatus">Der Vorschlag wird aus den Feinzielen, dem Zielrahmen und dem Förderfokus erstellt. Er verwendet nur Initialen.</div>
                   <div class="preview-box internal-ai-output compact-ai-output" id="feinzielSuggestionField">${escapeHtml(suggestion || "Noch kein Vorschlag für Unterziele vorhanden.")}</div>
@@ -12100,9 +12236,9 @@ function renderBegleitansatzHelper(page) {
                   <div class="api-test-note">Erstellt aus Begleitansatz A/B, Kliententyp, Fernziel und Baustein-Kontext Vorschläge für die Zusatzfelder. Bestehende Felder werden nicht automatisch überschrieben.</div>
                   <div class="tool-row">
                     <button type="button" class="secondary" onclick="createBegleitansatzSuggestion()">Hilfestellung / Massnahmen formulieren</button>
-                    <button type="button" class="ghost" onclick="applyBegleitansatzSuggestion()">Vorschlag übernehmen</button>
-                    <button type="button" class="ghost" onclick="clearBegleitansatzSuggestion()">Vorschlag verwerfen</button>
-                    <button type="button" class="ghost" onclick="clearBegleitansatzTargetFields()">Übernommene Felder leeren</button>
+                    <button type="button" class="ghost" onclick="applyBegleitansatzSuggestion()">Übernehmen</button>
+                    <button type="button" class="ghost" onclick="clearBegleitansatzSuggestion()">Verwerfen</button>
+                    <button type="button" class="ghost" onclick="clearBegleitansatzTargetFields()">Felder leeren</button>
                   </div>
                   <div class="internal-ai-status" id="begleitansatzSuggestionStatus">Der Vorschlag wird lokal aus den vorhandenen Eingaben erstellt und verwendet nur Initialen.</div>
                   <div class="preview-box internal-ai-output compact-ai-output" id="begleitansatzSuggestionField">${escapeHtml(suggestion || "Noch kein Vorschlag für Hilfestellung / Massnahmen vorhanden.")}</div>
@@ -12268,9 +12404,9 @@ function renderObservationCriteriaHelper() {
                   <div class="api-test-note">Erstellt aus den Angaben dieser Seite und dem vorhandenen Kontext Vorschläge für Situation, Verhalten, Bedeutung, Hinweis und Überprüfungskriterien. Bestehende Felder werden nicht automatisch überschrieben.</div>
                   <div class="tool-row">
                     <button type="button" class="secondary" onclick="sendObservationCriteriaSuggestionToOpenAi()">Beobachtung fachlich formulieren</button>
-                    <button type="button" class="ghost" onclick="applyObservationCriteriaSuggestion()">Vorschlag übernehmen</button>
-                    <button type="button" class="ghost" onclick="clearObservationCriteriaSuggestion()">Vorschlag verwerfen</button>
-                    <button type="button" class="ghost" onclick="clearObservationTargetFields()">Beobachtungsfelder leeren</button>
+                    <button type="button" class="ghost" onclick="applyObservationCriteriaSuggestion()">Übernehmen</button>
+                    <button type="button" class="ghost" onclick="clearObservationCriteriaSuggestion()">Verwerfen</button>
+                    <button type="button" class="ghost" onclick="clearObservationTargetFields()">Felder leeren</button>
                   </div>
                   <div class="internal-ai-status" id="observationCriteriaSuggestionStatus">Der Vorschlag nutzt Beobachtung/Wirkung, Kliententyp, Fernziel und Baustein-Kontext. Er überschreibt nichts automatisch.</div>
                   <div class="preview-box internal-ai-output compact-ai-output" id="observationCriteriaSuggestionField">${escapeHtml(suggestion || "Noch kein Vorschlag für Beobachtung / Wirkung vorhanden.")}</div>
@@ -12896,9 +13032,9 @@ function renderEntwicklungsplanungPage(page) {
                         <div class="ep-note">Aus vorhandenen Generator-, Baustein- und EP-Daten wird zuerst nur ein Vorschlag für Massnahmen / Begleitung erstellt. Bestehende Felder werden nicht automatisch überschrieben.</div>
                         <div class="tool-row">
                           <button type="button" class="secondary" onclick="sendEpMassnahmenSuggestionToOpenAi()">Massnahmen professionell formulieren</button>
-                          <button type="button" class="ghost" onclick="applyEpMassnahmenSuggestion()">Vorschlag übernehmen</button>
-                          <button type="button" class="ghost" onclick="clearEpMassnahmenSuggestion()">Vorschlag verwerfen</button>
-                          <button type="button" class="ghost" onclick="clearEpMassnahmenTargetField()">Übernommenes Feld leeren</button>
+                          <button type="button" class="ghost" onclick="applyEpMassnahmenSuggestion()">Übernehmen</button>
+                          <button type="button" class="ghost" onclick="clearEpMassnahmenSuggestion()">Verwerfen</button>
+                          <button type="button" class="ghost" onclick="clearEpMassnahmenTargetField()">Feld leeren</button>
                         </div>
                         <div class="preview-box internal-ai-output compact-ai-output" id="epMassnahmenSuggestionField">Noch kein Massnahmen-Vorschlag vorhanden.</div>
                       </div>
@@ -20307,6 +20443,7 @@ function applyBtNavigatorResponsiveView() {
   const button = document.getElementById("mobileViewToggleBtn");
   if (button) {
     button.textContent = mobile ? "Normale Ansicht" : "Mobile Ansicht";
+    button.dataset.mobileLabel = mobile ? "Normal" : "Mobil";
     button.setAttribute(
       "aria-label",
       mobile ? "Zur normalen Ansicht wechseln" : "Zur mobilen Kompaktansicht wechseln",
