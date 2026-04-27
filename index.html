@@ -3493,8 +3493,8 @@ body.bt-mobile-view .app-version-note { margin-top: 10px; border-radius: 14px; }
                       <button type="button" class="ghost" onclick="resetCurrentGenerator()">Generator zurücksetzen</button>
                     </div>
                     <div class="tool-row">
-                      <button type="button" class="ghost" onclick="downloadWorkspaceSnapshot()">Speichern unter …</button>
-                      <button type="button" class="ghost" onclick="triggerWorkspaceImport()">Importieren</button>
+                      <button type="button" class="ghost" onclick="downloadWorkspaceSnapshot()">Verschlüsselt speichern</button>
+                      <button type="button" class="ghost" onclick="triggerWorkspaceImport()">Verschlüsselte Datei laden</button>
                     </div>
                     <div class="browser-snapshot-tools">
                       <div class="browser-snapshot-title">Browser-Stände</div>
@@ -3502,6 +3502,7 @@ body.bt-mobile-view .app-version-note { margin-top: 10px; border-radius: 14px; }
                         <button type="button" class="ghost" onclick="restoreBrowserSnapshot('current')">Aktueller Stand</button>
                         <button type="button" class="ghost" onclick="restoreBrowserSnapshot('previous')">Vorheriger Stand</button>
                         <button type="button" class="ghost" onclick="restoreBrowserSnapshot('emergency')">Notfall-Stand</button>
+                        <button type="button" class="ghost" onclick="unlockBrowserSnapshotsFromUi()">Stände entsperren</button>
                       </div>
                       <div class="browser-snapshot-status" id="browserSnapshotStatus">Es werden drei Browser-Stände mitgeführt: aktuell, vorherig und Notfall.</div>
                     </div>
@@ -3625,7 +3626,7 @@ body.bt-mobile-view .app-version-note { margin-top: 10px; border-radius: 14px; }
         </aside>
       </div>
     </section>
-    <div class="app-version-note">BT-Navigator V1.0 · RIT / RET · Daten werden lokal im Browser gespeichert</div>
+    <div class="app-version-note">BT-Navigator V1.1 · RIT / RET · Dateien werden verschlüsselt gespeichert · Browserdaten lokal</div>
   </div>
 
   <script>
@@ -7591,8 +7592,8 @@ body[data-weekplan-mode] .footer-note { color: #526075; }
           <div class="weekplan-action-title">Speichern</div>
           <div class="weekplan-action-row">
             <button class="secondary" type="button" onclick="manualSaveWeekplan()">Jetzt speichern</button>
-            <button class="secondary" type="button" onclick="window.parent && typeof window.parent.downloadWorkspaceSnapshot === 'function' && window.parent.downloadWorkspaceSnapshot()">Speichern unter …</button>
-            <button class="secondary" type="button" onclick="window.parent && typeof window.parent.triggerWorkspaceImport === 'function' && window.parent.triggerWorkspaceImport()">Importieren</button>
+            <button class="secondary" type="button" onclick="window.parent && typeof window.parent.downloadWorkspaceSnapshot === 'function' && window.parent.downloadWorkspaceSnapshot()">Verschlüsselt speichern</button>
+            <button class="secondary" type="button" onclick="window.parent && typeof window.parent.triggerWorkspaceImport === 'function' && window.parent.triggerWorkspaceImport()">Verschlüsselte Datei laden</button>
           </div>
         </div>
 
@@ -7602,13 +7603,14 @@ body[data-weekplan-mode] .footer-note { color: #526075; }
             <button class="secondary" type="button" onclick="window.parent && typeof window.parent.restoreBrowserSnapshot === 'function' && window.parent.restoreBrowserSnapshot('current')">Aktuell</button>
             <button class="secondary" type="button" onclick="window.parent && typeof window.parent.restoreBrowserSnapshot === 'function' && window.parent.restoreBrowserSnapshot('previous')">Vorherig</button>
             <button class="secondary" type="button" onclick="window.parent && typeof window.parent.restoreBrowserSnapshot === 'function' && window.parent.restoreBrowserSnapshot('emergency')">Notfall</button>
+            <button class="secondary" type="button" onclick="window.parent && typeof window.parent.unlockBrowserSnapshotsFromUi === 'function' && window.parent.unlockBrowserSnapshotsFromUi()">Entsperren</button>
           </div>
         </div>
 
         <div class="weekplan-action-group">
           <div class="weekplan-action-title">Klient-Datei</div>
           <div class="weekplan-action-row">
-            <button class="secondary" type="button" onclick="window.parent && typeof window.parent.triggerSingleClientImportAsNew === 'function' && window.parent.triggerSingleClientImportAsNew()">Als neuen Klienten importieren</button>
+            <button class="secondary" type="button" onclick="window.parent && typeof window.parent.triggerSingleClientImportAsNew === 'function' && window.parent.triggerSingleClientImportAsNew()">Klient-Datei als neu laden</button>
           </div>
         </div>
 
@@ -8219,8 +8221,8 @@ body[data-weekplan-mode] .footer-note { color: #526075; }
                 <details class="client-actions-menu" onclick="event.stopPropagation()">
                   <summary class="secondary client-actions-trigger" title="Klienten-Aktionen">☰</summary>
                   <div class="client-actions-panel">
-                    <button class="secondary" type="button" onclick="event.stopPropagation(); window.parent && typeof window.parent.downloadSingleClientSnapshot === 'function' && window.parent.downloadSingleClientSnapshot(\${i})">Klient exportieren</button>
-                    <button class="secondary" type="button" onclick="event.stopPropagation(); window.parent && typeof window.parent.triggerSingleClientImport === 'function' && window.parent.triggerSingleClientImport(\${i})">Klient importieren</button>
+                    <button class="secondary" type="button" onclick="event.stopPropagation(); window.parent && typeof window.parent.downloadSingleClientSnapshot === 'function' && window.parent.downloadSingleClientSnapshot(\${i})">Klient verschlüsselt speichern</button>
+                    <button class="secondary" type="button" onclick="event.stopPropagation(); window.parent && typeof window.parent.triggerSingleClientImport === 'function' && window.parent.triggerSingleClientImport(\${i})">Klient-Datei laden</button>
                     <button class="secondary client-remove-btn" type="button" onclick="event.stopPropagation(); removeClientAt(\${i})">Diesen Klienten entfernen</button>
                   </div>
                 </details>
@@ -8881,29 +8883,100 @@ function defaultBrowserSnapshots() {
   };
 }
 
+
+let encryptedBrowserSnapshotsCache = null;
+
+function browserSnapshotPasswordSessionKey() {
+  return storageKey() + "-browser-snapshots-session-password";
+}
+
+function getBrowserSnapshotSessionPassword() {
+  try {
+    return sessionStorage.getItem(browserSnapshotPasswordSessionKey()) || "";
+  } catch (error) {
+    return "";
+  }
+}
+
+function setBrowserSnapshotSessionPassword(password) {
+  try {
+    if (password) sessionStorage.setItem(browserSnapshotPasswordSessionKey(), password);
+  } catch (error) {
+    console.warn("Browser-Stände-Passwort konnte nicht für diese Sitzung gemerkt werden.", error);
+  }
+}
+
+function normalizeBrowserSnapshots(value) {
+  return {
+    ...defaultBrowserSnapshots(),
+    ...(value && typeof value === "object" ? value : {}),
+  };
+}
+
+function isBrowserSnapshotsLockedMarker(value) {
+  return value && value.__locked === true;
+}
+
+function promptBrowserSnapshotPasswordForEncrypt() {
+  const password = prompt(
+    "Browser-Stände verschlüsseln\n\nPasswort eingeben. Dieses Passwort wird für aktueller / vorheriger / Notfall-Stand verwendet.",
+  );
+  if (password === null) return null;
+  if (String(password).length < 8) {
+    alert("Bitte ein Passwort mit mindestens 8 Zeichen verwenden.");
+    return null;
+  }
+  const confirmation = prompt("Passwort zur Sicherheit nochmals eingeben.");
+  if (confirmation === null) return null;
+  if (password !== confirmation) {
+    alert("Die Passwörter stimmen nicht überein.");
+    return null;
+  }
+  return password;
+}
+
+function promptBrowserSnapshotPasswordForDecrypt() {
+  const password = prompt("Passwort für die verschlüsselten Browser-Stände eingeben.");
+  if (password === null) return null;
+  if (!String(password)) {
+    alert("Passwort fehlt.");
+    return null;
+  }
+  return password;
+}
+
+
 function loadBrowserSnapshots() {
+  if (encryptedBrowserSnapshotsCache) return encryptedBrowserSnapshotsCache;
   try {
     const raw = localStorage.getItem(browserSnapshotKey());
     const parsed = raw ? JSON.parse(raw) : {};
-    return {
-      ...defaultBrowserSnapshots(),
-      ...(parsed && typeof parsed === "object" ? parsed : {}),
-    };
+    if (isEncryptedNavigatorFile(parsed)) {
+      return {
+        ...defaultBrowserSnapshots(),
+        __encrypted: true,
+        __locked: !getBrowserSnapshotSessionPassword(),
+      };
+    }
+    return normalizeBrowserSnapshots(parsed);
   } catch (error) {
     return defaultBrowserSnapshots();
   }
 }
 
-function persistBrowserSnapshots(snapshots) {
-  localStorage.setItem(browserSnapshotKey(), JSON.stringify(snapshots));
+function persistBrowserSnapshots(snapshots, options = {}) {
+  persistBrowserSnapshotsEncrypted(snapshots, options).catch((error) => {
+    console.warn("Browser-Stände konnten nicht verschlüsselt gespeichert werden.", error);
+  });
 }
 
 function buildBrowserRecoveryBundle(reason = "auto") {
   const weekplanBase = weekplanBaseStorageKey();
   return {
-    version: 1,
+    version: 2,
     reason,
     savedAt: new Date().toISOString(),
+    encryptedLocalBrowserSnapshot: true,
     appState: localStorage.getItem(storageKey()) || "",
     appMeta: localStorage.getItem(storageMetaKey()) || "",
     workspaceClientCount: localStorage.getItem(workspaceClientCountKey()) || "",
@@ -8914,14 +8987,115 @@ function buildBrowserRecoveryBundle(reason = "auto") {
 }
 
 function formatSnapshotLabel(bundle) {
+  if (isBrowserSnapshotsLockedMarker(bundle)) return "verschlüsselt / gesperrt";
   if (!bundle || !bundle.savedAt) return "leer";
   const stamp = formatDateTime(bundle.savedAt);
   const reason = cleanInline(bundle.reason || "");
   return stamp ? stamp + (reason ? " • " + reason : "") : "leer";
 }
 
-function recordBrowserSnapshot(reason = "auto", options = {}) {
-  const snapshots = loadBrowserSnapshots();
+async function getBrowserSnapshotsForWrite(promptForPassword = false) {
+  if (encryptedBrowserSnapshotsCache) return encryptedBrowserSnapshotsCache;
+
+  const raw = localStorage.getItem(browserSnapshotKey());
+  if (!raw) return defaultBrowserSnapshots();
+
+  try {
+    const parsed = JSON.parse(raw);
+    if (!isEncryptedNavigatorFile(parsed)) {
+      encryptedBrowserSnapshotsCache = normalizeBrowserSnapshots(parsed);
+      return encryptedBrowserSnapshotsCache;
+    }
+
+    let password = getBrowserSnapshotSessionPassword();
+    if (!password && promptForPassword) password = promptBrowserSnapshotPasswordForDecrypt();
+    if (!password) return defaultBrowserSnapshots();
+
+    encryptedBrowserSnapshotsCache = await decryptBrowserSnapshotsWithPassword(parsed, password);
+    setBrowserSnapshotSessionPassword(password);
+    return encryptedBrowserSnapshotsCache;
+  } catch (error) {
+    console.warn("Browser-Stände konnten nicht gelesen werden.", error);
+    if (promptForPassword) alert("Browser-Stände konnten nicht entschlüsselt werden. Passwort prüfen.");
+    return defaultBrowserSnapshots();
+  }
+}
+
+async function getBrowserSnapshotsForRead(promptForPassword = true) {
+  const raw = localStorage.getItem(browserSnapshotKey());
+  if (!raw) return defaultBrowserSnapshots();
+
+  try {
+    const parsed = JSON.parse(raw);
+    if (!isEncryptedNavigatorFile(parsed)) {
+      encryptedBrowserSnapshotsCache = normalizeBrowserSnapshots(parsed);
+      return encryptedBrowserSnapshotsCache;
+    }
+
+    if (encryptedBrowserSnapshotsCache) return encryptedBrowserSnapshotsCache;
+
+    let password = getBrowserSnapshotSessionPassword();
+    if (!password && promptForPassword) password = promptBrowserSnapshotPasswordForDecrypt();
+    if (!password) return { ...defaultBrowserSnapshots(), __locked: true };
+
+    encryptedBrowserSnapshotsCache = await decryptBrowserSnapshotsWithPassword(parsed, password);
+    setBrowserSnapshotSessionPassword(password);
+    return encryptedBrowserSnapshotsCache;
+  } catch (error) {
+    console.warn("Browser-Stände konnten nicht entschlüsselt werden.", error);
+    alert("Browser-Stände konnten nicht entschlüsselt werden. Passwort prüfen.");
+    return { ...defaultBrowserSnapshots(), __locked: true };
+  }
+}
+
+async function persistBrowserSnapshotsEncrypted(snapshots, options = {}) {
+  encryptedBrowserSnapshotsCache = normalizeBrowserSnapshots(snapshots);
+  let password = getBrowserSnapshotSessionPassword();
+  const raw = localStorage.getItem(browserSnapshotKey());
+  let parsed = null;
+  try {
+    parsed = raw ? JSON.parse(raw) : null;
+  } catch (error) {}
+  const alreadyEncrypted = isEncryptedNavigatorFile(parsed);
+
+  if (!password && options.promptForPassword) {
+    if (alreadyEncrypted && !encryptedBrowserSnapshotsCache?.current) {
+      password = promptBrowserSnapshotPasswordForDecrypt();
+      if (!password) return false;
+      try {
+        await decryptBrowserSnapshotsWithPassword(parsed, password);
+      } catch (error) {
+        console.warn("Browser-Stände konnten mit diesem Passwort nicht entsperrt werden.", error);
+        alert("Browser-Stände konnten nicht entsperrt werden. Passwort prüfen.");
+        return false;
+      }
+    } else {
+      password = promptBrowserSnapshotPasswordForEncrypt();
+      if (!password) return false;
+    }
+    setBrowserSnapshotSessionPassword(password);
+  }
+
+  if (!password) {
+    renderWorkspaceMeta();
+    return false;
+  }
+
+  const encrypted = await encryptBrowserSnapshotsWithPassword(encryptedBrowserSnapshotsCache, password);
+  localStorage.setItem(browserSnapshotKey(), JSON.stringify(encrypted));
+  return true;
+}
+
+async function recordBrowserSnapshotAsync(reason = "auto", options = {}) {
+  const shouldPrompt = !!(
+    options.promptForPassword ||
+    reason === "manual" ||
+    reason === "weekplan-manual" ||
+    reason === "import" ||
+    reason === "single-client-import" ||
+    reason === "restore"
+  );
+  const snapshots = await getBrowserSnapshotsForWrite(shouldPrompt);
   const next = buildBrowserRecoveryBundle(reason);
   const rotateReasons = new Set([
     "manual",
@@ -8954,8 +9128,14 @@ function recordBrowserSnapshot(reason = "auto", options = {}) {
     snapshots.emergency = next;
   }
 
-  persistBrowserSnapshots(snapshots);
+  await persistBrowserSnapshotsEncrypted(snapshots, { promptForPassword: shouldPrompt });
   renderWorkspaceMeta();
+}
+
+function recordBrowserSnapshot(reason = "auto", options = {}) {
+  return recordBrowserSnapshotAsync(reason, options).catch((error) => {
+    console.warn("Browser-Stand konnte nicht gespeichert werden.", error);
+  });
 }
 
 function applyBrowserRecoveryBundle(bundle) {
@@ -8984,8 +9164,8 @@ function applyBrowserRecoveryBundle(bundle) {
   else localStorage.removeItem(weekplanBase + "_ret");
 }
 
-function restoreBrowserSnapshot(slot = "current") {
-  const snapshots = loadBrowserSnapshots();
+async function restoreBrowserSnapshot(slot = "current") {
+  const snapshots = await getBrowserSnapshotsForRead(true);
   const bundle = snapshots[slot];
   if (!bundle) {
     alert("Für diesen Browser-Stand ist noch nichts gespeichert.");
@@ -9003,7 +9183,7 @@ function restoreBrowserSnapshot(slot = "current") {
     return;
   }
 
-  recordBrowserSnapshot("restore", { emergency: true });
+  await recordBrowserSnapshotAsync("restore", { emergency: true, promptForPassword: false });
   applyBrowserRecoveryBundle(bundle);
   window.location.reload();
 }
@@ -9014,7 +9194,10 @@ function recordBrowserSnapshotFromWeekplan(reason = "weekplan-manual", options =
   } catch (error) {
     console.warn("Weekplan-Stand konnte vor Browser-Snapshot nicht gespeichert werden.", error);
   }
-  recordBrowserSnapshot(reason, options);
+  recordBrowserSnapshot(reason, {
+    ...options,
+    promptForPassword: !!options.promptForPassword || reason === "weekplan-manual",
+  });
 }
 
 function restoreBrowserSnapshotFromWeekplan(slot = "current") {
@@ -9686,17 +9869,22 @@ function saveEverything(reason = "auto", options = {}) {
       persistAllState();
     }
     saveWeekplanFrameState();
+    let snapshotPromise = null;
     if (options.snapshot !== false) {
-      recordBrowserSnapshot(reason, { emergency: !!options.emergency });
+      snapshotPromise = recordBrowserSnapshot(reason, {
+        emergency: !!options.emergency,
+        promptForPassword: !!options.promptForPassword,
+      });
     }
     setDirtyState(false);
+    return snapshotPromise;
   } catch (error) {
     console.warn("Speichern fehlgeschlagen.", error);
   }
 }
 
-function manualSaveAll() {
-  saveEverything("manual", { snapshot: true });
+async function manualSaveAll() {
+  await saveEverything("manual", { snapshot: true, promptForPassword: true });
 }
 
 function ensureGeneratorState(generatorKey) {
@@ -10566,11 +10754,7 @@ function showHomeRules() {
 }
 
 function goHome() {
-  if (APP.currentGenerator) {
-    mergeCurrentFormIntoState();
-    saveRedlineFieldsFromPage();
-    saveEntwicklungsplanungFieldsFromPage();
-  }
+  if (APP.currentGenerator) mergeCurrentFormIntoState();
   APP.currentGenerator = null;
   APP.currentPage = 0;
   setView("home");
@@ -10579,11 +10763,7 @@ function goHome() {
 }
 
 function goWeekplan() {
-  if (APP.currentGenerator) {
-    mergeCurrentFormIntoState();
-    saveRedlineFieldsFromPage();
-    saveEntwicklungsplanungFieldsFromPage();
-  }
+  if (APP.currentGenerator) mergeCurrentFormIntoState();
   setView("weekplan");
   setTimeout(syncGenerator1DataToWeekplan, 60);
   setTimeout(setupWeekplanFrameFitting, 120);
@@ -10601,11 +10781,7 @@ function getStartPageIndex(generatorKey) {
 }
 
 function openApp(which) {
-  if (APP.currentGenerator) {
-    mergeCurrentFormIntoState();
-    saveRedlineFieldsFromPage();
-    saveEntwicklungsplanungFieldsFromPage();
-  }
+  if (APP.currentGenerator) mergeCurrentFormIntoState();
   APP.currentGenerator = which;
   APP.currentPage = getStartPageIndex(which);
   setView("generator");
@@ -10677,8 +10853,6 @@ function renderGenerator() {
     model.switchTarget === "gret" ? "switch-to-gret" : "switch-to-grit";
   document.getElementById("switchBtn").onclick = () => {
     mergeCurrentFormIntoState();
-    saveRedlineFieldsFromPage();
-    saveEntwicklungsplanungFieldsFromPage();
     applyInverseTimeSlotsToGenerator(model.key, model.switchTarget);
     APP.currentGenerator = model.switchTarget;
     APP.currentPage = getStartPageIndex(model.switchTarget);
@@ -10746,8 +10920,6 @@ function renderTabs() {
   host.querySelectorAll("[data-tab-index]").forEach((button) => {
     button.addEventListener("click", () => {
       mergeCurrentFormIntoState();
-      saveRedlineFieldsFromPage();
-      saveEntwicklungsplanungFieldsFromPage();
       APP.currentPage = Number(button.dataset.tabIndex || 0);
       updateView();
     });
@@ -13430,38 +13602,6 @@ function bindEvents() {
     });
   });
 
-  pageHost.querySelectorAll("[data-redline-field]").forEach((field) => {
-    field.addEventListener("input", () => {
-      saveRedlineFieldsFromPage();
-      autoResizeNavigatorTextarea(field);
-    });
-    field.addEventListener("change", () => {
-      saveRedlineFieldsFromPage();
-      autoResizeNavigatorTextarea(field);
-    });
-  });
-
-  pageHost.querySelectorAll("[data-redline-action]").forEach((button) => {
-    button.addEventListener("click", () => {
-      const action = String(button.dataset.redlineAction || "");
-      if (action === "applyToEp") {
-        applyRedlineToEntwicklungsplanung();
-        return;
-      }
-      if (action === "skip") {
-        skipRedlinePage();
-        return;
-      }
-      if (action === "goEp") {
-        goToEntwicklungsplanungPage();
-        return;
-      }
-      if (action === "clear") {
-        clearRedlineFields();
-      }
-    });
-  });
-
   pageHost.querySelectorAll("[data-goalplan-active-slot]").forEach((field) => {
     field.addEventListener("change", () => {
       mergeCurrentFormIntoState();
@@ -13533,7 +13673,6 @@ function bindEvents() {
   document.getElementById("prevBtn").onclick = () => {
     if (APP.currentPage > 0) {
       mergeCurrentFormIntoState();
-      saveRedlineFieldsFromPage();
       saveEntwicklungsplanungFieldsFromPage();
       APP.currentPage -= 1;
       updateView();
@@ -13544,7 +13683,6 @@ function bindEvents() {
   document.getElementById("nextBtn").onclick = () => {
     if (APP.currentPage < currentModel().pages.length - 1) {
       mergeCurrentFormIntoState();
-      saveRedlineFieldsFromPage();
       saveEntwicklungsplanungFieldsFromPage();
       APP.currentPage += 1;
       updateView();
@@ -18416,7 +18554,7 @@ function buildRoadmapStatus() {
     {
       title: "Übergabe / Sicherung",
       detail:
-        "Arbeitsstand kann exportiert, importiert und per Druckansicht ausgegeben werden.",
+        "Arbeitsstand kann verschlüsselt gespeichert, verschlüsselt geladen und per Druckansicht ausgegeben werden.",
       done: true,
       active: false,
     },
@@ -18445,7 +18583,7 @@ function buildRoadmapStatus() {
       detail: productReady
         ? "Produktivkandidat und Abschlussmappe sind bereit. Der Stand kann direkt als Komplettpaket abgelegt werden."
         : finalReady
-          ? "Die Endfassung ist erreicht. Jetzt wird das Komplettpaket für Ablage und Weitergabe erzeugt."
+          ? "Die Endfassung ist erreicht. Jetzt wird das verschlüsselte Komplettpaket für Ablage und Weitergabe erzeugt."
           : "Der Produktivkandidat startet nach der Schlussprüfung.",
       done: productReady,
       active: finalReady && !productReady,
@@ -18453,7 +18591,7 @@ function buildRoadmapStatus() {
     {
       title: "Produktivfreigabe / Releasepaket",
       detail: productionReady
-        ? "Produktivfreigabe ist erreicht. Produktivdatei und Releasepaket können direkt exportiert werden."
+        ? "Produktivfreigabe ist erreicht. Produktivdatei und Releasepaket können verschlüsselt gespeichert werden."
         : productReady
           ? "Der Produktivkandidat ist erreicht. Jetzt wird die Produktivfreigabe samt Releasepaket geschlossen."
           : "Die Produktivfreigabe startet nach dem Produktivkandidaten.",
@@ -18466,7 +18604,7 @@ function buildRoadmapStatus() {
     steps.find((step) => !step.done) ||
     steps[steps.length - 1];
   const summary = productionReady
-    ? "Die Produktivfreigabe ist erreicht. Produktivdatei und Releasepaket können direkt exportiert werden."
+    ? "Die Produktivfreigabe ist erreicht. Produktivdatei und Releasepaket können verschlüsselt gespeichert werden."
     : productReady
       ? "Der Produktivkandidat ist bereit. Jetzt wird die Produktivfreigabe mit Releasepaket geschlossen."
       : finalReady
@@ -18598,13 +18736,20 @@ function renderWorkspaceMeta() {
   const note = document.getElementById("workspaceMetaNote");
   const snapshotStatus = document.getElementById("browserSnapshotStatus");
   const snapshots = loadBrowserSnapshots();
-  const currentLabel = formatSnapshotLabel(snapshots.current);
+  const currentLabel = formatSnapshotLabel(snapshots.current || (snapshots.__locked ? { __locked: true } : null));
   const previousLabel = formatSnapshotLabel(snapshots.previous);
   const emergencyLabel = formatSnapshotLabel(snapshots.emergency);
+  const encryptedLabel = snapshots.__encrypted
+    ? snapshots.__locked
+      ? "verschlüsselt / gesperrt"
+      : "verschlüsselt / entsperrt"
+    : "noch unverschlüsselt oder leer";
 
   if (snapshotStatus) {
     snapshotStatus.textContent =
-      "Aktuell: " +
+      "Browser-Stände: " +
+      encryptedLabel +
+      " • Aktuell: " +
       currentLabel +
       " • Vorherig: " +
       previousLabel +
@@ -18626,15 +18771,19 @@ function renderWorkspaceMeta() {
       " • letzter Generator: " +
       generatorLabel +
       saveLabel +
-      " • Browser-Stände: aktuell " +
+      " • Browser-Stände: " +
+      encryptedLabel +
+      " • aktuell " +
       currentLabel +
       ", vorherig " +
       previousLabel +
       ", Notfall " +
       emergencyLabel
-    : "Der Arbeitsstand wird lokal im Browser gespeichert und kann zusätzlich als JSON exportiert werden." +
+    : "Der Arbeitsstand wird lokal im Browser gespeichert. Datei-Exporte und Browser-Stände können verschlüsselt gesichert werden." +
       saveLabel +
-      " • Browser-Stände: aktuell " +
+      " • Browser-Stände: " +
+      encryptedLabel +
+      " • aktuell " +
       currentLabel +
       ", vorherig " +
       previousLabel +
@@ -18727,6 +18876,377 @@ function setStoredWeekplanModeState(mode, state) {
   );
 }
 
+
+const BT_NAVIGATOR_ENCRYPTED_FILE_MARKER = "BT-NAVIGATOR-ENCRYPTED";
+const BT_NAVIGATOR_ENCRYPTED_FILE_VERSION = 1;
+const BT_NAVIGATOR_KDF_ITERATIONS = 250000;
+
+function isNavigatorEncryptionAvailable() {
+  return !!(
+    window.crypto &&
+    window.crypto.subtle &&
+    window.crypto.getRandomValues &&
+    window.TextEncoder &&
+    window.TextDecoder
+  );
+}
+
+function bytesToBase64(bytes) {
+  let binary = "";
+  const chunkSize = 0x8000;
+  for (let i = 0; i < bytes.length; i += chunkSize) {
+    const chunk = bytes.subarray(i, i + chunkSize);
+    binary += String.fromCharCode.apply(null, chunk);
+  }
+  return btoa(binary);
+}
+
+function base64ToBytes(base64) {
+  const binary = atob(String(base64 || ""));
+  const bytes = new Uint8Array(binary.length);
+  for (let i = 0; i < binary.length; i += 1) {
+    bytes[i] = binary.charCodeAt(i);
+  }
+  return bytes;
+}
+
+function getEncryptedFileKindLabel(kind) {
+  if (kind === "single-client") return "Klient-Datei";
+  if (kind === "workspace") return "Gesamtstand";
+  return "BT-Navigator-Datei";
+}
+
+async function deriveNavigatorEncryptionKey(password, saltBytes) {
+  const encoder = new TextEncoder();
+  const baseKey = await crypto.subtle.importKey(
+    "raw",
+    encoder.encode(password),
+    "PBKDF2",
+    false,
+    ["deriveKey"],
+  );
+  return crypto.subtle.deriveKey(
+    {
+      name: "PBKDF2",
+      salt: saltBytes,
+      iterations: BT_NAVIGATOR_KDF_ITERATIONS,
+      hash: "SHA-256",
+    },
+    baseKey,
+    { name: "AES-GCM", length: 256 },
+    false,
+    ["encrypt", "decrypt"],
+  );
+}
+
+async function encryptNavigatorPayload(payload, kind) {
+  if (!isNavigatorEncryptionAvailable()) {
+    alert("Verschlüsselung ist in diesem Browser nicht verfügbar. Bitte einen aktuellen Browser verwenden.");
+    return null;
+  }
+
+  const label = getEncryptedFileKindLabel(kind);
+  const password = prompt(
+    label + " verschlüsseln\n\nPasswort eingeben. Ohne dieses Passwort kann die Datei später nicht geöffnet werden.",
+  );
+  if (password === null) return null;
+  if (String(password).length < 8) {
+    alert("Bitte ein Passwort mit mindestens 8 Zeichen verwenden.");
+    return null;
+  }
+
+  const confirmation = prompt("Passwort zur Sicherheit nochmals eingeben.");
+  if (confirmation === null) return null;
+  if (password !== confirmation) {
+    alert("Die Passwörter stimmen nicht überein. Datei wurde nicht gespeichert.");
+    return null;
+  }
+
+  const encoder = new TextEncoder();
+  const salt = crypto.getRandomValues(new Uint8Array(16));
+  const iv = crypto.getRandomValues(new Uint8Array(12));
+  const key = await deriveNavigatorEncryptionKey(password, salt);
+  const plainText = JSON.stringify(payload);
+  const cipherBuffer = await crypto.subtle.encrypt(
+    {
+      name: "AES-GCM",
+      iv,
+      additionalData: encoder.encode(BT_NAVIGATOR_ENCRYPTED_FILE_MARKER + ":" + kind),
+      tagLength: 128,
+    },
+    key,
+    encoder.encode(plainText),
+  );
+
+  return {
+    btNavigatorEncrypted: true,
+    marker: BT_NAVIGATOR_ENCRYPTED_FILE_MARKER,
+    version: BT_NAVIGATOR_ENCRYPTED_FILE_VERSION,
+    kind,
+    exportedAt: new Date().toISOString(),
+    kdf: {
+      name: "PBKDF2",
+      hash: "SHA-256",
+      iterations: BT_NAVIGATOR_KDF_ITERATIONS,
+      salt: bytesToBase64(salt),
+    },
+    cipher: {
+      name: "AES-GCM",
+      iv: bytesToBase64(iv),
+      tagLength: 128,
+    },
+    payload: bytesToBase64(new Uint8Array(cipherBuffer)),
+  };
+}
+
+function isEncryptedNavigatorFile(parsed) {
+  return !!(
+    parsed &&
+    parsed.btNavigatorEncrypted === true &&
+    parsed.marker === BT_NAVIGATOR_ENCRYPTED_FILE_MARKER &&
+    typeof parsed.payload === "string"
+  );
+}
+
+async function parseNavigatorImportText(raw, expectedKind) {
+  const parsed = JSON.parse(raw);
+
+  if (!isEncryptedNavigatorFile(parsed)) {
+    const legacyOk = confirm(
+      "Diese Datei ist nicht verschlüsselt.\n\nSie kann als ältere BT-Navigator-Datei importiert werden. Trotzdem laden?",
+    );
+    if (!legacyOk) return null;
+    return parsed;
+  }
+
+  if (expectedKind && parsed.kind && parsed.kind !== expectedKind) {
+    const continueAnyway = confirm(
+      "Diese verschlüsselte Datei ist als " +
+        getEncryptedFileKindLabel(parsed.kind) +
+        " markiert. Erwartet wird " +
+        getEncryptedFileKindLabel(expectedKind) +
+        ". Trotzdem versuchen?",
+    );
+    if (!continueAnyway) return null;
+  }
+
+  if (!isNavigatorEncryptionAvailable()) {
+    alert("Verschlüsseltes Laden ist in diesem Browser nicht verfügbar. Bitte einen aktuellen Browser verwenden.");
+    return null;
+  }
+
+  const password = prompt("Passwort für die verschlüsselte BT-Navigator-Datei eingeben.");
+  if (password === null) return null;
+
+  try {
+    const salt = base64ToBytes(parsed?.kdf?.salt);
+    const iv = base64ToBytes(parsed?.cipher?.iv);
+    const cipherBytes = base64ToBytes(parsed.payload);
+    const key = await deriveNavigatorEncryptionKey(password, salt);
+    const decoder = new TextDecoder();
+    const plainBuffer = await crypto.subtle.decrypt(
+      {
+        name: "AES-GCM",
+        iv,
+        additionalData: new TextEncoder().encode(
+          BT_NAVIGATOR_ENCRYPTED_FILE_MARKER + ":" + (parsed.kind || expectedKind || "workspace"),
+        ),
+        tagLength: 128,
+      },
+      key,
+      cipherBytes,
+    );
+    return JSON.parse(decoder.decode(plainBuffer));
+  } catch (error) {
+    console.warn("Entschlüsselung fehlgeschlagen", error);
+    alert("Datei konnte nicht entschlüsselt werden. Passwort oder Datei passt nicht.");
+    return null;
+  }
+}
+
+async function saveEncryptedNavigatorFile(payload, kind, fileNamePrefix) {
+  const encrypted = await encryptNavigatorPayload(payload, kind);
+  if (!encrypted) return false;
+
+  const data = JSON.stringify(encrypted, null, 2);
+  const blob = new Blob([data], { type: "application/json;charset=utf-8" });
+  const stamp = new Date().toISOString().slice(0, 19).replace(/[T:]/g, "-");
+  const fileName = fileNamePrefix + "-verschluesselt-" + stamp + ".json";
+
+  try {
+    if (typeof window.showSaveFilePicker === "function") {
+      const handle = await window.showSaveFilePicker({
+        suggestedName: fileName,
+        types: [
+          {
+            description: "Verschlüsselte BT-Navigator-Datei",
+            accept: {
+              "application/json": [".json"],
+            },
+          },
+        ],
+      });
+      const writable = await handle.createWritable();
+      await writable.write(blob);
+      await writable.close();
+      updateAppMeta({ lastUpdated: new Date().toISOString() });
+      return true;
+    }
+  } catch (error) {
+    if (error && error.name === "AbortError") return false;
+    console.warn("Speichern unter nicht verfügbar, Download wird verwendet.", error);
+  }
+
+  try {
+    const file = new File([blob], fileName, { type: "application/json" });
+    if (
+      navigator.share &&
+      (!navigator.canShare || navigator.canShare({ files: [file] }))
+    ) {
+      await navigator.share({
+        title: fileName,
+        text: "Verschlüsselte BT-Navigator-Datei",
+        files: [file],
+      });
+      updateAppMeta({ lastUpdated: new Date().toISOString() });
+      return true;
+    }
+  } catch (shareError) {
+    if (shareError && shareError.name === "AbortError") return false;
+    console.warn("Teilen/Speichern nicht verfügbar, Download wird verwendet.", shareError);
+  }
+
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = fileName;
+  link.rel = "noopener";
+  link.style.display = "none";
+  document.body.appendChild(link);
+  link.click();
+
+  setTimeout(() => {
+    link.remove();
+    URL.revokeObjectURL(url);
+  }, 1000);
+
+  updateAppMeta({ lastUpdated: new Date().toISOString() });
+  alert("Verschlüsselte Datei wurde zum Speichern/Download übergeben.");
+  return true;
+}
+
+
+async function encryptNavigatorPayloadWithPassword(payload, kind, password) {
+  if (!isNavigatorEncryptionAvailable()) {
+    throw new Error("Verschlüsselung ist in diesem Browser nicht verfügbar.");
+  }
+  const encoder = new TextEncoder();
+  const salt = crypto.getRandomValues(new Uint8Array(16));
+  const iv = crypto.getRandomValues(new Uint8Array(12));
+  const key = await deriveNavigatorEncryptionKey(password, salt);
+  const plainText = JSON.stringify(payload || {});
+  const cipherBuffer = await crypto.subtle.encrypt(
+    {
+      name: "AES-GCM",
+      iv,
+      additionalData: encoder.encode(BT_NAVIGATOR_ENCRYPTED_FILE_MARKER + ":" + kind),
+      tagLength: 128,
+    },
+    key,
+    encoder.encode(plainText),
+  );
+  return {
+    btNavigatorEncrypted: true,
+    marker: BT_NAVIGATOR_ENCRYPTED_FILE_MARKER,
+    version: BT_NAVIGATOR_ENCRYPTED_FILE_VERSION,
+    kind,
+    exportedAt: new Date().toISOString(),
+    kdf: {
+      name: "PBKDF2",
+      hash: "SHA-256",
+      iterations: BT_NAVIGATOR_KDF_ITERATIONS,
+      salt: bytesToBase64(salt),
+    },
+    cipher: {
+      name: "AES-GCM",
+      iv: bytesToBase64(iv),
+      tagLength: 128,
+    },
+    payload: bytesToBase64(new Uint8Array(cipherBuffer)),
+  };
+}
+
+async function decryptNavigatorPayloadWithPassword(parsed, expectedKind, password) {
+  const salt = base64ToBytes(parsed?.kdf?.salt);
+  const iv = base64ToBytes(parsed?.cipher?.iv);
+  const cipherBytes = base64ToBytes(parsed.payload);
+  const key = await deriveNavigatorEncryptionKey(password, salt);
+  const plainBuffer = await crypto.subtle.decrypt(
+    {
+      name: "AES-GCM",
+      iv,
+      additionalData: new TextEncoder().encode(
+        BT_NAVIGATOR_ENCRYPTED_FILE_MARKER + ":" + (parsed.kind || expectedKind),
+      ),
+      tagLength: 128,
+    },
+    key,
+    cipherBytes,
+  );
+  return JSON.parse(new TextDecoder().decode(plainBuffer));
+}
+
+async function encryptBrowserSnapshotsWithPassword(snapshots, password) {
+  return encryptNavigatorPayloadWithPassword(
+    normalizeBrowserSnapshots(snapshots),
+    "browser-snapshots",
+    password,
+  );
+}
+
+async function decryptBrowserSnapshotsWithPassword(parsed, password) {
+  const decoded = await decryptNavigatorPayloadWithPassword(parsed, "browser-snapshots", password);
+  return normalizeBrowserSnapshots(decoded);
+}
+
+async function unlockBrowserSnapshotsFromUi() {
+  const raw = localStorage.getItem(browserSnapshotKey());
+  if (!raw) {
+    const password = promptBrowserSnapshotPasswordForEncrypt();
+    if (!password) return;
+    setBrowserSnapshotSessionPassword(password);
+    encryptedBrowserSnapshotsCache = defaultBrowserSnapshots();
+    await persistBrowserSnapshotsEncrypted(encryptedBrowserSnapshotsCache, { promptForPassword: false });
+    alert("Verschlüsselung für Browser-Stände ist aktiviert.");
+    renderWorkspaceMeta();
+    return;
+  }
+
+  try {
+    const parsed = JSON.parse(raw);
+    if (!isEncryptedNavigatorFile(parsed)) {
+      const password = promptBrowserSnapshotPasswordForEncrypt();
+      if (!password) return;
+      encryptedBrowserSnapshotsCache = normalizeBrowserSnapshots(parsed);
+      setBrowserSnapshotSessionPassword(password);
+      await persistBrowserSnapshotsEncrypted(encryptedBrowserSnapshotsCache, { promptForPassword: false });
+      alert("Vorhandene Browser-Stände wurden verschlüsselt.");
+      renderWorkspaceMeta();
+      return;
+    }
+
+    const password = promptBrowserSnapshotPasswordForDecrypt();
+    if (!password) return;
+    encryptedBrowserSnapshotsCache = await decryptBrowserSnapshotsWithPassword(parsed, password);
+    setBrowserSnapshotSessionPassword(password);
+    alert("Browser-Stände sind für diese Sitzung entsperrt.");
+    renderWorkspaceMeta();
+  } catch (error) {
+    console.warn("Browser-Stände konnten nicht entsperrt werden.", error);
+    alert("Browser-Stände konnten nicht entsperrt werden. Passwort prüfen.");
+  }
+}
+
 function getSingleClientSnapshot(index) {
   saveWeekplanFrameState();
   commitCurrentClientWorkspace();
@@ -18748,47 +19268,11 @@ function getSingleClientSnapshot(index) {
 
 async function downloadSingleClientSnapshot(index) {
   const snapshot = getSingleClientSnapshot(index);
-  const data = JSON.stringify(snapshot, null, 2);
-  const blob = new Blob([data], { type: "application/json;charset=utf-8" });
-  const stamp = new Date().toISOString().slice(0, 19).replace(/[T:]/g, "-");
-  const fileName = "bt-navigator-klient-" + (index + 1) + "-" + stamp + ".json";
-
-  try {
-    if (typeof window.showSaveFilePicker === "function") {
-      const handle = await window.showSaveFilePicker({
-        suggestedName: fileName,
-        types: [
-          {
-            description: "JSON-Datei",
-            accept: {
-              "application/json": [".json"],
-            },
-          },
-        ],
-      });
-      const writable = await handle.createWritable();
-      await writable.write(blob);
-      await writable.close();
-      updateAppMeta({ lastUpdated: new Date().toISOString() });
-      return;
-    }
-  } catch (error) {
-    const aborted = error && (error.name === "AbortError" || error.name === "SecurityError");
-    if (aborted) {
-      return;
-    }
-    console.warn("Speichern unter nicht verfügbar, Download wird verwendet.", error);
-  }
-
-  const url = URL.createObjectURL(blob);
-  const link = document.createElement("a");
-  link.href = url;
-  link.download = fileName;
-  document.body.appendChild(link);
-  link.click();
-  link.remove();
-  URL.revokeObjectURL(url);
-  updateAppMeta({ lastUpdated: new Date().toISOString() });
+  await saveEncryptedNavigatorFile(
+    snapshot,
+    "single-client",
+    "bt-navigator-klient-" + (index + 1),
+  );
 }
 
 function triggerSingleClientImport(index) {
@@ -18857,7 +19341,11 @@ async function handleSingleClientImport(event) {
 
   try {
     const raw = await file.text();
-    const parsed = JSON.parse(raw);
+    const parsed = await parseNavigatorImportText(raw, "single-client");
+    if (!parsed) {
+      if (event?.target) event.target.value = "";
+      return;
+    }
     const targetCount = Math.max(getWorkspaceClientCount(), index + 1);
 
     ensureClientStateCapacity(targetCount);
@@ -18902,10 +19390,10 @@ async function handleSingleClientImport(event) {
     }
 
     recordBrowserSnapshot("single-client-import", { emergency: true });
-    alert(importAsNew ? "Klient wurde als neuer Klient importiert." : "Klient wurde importiert.");
+    alert(importAsNew ? "Klient wurde als neuer Klient geladen." : "Klient wurde geladen.");
   } catch (error) {
     console.warn("Klienten-Import fehlgeschlagen", error);
-    alert("Klient konnte nicht importiert werden.");
+    alert("Klient konnte nicht geladen werden.");
   } finally {
     pendingSingleClientImportIndex = null;
     if (event?.target) {
@@ -18931,47 +19419,11 @@ function buildWorkspaceSnapshot() {
 }
 
 async function downloadWorkspaceSnapshot() {
-  const data = JSON.stringify(buildWorkspaceSnapshot(), null, 2);
-  const blob = new Blob([data], { type: "application/json;charset=utf-8" });
-  const stamp = new Date().toISOString().slice(0, 19).replace(/[T:]/g, "-");
-  const fileName = "bt-navigator-gesamtstand-" + stamp + ".json";
-
-  try {
-    if (typeof window.showSaveFilePicker === "function") {
-      const handle = await window.showSaveFilePicker({
-        suggestedName: fileName,
-        types: [
-          {
-            description: "JSON-Datei",
-            accept: {
-              "application/json": [".json"],
-            },
-          },
-        ],
-      });
-      const writable = await handle.createWritable();
-      await writable.write(blob);
-      await writable.close();
-      updateAppMeta({ lastUpdated: new Date().toISOString() });
-      return;
-    }
-  } catch (error) {
-    const aborted = error && (error.name === "AbortError" || error.name === "SecurityError");
-    if (aborted) {
-      return;
-    }
-    console.warn("Speichern unter nicht verfügbar, Download wird verwendet.", error);
-  }
-
-  const url = URL.createObjectURL(blob);
-  const link = document.createElement("a");
-  link.href = url;
-  link.download = fileName;
-  document.body.appendChild(link);
-  link.click();
-  link.remove();
-  URL.revokeObjectURL(url);
-  updateAppMeta({ lastUpdated: new Date().toISOString() });
+  await saveEncryptedNavigatorFile(
+    buildWorkspaceSnapshot(),
+    "workspace",
+    "bt-navigator-gesamtstand",
+  );
 }
 
 function triggerWorkspaceImport() {
@@ -19010,7 +19462,11 @@ async function handleWorkspaceImport(event) {
   if (!file) return;
   try {
     const raw = await file.text();
-    const parsed = JSON.parse(raw);
+    const parsed = await parseNavigatorImportText(raw, "workspace");
+    if (!parsed) {
+      event.target.value = "";
+      return;
+    }
     const weekplanBase = weekplanBaseStorageKey();
 
     if (Array.isArray(parsed?.clientStates)) {
@@ -19102,7 +19558,7 @@ async function handleWorkspaceImport(event) {
 
     recordBrowserSnapshot("import", { emergency: true });
     event.target.value = "";
-    alert("Gesamtstand wurde importiert.");
+    alert("Gesamtstand wurde geladen.");
   } catch (error) {
     console.warn("Import fehlgeschlagen", error);
     alert("Import konnte nicht sauber geladen werden.");
