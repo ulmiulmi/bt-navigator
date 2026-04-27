@@ -2379,18 +2379,7 @@ button.secondary {
   border: 0;
   display: block;
   background: #fff;
-  overflow: auto;
-  -webkit-overflow-scrolling: touch;
-}
-
- (max-width: 740px) {
-  #weekplanView .weekplan-frame-wrap {
-    overflow: visible;
-    border-radius: 16px;
-  }
-  #weekplanView iframe {
-    min-height: calc(100vh - 32px);
-  }
+  overflow: hidden;
 }
 
 
@@ -6266,10 +6255,36 @@ const WEEKPLAN_HTML = `<!DOCTYPE html>
   --muted: #6b7785;
   --accent: #4f7cff;
   --accent-soft: #eef3ff;
+  --rit-main: #5c3991;
+  --rit-soft: #f1ecf8;
+  --rit-line: #dacdf0;
+  --rit-glow: rgba(92, 57, 145, 0.14);
+  --ret-main: #2f7d5a;
+  --ret-soft: #eaf7f1;
+  --ret-line: #cfe7d9;
+  --ret-glow: rgba(47, 125, 90, 0.14);
+  --mode-main: var(--rit-main);
+  --mode-soft: var(--rit-soft);
+  --mode-line: var(--rit-line);
+  --mode-glow: var(--rit-glow);
   --shadow: 0 10px 24px rgba(18, 35, 58, 0.08);
   --radius: 16px;
   --page-w: 277mm;
   --page-h: 190mm;
+}
+
+body[data-weekplan-mode="rit"] {
+  --mode-main: var(--rit-main);
+  --mode-soft: var(--rit-soft);
+  --mode-line: var(--rit-line);
+  --mode-glow: var(--rit-glow);
+}
+
+body[data-weekplan-mode="ret"] {
+  --mode-main: var(--ret-main);
+  --mode-soft: var(--ret-soft);
+  --mode-line: var(--ret-line);
+  --mode-glow: var(--ret-glow);
 }
 
 * {
@@ -6279,7 +6294,9 @@ const WEEKPLAN_HTML = `<!DOCTYPE html>
 body {
   margin: 0;
   font-family: Arial, Helvetica, sans-serif;
-  background: var(--bg);
+  background:
+    linear-gradient(180deg, var(--mode-soft) 0%, var(--bg) 280px),
+    var(--bg);
   color: var(--text);
 }
 
@@ -6303,6 +6320,32 @@ body {
 .topbar {
   padding: 20px;
   margin-bottom: 18px;
+  border-color: var(--mode-line);
+  background: linear-gradient(180deg, #ffffff 0%, var(--mode-soft) 100%);
+  box-shadow: 0 14px 34px var(--mode-glow);
+}
+
+.topbar .title {
+  color: var(--mode-main);
+}
+
+.topbar .subtitle,
+.topbar .hint {
+  color: #3f4a5a;
+}
+
+.topbar input,
+.topbar textarea,
+.topbar select {
+  border-color: var(--mode-line);
+}
+
+.topbar input:focus,
+.topbar textarea:focus,
+.topbar select:focus {
+  outline: none;
+  border-color: var(--mode-main);
+  box-shadow: 0 0 0 3px var(--mode-soft);
 }
 
 .title {
@@ -6543,6 +6586,22 @@ textarea {
   white-space: nowrap;
 }
 
+.weekplan-action-group {
+  border-color: var(--mode-line);
+  background: linear-gradient(180deg, #ffffff 0%, var(--mode-soft) 100%);
+}
+
+.weekplan-action-title,
+.section-title {
+  color: var(--mode-main);
+}
+
+.client-count-display {
+  border-color: var(--mode-line);
+  background: #fff;
+  color: var(--mode-main);
+}
+
 .mode-switch {
   display: flex;
   gap: 8px;
@@ -6553,24 +6612,25 @@ textarea {
 
 .mode-switch-label {
   font-size: 13px;
-  font-weight: 700;
-  color: var(--muted);
+  font-weight: 800;
+  color: var(--mode-main);
   margin-right: 4px;
 }
 
 .mode-chip {
-  border: 1px solid #c8d6ff;
+  border: 1px solid var(--mode-line);
   background: #fff;
-  color: var(--accent);
+  color: var(--mode-main);
   border-radius: 999px;
   padding: 9px 14px;
   min-width: 74px;
+  box-shadow: 0 6px 14px var(--mode-glow);
 }
 
 .mode-chip.active {
-  background: var(--accent);
+  background: var(--mode-main);
   color: #fff;
-  border-color: var(--accent);
+  border-color: var(--mode-main);
 }
 
 button {
@@ -6583,13 +6643,14 @@ button {
 }
 
 .primary {
-  background: var(--accent);
+  background: var(--mode-main);
   color: #fff;
+  box-shadow: 0 8px 18px var(--mode-glow);
 }
 .secondary {
-  background: var(--accent-soft);
-  color: var(--accent);
-  border: 1px solid #c8d6ff;
+  background: #fff;
+  color: var(--mode-main);
+  border: 1px solid var(--mode-line);
 }
 
 .hint {
@@ -6636,10 +6697,10 @@ button {
   gap: 8px;
   min-height: 38px;
   padding: 8px 12px;
-  border: 1px solid #c8d6ff;
+  border: 1px solid var(--mode-line);
   border-radius: 12px;
-  background: var(--accent-soft);
-  color: var(--accent);
+  background: var(--mode-soft);
+  color: var(--mode-main);
   font-weight: 800;
   user-select: none;
 }
@@ -6684,7 +6745,7 @@ button {
   width: 18px;
   height: 18px;
   margin: 2px 0 0;
-  accent-color: var(--accent);
+  accent-color: var(--mode-main);
 }
 
 .overview-view-option strong {
@@ -6714,6 +6775,12 @@ button {
   padding: 16px;
   margin-bottom: 20px;
   overflow-x: auto;
+  border-color: var(--mode-line);
+  box-shadow: 0 12px 28px var(--mode-glow);
+}
+
+.section-intro {
+  border-color: var(--mode-line);
 }
 
 .overview-columns {
@@ -6803,6 +6870,9 @@ button {
 .group-block {
   display: grid;
   gap: 10px;
+  border-color: var(--mode-line);
+  border-left: 4px solid var(--mode-main);
+  background: linear-gradient(180deg, #ffffff 0%, var(--mode-soft) 100%);
 }
 
 .group-block textarea {
@@ -6815,8 +6885,8 @@ button {
 }
 
 .synced-client-card {
-  background: #f8fbff;
-  border-color: #dce6fb;
+  background: var(--mode-soft);
+  border-color: var(--mode-line);
   display: grid;
   gap: 8px;
 }
@@ -6920,7 +6990,10 @@ button {
 }
 
 .client-card {
-  overflow: visible;
+  overflow: hidden;
+  border-color: var(--mode-line);
+  border-radius: 22px;
+  box-shadow: 0 12px 28px var(--mode-glow);
 }
 
 .client-plan-details {
@@ -6936,7 +7009,19 @@ button {
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
+  background: linear-gradient(180deg, #ffffff 0%, var(--mode-soft) 100%);
+  border-top: 0;
+  box-shadow: inset 0 6px 0 var(--mode-main);
+  border-radius: 22px 22px 0 0;
+  padding-top: 22px;
+}
+
+.client-plan-details:not([open]) .client-plan-summary {
+  border-radius: 22px;
+}
+
+.client-plan-details[open] .client-plan-summary {
+  border-radius: 22px 22px 0 0;
 }
 
 .client-plan-summary::-webkit-details-marker {
@@ -6963,14 +7048,14 @@ button {
 .client-plan-summary-label {
   font-size: 13px;
   font-weight: 800;
-  color: var(--muted);
+  color: var(--mode-main);
   margin-bottom: 4px;
 }
 
 .client-plan-summary-name {
   font-size: 20px;
   font-weight: 800;
-  color: var(--text);
+  color: var(--mode-main);
   line-height: 1.2;
 }
 
@@ -6990,7 +7075,9 @@ button {
 }
 
 .client-plan-content {
-  border-top: 1px solid var(--line);
+  border-top: 1px solid var(--mode-line);
+  border-radius: 0 0 22px 22px;
+  overflow: hidden;
 }
 
 .client-name {
@@ -7328,7 +7415,7 @@ td {
 }
   </style>
 </head>
-<body class="print-all">
+<body class="print-all" data-weekplan-mode="rit">
   <div class="page">
     <section class="topbar screen-only">
       <h1 class="title">Wochenplan</h1>
@@ -8195,14 +8282,20 @@ td {
 
     function renderModeUi(mode) {
       const modeMeta = getModeMeta(mode || getCurrentMode());
+      document.body.dataset.weekplanMode = modeMeta.key;
       document.querySelectorAll('[data-mode-switch]').forEach(button => {
         button.classList.toggle('active', button.dataset.modeSwitch === modeMeta.key);
       });
 
+      const title = document.querySelector('.topbar .title');
       const subtitle = document.getElementById('modeSubtitle');
       const hint = document.getElementById('modeHint');
       const overviewSubtitle = document.getElementById('overviewSectionSubtitle');
       const clientSubtitle = document.getElementById('clientSectionSubtitle');
+
+      if (title) {
+        title.textContent = 'Wochenplan – ' + modeMeta.label;
+      }
 
       if (subtitle) {
         subtitle.textContent = 'Oben stehen die Tage nebeneinander. In jedem Tag sind Morgensequenz, ' + modeMeta.groupMorningLabel + ', Mittagswagen, ' + modeMeta.groupAfternoonLabel + ' und Abendsequenz. Die Klienten-Inhalte werden getrennt nach Morgen und Nachmittag direkt in die passenden Gruppenblöcke übernommen.';
@@ -8556,7 +8649,7 @@ td {
   }
 
   document.addEventListener('toggle', (event) => {
-    if (event.target && event.target.matches && event.target.matches('.client-plan-details, .client-actions-menu, .synced-client-details, .overview-view-menu')) {
+    if (event.target && event.target.matches && event.target.matches('.client-plan-details, .client-actions-menu')) {
       requestParentFrameFit();
     }
   }, true);
@@ -9321,7 +9414,7 @@ function fitWeekplanFrameToWidth(frame) {
       const style = doc.createElement("style");
       style.id = "btNavigatorWeekplanFitStyle";
       style.textContent = `
-            html, body { overflow-x: hidden !important; overflow-y: auto !important; -webkit-overflow-scrolling: touch; }
+            html, body { overflow: hidden !important; }
             body { margin: 0 !important; }
             #btNavigatorWeekplanFitRoot {
               transform-origin: top left;
