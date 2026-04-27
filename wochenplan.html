@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>BT-Navigator – separater Wochenplan</title>
+<title>BT-Navigator – Wochenplan verschlüsselt</title>
 <style>
   :root {
     --bg: #f5f7fb;
@@ -211,6 +211,71 @@
     font-weight: 800;
     outline: none;
     cursor: pointer;
+  }
+
+
+  .password-manager-form {
+    display: contents;
+  }
+
+  .password-manager-username {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+    pointer-events: none;
+    border: 0;
+    padding: 0;
+    margin: 0;
+  }
+
+  .password-label {
+    min-height: 42px;
+    border-radius: 12px;
+    padding: 6px 10px;
+    border: 1px solid var(--accent-line);
+    background: #fff;
+    color: var(--accent);
+    display: inline-grid;
+    gap: 2px;
+    align-items: center;
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: .02em;
+  }
+
+  .password-label input {
+    min-width: 210px;
+    border: 0;
+    background: transparent;
+    color: var(--text);
+    font: inherit;
+    font-size: 13px;
+    font-weight: 800;
+    outline: none;
+  }
+
+
+  .remember-label {
+    min-height: 42px;
+    border-radius: 12px;
+    padding: 8px 11px;
+    border: 1px solid var(--accent-line);
+    background: #fff;
+    color: var(--accent);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    font-weight: 900;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .remember-label input {
+    width: 16px;
+    height: 16px;
+    accent-color: var(--accent);
   }
 
   .privacy-note {
@@ -437,7 +502,8 @@
     .topbar { padding: 14px; }
     .controls { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .controls > * { width: 100%; }
-    .select-label select { min-width: 0; width: 100%; }
+    .select-label select, .password-label input { min-width: 0; width: 100%; }
+    .remember-label { justify-content: center; }
     .overview-columns { min-width: 0; grid-template-columns: 1fr; }
     .overview-shell { padding: 12px; }
     .day-card { border-radius: 16px; }
@@ -478,7 +544,7 @@
         <div>
           <div class="brand-line"><span class="brand-dot"></span>BT-Navigator</div>
           <h1 class="title">Wochenplan</h1>
-          <p class="subtitle">Separater Plan aus einer Klienten-JSON. Sichtbar sind nur Ziel und Aktivität.</p>
+          <p class="subtitle">Separater Plan aus einer verschlüsselten BT-Navigator-JSON. Unterstützt die aktuelle BT-Navigator-Verschlüsselung. Sichtbar sind nur Ziel und Aktivität.</p>
         </div>
         <div class="mode-banner" id="modeBanner">RIT</div>
       </div>
@@ -486,12 +552,25 @@
       <div class="controls">
         <label class="file-label">
           JSON laden
-          <input id="fileInput" type="file" accept="application/json,.json" />
+          <input id="fileInput" type="file" accept="application/json,.json,.enc" />
         </label>
+        <form id="passwordManagerForm" class="password-manager-form" autocomplete="on" onsubmit="event.preventDefault(); unlockVault();">
+          <input id="passwordManagerUsername" class="password-manager-username" name="username" type="text" autocomplete="username" value="BT-Navigator Wochenplan" tabindex="-1" aria-hidden="true" readonly />
+          <label class="password-label">
+            Passwort
+            <input id="passwordInput" name="password" type="password" autocomplete="current-password" placeholder="Passwort" />
+          </label>
+          <label class="remember-label" title="Merkt das Passwort nur in diesem Browser-Tab bis zum Sperren oder Schliessen.">
+            <input id="rememberSessionPassword" type="checkbox" onchange="toggleRememberSessionPassword()" />
+            Passwort für Sitzung merken
+          </label>
+          <button type="submit" id="unlockBtn">Speicher entsperren</button>
+        </form>
+        <button type="button" id="lockBtn" onclick="lockVault()">Sperren</button>
         <label class="select-label">
           Gespeicherte Klienten
           <select id="savedClientSelect" onchange="loadSavedClientFromDropdown()">
-            <option value="">Noch keine gespeicherten Klienten</option>
+            <option value="">Speicher gesperrt</option>
           </select>
         </label>
         <button type="button" id="ritBtn" onclick="setMode('rit')">RIT</button>
@@ -502,11 +581,11 @@
         <button type="button" class="primary" onclick="window.print()">Drucken / PDF</button>
       </div>
 
-      <div class="privacy-note">Die Datei wird nur lokal im Browser gelesen. Geöffnete Klienten werden ebenfalls nur lokal in diesem Browser gespeichert, damit sie über das Dropdown wieder angezeigt werden können. Diagnostik, Redline, Entwicklungsplanung, Hinweise und übrige JSON-Inhalte werden nicht angezeigt.</div>
+      <div class="privacy-note">Die Datei wird nur lokal im Browser gelesen. Verschlüsselte BT-Navigator-JSONs werden im Browser mit dem Passwort entschlüsselt. Geöffnete Klienten werden nur verschlüsselt in diesem Browser gespeichert. Das Passwort wird vom Viewer nicht dauerhaft gespeichert. Der Browser-Passwortmanager kann es speichern und später automatisch ausfüllen. Optional kann es zusätzlich nur für die aktuelle Browser-Sitzung gemerkt werden; beim Sperren oder Schliessen des Tabs wird es entfernt.</div>
       <div class="status" id="status">Noch keine Datei geladen.</div>
     </section>
 
-    <section class="empty-card" id="emptyCard">Bitte eine Klienten-JSON aus dem BT-Navigator laden.</section>
+    <section class="empty-card" id="emptyCard">Bitte eine verschlüsselte Klienten-JSON aus dem BT-Navigator laden oder den lokalen Speicher entsperren.</section>
 
     <section class="hidden" id="planArea">
       <section class="section-intro">
@@ -528,7 +607,7 @@
       </section>
     </section>
 
-    <div class="footer-note">BT-Navigator · separater Wochenplan · lokale Datei · nur sichtbare Wochenplan-Inhalte</div>
+    <div class="footer-note">BT-Navigator · separater Wochenplan · verschlüsselte lokale Speicherung · nur sichtbare Wochenplan-Inhalte</div>
   </main>
 
 <script>
@@ -541,8 +620,14 @@
     { key: 'fr', label: 'Freitag', css: 'day-fr' },
   ];
 
-  const STORAGE_KEY = 'btNavigator.weekplanViewer.savedClients.v1';
+  const LEGACY_STORAGE_KEY = 'btNavigator.weekplanViewer.savedClients.v1';
+  const STORAGE_KEY = 'btNavigator.weekplanViewer.encryptedVault.v2';
+  const SESSION_PASSWORD_KEY = 'btNavigator.weekplanViewer.sessionPassword.v1';
+  const SESSION_REMEMBER_KEY = 'btNavigator.weekplanViewer.rememberSessionPassword.v1';
   const MAX_SAVED_CLIENTS = 200;
+  const CRYPTO_ITERATIONS = 250000;
+  const TEXT_ENCODER = new TextEncoder();
+  const TEXT_DECODER = new TextDecoder();
 
   const state = {
     mode: 'rit',
@@ -551,6 +636,8 @@
     savedClients: [],
     activeSavedId: '',
     currentClientLabel: '',
+    vaultUnlocked: false,
+    sessionPassword: '',
   };
 
   function clean(value) {
@@ -574,6 +661,267 @@
 
   function cloneJson(value) {
     return JSON.parse(JSON.stringify(value));
+  }
+
+  function getStatusElement() {
+    return document.getElementById('status');
+  }
+
+  function setStatus(text) {
+    const status = getStatusElement();
+    if (status) status.textContent = text;
+  }
+
+  function getPasswordInputValue() {
+    const input = document.getElementById('passwordInput');
+    return input ? clean(input.value) : '';
+  }
+
+  function clearPasswordInput() {
+    const input = document.getElementById('passwordInput');
+    if (input) input.value = '';
+  }
+
+  function sessionStorageAvailable() {
+    try {
+      const key = SESSION_PASSWORD_KEY + '.test';
+      sessionStorage.setItem(key, '1');
+      sessionStorage.removeItem(key);
+      return true;
+    } catch (_) {
+      return false;
+    }
+  }
+
+  function rememberSessionPasswordChecked() {
+    const checkbox = document.getElementById('rememberSessionPassword');
+    return !!(checkbox && checkbox.checked);
+  }
+
+  function setRememberSessionPasswordChecked(value) {
+    const checkbox = document.getElementById('rememberSessionPassword');
+    if (checkbox) checkbox.checked = !!value;
+  }
+
+  function saveRememberedSessionPassword(password) {
+    if (!sessionStorageAvailable()) return;
+    if (rememberSessionPasswordChecked() && password) {
+      sessionStorage.setItem(SESSION_PASSWORD_KEY, password);
+      sessionStorage.setItem(SESSION_REMEMBER_KEY, '1');
+    } else {
+      sessionStorage.removeItem(SESSION_PASSWORD_KEY);
+      sessionStorage.removeItem(SESSION_REMEMBER_KEY);
+    }
+  }
+
+  function clearRememberedSessionPassword() {
+    if (!sessionStorageAvailable()) return;
+    sessionStorage.removeItem(SESSION_PASSWORD_KEY);
+    sessionStorage.removeItem(SESSION_REMEMBER_KEY);
+  }
+
+  function initializeSessionPasswordMemory() {
+    if (!sessionStorageAvailable()) return;
+    const remembered = sessionStorage.getItem(SESSION_REMEMBER_KEY) === '1';
+    const password = remembered ? clean(sessionStorage.getItem(SESSION_PASSWORD_KEY)) : '';
+    setRememberSessionPasswordChecked(remembered && !!password);
+    if (remembered && password) state.sessionPassword = password;
+  }
+
+  function webCryptoAvailable() {
+    return !!(window.crypto && window.crypto.subtle && window.crypto.getRandomValues);
+  }
+
+  function storageAvailable() {
+    try {
+      const key = STORAGE_KEY + '.test';
+      localStorage.setItem(key, '1');
+      localStorage.removeItem(key);
+      return true;
+    } catch (_) {
+      return false;
+    }
+  }
+
+  function encryptedVaultExists() {
+    return storageAvailable() && !!localStorage.getItem(STORAGE_KEY);
+  }
+
+  function legacyPlainStorageExists() {
+    return storageAvailable() && !!localStorage.getItem(LEGACY_STORAGE_KEY);
+  }
+
+  function bytesToBase64(bytes) {
+    let binary = '';
+    const chunkSize = 0x8000;
+    for (let i = 0; i < bytes.length; i += chunkSize) {
+      binary += String.fromCharCode.apply(null, bytes.subarray(i, i + chunkSize));
+    }
+    return btoa(binary);
+  }
+
+  function base64ToBytes(value) {
+    let text = clean(value)
+      .replace(/^base64:/i, '')
+      .replace(/^data:[^,]+,/i, '')
+      .replace(/-/g, '+')
+      .replace(/_/g, '/')
+      .replace(/\s/g, '');
+    while (text.length % 4) text += '=';
+    const binary = atob(text);
+    const bytes = new Uint8Array(binary.length);
+    for (let i = 0; i < binary.length; i += 1) bytes[i] = binary.charCodeAt(i);
+    return bytes;
+  }
+
+  async function deriveAesKey(password, saltBytes, iterations) {
+    const keyMaterial = await crypto.subtle.importKey(
+      'raw',
+      TEXT_ENCODER.encode(password),
+      'PBKDF2',
+      false,
+      ['deriveKey']
+    );
+    return crypto.subtle.deriveKey(
+      {
+        name: 'PBKDF2',
+        salt: saltBytes,
+        iterations: Number(iterations) || CRYPTO_ITERATIONS,
+        hash: 'SHA-256',
+      },
+      keyMaterial,
+      { name: 'AES-GCM', length: 256 },
+      false,
+      ['encrypt', 'decrypt']
+    );
+  }
+
+  async function encryptJson(value, password, purpose) {
+    if (!webCryptoAvailable()) throw new Error('WebCrypto ist nicht verfügbar.');
+    const salt = crypto.getRandomValues(new Uint8Array(16));
+    const iv = crypto.getRandomValues(new Uint8Array(12));
+    const key = await deriveAesKey(password, salt, CRYPTO_ITERATIONS);
+    const plaintext = TEXT_ENCODER.encode(JSON.stringify(value));
+    const ciphertext = new Uint8Array(await crypto.subtle.encrypt({ name: 'AES-GCM', iv }, key, plaintext));
+    return {
+      btNavigatorEncrypted: true,
+      format: purpose || 'bt-navigator-json',
+      version: 2,
+      algorithm: 'AES-GCM',
+      kdf: 'PBKDF2-SHA256',
+      iterations: CRYPTO_ITERATIONS,
+      salt: bytesToBase64(salt),
+      iv: bytesToBase64(iv),
+      data: bytesToBase64(ciphertext),
+      createdAt: new Date().toISOString(),
+    };
+  }
+
+  function getEnvelopeField(obj, names) {
+    for (const name of names) {
+      if (obj && obj[name] != null && clean(obj[name])) return clean(obj[name]);
+    }
+    return '';
+  }
+
+  function getNestedEnvelopeField(obj, paths) {
+    for (const path of paths) {
+      let current = obj;
+      const parts = Array.isArray(path) ? path : String(path).split('.');
+      for (const part of parts) {
+        if (!current || typeof current !== 'object') {
+          current = null;
+          break;
+        }
+        current = current[part];
+      }
+      if (current != null && clean(current)) return clean(current);
+    }
+    return '';
+  }
+
+  function hasEncryptedMarker(obj) {
+    const cipherName = getNestedEnvelopeField(obj, ['cipher.name', 'algorithm', 'cipher', 'alg']);
+    const kdfName = getNestedEnvelopeField(obj, ['kdf.name', 'kdf', 'keyDerivation']);
+    return obj && (
+      obj.btNavigatorEncrypted === true
+      || obj.encrypted === true
+      || clean(obj.marker).toUpperCase().includes('BT-NAVIGATOR-ENCRYPTED')
+      || clean(obj.format).toLowerCase().includes('encrypted')
+      || clean(obj.type).toLowerCase().includes('encrypted')
+      || clean(obj.kind).toLowerCase().includes('encrypted')
+      || clean(cipherName).toUpperCase().includes('AES')
+      || clean(kdfName).toUpperCase().includes('PBKDF')
+    );
+  }
+
+  function isEncryptedEnvelope(obj) {
+    if (!obj || typeof obj !== 'object' || Array.isArray(obj)) return false;
+    const ciphertext = getNestedEnvelopeField(obj, ['data', 'ciphertext', 'cipherText', 'encryptedData', 'payload', 'ct']);
+    const iv = getNestedEnvelopeField(obj, ['iv', 'nonce', 'cipher.iv', 'cipher.nonce']);
+    const salt = getNestedEnvelopeField(obj, ['salt', 's', 'kdf.salt']);
+    return !!(hasEncryptedMarker(obj) && ciphertext && iv && salt);
+  }
+
+  function normalizeEncryptedEnvelope(obj) {
+    const iterations = Number(
+      obj.iterations
+      || obj.pbkdf2Iterations
+      || obj.kdfIterations
+      || obj.rounds
+      || (obj.kdf && obj.kdf.iterations)
+      || CRYPTO_ITERATIONS
+    );
+    return {
+      salt: getNestedEnvelopeField(obj, ['salt', 's', 'kdf.salt']),
+      iv: getNestedEnvelopeField(obj, ['iv', 'nonce', 'cipher.iv', 'cipher.nonce']),
+      data: getNestedEnvelopeField(obj, ['data', 'ciphertext', 'cipherText', 'encryptedData', 'payload', 'ct']),
+      iterations,
+    };
+  }
+
+  async function decryptEnvelopeToObject(envelope, password) {
+    if (!webCryptoAvailable()) throw new Error('WebCrypto ist nicht verfügbar.');
+    const normalized = normalizeEncryptedEnvelope(envelope);
+    if (!normalized.salt || !normalized.iv || !normalized.data) {
+      throw new Error('Verschlüsselte JSON-Struktur ist unvollständig.');
+    }
+    const salt = base64ToBytes(normalized.salt);
+    const iv = base64ToBytes(normalized.iv);
+    const ciphertext = base64ToBytes(normalized.data);
+    const key = await deriveAesKey(password, salt, normalized.iterations);
+    const decrypted = await crypto.subtle.decrypt({ name: 'AES-GCM', iv }, key, ciphertext);
+    let text = TEXT_DECODER.decode(decrypted);
+    let parsed = JSON.parse(text);
+    if (typeof parsed === 'string') {
+      const inner = safeJsonParse(parsed);
+      if (inner) parsed = inner;
+    }
+    return parsed;
+  }
+
+  async function obtainPassword(message) {
+    if (state.sessionPassword) return state.sessionPassword;
+    const fromInput = getPasswordInputValue();
+    if (fromInput) return fromInput;
+    const entered = window.prompt(message || 'Passwort eingeben');
+    return clean(entered);
+  }
+
+
+  async function askBrowserToStorePassword(password) {
+    if (!password || !('credentials' in navigator) || typeof window.PasswordCredential !== 'function') return;
+    try {
+      const credential = new PasswordCredential({
+        id: 'BT-Navigator Wochenplan',
+        name: 'BT-Navigator Wochenplan',
+        password,
+      });
+      await navigator.credentials.store(credential);
+    } catch (error) {
+      // Nicht jeder Browser unterstützt die Credential Management API. Das normale Passwortformular bleibt trotzdem aktiv.
+      console.warn(error);
+    }
   }
 
   function emptyClientPlan() {
@@ -733,7 +1081,7 @@
   }
 
   function baseName(fileName) {
-    return clean(fileName).replace(/\.json$/i, '') || 'Klient';
+    return clean(fileName).replace(/\.(json|enc)$/i, '') || 'Klient';
   }
 
   function extractClientMeta(parsed, fileName) {
@@ -757,22 +1105,15 @@
     return { label, key };
   }
 
-  function storageAvailable() {
-    try {
-      const key = STORAGE_KEY + '.test';
-      localStorage.setItem(key, '1');
-      localStorage.removeItem(key);
-      return true;
-    } catch (_) {
-      return false;
-    }
-  }
-
-  function loadSavedClients() {
-    if (!storageAvailable()) return [];
-    const parsed = safeJsonParse(localStorage.getItem(STORAGE_KEY));
-    if (!Array.isArray(parsed)) return [];
-    return parsed
+  function sanitizeSavedEntries(parsed) {
+    const source = Array.isArray(parsed)
+      ? parsed
+      : Array.isArray(parsed && parsed.clients)
+        ? parsed.clients
+        : Array.isArray(parsed && parsed.savedClients)
+          ? parsed.savedClients
+          : [];
+    return source
       .filter((entry) => entry && typeof entry === 'object' && entry.id && entry.plans && (entry.plans.rit || entry.plans.ret))
       .map((entry) => ({
         id: clean(entry.id),
@@ -781,20 +1122,92 @@
         sourceFile: clean(entry.sourceFile),
         savedAt: clean(entry.savedAt) || new Date().toISOString(),
         plans: entry.plans,
-        fingerprint: clean(entry.fingerprint),
+        fingerprint: clean(entry.fingerprint) || plansFingerprint(entry.plans),
       }))
       .sort((a, b) => clean(b.savedAt).localeCompare(clean(a.savedAt)));
   }
 
-  function persistSavedClients() {
-    if (!storageAvailable()) return false;
+  function loadLegacyPlainClients() {
+    if (!storageAvailable()) return [];
+    return sanitizeSavedEntries(safeJsonParse(localStorage.getItem(LEGACY_STORAGE_KEY)));
+  }
+
+  function mergeSavedClients(primary, incoming) {
+    const result = [];
+    const seen = new Set();
+    primary.concat(incoming).forEach((entry) => {
+      const marker = entry.key || entry.fingerprint || entry.id;
+      if (seen.has(marker)) return;
+      seen.add(marker);
+      result.push(entry);
+    });
+    return result
+      .sort((a, b) => clean(b.savedAt).localeCompare(clean(a.savedAt)))
+      .slice(0, MAX_SAVED_CLIENTS);
+  }
+
+  async function persistSavedClients() {
+    if (!storageAvailable() || !state.vaultUnlocked || !state.sessionPassword) return false;
     try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(state.savedClients));
+      const envelope = await encryptJson({
+        version: 2,
+        savedAt: new Date().toISOString(),
+        clients: state.savedClients,
+      }, state.sessionPassword, 'bt-navigator-weekplan-viewer-vault');
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(envelope));
       return true;
     } catch (error) {
       console.warn(error);
       return false;
     }
+  }
+
+  async function unlockVaultWithPassword(password) {
+    if (!password) throw new Error('Passwort fehlt.');
+    if (!storageAvailable()) throw new Error('Lokaler Browser-Speicher ist nicht verfügbar.');
+    if (!webCryptoAvailable()) throw new Error('WebCrypto ist nicht verfügbar. Bitte über HTTPS oder GitHub Pages öffnen.');
+
+    const rawVault = safeJsonParse(localStorage.getItem(STORAGE_KEY));
+    let entries = [];
+    if (rawVault) {
+      if (!isEncryptedEnvelope(rawVault)) throw new Error('Lokaler Speicher hat ein unbekanntes Format.');
+      const decrypted = await decryptEnvelopeToObject(rawVault, password);
+      entries = sanitizeSavedEntries(decrypted);
+    }
+
+    const legacy = loadLegacyPlainClients();
+    if (legacy.length) entries = mergeSavedClients(entries, legacy);
+
+    state.sessionPassword = password;
+    saveRememberedSessionPassword(password);
+    askBrowserToStorePassword(password);
+    state.vaultUnlocked = true;
+    state.savedClients = entries.slice(0, MAX_SAVED_CLIENTS);
+
+    if (!rawVault || legacy.length) {
+      await persistSavedClients();
+      if (legacy.length) localStorage.removeItem(LEGACY_STORAGE_KEY);
+    }
+    // Kurze Verzögerung, damit der Browser-Passwortmanager die erfolgreiche Formularnutzung erkennen kann.
+    window.setTimeout(clearPasswordInput, 800);
+    return true;
+  }
+
+  async function tryUnlockVaultWithPassword(password) {
+    try {
+      await unlockVaultWithPassword(password);
+      return true;
+    } catch (error) {
+      console.warn(error);
+      return false;
+    }
+  }
+
+  async function ensureVaultForSaving(preferredPassword) {
+    if (state.vaultUnlocked && state.sessionPassword) return true;
+    const password = clean(preferredPassword) || await obtainPassword('Passwort für verschlüsselte lokale Speicherung eingeben');
+    if (!password) return false;
+    return tryUnlockVaultWithPassword(password);
   }
 
   function makeId() {
@@ -818,7 +1231,9 @@
     const select = document.getElementById('savedClientSelect');
     if (!select) return;
     const options = [];
-    if (state.savedClients.length) {
+    if (!state.vaultUnlocked) {
+      options.push('<option value="">Speicher gesperrt</option>');
+    } else if (state.savedClients.length) {
       options.push('<option value="">Gespeicherten Klienten wählen…</option>');
       state.savedClients.forEach((entry) => {
         const date = formatSavedDate(entry.savedAt);
@@ -830,15 +1245,18 @@
     }
     select.innerHTML = options.join('');
     select.value = state.activeSavedId || '';
+    select.disabled = !state.vaultUnlocked || state.savedClients.length === 0;
 
     const forgetBtn = document.getElementById('forgetClientBtn');
     const clearBtn = document.getElementById('clearSavedBtn');
-    if (forgetBtn) forgetBtn.disabled = !state.activeSavedId;
-    if (clearBtn) clearBtn.disabled = state.savedClients.length === 0;
+    const lockBtn = document.getElementById('lockBtn');
+    if (forgetBtn) forgetBtn.disabled = !state.vaultUnlocked || !state.activeSavedId;
+    if (clearBtn) clearBtn.disabled = !state.vaultUnlocked || state.savedClients.length === 0;
+    if (lockBtn) lockBtn.disabled = !state.vaultUnlocked;
   }
 
-  function upsertSavedClient(plans, meta, sourceFile) {
-    if (!plansHaveAnyPlan(plans)) return null;
+  async function upsertSavedClient(plans, meta, sourceFile) {
+    if (!plansHaveAnyPlan(plans) || !state.vaultUnlocked || !state.sessionPassword) return null;
 
     const now = new Date().toISOString();
     const fingerprint = plansFingerprint(plans);
@@ -859,7 +1277,8 @@
     if (index >= 0) saved.splice(index, 1);
     saved.unshift(entry);
     state.savedClients = saved.slice(0, MAX_SAVED_CLIENTS);
-    persistSavedClients();
+    const persisted = await persistSavedClients();
+    if (!persisted) return null;
     state.activeSavedId = entry.id;
     state.currentClientLabel = entry.label;
     renderSavedClientSelect();
@@ -867,6 +1286,7 @@
   }
 
   function loadSavedEntry(id) {
+    if (!state.vaultUnlocked) return false;
     const entry = state.savedClients.find((item) => item.id === id);
     if (!entry) return false;
     state.plans = cloneJson(entry.plans);
@@ -973,14 +1393,33 @@
         ? 'Wochenplan geladen.'
         : 'Wochenplan-Struktur geladen, aber ohne eingetragene Ziele/Aktivitäten.';
       text += ' Verfügbar: ' + (available.join(' / ') || 'keine') + '.';
-    } else {
+    } else if (state.vaultUnlocked) {
       text = state.savedClients.length
-        ? 'Gespeicherte Klienten sind im Dropdown auswählbar.'
-        : 'Noch keine Datei geladen.';
+        ? 'Verschlüsselter Speicher entsperrt. Gespeicherte Klienten sind im Dropdown auswählbar.'
+        : 'Verschlüsselter Speicher entsperrt. Noch keine Klienten gespeichert.';
+    } else if (encryptedVaultExists()) {
+      text = 'Verschlüsselter Speicher vorhanden. Passwort eingeben und „Speicher entsperren“ wählen.';
+    } else if (legacyPlainStorageExists()) {
+      text = 'Alter unverschlüsselter Verlauf gefunden. Passwort eingeben und entsperren, dann wird er verschlüsselt übernommen.';
+    } else {
+      text = 'Noch keine Datei geladen.';
     }
     if (state.currentClientLabel) text += ' Aktuell: ' + state.currentClientLabel + '.';
+    if (!state.vaultUnlocked && plansHaveAnyPlan(state.plans)) text += ' Lokaler Speicher ist gesperrt.';
     if (extra) text += ' ' + extra;
-    document.getElementById('status').textContent = text;
+    setStatus(text);
+  }
+
+  async function parsePossiblyEncryptedJson(rawText) {
+    const firstParse = JSON.parse(rawText);
+    if (!isEncryptedEnvelope(firstParse)) {
+      return { parsed: firstParse, encrypted: false, password: '' };
+    }
+    const password = await obtainPassword('Diese BT-Navigator-JSON ist verschlüsselt. Passwort eingeben.');
+    if (!password) throw new Error('Passwort fehlt.');
+    const parsed = await decryptEnvelopeToObject(firstParse, password);
+    askBrowserToStorePassword(password);
+    return { parsed, encrypted: true, password };
   }
 
   async function handleFile(event) {
@@ -988,27 +1427,92 @@
     if (!file) return;
     try {
       const raw = await file.text();
-      const parsed = JSON.parse(raw);
+      const fileResult = await parsePossiblyEncryptedJson(raw);
+      const parsed = fileResult.parsed;
       const plans = extractPlans(parsed);
       const meta = extractClientMeta(parsed, file.name);
+      let storageReady = state.vaultUnlocked;
+
+      if (!storageReady) {
+        storageReady = await ensureVaultForSaving(fileResult.password);
+      }
+
       state.plans = plans;
       state.mode = pickInitialMode(plans);
       state.currentClientLabel = meta.label;
-      const savedEntry = upsertSavedClient(plans, meta, file.name);
+      const savedEntry = storageReady ? await upsertSavedClient(plans, meta, file.name) : null;
       state.activeSavedId = savedEntry ? savedEntry.id : '';
-      updateStatus(savedEntry ? 'Klient wurde lokal gespeichert.' : 'Keine Wochenplan-Daten zum Speichern gefunden.');
+
+      const pieces = [];
+      if (fileResult.encrypted) pieces.push('Verschlüsselte JSON wurde entschlüsselt.');
+      pieces.push(savedEntry ? 'Klient wurde verschlüsselt lokal gespeichert.' : 'Klient wurde angezeigt, aber nicht lokal gespeichert. Speicher entsperren oder Passwort prüfen.');
+      updateStatus(pieces.join(' '));
       render();
     } catch (error) {
       console.warn(error);
       state.plans = { rit: null, ret: null };
       state.activeSavedId = '';
       state.currentClientLabel = '';
-      document.getElementById('status').textContent = 'Datei konnte nicht gelesen werden. Bitte eine gültige BT-Navigator-Klienten-JSON laden.';
+      const detail = clean(error && error.message) ? ' ' + clean(error.message) : '';
+      setStatus('Datei konnte nicht gelesen oder entschlüsselt werden. Bitte gültige BT-Navigator-JSON und korrektes Passwort verwenden.' + detail);
       render();
     } finally {
       event.target.value = '';
     }
   }
+
+  window.unlockVault = async function unlockVault() {
+    const password = getPasswordInputValue();
+    if (!password) {
+      setStatus('Bitte Passwort eingeben.');
+      return;
+    }
+    try {
+      await unlockVaultWithPassword(password);
+      state.activeSavedId = '';
+      state.currentClientLabel = '';
+      if (state.savedClients.length) {
+        loadSavedEntry(state.savedClients[0].id);
+        updateStatus('Verschlüsselter Speicher entsperrt.');
+      } else {
+        updateStatus('Verschlüsselter Speicher entsperrt.');
+        render();
+      }
+    } catch (error) {
+      console.warn(error);
+      const detail = clean(error && error.message) ? ' ' + clean(error.message) : '';
+      setStatus('Speicher konnte nicht entsperrt werden. Passwort prüfen.' + detail);
+      render();
+    }
+  };
+
+  window.toggleRememberSessionPassword = function toggleRememberSessionPassword() {
+    if (rememberSessionPasswordChecked()) {
+      if (state.sessionPassword) {
+        saveRememberedSessionPassword(state.sessionPassword);
+        updateStatus('Passwort wird nur für diese Browser-Sitzung gemerkt.');
+      } else {
+        updateStatus('Passwort wird nach dem nächsten erfolgreichen Entsperren für diese Browser-Sitzung gemerkt.');
+      }
+    } else {
+      clearRememberedSessionPassword();
+      updateStatus('Gemerktes Sitzungs-Passwort wurde entfernt.');
+    }
+  };
+
+  window.lockVault = function lockVault() {
+    state.sessionPassword = '';
+    clearRememberedSessionPassword();
+    setRememberSessionPasswordChecked(false);
+    state.vaultUnlocked = false;
+    state.savedClients = [];
+    state.activeSavedId = '';
+    state.currentClientLabel = '';
+    state.plans = { rit: null, ret: null };
+    clearPasswordInput();
+    updateStatus('Speicher wurde gesperrt.');
+    render();
+  };
 
   window.setMode = function setMode(mode) {
     const nextMode = mode === 'ret' ? 'ret' : 'rit';
@@ -1030,40 +1534,64 @@
     loadSavedEntry(id);
   };
 
-  window.forgetCurrentClient = function forgetCurrentClient() {
-    if (!state.activeSavedId) return;
+  window.forgetCurrentClient = async function forgetCurrentClient() {
+    if (!state.vaultUnlocked || !state.activeSavedId) return;
     state.savedClients = state.savedClients.filter((entry) => entry.id !== state.activeSavedId);
-    persistSavedClients();
+    await persistSavedClients();
     state.activeSavedId = '';
     state.currentClientLabel = '';
     state.plans = { rit: null, ret: null };
     if (state.savedClients.length) {
       loadSavedEntry(state.savedClients[0].id);
-      updateStatus('Der vorher aktive Klient wurde entfernt.');
+      updateStatus('Der vorher aktive Klient wurde verschlüsselt entfernt.');
     } else {
       updateStatus('Der gespeicherte Klient wurde entfernt.');
       render();
     }
   };
 
-  window.clearSavedClients = function clearSavedClients() {
+  window.clearSavedClients = async function clearSavedClients() {
+    if (!state.vaultUnlocked) return;
     state.savedClients = [];
     state.activeSavedId = '';
     state.currentClientLabel = '';
     state.plans = { rit: null, ret: null };
-    persistSavedClients();
-    updateStatus('Der lokale Klienten-Verlauf wurde gelöscht.');
+    await persistSavedClients();
+    updateStatus('Der verschlüsselte lokale Klienten-Verlauf wurde gelöscht.');
     render();
   };
 
-  state.savedClients = loadSavedClients();
-  document.getElementById('fileInput').addEventListener('change', handleFile);
-  if (state.savedClients.length) {
-    loadSavedEntry(state.savedClients[0].id);
-  } else {
+  async function startup() {
+    document.getElementById('fileInput').addEventListener('change', handleFile);
+    initializeSessionPasswordMemory();
+
+    if (state.sessionPassword && encryptedVaultExists()) {
+      try {
+        await unlockVaultWithPassword(state.sessionPassword);
+        if (state.savedClients.length) {
+          loadSavedEntry(state.savedClients[0].id);
+          updateStatus('Verschlüsselter Speicher wurde mit dem gemerkten Sitzungs-Passwort entsperrt.');
+        } else {
+          updateStatus('Verschlüsselter Speicher wurde mit dem gemerkten Sitzungs-Passwort entsperrt.');
+          render();
+        }
+        return;
+      } catch (error) {
+        console.warn(error);
+        state.sessionPassword = '';
+        clearRememberedSessionPassword();
+        setRememberSessionPasswordChecked(false);
+        updateStatus('Gemerktes Sitzungs-Passwort konnte nicht verwendet werden. Bitte Passwort neu eingeben.');
+        render();
+        return;
+      }
+    }
+
     updateStatus();
     render();
   }
+
+  startup();
 })();
 </script>
 </body>
