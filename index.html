@@ -2402,6 +2402,33 @@ button.secondary {
   font: inherit;
   line-height: 1.5;
 }
+
+.bausteinverwaltung-readonly {
+  width: 100%;
+  min-height: 46px;
+  border: 1px solid #d8e2ea;
+  border-radius: 12px;
+  background: #fbfcff;
+  padding: 10px 12px;
+  font: inherit;
+  line-height: 1.55;
+  color: var(--text);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.bausteinverwaltung-readonly.empty {
+  color: var(--muted);
+  font-style: italic;
+  background: #f7faff;
+}
+.bausteinverwaltung-structured-note {
+  padding: 12px 14px;
+  border: 1px dashed var(--theme-line, var(--line));
+  border-radius: 14px;
+  background: #fff;
+  color: var(--muted);
+  line-height: 1.5;
+}
 @media (max-width: 920px) {
   .bausteinverwaltung-fields {
     grid-template-columns: 1fr;
@@ -4960,7 +4987,7 @@ const MODELS = {
         id: "10b_Zielplanung_1_10",
         title: "12. Bausteinverwaltung",
         section: "Bausteinverwaltung",
-        hint: "Hier verwaltest du Bausteine 1–10 zum gemeinsamen Fernziel aus Seite 9. Ein Baustein speichert Durchführung, Begleitansatz, Feinziele sowie Beobachtung/Wirkung aus 4–8, 10 und 11. Seite 9 / Fernziel bleibt unverändert.",
+        hint: "Hier verwaltest du Bausteine 1–10 zum gemeinsamen Fernziel aus Seite 9. Ein Baustein speichert nur ausgewählte Inhalte aus 4–8, 10 und 11. Freitexte und KI-Zusatztexte werden in der Bausteinverwaltung nicht übernommen. Seite 9 / Fernziel bleibt unverändert.",
         type: "zielplanung",
         itemCount: 10,
       },
@@ -6278,7 +6305,7 @@ const MODELS = {
         id: "10b_Zielplanung_1_10",
         title: "12. Bausteinverwaltung",
         section: "Bausteinverwaltung",
-        hint: "Hier verwaltest du Bausteine 1–10 zum gemeinsamen Fernziel aus Seite 9. Ein Baustein speichert Durchführung, Begleitansatz, Feinziele sowie Beobachtung/Wirkung aus 4–8, 10 und 11. Seite 9 / Fernziel bleibt unverändert.",
+        hint: "Hier verwaltest du Bausteine 1–10 zum gemeinsamen Fernziel aus Seite 9. Ein Baustein speichert nur ausgewählte Inhalte aus 4–8, 10 und 11. Freitexte und KI-Zusatztexte werden in der Bausteinverwaltung nicht übernommen. Seite 9 / Fernziel bleibt unverändert.",
         type: "zielplanung",
         itemCount: 10,
       },
@@ -13462,6 +13489,16 @@ function getGoalPlanStatus(plan) {
   return bits.join(" • ");
 }
 
+
+function renderGoalPlanReadonlyBlock(label, value, full = false) {
+  const clean = normalizeOutputText(value || "");
+  return `
+                  <label${full ? ' class="full"' : ''}>
+                    <span>${escapeHtml(label)}</span>
+                    <div class="bausteinverwaltung-readonly${clean ? "" : " empty"}">${escapeHtml(clean || "Wird aus den ausgewählten Baustein-Inhalten übernommen.")}</div>
+                  </label>`;
+}
+
 function renderZielplanungPage(page) {
   const pageState = getGoalPlanningState(APP.currentGenerator, page.id);
   const activeSlot = Math.min(9, Math.max(0, Number(pageState.activeSlot || 0)));
@@ -13488,7 +13525,7 @@ function renderZielplanungPage(page) {
               <div class="inline-note">Dieses Fernziel gilt für alle Bausteine. Es wird hier nur angezeigt und durch Speichern, Laden oder Leeren von Bausteinen nicht verändert.</div>
             </div>
 
-            <div class="zielplanung-note">Die Bausteinverwaltung speichert und lädt nur die Arbeitsinhalte aus 4–8, 10 und 11. Der Wechsel im Dropdown lädt noch nichts automatisch. Erst der Button „Baustein laden“ verändert die aktuelle Arbeitsfläche.</div>
+            <div class="zielplanung-note">Die Bausteinverwaltung speichert und lädt nur ausgewählte Baustein-Inhalte aus 4–8, 10 und 11. Freitexte und KI-Zusatztexte werden hier bewusst nicht übernommen. Der Wechsel im Dropdown lädt noch nichts automatisch. Erst der Button „Baustein laden“ verändert die aktuelle Arbeitsfläche.</div>
 
             <div class="bausteinverwaltung-control">
               <label>
@@ -13529,39 +13566,15 @@ function renderZielplanungPage(page) {
                     </select>
                   </label>
                 </div>
+                <div class="bausteinverwaltung-structured-note">Die Bausteinfelder sind hier bewusst nicht frei beschreibbar. Änderungen erfolgen über die Auswahlseiten 4–8, 10 und 11 und werden danach mit „Aktuelle Inhalte in Baustein speichern“ übernommen.</div>
                 <div class="bausteinverwaltung-fields">
-                  <label>
-                    <span>Feinziel 1</span>
-                    <textarea data-goalplan-field="feinziel1" data-goalplan-index="${activeSlot}" placeholder="Feinziel 1">${escapeHtml(plan.feinziel1 || "")}</textarea>
-                  </label>
-                  <label>
-                    <span>Feinziel 2</span>
-                    <textarea data-goalplan-field="feinziel2" data-goalplan-index="${activeSlot}" placeholder="Feinziel 2">${escapeHtml(plan.feinziel2 || "")}</textarea>
-                  </label>
-                  <label class="full">
-                    <span>Feinziel 3</span>
-                    <textarea data-goalplan-field="feinziel3" data-goalplan-index="${activeSlot}" placeholder="Feinziel 3">${escapeHtml(plan.feinziel3 || "")}</textarea>
-                  </label>
-                  <label class="full">
-                    <span>Aktivitäten / Teilhabe</span>
-                    <textarea data-goalplan-field="aktivitaeten" data-goalplan-index="${activeSlot}" placeholder="Aktivitäten aus Durchführung / Musik / basalen Situationen oder frei erfassen">${escapeHtml(plan.aktivitaeten || "")}</textarea>
-                  </label>
-                  <label class="full">
-                    <span>Durchführung</span>
-                    <textarea data-goalplan-field="durchfuehrung" data-goalplan-index="${activeSlot}" placeholder="Wie wird die Durchführung konkret gestaltet?">${escapeHtml(plan.durchfuehrung || "")}</textarea>
-                  </label>
-                  <label>
-                    <span>Massnahmen / Begleitung</span>
-                    <textarea data-goalplan-field="massnahmen" data-goalplan-index="${activeSlot}" placeholder="Begleitung, Unterstützung, Anpassungen">${escapeHtml(plan.massnahmen || "")}</textarea>
-                  </label>
-                  <label>
-                    <span>Materialien</span>
-                    <textarea data-goalplan-field="materialien" data-goalplan-index="${activeSlot}" placeholder="Benötigte Materialien">${escapeHtml(plan.materialien || "")}</textarea>
-                  </label>
-                  <label class="full">
-                    <span>Beobachtung / Wirkung</span>
-                    <textarea data-goalplan-field="beobachtung" data-goalplan-index="${activeSlot}" placeholder="Beobachtung und Wirkung aus Seite 11 oder frei ergänzen">${escapeHtml(plan.beobachtung || "")}</textarea>
-                  </label>
+                  ${renderGoalPlanReadonlyBlock("Feinziel 1", plan.feinziel1)}
+                  ${renderGoalPlanReadonlyBlock("Feinziel 2", plan.feinziel2)}
+                  ${renderGoalPlanReadonlyBlock("Feinziel 3", plan.feinziel3, true)}
+                  ${renderGoalPlanReadonlyBlock("Aktivitäten / Teilhabe", plan.aktivitaeten, true)}
+                  ${renderGoalPlanReadonlyBlock("Durchführung", plan.durchfuehrung, true)}
+                  ${renderGoalPlanReadonlyBlock("Massnahmen / Begleitung", plan.massnahmen, true)}
+                  ${renderGoalPlanReadonlyBlock("Beobachtung / Wirkung", plan.beobachtung, true)}
                 </div>
               </div>
             </section>
@@ -14918,18 +14931,10 @@ function collectCurrentFernzielForGoalPlanning() {
 function collectCurrentFeinzieleForGoalPlanning() {
   const feinPage = getPageById("10_Feinziele");
   if (!feinPage) return [];
-  const state = getPageStateById(feinPage.id);
-  const preferred = [
-    cleanInline(state?.textFields?.feinziel1 || ""),
-    cleanInline(state?.textFields?.feinziel2 || ""),
-    cleanInline(state?.textFields?.feinziel3 || ""),
-  ];
   const selected = getFlatSelectionsForPage(feinPage.id).map((item) =>
     cleanInline(item || ""),
   );
-  const freeText = cleanInline(state.freeText || "");
-  const combined = uniqueClean([...preferred, ...selected, freeText]);
-  return combined.slice(0, 3);
+  return uniqueClean(selected).slice(0, 3);
 }
 
 function collectCurrentActivitiesForGoalPlanning() {
@@ -14942,15 +14947,8 @@ function collectCurrentActivitiesForGoalPlanning() {
   sourcePageIds.forEach((pageId) => {
     const page = getPageById(pageId);
     if (!page) return;
-    const state = getPageStateById(pageId);
     getFlatSelectionsForPage(pageId).forEach((item) => {
       const value = cleanInline(item || "");
-      if (value) pool.push(value);
-    });
-    const freeText = cleanInline(state.freeText || "");
-    if (freeText) pool.push(freeText);
-    getPageCustomTextEntries(page, state).forEach((entry) => {
-      const value = cleanInline(entry.value || "");
       if (value) pool.push(value);
     });
   });
@@ -14964,15 +14962,8 @@ function collectCurrentTextFromPagesForGoalPlanning(sourcePageIds) {
   sourcePageIds.forEach((pageId) => {
     const page = getPageById(pageId);
     if (!page) return;
-    const state = getPageStateById(pageId);
     getFlatSelectionsForPage(pageId).forEach((item) => {
       const value = cleanInline(item || "");
-      if (value) pool.push(value);
-    });
-    const freeText = cleanInline(state.freeText || "");
-    if (freeText) pool.push(freeText);
-    getPageCustomTextEntries(page, state).forEach((entry) => {
-      const value = cleanInline(entry.value || "");
       if (value) pool.push(value);
     });
   });
@@ -15021,6 +15012,7 @@ function applyCurrentContentToGoalPlan(slotIndex, options = {}) {
   if (aktivitaeten) current.aktivitaeten = aktivitaeten;
   if (durchfuehrung) current.durchfuehrung = durchfuehrung;
   if (massnahmen) current.massnahmen = massnahmen;
+  current.materialien = "";
   if (beobachtung) current.beobachtung = beobachtung;
   current.sourcePages = sourcePages;
 
@@ -15070,9 +15062,20 @@ function hasGoalWorkingPageStateContent(pageState) {
   if (!pageState || typeof pageState !== "object") return false;
   if (Array.isArray(pageState.selected) && pageState.selected.some((value) => cleanInline(value || ""))) return true;
   if (Array.isArray(pageState.partial) && pageState.partial.some((value) => cleanInline(value || ""))) return true;
-  if (cleanInline(pageState.freeText || "")) return true;
-  const textFields = pageState.textFields && typeof pageState.textFields === "object" ? pageState.textFields : {};
-  return Object.values(textFields).some((value) => cleanInline(value || ""));
+  return false;
+}
+
+function stripFreeTextFromGoalPageState(pageState) {
+  return {
+    selected: Array.isArray(pageState?.selected)
+      ? pageState.selected.filter((value) => cleanInline(value || ""))
+      : [],
+    partial: Array.isArray(pageState?.partial)
+      ? pageState.partial.filter((value) => cleanInline(value || ""))
+      : [],
+    freeText: "",
+    textFields: {},
+  };
 }
 
 function collectGoalWorkingPageSnapshots() {
@@ -15080,7 +15083,7 @@ function collectGoalWorkingPageSnapshots() {
   const pages = generatorState.pages || {};
   const sourcePages = {};
   GOAL_WORKING_PAGE_IDS.forEach((pageId) => {
-    sourcePages[pageId] = cloneGoalPlanPageState(pages[pageId] || emptyGoalWorkingPageState());
+    sourcePages[pageId] = stripFreeTextFromGoalPageState(pages[pageId] || emptyGoalWorkingPageState());
   });
   return sourcePages;
 }
@@ -15107,38 +15110,8 @@ function clearGoalWorkingContentAfterConfirmation() {
 }
 
 function restoreGoalPlanFallbackToGeneratorPages(plan, nextPages) {
-  if (!plan || typeof plan !== "object") return;
-  if (cleanInline(plan.aktivitaeten || "")) {
-    nextPages["4_Durchfuehrung_A"] = {
-      ...emptyGoalWorkingPageState(),
-      freeText: cleanInline(plan.aktivitaeten || ""),
-    };
-  }
-  if (cleanInline(plan.massnahmen || "")) {
-    nextPages["7_Begleitansatz_A"] = {
-      ...emptyGoalWorkingPageState(),
-      freeText: cleanInline(plan.massnahmen || ""),
-    };
-  }
-  const feinzielFields = {
-    feinziel1: cleanInline(plan.feinziel1 || ""),
-    feinziel2: cleanInline(plan.feinziel2 || ""),
-    feinziel3: cleanInline(plan.feinziel3 || ""),
-  };
-  if (Object.values(feinzielFields).some(Boolean)) {
-    nextPages["10_Feinziele"] = {
-      ...emptyGoalWorkingPageState(),
-      textFields: {
-        ...feinzielFields,
-      },
-    };
-  }
-  if (cleanInline(plan.beobachtung || "")) {
-    nextPages["11_Beobachtung"] = {
-      ...emptyGoalWorkingPageState(),
-      freeText: cleanInline(plan.beobachtung || ""),
-    };
-  }
+  // Bausteine sollen keine Freitexte in die Generatorseiten zurückschreiben.
+  // Alte Fallback-Freitexte werden deshalb bewusst nicht mehr rekonstruiert.
 }
 
 function loadGoalPlanIntoGenerator(slotIndex) {
@@ -15148,16 +15121,7 @@ function loadGoalPlanIntoGenerator(slotIndex) {
   );
   const plan = pageState.goalPlans[slotIndex];
   if (!plan) return;
-  const hasFallbackContent = [
-    plan.feinziel1,
-    plan.feinziel2,
-    plan.feinziel3,
-    plan.aktivitaeten,
-    plan.durchfuehrung,
-    plan.massnahmen,
-    plan.materialien,
-    plan.beobachtung,
-  ].some((value) => cleanInline(value || ""));
+  const hasFallbackContent = false;
   const rawSourcePages = plan.sourcePages && typeof plan.sourcePages === "object" ? plan.sourcePages : {};
   const hasStoredSourceContent = GOAL_WORKING_PAGE_IDS.some((pageId) => hasGoalWorkingPageStateContent(rawSourcePages[pageId]));
   if (!hasFallbackContent && !hasStoredSourceContent) {
@@ -15172,7 +15136,7 @@ function loadGoalPlanIntoGenerator(slotIndex) {
   GOAL_WORKING_PAGE_IDS.forEach((pageId) => {
     const restored = sourcePages[pageId];
     nextPages[pageId] = restored && typeof restored === "object"
-      ? cloneGoalPlanPageState(restored)
+      ? stripFreeTextFromGoalPageState(restored)
       : emptyGoalWorkingPageState();
   });
 
