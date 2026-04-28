@@ -3519,8 +3519,8 @@ body.bt-mobile-view .app-version-note { margin-top: 10px; border-radius: 14px; }
                       <button type="button" class="ghost" onclick="resetCurrentGenerator()">Generator zurücksetzen</button>
                     </div>
                     <div class="tool-row">
-                      <button type="button" class="ghost" onclick="downloadWorkspaceSnapshot()">Verschlüsselt speichern</button>
-                      <button type="button" class="ghost" onclick="triggerWorkspaceImport()">Verschlüsselte Datei laden</button>
+                      <button type="button" class="ghost" onclick="downloadWorkspaceSnapshot()">Gesamte Datei speichern</button>
+                      <button type="button" class="ghost" onclick="triggerWorkspaceImport()">Gesamte Datei importieren</button>
                     </div>
                     <div class="browser-snapshot-tools">
                       <div class="browser-snapshot-title">Browser-Stände</div>
@@ -7618,8 +7618,8 @@ body[data-weekplan-mode] .footer-note { color: #526075; }
           <div class="weekplan-action-title">Speichern</div>
           <div class="weekplan-action-row">
             <button class="secondary" type="button" onclick="manualSaveWeekplan()">Jetzt speichern</button>
-            <button class="secondary" type="button" onclick="window.parent && typeof window.parent.downloadWorkspaceSnapshot === 'function' && window.parent.downloadWorkspaceSnapshot()">Verschlüsselt speichern</button>
-            <button class="secondary" type="button" onclick="window.parent && typeof window.parent.triggerWorkspaceImport === 'function' && window.parent.triggerWorkspaceImport()">Verschlüsselte Datei laden</button>
+            <button class="secondary" type="button" onclick="window.parent && typeof window.parent.downloadWorkspaceSnapshot === 'function' && window.parent.downloadWorkspaceSnapshot()">Gesamte Datei speichern</button>
+            <button class="secondary" type="button" onclick="window.parent && typeof window.parent.triggerWorkspaceImport === 'function' && window.parent.triggerWorkspaceImport()">Gesamte Datei importieren</button>
           </div>
         </div>
 
