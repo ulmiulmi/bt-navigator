@@ -36,6 +36,72 @@
     .weekplan-field-value{white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.55}
     @media(max-width:760px){.app{padding:12px}h1{font-size:26px}.summary-grid{grid-template-columns:1fr}.weekplan-periods{grid-template-columns:1fr}.kv-grid{grid-template-columns:1fr}.kv-label{border-bottom:0}.kv-value{border-bottom:1px solid var(--line)}.tool-row button{width:100%}}
     @media print{body{background:#fff}.app{max-width:none;padding:0}.file-panel,.view-tabs,.tool-row.print-actions,.footer-note{display:none!important}.card,.generator-card{box-shadow:none!important}.generator-card{page-break-inside:avoid}.viewer-section{page-break-inside:avoid}details.viewer-section{display:block}details.viewer-section:not([open]) .section-body{display:grid!important}}
+  
+    /* PRINT_SELECTION_VIEWER_V1 */
+    .print-host{display:none}
+    .print-doc{background:#fff;color:var(--text);font-family:Arial,Helvetica,sans-serif}
+    .print-doc-header{display:grid;gap:8px;margin-bottom:16px;padding-bottom:12px;border-bottom:2px solid var(--line)}
+    .print-doc-title{font-size:26px;font-weight:950;color:var(--accent);line-height:1.15}
+    .print-doc-subtitle{font-size:13px;color:var(--muted);line-height:1.45}
+    .print-doc-meta{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-top:8px}
+    .print-doc-meta-item{border:1px solid var(--line);border-radius:12px;background:#fbfdff;padding:8px 10px;font-size:12px;line-height:1.35}
+    .print-doc-meta-item strong{display:block;color:var(--text);font-size:11px;text-transform:uppercase;letter-spacing:.02em;margin-bottom:3px}
+    .print-section-title{font-size:20px;font-weight:950;color:var(--accent);margin:18px 0 10px}
+    .print-empty{border:1px dashed var(--line);border-radius:14px;background:#fbfdff;padding:14px;color:var(--muted);line-height:1.5}
+    @media print{
+      body.print-active{background:#fff!important}
+      body.print-active .app{display:none!important}
+      body.print-active .print-host{display:block!important}
+      body.print-active .print-doc{padding:0;margin:0;background:#fff}
+      body.print-active .print-doc-meta{grid-template-columns:repeat(4,minmax(0,1fr))}
+      body.print-active .print-doc-title{font-size:22px}
+      body.print-active .print-section-title{break-after:avoid}
+      body.print-active .generator-card,
+      body.print-active .card,
+      body.print-active .viewer-day-card,
+      body.print-active .viewer-seq-card,
+      body.print-active .viewer-plan-entry,
+      body.print-active .summary-box,
+      body.print-active details.viewer-section{box-shadow:none!important}
+      body.print-active .generator-card{margin-bottom:12px;break-inside:avoid}
+      body.print-active .generator-head{padding:12px 14px}
+      body.print-active .section{padding:10px}
+      body.print-active details.viewer-section{margin:8px 0;break-inside:avoid}
+      body.print-active details.viewer-section>summary{padding:9px 11px;font-size:13px;border-bottom:1px solid var(--line)!important}
+      body.print-active details.viewer-section>summary::after{display:none!important}
+      body.print-active details.viewer-section:not([open]) .section-body{display:grid!important}
+      body.print-active .section-body{padding:10px;gap:8px}
+      body.print-active .structured-box{font-size:12px;line-height:1.48;padding:10px}
+      body.print-active .kv-grid{grid-template-columns:150px 1fr;font-size:12px}
+      body.print-active .kv-label,
+      body.print-active .kv-value{padding:7px 8px}
+      body.print-active .pill-item{font-size:12px;line-height:1.4;padding:8px 9px}
+      body.print-active .viewer-week-filter{display:none!important}
+      body.print-active .weekplan-meta-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+      body.print-active .weekplan-meta-card{padding:8px;border-radius:10px;break-inside:avoid}
+      body.print-active .weekplan-meta-line{font-size:10px;line-height:1.3;padding-top:5px}
+      body.print-active .viewer-week-scroll{overflow:visible!important;padding-bottom:0}
+      body.print-active .viewer-week-board{min-width:0!important;grid-template-columns:repeat(5,minmax(0,1fr))!important;gap:6px!important;align-items:start}
+      body.print-active .viewer-day-card{border-radius:10px;break-inside:avoid}
+      body.print-active .viewer-day-head{padding:8px 9px;font-size:14px}
+      body.print-active .viewer-day-body{padding:7px;gap:7px;grid-template-rows:auto auto auto!important;background:#fff}
+      body.print-active .viewer-seq-card{border-radius:10px}
+      body.print-active .viewer-seq-title{padding:6px 8px;font-size:11px}
+      body.print-active .viewer-seq-single{padding:6px;gap:6px}
+      body.print-active .viewer-plan-entry{border-radius:9px;padding:6px;gap:4px}
+      body.print-active .viewer-plan-entry-title{font-size:10px}
+      body.print-active .viewer-plan-field-label{font-size:8px}
+      body.print-active .viewer-plan-field-value{font-size:9.5px;line-height:1.28}
+      body.print-active .viewer-lunch-card{height:auto!important;min-height:0!important}
+      body.print-active .viewer-lunch-single{padding:6px}
+      body.print-active .viewer-lunch-value{min-height:0;max-height:none;overflow:visible;font-size:9.5px;line-height:1.28;padding:6px;border-radius:9px}
+      body.print-active .viewer-morning-card{min-height:0!important}
+      body.print-active .viewer-plan-field.ki-field .viewer-plan-field-value{max-height:none;overflow:visible;font-size:9px;line-height:1.25}
+      body.print-mode-ki .generator-card,
+      body.print-mode-all .generator-card{break-inside:auto}
+      body.print-mode-ki .structured-box{font-size:12.5px;line-height:1.55}
+    }
+
   </style>
 </head>
 <body>
@@ -48,7 +114,9 @@
         </div>
         <div class="muted">Lädt eine gespeicherte Klientendatei, entschlüsselt sie lokal im Browser und zeigt RIT und RET getrennt an. Der Wochenplan kann RIT und RET gemeinsam nebeneinander anzeigen. Der Viewer verändert keine Arbeitsmappe und speichert keine Browser-Stände.</div>
         <div class="tool-row print-actions">
-          <button type="button" class="secondary" onclick="window.print()">Druckansicht / PDF</button>
+          <button type="button" class="secondary" onclick="printViewer('weekplan')">Nur Wochenplan drucken</button>
+          <button type="button" class="secondary" onclick="printViewer('ki')">Nur KI-Ergebnis drucken</button>
+          <button type="button" class="secondary" onclick="printViewer('all')">Ganze Klientendatei drucken</button>
           <button type="button" class="ghost" onclick="resetViewer()">Viewer leeren</button>
         </div>
       </div>
@@ -74,6 +142,7 @@
     </section>
     <div class="footer-note">BT-Navigator Klientendatei Viewer · lokale Anzeige · keine Bearbeitung</div>
   </div>
+  <div id="printHost" class="print-host" aria-hidden="true"></div>
 
 <script>
 const MARKER = "BT-NAVIGATOR-ENCRYPTED";
@@ -563,7 +632,8 @@ function weekplanPeriodFields(day,prefix,modeKey){
   if(hasText(activity)) rows.push(["Aktivität",activity]);
   if(hasText(implementation)) rows.push(["Durchführung",implementation]);
 
-  if(weekplanViewMode==="detail"){
+  const hasPeriodEntry = rows.length > 0;
+  if(weekplanViewMode==="detail" && hasPeriodEntry){
     const kiText=weekplanKiTextForMode(modeKey);
     if(hasText(kiText)) rows.push(["KI-Ergebnis",kiText]);
   }
@@ -624,6 +694,89 @@ function renderWeekplanPeriod(title, fields){
 function renderDetails(title,body,open){return `<details class="viewer-section" ${open?"open":""}><summary>${esc(title)}</summary><div class="section-body">${body}</div></details>`;}
 function labelFromKey(key){return String(key||"").replace(/([a-zäöü])([A-ZÄÖÜ])/g,"$1 $2").replace(/_/g," ").replace(/^ep /i,"EP ").replace(/\b\w/g,c=>c.toUpperCase());}
 function formatDate(value){if(!value) return ""; const d=new Date(value); if(Number.isNaN(d.getTime())) return value; return d.toLocaleString("de-CH",{day:"2-digit",month:"2-digit",year:"numeric",hour:"2-digit",minute:"2-digit"});}
+function printViewer(kind){
+  if(!currentPayload){
+    setStatus("Bitte zuerst eine Klientendatei laden.","warn");
+    return;
+  }
+  if(!["weekplan","ki","all"].includes(kind)) kind="all";
+  const host=document.getElementById("printHost");
+  host.innerHTML=buildPrintDocument(kind);
+  host.setAttribute("aria-hidden","false");
+  document.body.classList.remove("print-mode-weekplan","print-mode-ki","print-mode-all");
+  document.body.classList.add("print-active","print-mode-"+kind);
+  requestAnimationFrame(()=>{
+    window.print();
+    setTimeout(clearPrintHost,900);
+  });
+}
+function clearPrintHost(){
+  const host=document.getElementById("printHost");
+  if(host){ host.innerHTML=""; host.setAttribute("aria-hidden","true"); }
+  document.body.classList.remove("print-active","print-mode-weekplan","print-mode-ki","print-mode-all");
+}
+window.addEventListener("afterprint", clearPrintHost);
+
+function buildPrintDocument(kind){
+  const title={weekplan:"Wochenplan",ki:"KI-Ergebnis",all:"Ganze Klientendatei"}[kind] || "Klientendatei";
+  let body="";
+  if(kind==="weekplan") body=renderPrintWeekplanOnly();
+  else if(kind==="ki") body=renderPrintKiOnly();
+  else body=renderPrintFullClientFile();
+  return `<article class="print-doc">${renderPrintHeader(title)}${body}</article>`;
+}
+function renderPrintHeader(title){
+  const gdGrit=getGenState("grit").grunddaten || {};
+  const gdGret=getGenState("gret").grunddaten || {};
+  const areas=presentAreas();
+  const initials=clean(currentPayload?.clientInitials)||clean(gdGrit.initialen)||clean(gdGret.initialen)||"–";
+  const name=clean(currentPayload?.clientName)||clean(gdGrit.name)||clean(gdGret.name)||"–";
+  const creator=formatCreatorSummary(gdGrit,gdGret);
+  const modeLabel=areas.length===2?"RIT und RET":areas[0]==="grit"?"RIT":areas[0]==="gret"?"RET":"–";
+  const printedAt=new Date().toLocaleString("de-CH",{day:"2-digit",month:"2-digit",year:"numeric",hour:"2-digit",minute:"2-digit"});
+  const meta=[
+    ["Name",name],
+    ["Initialen",initials],
+    ["Enthalten",modeLabel],
+    ["Ersteller",creator],
+    ["Exportiert",formatDate(currentPayload?.exportedAt)||"–"],
+    ["Gedruckt",printedAt],
+  ];
+  return `<header class="print-doc-header"><div class="print-doc-title">${esc(title)}</div><div class="print-doc-subtitle">BT-Navigator Klientendatei-Viewer · lokale Druckansicht / PDF</div><div class="print-doc-meta">${meta.map(([k,v])=>`<div class="print-doc-meta-item"><strong>${esc(k)}</strong>${esc(v)}</div>`).join("")}</div></header>`;
+}
+function renderPrintWeekplanOnly(){
+  return `<h2 class="print-section-title">Wochenplan</h2>${renderCombinedWeekplan()}`;
+}
+function renderPrintKiOnly(){
+  const parts=[];
+  if(generatorHasContent("grit")) parts.push(renderPrintKiForGenerator("grit"));
+  if(generatorHasContent("gret")) parts.push(renderPrintKiForGenerator("gret"));
+  return parts.length ? parts.join("") : `<div class="print-empty">Keine KI-Ergebnisse in dieser Klientendatei gespeichert.</div>`;
+}
+function renderPrintKiForGenerator(gen){
+  const label=gen==="grit"?"RIT":"RET";
+  const ki=getKiResultText(gen);
+  const epText=getEntwicklungsplanungText(gen);
+  const epFields=getEntwicklungsplanungFields(gen);
+  let body=`<h2 class="print-section-title">${esc(label)} – KI-Ergebnis</h2>`;
+  body+=hasText(ki) ? `<div class="structured-box">${esc(ki)}</div>` : `<div class="print-empty">Kein KI-Ergebnis für ${esc(label)} gespeichert.</div>`;
+  if(hasText(epText)){
+    body+=`<h2 class="print-section-title">${esc(label)} – Entwicklungsplanung KI-Ergebnis</h2><div class="structured-box">${esc(epText)}</div>`;
+  } else if(objectHasContent(epFields)){
+    const lines=[];
+    Object.entries(epFields).forEach(([k,v])=>{ if(hasText(v)) lines.push(labelFromKey(k)+": "+clean(v)); });
+    if(lines.length) body+=`<h2 class="print-section-title">${esc(label)} – Entwicklungsplanung Felder</h2><div class="structured-box">${esc(lines.join("\n"))}</div>`;
+  }
+  return `<section class="generator-card ${gen}"><div class="generator-head"><span class="badge ${gen}">${esc(label)}</span><h2>${esc(label)}</h2></div><div class="section">${body}</div></section>`;
+}
+function renderPrintFullClientFile(){
+  const parts=[];
+  if(anyWeekplanHasContent()) parts.push(`<h2 class="print-section-title">Wochenplan</h2>${renderCombinedWeekplan()}`);
+  if(generatorHasContent("grit")) parts.push(renderGenerator("grit"));
+  if(generatorHasContent("gret")) parts.push(renderGenerator("gret"));
+  return parts.length ? parts.join("") : `<div class="print-empty">Keine druckbaren Inhalte in dieser Klientendatei gefunden.</div>`;
+}
+
 </script>
 </body>
 </html>
