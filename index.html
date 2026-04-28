@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>BT-Navigator – EP mit kompaktem KI-Auftrag</title>
+  <title>BT-Navigator – RIT / RET und Entwicklungsplanung</title>
   <style>
 :root {
   --bg: #f4f7fb;
@@ -2167,6 +2167,84 @@ button.secondary {
   }
 }
 
+
+.redline-panel {
+  padding: 18px;
+  display: grid;
+  gap: 14px;
+}
+.redline-card {
+  border: 1px solid var(--theme-line, var(--line));
+  border-radius: 20px;
+  background: linear-gradient(180deg, #ffffff 0%, var(--theme-soft, #fbfdff) 100%);
+  box-shadow: 0 10px 24px var(--theme-glow, rgba(31, 57, 90, 0.06));
+  padding: 16px;
+  display: grid;
+  gap: 14px;
+}
+.redline-title {
+  font-size: 18px;
+  font-weight: 900;
+  color: var(--theme, var(--accent));
+}
+.redline-note,
+.redline-status {
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: #fff;
+  padding: 12px 14px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+.redline-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+.redline-grid label {
+  display: grid;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--muted);
+}
+.redline-grid label.full {
+  grid-column: 1 / -1;
+}
+.redline-grid textarea {
+  width: 100%;
+  min-height: 92px;
+  resize: none;
+  overflow-y: hidden;
+  border: 1px solid var(--theme-line, var(--line));
+  border-radius: 14px;
+  background: #fff;
+  padding: 12px 14px;
+  line-height: 1.55;
+}
+.redline-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.redline-actions button {
+  flex: 1 1 180px;
+}
+@media (max-width: 720px) {
+  .redline-panel {
+    padding: 12px;
+  }
+  .redline-grid {
+    grid-template-columns: 1fr;
+  }
+  .redline-grid label.full {
+    grid-column: auto;
+  }
+  .redline-actions button {
+    flex: 1 1 100%;
+  }
+}
+
 .zielplanung-wrap {
   display: grid;
   gap: 16px;
@@ -2379,7 +2457,18 @@ button.secondary {
   border: 0;
   display: block;
   background: #fff;
-  overflow: hidden;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+@media (max-width: 740px) {
+  #weekplanView .weekplan-frame-wrap {
+    overflow: visible;
+    border-radius: 16px;
+  }
+  #weekplanView iframe {
+    min-height: calc(100vh - 32px);
+  }
 }
 
 
@@ -2400,7 +2489,27 @@ body.bt-mobile-view #generatorView .toolbar-actions { display: flex; flex-wrap: 
 body.bt-mobile-view #generatorView .toolbar-actions button { flex: 0 0 auto; width: auto; min-width: max-content; min-height: 38px; padding: 8px 12px; font-size: 14px; border-radius: 11px; }
 body.bt-mobile-view .toolbar .hint-line { display: none; }
 body.bt-mobile-view .generator-shell { display: block; }
-body.bt-mobile-view .generator-side { display: none !important; }
+body.bt-mobile-view .generator-side {
+  display: block !important;
+  width: 100%;
+  max-width: 100%;
+  margin-top: 10px;
+}
+body.bt-mobile-view .preview-card {
+  position: static !important;
+  width: 100%;
+  max-width: 100%;
+  border-radius: 14px;
+}
+body.bt-mobile-view .preview-body {
+  padding: 8px;
+  gap: 10px;
+}
+body.bt-mobile-view .preview-box {
+  min-height: 140px;
+  max-height: 360px;
+  overflow-y: auto;
+}
 body.bt-mobile-view .generator-header { padding: 10px 12px; }
 body.bt-mobile-view .generator-title h2 { font-size: 20px; line-height: 1.25; }
 body.bt-mobile-view .generator-client-banner,
@@ -2603,41 +2712,640 @@ body.bt-mobile-view #pageHost .extra-text-card {
   min-width: 0;
 }
 
-  </style>
+  
+
+
+
+/* Titelbild Startseite aus BT_Navigator_Titelbild_NUR_ANSCHAUEN.html */
+#startView.title-start-view {
+  border: 0;
+  box-shadow: none;
+  background: transparent;
+  display: grid;
+  place-items: center;
+  min-height: calc(100vh - 48px);
+}
+#startView.title-start-view .phone-stage {
+  width: min(680px, 100%);
+}
+#startView.title-start-view .title-card {
+  min-height: calc(100vh - 48px);
+}
+@media (max-width: 560px) {
+  #startView.title-start-view {
+    min-height: calc(100vh - 28px);
+  }
+  #startView.title-start-view .title-card {
+    min-height: calc(100vh - 28px);
+  }
+}
+
+  #startView * { box-sizing: border-box; }
+
+  #startView,
+#startView {
+    margin: 0;
+    min-height: 100%;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #eef7fb;
+    color: #1f2a37;
+  }
+
+  #startView {
+    display: grid;
+    place-items: center;
+    padding: 22px;
+    overflow-x: hidden;
+  }
+
+  #startView .phone-stage {
+    width: min(680px, 100%);
+  }
+
+  #startView .title-card {
+    position: relative;
+    overflow: hidden;
+    background: #fff;
+    border-radius: 22px;
+    border: 1px solid #dce7ef;
+    box-shadow: 0 18px 46px rgba(31, 57, 90, 0.14);
+    padding: 52px 28px 24px;
+    min-height: 88vh;
+    animation: cardDance 2.8s ease-in-out infinite;
+  }
+
+  #startView .title-card::before {
+    content: "";
+    position: absolute;
+    inset: -20%;
+    background:
+      radial-gradient(circle at 18% 42%, rgba(60, 166, 93, .16), transparent 20%),
+      radial-gradient(circle at 82% 42%, rgba(92, 57, 145, .14), transparent 22%),
+      linear-gradient(115deg, transparent 0 34%, rgba(255,255,255,.85) 42%, transparent 52% 100%);
+    background-size: auto, auto, 240% 100%;
+    animation: shine 3.2s linear infinite;
+    pointer-events: none;
+  }
+
+  #startView .headline {
+    position: relative;
+    z-index: 5;
+    text-align: center;
+  }
+
+  #startView .headline .green {
+    display: block;
+    color: #3f9d45;
+    font-weight: 900;
+    font-size: clamp(37px, 8vw, 60px);
+    line-height: 1.05;
+    letter-spacing: -0.04em;
+    animation: titleHop 1.05s ease-in-out infinite;
+  }
+
+  #startView .headline .purple {
+    display: block;
+    color: #5c3991;
+    font-size: clamp(31px, 7vw, 52px);
+    line-height: 1.12;
+    margin-top: 10px;
+    animation: textWobble 1.35s ease-in-out infinite;
+  }
+
+  #startView .headline strong {
+    font-weight: 950;
+    display: inline-block;
+    animation: wordPop 0.85s ease-in-out infinite alternate;
+  }
+
+  #startView .headline .amp {
+    color: #4b5260;
+    font-weight: 500;
+  }
+
+  #startView .subtitle {
+    margin: 15px auto 0;
+    max-width: 520px;
+    font-size: clamp(15px, 3.2vw, 20px);
+    line-height: 1.35;
+    color: #2f3e52;
+    font-weight: 800;
+    animation: subtitlePulse 1.8s ease-in-out infinite;
+  }
+
+  #startView .scene {
+    position: relative;
+    z-index: 4;
+    height: 440px;
+    margin-top: 20px;
+  }
+
+  #startView .emoji {
+    position: absolute;
+    z-index: 8;
+    font-size: clamp(34px, 8vw, 58px);
+    filter: drop-shadow(0 10px 12px rgba(31,57,90,.18));
+    user-select: none;
+  }
+
+  #startView .emoji.clip { left: 9%; top: 0; animation: clipDance 1.1s ease-in-out infinite; }
+  #startView .emoji.smile { left: 43%; top: 4%; animation: smileJump .85s ease-in-out infinite; }
+  #startView .emoji.clock { right: 18%; top: 4%; animation: clockShake .55s ease-in-out infinite; }
+  #startView .emoji.plane { right: 8%; top: -12px; animation: planeFly 2.3s ease-in-out infinite; }
+  #startView .emoji.big { right: 6%; bottom: 54px; animation: bigSmile 1s ease-in-out infinite; }
+  #startView .emoji.spark { left: 17%; bottom: 58px; animation: sparkle .7s ease-in-out infinite; }
+
+  #startView .leaves {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  #startView .leaf {
+    position: absolute;
+    width: 72px;
+    height: 32px;
+    border-radius: 999px 0 999px 0;
+    background: #79bd77;
+    opacity: .8;
+    animation: leafMove 1.6s ease-in-out infinite;
+  }
+
+  #startView .leaf.l1 { left: 1%; top: 62px; transform: rotate(25deg); }
+  #startView .leaf.l2 { left: 6%; top: 130px; transform: rotate(-18deg); animation-delay: .2s; }
+  #startView .leaf.l3 { left: 2%; top: 205px; transform: rotate(35deg); animation-delay: .4s; }
+  #startView .leaf.r1 { right: 1%; top: 62px; transform: scaleX(-1) rotate(25deg); animation-delay: .1s; }
+  #startView .leaf.r2 { right: 6%; top: 130px; transform: scaleX(-1) rotate(-18deg); animation-delay: .3s; }
+  #startView .leaf.r3 { right: 2%; top: 205px; transform: scaleX(-1) rotate(35deg); animation-delay: .5s; }
+
+  #startView .laptop {
+    position: absolute;
+    left: 50%;
+    bottom: 90px;
+    width: min(540px, 88%);
+    transform: translateX(-50%);
+    z-index: 4;
+    animation: laptopWiggle 1.05s ease-in-out infinite;
+    transform-origin: center bottom;
+  }
+
+  #startView .screen {
+    background: #101820;
+    border: 9px solid #0a0e14;
+    border-radius: 17px 17px 8px 8px;
+    padding: 13px;
+    box-shadow: 0 18px 28px rgba(31,57,90,.22);
+  }
+
+  #startView .screen-inner {
+    position: relative;
+    min-height: 190px;
+    border-radius: 8px;
+    background: #fbfdff;
+    padding: 13px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    overflow: hidden;
+  }
+
+  #startView .screen-inner::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(110deg, transparent 0 42%, rgba(255,255,255,.8) 50%, transparent 58% 100%);
+    transform: translateX(-110%);
+    animation: screenLight 1.8s ease-in-out infinite;
+  }
+
+  #startView .panel {
+    border-radius: 12px;
+    border: 1px solid #e0e8f2;
+    background: #fff;
+    overflow: hidden;
+    animation: panelBounce 1s ease-in-out infinite;
+  }
+
+  #startView .panel.gret { animation-delay: .18s; }
+
+  #startView .panel-head {
+    color: white;
+    padding: 10px;
+    font-size: clamp(18px, 4vw, 24px);
+    font-weight: 950;
+  }
+
+  #startView .panel.grit .panel-head { background: #5c3991; }
+  #startView .panel.gret .panel-head { background: #3e9b52; }
+
+  #startView .panel-body {
+    padding: 12px;
+    display: grid;
+    gap: 8px;
+  }
+
+  #startView .pill {
+    height: 18px;
+    border-radius: 999px;
+    background: #f3f5fb;
+    border: 1px solid #e3eaf2;
+    animation: pillPulse .75s ease-in-out infinite alternate;
+  }
+
+  #startView .panel.grit .pill:nth-child(odd) { background: #f1ecf8; }
+  #startView .panel.gret .pill:nth-child(odd) { background: #eaf7f1; }
+  #startView .pill:nth-child(2) { width: 78%; animation-delay: .1s; }
+  #startView .pill:nth-child(3) { width: 92%; animation-delay: .2s; }
+  #startView .pill:nth-child(4) { width: 66%; animation-delay: .3s; }
+
+  #startView .base {
+    height: 32px;
+    background: linear-gradient(180deg, #d1dae6, #aab5c5);
+    border-radius: 0 0 28px 28px;
+    width: 108%;
+    margin-left: -4%;
+    position: relative;
+  }
+
+  #startView .base::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 8px;
+    width: 112px;
+    height: 8px;
+    transform: translateX(-50%);
+    border-radius: 999px;
+    background: rgba(36, 50, 68, .24);
+  }
+
+  #startView .clipboard {
+    position: absolute;
+    left: 7%;
+    bottom: 58px;
+    width: 118px;
+    height: 154px;
+    border-radius: 16px;
+    background: #eaf7ff;
+    border: 7px solid #48a0c4;
+    z-index: 6;
+    box-shadow: 0 14px 24px rgba(31,57,90,.18);
+    transform: rotate(-13deg);
+    animation: boardDance .95s ease-in-out infinite;
+  }
+
+  #startView .clipboard::before {
+    content: "";
+    position: absolute;
+    top: -19px;
+    left: 34px;
+    width: 42px;
+    height: 24px;
+    border-radius: 12px 12px 5px 5px;
+    background: #48a0c4;
+  }
+
+  #startView .checkline {
+    height: 10px;
+    border-radius: 999px;
+    background: #cddaea;
+    margin: 26px 14px 0 34px;
+    position: relative;
+  }
+
+  #startView .checkline::before {
+    content: "✓";
+    position: absolute;
+    left: -25px;
+    top: -13px;
+    color: #f4b400;
+    font-size: 23px;
+    font-weight: 950;
+    animation: checkPop .55s ease-in-out infinite;
+  }
+
+  #startView .checkline:nth-child(2)::before { animation-delay: .12s; }
+  #startView .checkline:nth-child(3)::before { animation-delay: .24s; }
+  #startView .checkline:nth-child(4)::before { animation-delay: .36s; }
+
+  #startView .shield {
+    position: absolute;
+    left: 30%;
+    bottom: 72px;
+    width: 84px;
+    height: 84px;
+    border-radius: 25px 25px 34px 34px;
+    z-index: 7;
+    display: grid;
+    place-items: center;
+    color: white;
+    font-size: 52px;
+    font-weight: 950;
+    background: linear-gradient(180deg, #9aec84, #3eac59);
+    box-shadow: 0 16px 24px rgba(47, 125, 90, .25);
+    animation: shieldDance .82s ease-in-out infinite;
+  }
+
+  #startView .start-row {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    justify-content: center;
+    margin-top: -6px;
+  }
+
+  #startView .start-row button {
+    border: 0;
+    min-width: 145px;
+    min-height: 48px;
+    border-radius: 15px;
+    background: #2f6678;
+    color: #fff;
+    font-weight: 950;
+    font-size: 17px;
+    box-shadow: 0 12px 22px rgba(47,102,120,.24);
+    animation: startBounce .75s ease-in-out infinite;
+  }
+
+  #startView .confetti {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  #startView .confetti i {
+    position: absolute;
+    top: -30px;
+    left: var(--x);
+    width: 9px;
+    height: 16px;
+    border-radius: 4px;
+    background: var(--c);
+    animation: confettiFall var(--d) linear infinite;
+  }
+
+  @keyframes cardDance {
+    0%,100% { transform: translateY(0) rotate(-.15deg); }
+    50% { transform: translateY(-7px) rotate(.15deg); }
+  }
+
+  @keyframes shine {
+    to { background-position: 0 0, 0 0, 240% 0; }
+  }
+
+  @keyframes titleHop {
+    0%,100% { transform: translateY(0) scale(1); }
+    45% { transform: translateY(-11px) scale(1.045); }
+    70% { transform: translateY(3px) scale(.99); }
+  }
+
+  @keyframes textWobble {
+    0%,100% { transform: rotate(0deg); }
+    30% { transform: rotate(-1.5deg); }
+    70% { transform: rotate(1.5deg); }
+  }
+
+  @keyframes wordPop {
+    to { transform: translateY(-4px) scale(1.07); }
+  }
+
+  @keyframes subtitlePulse {
+    50% { transform: scale(1.035); }
+  }
+
+  @keyframes clipDance {
+    0%,100% { transform: translateY(0) rotate(-12deg); }
+    50% { transform: translateY(-18px) rotate(13deg) scale(1.1); }
+  }
+
+  @keyframes smileJump {
+    0%,100% { transform: translateY(0) rotate(-5deg) scale(1); }
+    50% { transform: translateY(-28px) rotate(8deg) scale(1.18); }
+  }
+
+  @keyframes clockShake {
+    0%,100% { transform: rotate(-8deg); }
+    25% { transform: rotate(11deg) scale(1.08); }
+    50% { transform: rotate(-13deg); }
+    75% { transform: rotate(9deg) scale(1.04); }
+  }
+
+  @keyframes planeFly {
+    0% { transform: translate(-45px, 34px) rotate(-22deg); opacity: .25; }
+    40% { opacity: 1; }
+    75% { transform: translate(24px, -34px) rotate(12deg) scale(1.18); opacity: 1; }
+    100% { transform: translate(70px, -54px) rotate(24deg) scale(.78); opacity: .25; }
+  }
+
+  @keyframes bigSmile {
+    0%,100% { transform: translateY(0) rotate(-9deg); }
+    50% { transform: translateY(-24px) rotate(16deg) scale(1.16); }
+  }
+
+  @keyframes sparkle {
+    50% { transform: scale(1.35) rotate(12deg); }
+  }
+
+  @keyframes leafMove {
+    50% { translate: 0 -8px; }
+  }
+
+  @keyframes laptopWiggle {
+    0%,100% { transform: translateX(-50%) rotate(0deg) translateY(0); }
+    25% { transform: translateX(-50%) rotate(-1.5deg) translateY(-7px); }
+    50% { transform: translateX(-50%) rotate(1.2deg) translateY(2px); }
+    75% { transform: translateX(-50%) rotate(-.8deg) translateY(-4px); }
+  }
+
+  @keyframes screenLight {
+    to { transform: translateX(110%); }
+  }
+
+  @keyframes panelBounce {
+    50% { transform: translateY(-8px) scale(1.025); }
+  }
+
+  @keyframes pillPulse {
+    to { transform: scaleX(1.05); }
+  }
+
+  @keyframes boardDance {
+    0%,100% { transform: rotate(-13deg) translateY(0); }
+    50% { transform: rotate(-20deg) translateY(-15px) scale(1.05); }
+  }
+
+  @keyframes checkPop {
+    50% { transform: scale(1.45) rotate(-10deg); }
+  }
+
+  @keyframes shieldDance {
+    0%,100% { transform: scale(1) rotate(-4deg); }
+    50% { transform: scale(1.16) rotate(8deg); }
+  }
+
+  @keyframes startBounce {
+    0%,100% { transform: translateY(0) scale(1); }
+    45% { transform: translateY(-7px) scale(1.07); }
+    70% { transform: translateY(2px) scale(.98); }
+  }
+
+  @keyframes confettiFall {
+    0% { transform: translateY(-30px) rotate(0deg); opacity: 0; }
+    10% { opacity: 1; }
+    100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+  }
+
+  @media (max-width: 560px) {
+    #startView { padding: 12px; }
+    #startView .title-card { min-height: 92vh; padding: 44px 14px 20px; }
+    #startView .scene { height: 430px; }
+    #startView .screen { border-width: 7px; padding: 9px; }
+    #startView .screen-inner { min-height: 178px; gap: 8px; padding: 9px; }
+    #startView .panel-head { padding: 8px; }
+    #startView .panel-body { padding: 9px; gap: 7px; }
+    #startView .pill { height: 17px; }
+    #startView .clipboard { width: 100px; height: 138px; left: 5%; bottom: 68px; }
+    #startView .shield { width: 70px; height: 70px; font-size: 44px; left: 29%; bottom: 82px; }
+    #startView .emoji.clip { left: 7%; top: 4px; }
+    #startView .emoji.clock { right: 14%; }
+    #startView .emoji.big { right: 5%; bottom: 72px; }
+  }
+
+
+
+/* PRO_UI_V1: ruhigere Produktansicht, kompakte Tabs, einheitliche KI-Boxen */
+.tabs {
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+}
+.tab {
+  white-space: nowrap;
+  min-width: max-content;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.tab .tab-short { font-weight: 900; }
+.tab .tab-context { font-size: 12px; opacity: .78; font-weight: 700; }
+.app-version-note {
+  margin: 18px auto 0;
+  max-width: 1320px;
+  padding: 10px 14px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: rgba(255,255,255,.88);
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.35;
+  text-align: center;
+  box-shadow: 0 8px 20px rgba(31,57,90,.05);
+}
+.ki-collapsible .internal-ai-panel,
+.ziele-helper .internal-ai-panel,
+.actions-collapsible .internal-ai-panel {
+  border-color: var(--theme-line, var(--line));
+  box-shadow: 0 8px 18px var(--theme-glow, rgba(31,57,90,.05));
+}
+.ki-collapsible .panel-title,
+.ziele-helper .panel-title,
+.internal-ai-panel .panel-title { color: var(--theme, var(--accent)); }
+.ki-collapsible .tool-row button,
+.ziele-helper .tool-row button,
+.internal-ai-panel .tool-row button { min-height: 40px; }
+body.bt-mobile-view .app-version-note { margin-top: 10px; border-radius: 14px; }
+
+/* V1.3.1: interne KI vorläufig nur ausblenden, nicht löschen */
+.bt-internal-ai-hidden {
+  display: none !important;
+}
+
+</style>
 </head>
 <body>
   <div class="app">
-    <section class="card" id="startView">
-      <div class="hero">
-        <div class="hero-copy">
-          <span class="badge">BT Navigator</span>
-          <h1>BT Navigator für GRIT und GRET</h1>
-          <p class="muted">
-            Diese Datei erweitert den Neuaufbau um zusätzliche Freitext- und Eingabefelder in Diagnostik, Rahmen, Durchführung, Begleitansatz, Zielen, Feinzielen und Beobachtung. Grunddaten sowie Ausgangslage A und Ausgangslage C werden zwischen GRIT und GRET automatisch synchron gehalten. Vorschau, KI-Ergebnis und Entwicklungsplanung bleiben getrennt nutzbar.
-          </p>
+    <section class="title-start-view" id="startView">
+      <main class="phone-stage">
+    <section class="title-card">
+      <div class="confetti" aria-hidden="true">
+        <i style="--x:6%;--d:4.1s;--c:#5c3991"></i>
+        <i style="--x:15%;--d:3.7s;--c:#2f7d5a"></i>
+        <i style="--x:25%;--d:4.8s;--c:#ffd84d"></i>
+        <i style="--x:38%;--d:3.9s;--c:#2f6fed"></i>
+        <i style="--x:52%;--d:4.4s;--c:#ff9f43"></i>
+        <i style="--x:68%;--d:3.8s;--c:#5c3991"></i>
+        <i style="--x:82%;--d:4.6s;--c:#2f7d5a"></i>
+        <i style="--x:94%;--d:4.0s;--c:#ffd84d"></i>
+      </div>
 
-          <div class="rule-box">
-            <strong>Verbindliche Leitplanken</strong><br>
-            Master nie direkt ändern. Nur in der Testdatei arbeiten. Pro Änderung nur ein Block oder eine Funktion.
-            Nach jedem Block sofort testen. Keine Mischänderungen zwischen UI, State, Textlogik und Sprachlogik.
-          </div>
+      <div class="headline">
+        <span class="green">Effiziente Planung</span>
+        <span class="purple">für <strong>RIT</strong> <span class="amp">&amp;</span> <strong>RET</strong></span>
+        <div class="subtitle">Digitale Arbeitshilfe für RIT, RET und Entwicklungsplanung</div>
+      </div>
 
-          <div class="btn-row">
-            <button type="button" onclick="startNavigator()">Start</button>
-            <button type="button" class="secondary" onclick="showHomeRules()">Regeln anzeigen</button>
-          </div>
+      <div class="scene">
+        <div class="leaves" aria-hidden="true">
+          <span class="leaf l1"></span>
+          <span class="leaf l2"></span>
+          <span class="leaf l3"></span>
+          <span class="leaf r1"></span>
+          <span class="leaf r2"></span>
+          <span class="leaf r3"></span>
         </div>
 
-        <div class="visual" aria-hidden="true">
-          <div class="mini-panel">
-            <strong>In dieser Ausbaustufe neu enthalten</strong>
-            <div class="muted">
-              Startseite, Auswahl GRIT/GRET, Toolbar, Wechsel zwischen den Generatoren, vollständige V5.0-Fachseiten,
-              persistente Grunddaten, Auswahlregeln, automatische Kopplung GRIT→RIT sowie GRET→RET, eine gegenläufig gekoppelte RIT-/RET-Zeitmatrix, ein eigener Abnahme-/Prüfstatus, eine detaillierte Inhaltsprüfung, ein Freigabestand mit Übergabepaket und jetzt zusätzlich die gegenseitige Übernahme gemeinsamer Eingaben zwischen GRIT und GRET.
+        <div class="emoji clip">📋</div>
+        <div class="emoji smile">😄</div>
+        <div class="emoji clock">⏰</div>
+        <div class="emoji plane">🛩️</div>
+        <div class="emoji big">😁</div>
+        <div class="emoji spark">✨</div>
+
+        <div class="laptop">
+          <div class="screen">
+            <div class="screen-inner">
+              <div class="panel grit">
+                <div class="panel-head">GRIT</div>
+                <div class="panel-body">
+                  <div class="pill"></div>
+                  <div class="pill"></div>
+                  <div class="pill"></div>
+                  <div class="pill"></div>
+                </div>
+              </div>
+              <div class="panel gret">
+                <div class="panel-head">GRET</div>
+                <div class="panel-body">
+                  <div class="pill"></div>
+                  <div class="pill"></div>
+                  <div class="pill"></div>
+                  <div class="pill"></div>
+                </div>
+              </div>
             </div>
           </div>
+          <div class="base"></div>
         </div>
+
+        <div class="clipboard">
+          <div class="checkline"></div>
+          <div class="checkline"></div>
+          <div class="checkline"></div>
+          <div class="checkline"></div>
+        </div>
+
+        <div class="shield">✓</div>
       </div>
+
+      <div class="start-row">
+        <button type="button" onclick="startNavigator()">Start</button>
+      </div>
+    </section>
+  </main>
     </section>
 
     <section class="hidden" id="weekplanView">
@@ -2811,8 +3519,8 @@ body.bt-mobile-view #pageHost .extra-text-card {
                       <button type="button" class="ghost" onclick="resetCurrentGenerator()">Generator zurücksetzen</button>
                     </div>
                     <div class="tool-row">
-                      <button type="button" class="ghost" onclick="downloadWorkspaceSnapshot()">Speichern unter …</button>
-                      <button type="button" class="ghost" onclick="triggerWorkspaceImport()">Importieren</button>
+                      <button type="button" class="ghost" onclick="downloadWorkspaceSnapshot()">Gesamte Datei speichern</button>
+                      <button type="button" class="ghost" onclick="triggerWorkspaceImport()">Gesamte Datei importieren</button>
                     </div>
                     <div class="browser-snapshot-tools">
                       <div class="browser-snapshot-title">Browser-Stände</div>
@@ -2820,6 +3528,7 @@ body.bt-mobile-view #pageHost .extra-text-card {
                         <button type="button" class="ghost" onclick="restoreBrowserSnapshot('current')">Aktueller Stand</button>
                         <button type="button" class="ghost" onclick="restoreBrowserSnapshot('previous')">Vorheriger Stand</button>
                         <button type="button" class="ghost" onclick="restoreBrowserSnapshot('emergency')">Notfall-Stand</button>
+                        <button type="button" class="ghost" onclick="unlockBrowserSnapshotsFromUi()">Stände entsperren</button>
                       </div>
                       <div class="browser-snapshot-status" id="browserSnapshotStatus">Es werden drei Browser-Stände mitgeführt: aktuell, vorherig und Notfall.</div>
                     </div>
@@ -2835,7 +3544,7 @@ body.bt-mobile-view #pageHost .extra-text-card {
                   <details class="ki-generator-group">
                     <summary>Generator RIT und RET</summary>
                     <div class="ki-generator-group-body">
-                      <details class="ki-collapsible">
+                      <details class="ki-collapsible bt-internal-ai-hidden">
                   <summary>Zugang interne KI RIT und RET</summary>
                   <div class="ki-collapsible-body">
                     <div class="internal-ai-panel">
@@ -2858,7 +3567,7 @@ body.bt-mobile-view #pageHost .extra-text-card {
                 </details>
 
                       <details class="ki-collapsible">
-                  <summary>Zugang OpenAI / ChatGPT RIT und RET</summary>
+                  <summary>Mit KI verbinden – RIT und RET</summary>
                   <div class="ki-collapsible-body">
                     <div class="internal-ai-panel api-test-panel">
 
@@ -2866,7 +3575,7 @@ body.bt-mobile-view #pageHost .extra-text-card {
                   <div class="api-test-note">Die Anfrage startet nur manuell über den Button. An die KI wird die strukturierte Vorschau kapitelweise gesendet; daraus soll pro Kapitel ein eigener fachlicher Fliesstext entstehen. Die Ziele bleiben getrennt als Fernziel und Feinziele. Der Originaltext bleibt intern erhalten.</div>
                   <div class="internal-ai-grid">
                     <input type="text" id="chatGptApiEndpointInput" placeholder="API-Endpunkt, z. B. /v1/responses oder /v1/chat/completions" oninput="storeSharedOpenAiSettingsFromPage('chatGptApiEndpointInput')" />
-                    <input type="password" id="chatGptApiKeyInput" placeholder="OpenAI API-Key einmal lokal für alle Generatoren" oninput="storeSharedOpenAiSettingsFromPage('chatGptApiKeyInput')" />
+                    <input type="password" id="chatGptApiKeyInput" placeholder="API-Schlüssel für KI-Dienst" oninput="storeSharedOpenAiSettingsFromPage('chatGptApiKeyInput')" />
                     <input type="text" id="chatGptApiModelInput" placeholder="Modellname" oninput="storeSharedOpenAiSettingsFromPage('chatGptApiModelInput')" />
                     <select id="chatGptApiStyleInput" onchange="storeSharedOpenAiSettingsFromPage('chatGptApiStyleInput')">
                       <option value="responses">Responses-Format</option>
@@ -2875,12 +3584,12 @@ body.bt-mobile-view #pageHost .extra-text-card {
                     <textarea id="chatGptApiInstructionInput" placeholder="Optional: nur zusätzliche Hinweise für die KI" oninput="storeSharedOpenAiSettingsFromPage('chatGptApiInstructionInput')"></textarea>
                   </div>
                   <div class="tool-row">
-                    <button type="button" class="ghost" onclick="sendOutputToChatGptApiTest()">Vorschau an OpenAI / ChatGPT senden</button>
-                    <button type="button" class="ghost" onclick="applyChatGptApiTestOutput()">API-Version erneut anzeigen</button>
-                    <button type="button" class="ghost" onclick="clearChatGptApiTestOutput()">API-Version löschen</button>
+                    <button type="button" class="ghost" onclick="sendOutputToChatGptApiTest()">Vorschau an KI senden</button>
+                    <button type="button" class="ghost" onclick="applyChatGptApiTestOutput()">KI-Version erneut anzeigen</button>
+                    <button type="button" class="ghost" onclick="clearChatGptApiTestOutput()">KI-Version löschen</button>
                   </div>
-                  <div class="internal-ai-status" id="chatGptApiStatus">Hier kannst du die strukturierte Vorschau direkt an OpenAI / ChatGPT senden.</div>
-                  <div class="preview-box internal-ai-output compact-ai-output" id="chatGptApiOutputField">Noch kein OpenAI-/ChatGPT-Ergebnis vorhanden.</div>
+                  <div class="internal-ai-status" id="chatGptApiStatus">Hier kannst du die strukturierte Vorschau mit einem KI-Dienst verbinden.</div>
+                  <div class="preview-box internal-ai-output compact-ai-output" id="chatGptApiOutputField">Noch kein KI-Ergebnis vorhanden.</div>
                 
                     </div>
                   </div>
@@ -2892,7 +3601,7 @@ body.bt-mobile-view #pageHost .extra-text-card {
                     <summary>Generator Entwicklungsplanung</summary>
                     <div class="ki-generator-group-body">
                       
-<details class="ki-collapsible">
+<details class="ki-collapsible bt-internal-ai-hidden">
   <summary>Zugang interne KI Entwicklungsplanung</summary>
   <div class="ki-collapsible-body">
     <div class="internal-ai-panel">
@@ -2901,7 +3610,7 @@ body.bt-mobile-view #pageHost .extra-text-card {
         <textarea id="epInternalAiInstructionInput" placeholder="Optional: zusätzliche Hinweise für die interne KI der Entwicklungsplanung" oninput="storeEntwicklungsplanungAiSettingsFromPage()"></textarea>
       </div>
       <div class="tool-row">
-        <button type="button" class="ghost" onclick="sendEntwicklungsplanungToInternalAi()">Entwicklungsplanung an internen KI-Dienst senden</button>
+        <button type="button" class="ghost bt-internal-ai-hidden" onclick="sendEntwicklungsplanungToInternalAi()">Entwicklungsplanung an internen KI-Dienst senden</button>
       </div>
     </div>
   </div>
@@ -2909,21 +3618,21 @@ body.bt-mobile-view #pageHost .extra-text-card {
 
                       
 <details class="ki-collapsible">
-  <summary>Zugang OpenAI / ChatGPT Entwicklungsplanung</summary>
+  <summary>Mit KI verbinden – Entwicklungsplanung</summary>
   <div class="ki-collapsible-body">
     <div class="internal-ai-panel">
       <div class="internal-ai-grid">
-        <input type="text" id="epOpenAiEndpointInput" placeholder="OpenAI-Endpunkt nur für Entwicklungsplanung" oninput="storeEntwicklungsplanungAiSettingsFromPage()" />
-        <input type="password" id="epOpenAiKeyInput" placeholder="OpenAI API-Key einmal lokal für alle Generatoren" oninput="storeEntwicklungsplanungAiSettingsFromPage()" />
-        <input type="text" id="epOpenAiModelInput" placeholder="OpenAI-Modell für Entwicklungsplanung" oninput="storeEntwicklungsplanungAiSettingsFromPage()" />
+        <input type="text" id="epOpenAiEndpointInput" placeholder="API-Endpunkt für KI-Dienst – Entwicklungsplanung" oninput="storeEntwicklungsplanungAiSettingsFromPage()" />
+        <input type="password" id="epOpenAiKeyInput" placeholder="API-Schlüssel für KI-Dienst" oninput="storeEntwicklungsplanungAiSettingsFromPage()" />
+        <input type="text" id="epOpenAiModelInput" placeholder="Modell für KI-Dienst – Entwicklungsplanung" oninput="storeEntwicklungsplanungAiSettingsFromPage()" />
         <select id="epOpenAiStyleInput" onchange="storeEntwicklungsplanungAiSettingsFromPage()">
           <option value="responses">Responses-Format</option>
           <option value="chat_completions">Chat-Completions-Format</option>
         </select>
-        <textarea id="epOpenAiInstructionInput" placeholder="Optional: zusätzliche Hinweise für OpenAI / ChatGPT der Entwicklungsplanung" oninput="storeEntwicklungsplanungAiSettingsFromPage()"></textarea>
+        <textarea id="epOpenAiInstructionInput" placeholder="Optional: zusätzliche Hinweise für den KI-Dienst der Entwicklungsplanung" oninput="storeEntwicklungsplanungAiSettingsFromPage()"></textarea>
       </div>
       <div class="tool-row">
-        <button type="button" class="ghost" onclick="sendEntwicklungsplanungToOpenAi()">Entwicklungsplanung an OpenAI / ChatGPT senden</button>
+        <button type="button" class="ghost" onclick="sendEntwicklungsplanungToOpenAi()">Entwicklungsplanung an KI senden</button>
       </div>
     </div>
   </div>
@@ -2943,6 +3652,7 @@ body.bt-mobile-view #pageHost .extra-text-card {
         </aside>
       </div>
     </section>
+    <div class="app-version-note">BT-Navigator V1.1 · RIT / RET · Dateien werden verschlüsselt gespeichert · Browserdaten lokal</div>
   </div>
 
   <script>
@@ -3018,6 +3728,14 @@ const MODELS = {
         section: "Grunddaten",
         hint: "Hier werden die grundlegenden Angaben für den weiteren Aufbau des RIT erfasst.",
         type: "grunddaten",
+        itemCount: 0,
+      },
+      {
+        id: "redline_zielerfassung",
+        title: "1b. Zielerfassung / Redline (optional)",
+        section: "Bestehende Zielerfassung / Redline",
+        hint: "Optionaler früher Schritt: Wenn bereits Zielerfassungen, Redline-Texte oder bisherige Entwicklungsplanungen vorhanden sind, hier einfügen. Wenn nichts vorhanden ist, diese Seite einfach überspringen. Vorhandene Ziele können in Seite 9/10 und in die Entwicklungsplanung übernommen werden; bereits gefüllte Felder werden nicht ungefragt überschrieben.",
+        type: "redline",
         itemCount: 0,
       },
       {
@@ -4215,7 +4933,7 @@ const MODELS = {
         id: "fertig",
         title: "13. KI-Ergebnis",
         section: "KI-Ergebnis",
-        hint: "Hier erscheint nur die zuletzt generierte KI-Antwort. Über den Button „Text generieren“ wird die strukturierte Vorschau an OpenAI / ChatGPT gesendet. Die Antwort wird danach direkt hier angezeigt.",
+        hint: "Hier erscheint die zuletzt generierte KI-Antwort. Über „KI-Antwort generieren“ wird die strukturierte Vorschau an den verbundenen KI-Dienst gesendet. Die Antwort wird danach direkt hier angezeigt.",
         type: "output",
         itemCount: 0,
       },
@@ -4223,7 +4941,7 @@ const MODELS = {
         id: "entwicklungsplanung",
         title: "14. Entwicklungsplanung",
         section: "Entwicklungsplanung",
-        hint: "Hier ergänzt du die Planungsfelder, kannst Ziele aus GRIT / GRET übernehmen und lässt die Entwicklungsplanung über einen getrennten KI-Zugang erstellen.",
+        hint: "Hier ergänzt du die Planungsfelder, kannst Ziele aus GRIT / GRET sowie vorhandene Zielerfassung / Redline übernehmen und lässt die Entwicklungsplanung über einen getrennten KI-Zugang erstellen.",
         type: "entwicklungsplanung",
         itemCount: 0,
       },
@@ -4300,6 +5018,14 @@ const MODELS = {
         section: "Grunddaten",
         hint: "Hier werden die grundlegenden Angaben für den weiteren Aufbau des RET erfasst.",
         type: "grunddaten",
+        itemCount: 0,
+      },
+      {
+        id: "redline_zielerfassung",
+        title: "1b. Zielerfassung / Redline (optional)",
+        section: "Bestehende Zielerfassung / Redline",
+        hint: "Optionaler früher Schritt: Wenn bereits Zielerfassungen, Redline-Texte oder bisherige Entwicklungsplanungen vorhanden sind, hier einfügen. Wenn nichts vorhanden ist, diese Seite einfach überspringen. Vorhandene Ziele können in Seite 9/10 und in die Entwicklungsplanung übernommen werden; bereits gefüllte Felder werden nicht ungefragt überschrieben.",
+        type: "redline",
         itemCount: 0,
       },
       {
@@ -5525,7 +6251,7 @@ const MODELS = {
         id: "fertig",
         title: "13. KI-Ergebnis",
         section: "KI-Ergebnis",
-        hint: "Hier erscheint nur die zuletzt generierte KI-Antwort. Über den Button „Text generieren“ wird die strukturierte Vorschau an OpenAI / ChatGPT gesendet. Die Antwort wird danach direkt hier angezeigt.",
+        hint: "Hier erscheint die zuletzt generierte KI-Antwort. Über „KI-Antwort generieren“ wird die strukturierte Vorschau an den verbundenen KI-Dienst gesendet. Die Antwort wird danach direkt hier angezeigt.",
         type: "output",
         itemCount: 0,
       },
@@ -5533,7 +6259,7 @@ const MODELS = {
         id: "entwicklungsplanung",
         title: "14. Entwicklungsplanung",
         section: "Entwicklungsplanung",
-        hint: "Hier ergänzt du die Planungsfelder, kannst Ziele aus GRIT / GRET übernehmen und lässt die Entwicklungsplanung über einen getrennten KI-Zugang erstellen.",
+        hint: "Hier ergänzt du die Planungsfelder, kannst Ziele aus GRIT / GRET sowie vorhandene Zielerfassung / Redline übernehmen und lässt die Entwicklungsplanung über einen getrennten KI-Zugang erstellen.",
         type: "entwicklungsplanung",
         itemCount: 0,
       },
@@ -5675,6 +6401,26 @@ const EXTRA_TEXT_FIELDS = {
     { key: "beobachtung_pruefung", label: "Beobachtung – Überprüfungskriterien" },
   ],
 };
+
+
+const REDLINE_PAGE_ID = "redline_zielerfassung";
+const REDLINE_FIELDS = [
+  { key: "rawText", label: "Originaltext / Redline komplett", full: true },
+  { key: "hauptziel", label: "Bestehendes Hauptziel", full: true },
+  { key: "unterziel1", label: "Bestehendes Unterziel 1", full: true },
+  { key: "massnahme1", label: "Bestehende Massnahme 1", full: true },
+  { key: "unterziel2", label: "Bestehendes Unterziel 2", full: true },
+  { key: "massnahme2", label: "Bestehende Massnahme 2", full: true },
+  { key: "beobachtung", label: "Bestehende Beobachtung / Auswertung", full: true },
+  { key: "hinweis", label: "Wichtige Hinweise / offene Punkte", full: true },
+];
+
+function defaultRedlineFields() {
+  return REDLINE_FIELDS.reduce((acc, field) => {
+    acc[field.key] = "";
+    return acc;
+  }, {});
+}
 
 const CONTENT_AUDIT_CONFIG = [
   { pageId: "2b_Diagnostik", label: "Diagnostik", minFilled: 2 },
@@ -6766,9 +7512,60 @@ td {
     page-break-inside: avoid;
   }
 }
-  </style>
+  
+
+/* WEEKPLAN_PRO_UI_V1: RIT violett / RET grün, klare Modusleiste, runde Karten */
+body[data-weekplan-mode="rit"] { --mode-main: #5c3991; --mode-soft: #f1ecf8; --mode-line: #dacdf0; --mode-glow: rgba(92, 57, 145, 0.14); }
+body[data-weekplan-mode="ret"] { --mode-main: #2f7d5a; --mode-soft: #eaf7f1; --mode-line: #cfe7d9; --mode-glow: rgba(47, 125, 90, 0.14); }
+body[data-weekplan-mode] { background: linear-gradient(180deg, var(--mode-soft) 0%, var(--bg) 280px), var(--bg); }
+body[data-weekplan-mode] .topbar { border-color: var(--mode-line); background: linear-gradient(180deg, #ffffff 0%, var(--mode-soft) 100%); box-shadow: 0 14px 34px var(--mode-glow); }
+body[data-weekplan-mode] .topbar .title,
+body[data-weekplan-mode] .section-title,
+body[data-weekplan-mode] .weekplan-action-title,
+body[data-weekplan-mode] .mode-switch-label { color: var(--mode-main); }
+.weekplan-mode-banner {
+  margin: 8px 0 14px; padding: 12px 14px; border: 1px solid var(--mode-line, var(--line)); border-radius: 18px;
+  background: linear-gradient(180deg, #ffffff 0%, var(--mode-soft, #f8fbff) 100%); color: var(--mode-main, var(--accent));
+  box-shadow: 0 10px 24px var(--mode-glow, rgba(18,35,58,.08)); display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+}
+.weekplan-mode-banner span { font-size: 12px; font-weight: 900; letter-spacing: .03em; text-transform: uppercase; opacity: .75; }
+.weekplan-mode-banner strong { font-size: clamp(18px, 4vw, 26px); line-height: 1.15; }
+.weekplan-mode-banner small { color: #425166; font-weight: 700; line-height: 1.35; }
+body[data-weekplan-mode] .mode-chip { border-color: var(--mode-line); color: var(--mode-main); box-shadow: 0 6px 14px var(--mode-glow); }
+body[data-weekplan-mode] .mode-chip.active,
+body[data-weekplan-mode] .primary { background: var(--mode-main); border-color: var(--mode-main); color: #fff; box-shadow: 0 8px 18px var(--mode-glow); }
+body[data-weekplan-mode] .secondary { background: #fff; color: var(--mode-main); border: 1px solid var(--mode-line); }
+body[data-weekplan-mode] input:focus,
+body[data-weekplan-mode] textarea:focus,
+body[data-weekplan-mode] select:focus { outline: none; border-color: var(--mode-main); box-shadow: 0 0 0 3px var(--mode-soft); }
+body[data-weekplan-mode] .weekplan-action-group,
+body[data-weekplan-mode] .section-intro,
+body[data-weekplan-mode] .overview-shell { border-color: var(--mode-line); }
+body[data-weekplan-mode] .weekplan-action-group { background: linear-gradient(180deg, #ffffff 0%, var(--mode-soft) 100%); }
+body[data-weekplan-mode] .client-count-display { border-color: var(--mode-line); color: var(--mode-main); }
+body[data-weekplan-mode] input[type="checkbox"],
+body[data-weekplan-mode] input[type="radio"] { accent-color: var(--mode-main); }
+body[data-weekplan-mode] .overview-shell { box-shadow: 0 12px 28px var(--mode-glow); }
+body[data-weekplan-mode] .group-block { border-color: var(--mode-line); border-left: 4px solid var(--mode-main); background: linear-gradient(180deg, #ffffff 0%, var(--mode-soft) 100%); }
+body[data-weekplan-mode] .synced-client-card { background: var(--mode-soft); border-color: var(--mode-line); }
+body[data-weekplan-mode] .client-card { overflow: hidden; border-color: var(--mode-line); border-radius: 22px; box-shadow: 0 12px 28px var(--mode-glow); }
+body[data-weekplan-mode] .client-plan-summary { background: linear-gradient(180deg, #ffffff 0%, var(--mode-soft) 100%); box-shadow: inset 0 6px 0 var(--mode-main); border-radius: 22px 22px 0 0; padding-top: 22px; }
+body[data-weekplan-mode] .client-plan-details:not([open]) .client-plan-summary { border-radius: 22px; }
+body[data-weekplan-mode] .client-plan-details[open] .client-plan-summary { border-radius: 22px 22px 0 0; }
+body[data-weekplan-mode] .client-plan-summary-label,
+body[data-weekplan-mode] .client-plan-summary-name { color: var(--mode-main); }
+.client-plan-summary-mode { align-self: center; flex: 0 0 auto; padding: 6px 9px; border-radius: 999px; border: 1px solid var(--mode-line, var(--line)); background: #fff; color: var(--mode-main, var(--accent)); font-size: 12px; font-weight: 900; line-height: 1; }
+body[data-weekplan-mode] .client-plan-content { border-top: 1px solid var(--mode-line); border-radius: 0 0 22px 22px; overflow: hidden; }
+body[data-weekplan-mode] .overview-view-menu summary { border-color: var(--mode-line); background: var(--mode-soft); color: var(--mode-main); }
+body[data-weekplan-mode] .footer-note { color: #526075; }
+@media (max-width: 740px) {
+  .weekplan-mode-banner { align-items: flex-start; display: grid; gap: 4px; }
+  .client-plan-summary { gap: 8px; }
+  .client-plan-summary-mode { display: none; }
+}
+</style>
 </head>
-<body class="print-all">
+<body class="print-all" data-weekplan-mode="rit">
   <div class="page">
     <section class="topbar screen-only">
       <h1 class="title">Wochenplan</h1>
@@ -6778,6 +7575,12 @@ td {
         <span class="mode-switch-label">Modus</span>
         <button class="mode-chip" type="button" data-mode-switch="rit" onclick="setMode('rit')">RIT</button>
         <button class="mode-chip" type="button" data-mode-switch="ret" onclick="setMode('ret')">RET</button>
+      </div>
+
+      <div class="weekplan-mode-banner" id="weekplanModeBanner">
+        <span>Aktuell offen</span>
+        <strong>RIT-Wochenplan</strong>
+        <small>Violette Akzente markieren den RIT-Modus.</small>
       </div>
 
       <div class="controls">
@@ -6815,8 +7618,8 @@ td {
           <div class="weekplan-action-title">Speichern</div>
           <div class="weekplan-action-row">
             <button class="secondary" type="button" onclick="manualSaveWeekplan()">Jetzt speichern</button>
-            <button class="secondary" type="button" onclick="window.parent && typeof window.parent.downloadWorkspaceSnapshot === 'function' && window.parent.downloadWorkspaceSnapshot()">Speichern unter …</button>
-            <button class="secondary" type="button" onclick="window.parent && typeof window.parent.triggerWorkspaceImport === 'function' && window.parent.triggerWorkspaceImport()">Importieren</button>
+            <button class="secondary" type="button" onclick="window.parent && typeof window.parent.downloadWorkspaceSnapshot === 'function' && window.parent.downloadWorkspaceSnapshot()">Gesamte Datei speichern</button>
+            <button class="secondary" type="button" onclick="window.parent && typeof window.parent.triggerWorkspaceImport === 'function' && window.parent.triggerWorkspaceImport()">Gesamte Datei importieren</button>
           </div>
         </div>
 
@@ -6826,13 +7629,14 @@ td {
             <button class="secondary" type="button" onclick="window.parent && typeof window.parent.restoreBrowserSnapshot === 'function' && window.parent.restoreBrowserSnapshot('current')">Aktuell</button>
             <button class="secondary" type="button" onclick="window.parent && typeof window.parent.restoreBrowserSnapshot === 'function' && window.parent.restoreBrowserSnapshot('previous')">Vorherig</button>
             <button class="secondary" type="button" onclick="window.parent && typeof window.parent.restoreBrowserSnapshot === 'function' && window.parent.restoreBrowserSnapshot('emergency')">Notfall</button>
+            <button class="secondary" type="button" onclick="window.parent && typeof window.parent.unlockBrowserSnapshotsFromUi === 'function' && window.parent.unlockBrowserSnapshotsFromUi()">Entsperren</button>
           </div>
         </div>
 
         <div class="weekplan-action-group">
           <div class="weekplan-action-title">Klient-Datei</div>
           <div class="weekplan-action-row">
-            <button class="secondary" type="button" onclick="window.parent && typeof window.parent.triggerSingleClientImportAsNew === 'function' && window.parent.triggerSingleClientImportAsNew()">Als neuen Klienten importieren</button>
+            <button class="secondary" type="button" onclick="window.parent && typeof window.parent.triggerSingleClientImportAsNew === 'function' && window.parent.triggerSingleClientImportAsNew()">Klient-Datei als neu laden</button>
           </div>
         </div>
 
@@ -6861,15 +7665,15 @@ td {
           <div class="overview-view-panel" role="group" aria-label="Anzeige der Gesamtübersicht">
             <label class="overview-view-option">
               <input type="radio" name="overviewViewMode" value="compact" onchange="setOverviewViewMode(this.value)" />
-              <span><strong>Kompakt</strong>Nur Name, RIT/RET und Morgen/Nachmittag.</span>
+              <span><strong>Kompakt</strong>Nur Name, RIT/RET, Morgen/Nachmittag und gespeichert.</span>
             </label>
             <label class="overview-view-option">
               <input type="radio" name="overviewViewMode" value="standard" onchange="setOverviewViewMode(this.value)" />
-              <span><strong>Standard</strong>Nur angehakte Baustein-Inhalte sichtbar.</span>
+              <span><strong>Standard</strong>Zusätzlich Ziel und Aktivität direkt sichtbar.</span>
             </label>
             <label class="overview-view-option">
               <input type="radio" name="overviewViewMode" value="detail" onchange="setOverviewViewMode(this.value)" />
-              <span><strong>Detail</strong>Baustein-Inhalte plus gespeicherter KI-Text sichtbar.</span>
+              <span><strong>Detail</strong>Hauptziel, Setting, Ziel, Aktivität und Hinweise sichtbar.</span>
             </label>
           </div>
         </details>
@@ -7002,7 +7806,7 @@ td {
     }
 
     function defaultDayContent(index, dayKey) {
-      return { ziel: '', akt: '', kiText: '' };
+      return { ziel: '', akt: '' };
     }
 
     function defaultClient(index) {
@@ -7021,9 +7825,7 @@ td {
           morningGoal: fallback.ziel,
           morningActivity: fallback.akt,
           afternoonGoal: '',
-          afternoonActivity: '',
-          morningKiText: '',
-          afternoonKiText: ''
+          afternoonActivity: ''
         };
       });
 
@@ -7069,10 +7871,8 @@ td {
           client.days[day.key] = {
             morningGoal: oldDay.morningGoal ?? oldDay.goal ?? fallback.days[day.key].morningGoal,
             morningActivity: oldDay.morningActivity ?? oldDay.activity ?? fallback.days[day.key].morningActivity,
-            morningKiText: oldDay.morningKiText ?? oldDay.kiText ?? fallback.days[day.key].morningKiText ?? '',
             afternoonGoal: oldDay.afternoonGoal ?? '',
-            afternoonActivity: oldDay.afternoonActivity ?? '',
-            afternoonKiText: oldDay.afternoonKiText ?? ''
+            afternoonActivity: oldDay.afternoonActivity ?? ''
           };
         });
 
@@ -7145,14 +7945,11 @@ td {
         };
 
         days.forEach(day => {
-          const existingDay = currentState.clients?.[index]?.days?.[day.key] || {};
           client.days[day.key] = {
             morningGoal: card.querySelector(\`[data-field="\${index}-\${day.key}-morning-goal"]\`).value,
             morningActivity: card.querySelector(\`[data-field="\${index}-\${day.key}-morning-activity"]\`).value,
-            morningKiText: existingDay.morningKiText || '',
             afternoonGoal: card.querySelector(\`[data-field="\${index}-\${day.key}-afternoon-goal"]\`).value,
-            afternoonActivity: card.querySelector(\`[data-field="\${index}-\${day.key}-afternoon-activity"]\`).value,
-            afternoonKiText: existingDay.afternoonKiText || ''
+            afternoonActivity: card.querySelector(\`[data-field="\${index}-\${day.key}-afternoon-activity"]\`).value
           };
         });
 
@@ -7180,8 +7977,7 @@ td {
       const dayData = client.days?.[dayKey] || {};
       const goal = period === 'morning' ? dayData.morningGoal : dayData.afternoonGoal;
       const activity = period === 'morning' ? dayData.morningActivity : dayData.afternoonActivity;
-      const kiText = period === 'morning' ? dayData.morningKiText : dayData.afternoonKiText;
-      return String(goal || '').trim() !== '' || String(activity || '').trim() !== '' || String(kiText || '').trim() !== '';
+      return String(goal || '').trim() !== '' && String(activity || '').trim() !== '';
     }
 
     function renderSyncedClientCard(client, index, dayKey, period, mode, viewMode = 'compact', printMode = false) {
@@ -7189,16 +7985,17 @@ td {
       const dayData = client.days?.[dayKey] || {};
       const goal = period === 'morning' ? dayData.morningGoal : dayData.afternoonGoal;
       const activity = period === 'morning' ? dayData.morningActivity : dayData.afternoonActivity;
-      const kiText = period === 'morning' ? dayData.morningKiText : dayData.afternoonKiText;
       const periodLabel = period === 'morning' ? 'Morgen' : 'Nachmittag';
       const detailFields = [
-        { label: 'Ziel / Unterziel', value: goal },
-        { label: 'Angehakte Aktivitäten / Massnahmen', value: activity },
-        { label: 'Fertiger KI-Text', value: kiText }
+        { label: 'Hauptziel', value: client.mainGoal },
+        { label: modeMeta.settingLabel, value: client.setting },
+        { label: 'Ziel', value: goal },
+        { label: 'Aktivität', value: activity },
+        { label: 'Hinweise', value: client.notes }
       ];
       const standardFields = [
-        { label: 'Ziel / Unterziel', value: goal },
-        { label: 'Angehakte Aktivitäten / Massnahmen', value: activity }
+        { label: 'Ziel', value: goal },
+        { label: 'Aktivität', value: activity }
       ];
       const fields = (viewMode === 'detail' ? detailFields : viewMode === 'standard' ? standardFields : [])
         .filter(field => String(field.value || '').trim() !== '');
@@ -7444,13 +8241,14 @@ td {
                 <div class="client-plan-summary-label">Klient \${i + 1}</div>
                 <div class="client-plan-summary-name">\${escapeHtml(summaryClientName)}</div>
               </div>
+              <div class="client-plan-summary-mode">\${modeMeta.label}</div>
               <div class="client-plan-summary-actions" onclick="event.stopPropagation()">
                 <button class="secondary client-summary-generator wp-generator-link" type="button" onclick="event.stopPropagation(); const card = this.closest('.client-card'); const nameInput = card ? card.querySelector('.client-name') : null; const clientName = nameInput && nameInput.value ? nameInput.value : 'Klient ' + (\${i} + 1); if (window.parent && typeof window.parent.openGeneratorFromWeekplan === 'function') { window.parent.openGeneratorFromWeekplan(\${i}, clientName); }">Zum Generator</button>
                 <details class="client-actions-menu" onclick="event.stopPropagation()">
                   <summary class="secondary client-actions-trigger" title="Klienten-Aktionen">☰</summary>
                   <div class="client-actions-panel">
-                    <button class="secondary" type="button" onclick="event.stopPropagation(); window.parent && typeof window.parent.downloadSingleClientSnapshot === 'function' && window.parent.downloadSingleClientSnapshot(\${i})">Klient exportieren</button>
-                    <button class="secondary" type="button" onclick="event.stopPropagation(); window.parent && typeof window.parent.triggerSingleClientImport === 'function' && window.parent.triggerSingleClientImport(\${i})">Klient importieren</button>
+                    <button class="secondary" type="button" onclick="event.stopPropagation(); window.parent && typeof window.parent.downloadSingleClientSnapshot === 'function' && window.parent.downloadSingleClientSnapshot(\${i})">Klient verschlüsselt speichern</button>
+                    <button class="secondary" type="button" onclick="event.stopPropagation(); window.parent && typeof window.parent.triggerSingleClientImport === 'function' && window.parent.triggerSingleClientImport(\${i})">Klient-Datei laden</button>
                     <button class="secondary client-remove-btn" type="button" onclick="event.stopPropagation(); removeClientAt(\${i})">Diesen Klienten entfernen</button>
                   </div>
                 </details>
@@ -7642,14 +8440,24 @@ td {
 
     function renderModeUi(mode) {
       const modeMeta = getModeMeta(mode || getCurrentMode());
+      document.body.dataset.weekplanMode = modeMeta.key;
       document.querySelectorAll('[data-mode-switch]').forEach(button => {
         button.classList.toggle('active', button.dataset.modeSwitch === modeMeta.key);
       });
 
+      const title = document.querySelector('.topbar .title');
+      const banner = document.getElementById('weekplanModeBanner');
       const subtitle = document.getElementById('modeSubtitle');
       const hint = document.getElementById('modeHint');
       const overviewSubtitle = document.getElementById('overviewSectionSubtitle');
       const clientSubtitle = document.getElementById('clientSectionSubtitle');
+
+      if (title) {
+        title.textContent = 'Wochenplan – ' + modeMeta.label;
+      }
+      if (banner) {
+        banner.innerHTML = '<span>Aktuell offen</span><strong>' + modeMeta.label + '-Wochenplan</strong><small>' + (modeMeta.key === 'ret' ? 'Grüne Akzente markieren den RET-Modus.' : 'Violette Akzente markieren den RIT-Modus.') + '</small>';
+      }
 
       if (subtitle) {
         subtitle.textContent = 'Oben stehen die Tage nebeneinander. In jedem Tag sind Morgensequenz, ' + modeMeta.groupMorningLabel + ', Mittagswagen, ' + modeMeta.groupAfternoonLabel + ' und Abendsequenz. Die Klienten-Inhalte werden getrennt nach Morgen und Nachmittag direkt in die passenden Gruppenblöcke übernommen.';
@@ -8003,7 +8811,7 @@ td {
   }
 
   document.addEventListener('toggle', (event) => {
-    if (event.target && event.target.matches && event.target.matches('.client-plan-details, .client-actions-menu')) {
+    if (event.target && event.target.matches && event.target.matches('.client-plan-details, .client-actions-menu, .synced-client-details, .overview-view-menu')) {
       requestParentFrameFit();
     }
   }, true);
@@ -8101,29 +8909,291 @@ function defaultBrowserSnapshots() {
   };
 }
 
+
+let encryptedBrowserSnapshotsCache = null;
+
+function browserSnapshotPasswordSessionKey() {
+  return storageKey() + "-browser-snapshots-session-password";
+}
+
+function getBrowserSnapshotSessionPassword() {
+  try {
+    return sessionStorage.getItem(browserSnapshotPasswordSessionKey()) || "";
+  } catch (error) {
+    return "";
+  }
+}
+
+function setBrowserSnapshotSessionPassword(password) {
+  try {
+    if (password) sessionStorage.setItem(browserSnapshotPasswordSessionKey(), password);
+  } catch (error) {
+    console.warn("Browser-Stände-Passwort konnte nicht für diese Sitzung gemerkt werden.", error);
+  }
+}
+
+function normalizeBrowserSnapshots(value) {
+  return {
+    ...defaultBrowserSnapshots(),
+    ...(value && typeof value === "object" ? value : {}),
+  };
+}
+
+function isBrowserSnapshotsLockedMarker(value) {
+  return value && value.__locked === true;
+}
+
+
+async function getSavedNavigatorPasswordFromBrowserManager() {
+  try {
+    if (!('credentials' in navigator) || typeof PasswordCredential === 'undefined') return '';
+    const credential = await navigator.credentials.get({ password: true, mediation: 'optional' });
+    if (credential && credential.password) return String(credential.password || '');
+  } catch (error) {
+    console.warn('Passwortmanager konnte kein Passwort bereitstellen.', error);
+  }
+  return '';
+}
+
+async function rememberNavigatorPasswordInBrowserManager(password) {
+  try {
+    if (!password || !('credentials' in navigator) || typeof PasswordCredential === 'undefined') return;
+    const credential = new PasswordCredential({
+      id: 'BT-Navigator',
+      name: 'BT-Navigator',
+      password: String(password),
+    });
+    await navigator.credentials.store(credential);
+  } catch (error) {
+    console.warn('Passwort konnte nicht im Browser-Passwortmanager gespeichert werden.', error);
+  }
+}
+
+function requestNavigatorPassword(options = {}) {
+  const title = options.title || 'BT-Navigator Passwort';
+  const message = options.message || '';
+  const confirmPassword = !!options.confirm;
+  const autocomplete = options.autocomplete || (confirmPassword ? 'new-password' : 'current-password');
+  const minLength = Number.isFinite(options.minLength) ? options.minLength : 1;
+
+  return new Promise((resolve) => {
+    const overlay = document.createElement('div');
+    overlay.setAttribute('role', 'dialog');
+    overlay.setAttribute('aria-modal', 'true');
+    overlay.style.position = 'fixed';
+    overlay.style.inset = '0';
+    overlay.style.zIndex = '99999';
+    overlay.style.background = 'rgba(15, 23, 42, 0.42)';
+    overlay.style.display = 'grid';
+    overlay.style.placeItems = 'center';
+    overlay.style.padding = '18px';
+
+    const form = document.createElement('form');
+    form.method = 'post';
+    form.autocomplete = 'on';
+    form.style.width = 'min(420px, 100%)';
+    form.style.border = '1px solid #d8e1ee';
+    form.style.borderRadius = '18px';
+    form.style.background = '#fff';
+    form.style.boxShadow = '0 18px 46px rgba(31, 57, 90, 0.22)';
+    form.style.padding = '18px';
+    form.style.display = 'grid';
+    form.style.gap = '12px';
+
+    const heading = document.createElement('div');
+    heading.textContent = title;
+    heading.style.fontWeight = '900';
+    heading.style.fontSize = '18px';
+    heading.style.color = '#1f2a37';
+    form.appendChild(heading);
+
+    if (message) {
+      const note = document.createElement('div');
+      note.textContent = message;
+      note.style.color = '#607086';
+      note.style.fontSize = '13px';
+      note.style.lineHeight = '1.45';
+      form.appendChild(note);
+    }
+
+    const username = document.createElement('input');
+    username.type = 'text';
+    username.name = 'username';
+    username.autocomplete = 'username';
+    username.value = 'BT-Navigator';
+    username.readOnly = true;
+    username.style.position = 'absolute';
+    username.style.left = '-9999px';
+    username.style.width = '1px';
+    username.style.height = '1px';
+    username.style.opacity = '0.01';
+    form.appendChild(username);
+
+    const password = document.createElement('input');
+    password.type = 'password';
+    password.name = 'password';
+    password.autocomplete = autocomplete;
+    password.placeholder = confirmPassword ? 'Passwort festlegen' : 'Passwort eingeben';
+    password.required = true;
+    password.minLength = minLength;
+    password.style.width = '100%';
+    password.style.border = '1px solid #d8e2ea';
+    password.style.borderRadius = '12px';
+    password.style.padding = '12px 14px';
+    password.style.font = 'inherit';
+    password.style.fontSize = '16px';
+    form.appendChild(password);
+
+    let confirmation = null;
+    if (confirmPassword) {
+      confirmation = document.createElement('input');
+      confirmation.type = 'password';
+      confirmation.name = 'password_confirmation';
+      confirmation.autocomplete = 'new-password';
+      confirmation.placeholder = 'Passwort wiederholen';
+      confirmation.required = true;
+      confirmation.minLength = minLength;
+      confirmation.style.width = '100%';
+      confirmation.style.border = '1px solid #d8e2ea';
+      confirmation.style.borderRadius = '12px';
+      confirmation.style.padding = '12px 14px';
+      confirmation.style.font = 'inherit';
+      confirmation.style.fontSize = '16px';
+      form.appendChild(confirmation);
+    }
+
+    const managerHint = document.createElement('div');
+    managerHint.textContent = 'Das Passwort kann vom Browser-Passwortmanager gespeichert oder automatisch ausgefüllt werden. Es wird nicht dauerhaft im BT-Navigator gespeichert.';
+    managerHint.style.color = '#607086';
+    managerHint.style.fontSize = '12px';
+    managerHint.style.lineHeight = '1.4';
+    form.appendChild(managerHint);
+
+    const errorLine = document.createElement('div');
+    errorLine.style.color = '#b42318';
+    errorLine.style.fontSize = '13px';
+    errorLine.style.minHeight = '18px';
+    form.appendChild(errorLine);
+
+    const row = document.createElement('div');
+    row.style.display = 'flex';
+    row.style.gap = '10px';
+    row.style.flexWrap = 'wrap';
+
+    const cancel = document.createElement('button');
+    cancel.type = 'button';
+    cancel.textContent = 'Abbrechen';
+    cancel.className = 'ghost';
+    cancel.style.flex = '1 1 130px';
+
+    const submit = document.createElement('button');
+    submit.type = 'submit';
+    submit.textContent = confirmPassword ? 'Passwort speichern' : 'Entsperren';
+    submit.style.flex = '1 1 130px';
+
+    row.appendChild(cancel);
+    row.appendChild(submit);
+    form.appendChild(row);
+    overlay.appendChild(form);
+    document.body.appendChild(overlay);
+
+    const close = (value) => {
+      overlay.remove();
+      resolve(value);
+    };
+
+    cancel.addEventListener('click', () => close(null));
+    overlay.addEventListener('click', (event) => {
+      if (event.target === overlay) close(null);
+    });
+
+    const onKeydown = (event) => {
+      if (!document.body.contains(overlay)) {
+        document.removeEventListener('keydown', onKeydown);
+        return;
+      }
+      if (event.key === 'Escape') {
+        document.removeEventListener('keydown', onKeydown);
+        close(null);
+      }
+    };
+    document.addEventListener('keydown', onKeydown);
+
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const value = String(password.value || '');
+      if (value.length < minLength) {
+        errorLine.textContent = 'Bitte ein Passwort mit mindestens ' + minLength + ' Zeichen verwenden.';
+        password.focus();
+        return;
+      }
+      if (confirmation && value !== String(confirmation.value || '')) {
+        errorLine.textContent = 'Die Passwörter stimmen nicht überein.';
+        confirmation.focus();
+        return;
+      }
+      close(value);
+    });
+
+    setTimeout(() => password.focus(), 80);
+  });
+}
+
+async function promptBrowserSnapshotPasswordForEncrypt() {
+  const password = await requestNavigatorPassword({
+    title: "Browser-Stände verschlüsseln",
+    message: "Dieses Passwort wird für aktueller / vorheriger / Notfall-Stand verwendet.",
+    confirm: true,
+    autocomplete: "new-password",
+    minLength: 8,
+  });
+  if (password) await rememberNavigatorPasswordInBrowserManager(password);
+  return password;
+}
+
+async function promptBrowserSnapshotPasswordForDecrypt() {
+  const password = await requestNavigatorPassword({
+    title: "Browser-Stände entsperren",
+    message: "Passwort für die verschlüsselten Browser-Stände eingeben.",
+    confirm: false,
+    autocomplete: "current-password",
+    minLength: 1,
+  });
+  return password;
+}
+
+
 function loadBrowserSnapshots() {
+  if (encryptedBrowserSnapshotsCache) return encryptedBrowserSnapshotsCache;
   try {
     const raw = localStorage.getItem(browserSnapshotKey());
     const parsed = raw ? JSON.parse(raw) : {};
-    return {
-      ...defaultBrowserSnapshots(),
-      ...(parsed && typeof parsed === "object" ? parsed : {}),
-    };
+    if (isEncryptedNavigatorFile(parsed)) {
+      return {
+        ...defaultBrowserSnapshots(),
+        __encrypted: true,
+        __locked: !getBrowserSnapshotSessionPassword(),
+      };
+    }
+    return normalizeBrowserSnapshots(parsed);
   } catch (error) {
     return defaultBrowserSnapshots();
   }
 }
 
-function persistBrowserSnapshots(snapshots) {
-  localStorage.setItem(browserSnapshotKey(), JSON.stringify(snapshots));
+function persistBrowserSnapshots(snapshots, options = {}) {
+  persistBrowserSnapshotsEncrypted(snapshots, options).catch((error) => {
+    console.warn("Browser-Stände konnten nicht verschlüsselt gespeichert werden.", error);
+  });
 }
 
 function buildBrowserRecoveryBundle(reason = "auto") {
   const weekplanBase = weekplanBaseStorageKey();
   return {
-    version: 1,
+    version: 2,
     reason,
     savedAt: new Date().toISOString(),
+    encryptedLocalBrowserSnapshot: true,
     appState: localStorage.getItem(storageKey()) || "",
     appMeta: localStorage.getItem(storageMetaKey()) || "",
     workspaceClientCount: localStorage.getItem(workspaceClientCountKey()) || "",
@@ -8134,14 +9204,115 @@ function buildBrowserRecoveryBundle(reason = "auto") {
 }
 
 function formatSnapshotLabel(bundle) {
+  if (isBrowserSnapshotsLockedMarker(bundle)) return "verschlüsselt / gesperrt";
   if (!bundle || !bundle.savedAt) return "leer";
   const stamp = formatDateTime(bundle.savedAt);
   const reason = cleanInline(bundle.reason || "");
   return stamp ? stamp + (reason ? " • " + reason : "") : "leer";
 }
 
-function recordBrowserSnapshot(reason = "auto", options = {}) {
-  const snapshots = loadBrowserSnapshots();
+async function getBrowserSnapshotsForWrite(promptForPassword = false) {
+  if (encryptedBrowserSnapshotsCache) return encryptedBrowserSnapshotsCache;
+
+  const raw = localStorage.getItem(browserSnapshotKey());
+  if (!raw) return defaultBrowserSnapshots();
+
+  try {
+    const parsed = JSON.parse(raw);
+    if (!isEncryptedNavigatorFile(parsed)) {
+      encryptedBrowserSnapshotsCache = normalizeBrowserSnapshots(parsed);
+      return encryptedBrowserSnapshotsCache;
+    }
+
+    let password = getBrowserSnapshotSessionPassword();
+    if (!password && promptForPassword) password = await promptBrowserSnapshotPasswordForDecrypt();
+    if (!password) return defaultBrowserSnapshots();
+
+    encryptedBrowserSnapshotsCache = await decryptBrowserSnapshotsWithPassword(parsed, password);
+    setBrowserSnapshotSessionPassword(password);
+    return encryptedBrowserSnapshotsCache;
+  } catch (error) {
+    console.warn("Browser-Stände konnten nicht gelesen werden.", error);
+    if (promptForPassword) alert("Browser-Stände konnten nicht entschlüsselt werden. Passwort prüfen.");
+    return defaultBrowserSnapshots();
+  }
+}
+
+async function getBrowserSnapshotsForRead(promptForPassword = true) {
+  const raw = localStorage.getItem(browserSnapshotKey());
+  if (!raw) return defaultBrowserSnapshots();
+
+  try {
+    const parsed = JSON.parse(raw);
+    if (!isEncryptedNavigatorFile(parsed)) {
+      encryptedBrowserSnapshotsCache = normalizeBrowserSnapshots(parsed);
+      return encryptedBrowserSnapshotsCache;
+    }
+
+    if (encryptedBrowserSnapshotsCache) return encryptedBrowserSnapshotsCache;
+
+    let password = getBrowserSnapshotSessionPassword();
+    if (!password && promptForPassword) password = await promptBrowserSnapshotPasswordForDecrypt();
+    if (!password) return { ...defaultBrowserSnapshots(), __locked: true };
+
+    encryptedBrowserSnapshotsCache = await decryptBrowserSnapshotsWithPassword(parsed, password);
+    setBrowserSnapshotSessionPassword(password);
+    return encryptedBrowserSnapshotsCache;
+  } catch (error) {
+    console.warn("Browser-Stände konnten nicht entschlüsselt werden.", error);
+    alert("Browser-Stände konnten nicht entschlüsselt werden. Passwort prüfen.");
+    return { ...defaultBrowserSnapshots(), __locked: true };
+  }
+}
+
+async function persistBrowserSnapshotsEncrypted(snapshots, options = {}) {
+  encryptedBrowserSnapshotsCache = normalizeBrowserSnapshots(snapshots);
+  let password = getBrowserSnapshotSessionPassword();
+  const raw = localStorage.getItem(browserSnapshotKey());
+  let parsed = null;
+  try {
+    parsed = raw ? JSON.parse(raw) : null;
+  } catch (error) {}
+  const alreadyEncrypted = isEncryptedNavigatorFile(parsed);
+
+  if (!password && options.promptForPassword) {
+    if (alreadyEncrypted && !encryptedBrowserSnapshotsCache?.current) {
+      password = await promptBrowserSnapshotPasswordForDecrypt();
+      if (!password) return false;
+      try {
+        await decryptBrowserSnapshotsWithPassword(parsed, password);
+      } catch (error) {
+        console.warn("Browser-Stände konnten mit diesem Passwort nicht entsperrt werden.", error);
+        alert("Browser-Stände konnten nicht entsperrt werden. Passwort prüfen.");
+        return false;
+      }
+    } else {
+      password = await promptBrowserSnapshotPasswordForEncrypt();
+      if (!password) return false;
+    }
+    setBrowserSnapshotSessionPassword(password);
+  }
+
+  if (!password) {
+    renderWorkspaceMeta();
+    return false;
+  }
+
+  const encrypted = await encryptBrowserSnapshotsWithPassword(encryptedBrowserSnapshotsCache, password);
+  localStorage.setItem(browserSnapshotKey(), JSON.stringify(encrypted));
+  return true;
+}
+
+async function recordBrowserSnapshotAsync(reason = "auto", options = {}) {
+  const shouldPrompt = !!(
+    options.promptForPassword ||
+    reason === "manual" ||
+    reason === "weekplan-manual" ||
+    reason === "import" ||
+    reason === "single-client-import" ||
+    reason === "restore"
+  );
+  const snapshots = await getBrowserSnapshotsForWrite(shouldPrompt);
   const next = buildBrowserRecoveryBundle(reason);
   const rotateReasons = new Set([
     "manual",
@@ -8174,8 +9345,14 @@ function recordBrowserSnapshot(reason = "auto", options = {}) {
     snapshots.emergency = next;
   }
 
-  persistBrowserSnapshots(snapshots);
+  await persistBrowserSnapshotsEncrypted(snapshots, { promptForPassword: shouldPrompt });
   renderWorkspaceMeta();
+}
+
+function recordBrowserSnapshot(reason = "auto", options = {}) {
+  return recordBrowserSnapshotAsync(reason, options).catch((error) => {
+    console.warn("Browser-Stand konnte nicht gespeichert werden.", error);
+  });
 }
 
 function applyBrowserRecoveryBundle(bundle) {
@@ -8204,8 +9381,8 @@ function applyBrowserRecoveryBundle(bundle) {
   else localStorage.removeItem(weekplanBase + "_ret");
 }
 
-function restoreBrowserSnapshot(slot = "current") {
-  const snapshots = loadBrowserSnapshots();
+async function restoreBrowserSnapshot(slot = "current") {
+  const snapshots = await getBrowserSnapshotsForRead(true);
   const bundle = snapshots[slot];
   if (!bundle) {
     alert("Für diesen Browser-Stand ist noch nichts gespeichert.");
@@ -8223,7 +9400,7 @@ function restoreBrowserSnapshot(slot = "current") {
     return;
   }
 
-  recordBrowserSnapshot("restore", { emergency: true });
+  await recordBrowserSnapshotAsync("restore", { emergency: true, promptForPassword: false });
   applyBrowserRecoveryBundle(bundle);
   window.location.reload();
 }
@@ -8234,7 +9411,10 @@ function recordBrowserSnapshotFromWeekplan(reason = "weekplan-manual", options =
   } catch (error) {
     console.warn("Weekplan-Stand konnte vor Browser-Snapshot nicht gespeichert werden.", error);
   }
-  recordBrowserSnapshot(reason, options);
+  recordBrowserSnapshot(reason, {
+    ...options,
+    promptForPassword: !!options.promptForPassword || reason === "weekplan-manual",
+  });
 }
 
 function restoreBrowserSnapshotFromWeekplan(slot = "current") {
@@ -8768,7 +9948,7 @@ function fitWeekplanFrameToWidth(frame) {
       const style = doc.createElement("style");
       style.id = "btNavigatorWeekplanFitStyle";
       style.textContent = `
-            html, body { overflow: hidden !important; }
+            html, body { overflow-x: hidden !important; overflow-y: auto !important; -webkit-overflow-scrolling: touch; }
             body { margin: 0 !important; }
             #btNavigatorWeekplanFitRoot {
               transform-origin: top left;
@@ -8906,17 +10086,22 @@ function saveEverything(reason = "auto", options = {}) {
       persistAllState();
     }
     saveWeekplanFrameState();
+    let snapshotPromise = null;
     if (options.snapshot !== false) {
-      recordBrowserSnapshot(reason, { emergency: !!options.emergency });
+      snapshotPromise = recordBrowserSnapshot(reason, {
+        emergency: !!options.emergency,
+        promptForPassword: !!options.promptForPassword,
+      });
     }
     setDirtyState(false);
+    return snapshotPromise;
   } catch (error) {
     console.warn("Speichern fehlgeschlagen.", error);
   }
 }
 
-function manualSaveAll() {
-  saveEverything("manual", { snapshot: true });
+async function manualSaveAll() {
+  await saveEverything("manual", { snapshot: true, promptForPassword: true });
 }
 
 function ensureGeneratorState(generatorKey) {
@@ -9134,37 +10319,11 @@ function goalPlanSequenceKey(label) {
 }
 
 function buildWeekplanGoalTextFromPlan(plan) {
-  const bits = [];
-
-  ["feinziel1", "feinziel2", "feinziel3"].forEach((key, index) => {
-    const value = normalizePhrase(plan?.[key] || "");
-    if (value) {
-      bits.push("Feinziel " + (index + 1) + ": " + value);
-    }
-  });
-
-  return bits.join("\n");
+  return "";
 }
 
 function buildWeekplanActivityTextFromPlan(plan) {
-  const sections = [];
-  const seen = new Set();
-
-  function addSection(label, value) {
-    const clean = String(value || "").trim();
-    if (!clean) return;
-    const key = clean.toLowerCase();
-    if (seen.has(key)) return;
-    seen.add(key);
-    sections.push(label + ":\n" + clean);
-  }
-
-  addSection("Aktivitäten / Durchführung", plan?.aktivitaeten || "");
-  addSection("Durchführung", plan?.durchfuehrung || "");
-  addSection("Massnahmen / Hilfestellung", plan?.massnahmen || "");
-  addSection("Beobachtung / Wirkung", plan?.beobachtung || "");
-
-  return sections.join("\n\n");
+  return String(plan?.finalKiText || "").trim();
 }
 
 function getGenerator1GoalPlanAssignments(modeKey) {
@@ -9183,15 +10342,13 @@ function getGenerator1GoalPlanAssignments(modeKey) {
     const sequenceKey = goalPlanSequenceKey(plan?.sequenz);
     const goalText = buildWeekplanGoalTextFromPlan(plan);
     const activityText = buildWeekplanActivityTextFromPlan(plan);
-    const kiText = String(plan?.kiText || "").trim();
     if (!dayKey) return;
-    if (!goalText && !activityText && !kiText) return;
+    if (!goalText && !activityText) return;
 
     assignments[dayKey][sequenceKey] = {
       slotIndex: index,
       goalText,
       activityText,
-      kiText,
     };
   });
 
@@ -9239,20 +10396,37 @@ function getGenerator1ActivityText(modeKey) {
   const seen = new Set();
 
   pageIds.forEach((pageId) => {
-    const previousGenerator = APP.currentGenerator;
-    APP.currentGenerator = generatorKey;
-    try {
-      getCheckedSelectionsOnlyForPage(pageId).forEach((value) => {
-        const text = normalizePhrase(value);
-        const key = text.toLowerCase();
-        if (text && !seen.has(key)) {
-          seen.add(key);
-          collected.push(text);
-        }
-      });
-    } finally {
-      APP.currentGenerator = previousGenerator;
+    const pageState = ensurePageState(generatorKey, pageId);
+    const selected = Array.isArray(pageState?.selected)
+      ? pageState.selected
+      : [];
+    selected.forEach((value) => {
+      const text = normalizePhrase(value);
+      const key = text.toLowerCase();
+      if (text && !seen.has(key)) {
+        seen.add(key);
+        collected.push(text);
+      }
+    });
+
+    const freeText = normalizePhrase(pageState?.freeText || "");
+    if (freeText && !seen.has(freeText.toLowerCase())) {
+      seen.add(freeText.toLowerCase());
+      collected.push(freeText);
     }
+
+    const textFields =
+      pageState?.textFields && typeof pageState.textFields === "object"
+        ? pageState.textFields
+        : {};
+    Object.values(textFields).forEach((value) => {
+      const text = normalizePhrase(value);
+      const key = text.toLowerCase();
+      if (text && !seen.has(key)) {
+        seen.add(key);
+        collected.push(text);
+      }
+    });
   });
 
   return collected.join("; ");
@@ -9303,9 +10477,7 @@ function syncGenerator1TimeSelectionToWeekplan() {
 
 function syncGenerator1DataToWeekplan() {
   syncGenerator1NameToWeekplan();
-  syncGenerator1GoalToWeekplan();
   syncGenerator1TimeSelectionToWeekplan();
-  syncGenerator1ActivitiesToWeekplan();
   syncGenerator1GoalPlansToWeekplan();
 }
 
@@ -9374,12 +10546,10 @@ function syncGenerator1ActivitiesToWeekplan() {
         morningActivity: daySelection.morning
           ? generatorActivity
           : existingDay.morningActivity || "",
-        morningKiText: existingDay.morningKiText || "",
         afternoonGoal: existingDay.afternoonGoal || "",
         afternoonActivity: daySelection.afternoon
           ? generatorActivity
           : existingDay.afternoonActivity || "",
-        afternoonKiText: existingDay.afternoonKiText || "",
       };
     });
 
@@ -9493,39 +10663,19 @@ function syncGenerator1GoalPlansToWeekplan() {
       const morningActivityText = dayAssignment.morning
         ? String(dayAssignment.morning.activityText || "").trim()
         : "";
-      const morningKiText = dayAssignment.morning
-        ? String(dayAssignment.morning.kiText || "").trim()
-        : "";
       const afternoonGoalText = dayAssignment.afternoon
         ? String(dayAssignment.afternoon.goalText || "").trim()
         : "";
       const afternoonActivityText = dayAssignment.afternoon
         ? String(dayAssignment.afternoon.activityText || "").trim()
         : "";
-      const afternoonKiText = dayAssignment.afternoon
-        ? String(dayAssignment.afternoon.kiText || "").trim()
-        : "";
 
       state.clients[clientIndex].days[dayKey] = {
         ...existingDay,
-        morningGoal: dayAssignment.morning
-          ? morningGoalText
-          : existingDay.morningGoal || "",
-        morningActivity: dayAssignment.morning
-          ? morningActivityText
-          : existingDay.morningActivity || "",
-        morningKiText: dayAssignment.morning
-          ? morningKiText
-          : existingDay.morningKiText || "",
-        afternoonGoal: dayAssignment.afternoon
-          ? afternoonGoalText
-          : existingDay.afternoonGoal || "",
-        afternoonActivity: dayAssignment.afternoon
-          ? afternoonActivityText
-          : existingDay.afternoonActivity || "",
-        afternoonKiText: dayAssignment.afternoon
-          ? afternoonKiText
-          : existingDay.afternoonKiText || "",
+        morningGoal: dayAssignment.morning ? morningGoalText : existingDay.morningGoal || "",
+        morningActivity: dayAssignment.morning ? morningActivityText : existingDay.morningActivity || "",
+        afternoonGoal: dayAssignment.afternoon ? afternoonGoalText : existingDay.afternoonGoal || "",
+        afternoonActivity: dayAssignment.afternoon ? afternoonActivityText : existingDay.afternoonActivity || "",
       };
     });
 
@@ -9922,16 +11072,55 @@ function renderGenerator() {
   updateView();
 }
 
+function getCompactTabLabel(page, index) {
+  const id = page && page.id ? String(page.id) : "";
+  const map = {
+    start: "Start",
+    grunddaten: "Grunddaten",
+    redline_zielerfassung: "1b · Redline",
+    "2_Ausgangslage_A": "2 · Ausgangslage",
+    "2b_Diagnostik": "2b · Diagnostik",
+    "3_Ausgangslage_B": "3 · Bedarf",
+    "4_Durchfuehrung_A": "4 · Durchführung",
+    "5_Durchfuehrung_B": "5 · Teilhabe",
+    "6_Musik_Basal": "6 · Musik/Basal",
+    "7_Begleitansatz_A": "7 · Begleitung A",
+    "8_Begleitansatz_B": "8 · Begleitung B",
+    "9_Ziele": "9 · Ziele",
+    "10_Feinziele": "10 · Feinziele",
+    "11_Beobachtung": "11 · Beobachtung",
+    "10b_Zielplanung_1_10": "12 · Bausteine",
+    fertig: "13 · KI",
+    entwicklungsplanung: "14 · EP",
+  };
+  return map[id] || (index + 1) + " · " + String(page?.section || page?.title || "Seite");
+}
+
+function getTabContextLabel(page) {
+  const id = page && page.id ? String(page.id) : "";
+  if (["redline_zielerfassung"].includes(id)) return "Grundlage";
+  if (["2_Ausgangslage_A", "2b_Diagnostik", "3_Ausgangslage_B"].includes(id)) return "Ausgangslage";
+  if (["4_Durchfuehrung_A", "5_Durchfuehrung_B", "6_Musik_Basal"].includes(id)) return "Durchführung";
+  if (["7_Begleitansatz_A", "8_Begleitansatz_B"].includes(id)) return "Hilfestellung";
+  if (["9_Ziele", "10_Feinziele", "11_Beobachtung", "10b_Zielplanung_1_10"].includes(id)) return "Ziele";
+  if (["fertig", "entwicklungsplanung"].includes(id)) return "Abschluss";
+  return "";
+}
+
 function renderTabs() {
   const model = currentModel();
   const host = document.getElementById("tabsHost");
   host.innerHTML = model.pages
     .map(
-      (page, index) => `
-        <button type="button" class="tab ${index === APP.currentPage ? "active " + model.colorClass : ""}" data-tab-index="${index}">
-          ${escapeHtml(page.title)}
+      (page, index) => {
+        const compact = getCompactTabLabel(page, index);
+        const context = getTabContextLabel(page);
+        return `
+        <button type="button" class="tab ${index === APP.currentPage ? "active " + model.colorClass : ""}" data-tab-index="${index}" title="${escapeHtml(page.title)}">
+          <span class="tab-short">${escapeHtml(compact)}</span>${context ? `<span class="tab-context">${escapeHtml(context)}</span>` : ""}
         </button>
-      `,
+      `;
+      },
     )
     .join("");
   host.querySelectorAll("[data-tab-index]").forEach((button) => {
@@ -9983,6 +11172,8 @@ function buildFooterNote(page, totalPages) {
       getEffectiveSettingTyp() +
       "-Kopplung"
     );
+  if (page.type === "redline")
+    return base + " • optional: vorhandene Zielerfassung übernehmen oder überspringen";
   if (page.type === "items") {
     const rule = selectionRuleForPage(page.id);
     const bits = [base, page.itemCount + " auswählbare Einträge"];
@@ -10006,6 +11197,10 @@ function renderCurrentPage(page) {
   }
   if (page.type === "grunddaten") {
     pageHost.innerHTML = renderGrunddatenPage(page);
+    return;
+  }
+  if (page.type === "redline") {
+    pageHost.innerHTML = renderRedlinePage(page);
     return;
   }
   if (page.type === "output") {
@@ -10275,6 +11470,8 @@ function renderItemsPage(page) {
             ${["2_Ausgangslage_A", "2b_Diagnostik", "3_Ausgangslage_B"].includes(page.id) ? renderAusgangslageHelper(page) : ""}
 
             ${["4_Durchfuehrung_A", "5_Durchfuehrung_B", "6_Musik_Basal"].includes(page.id) ? renderDurchfuehrungHelper(page) : ""}
+
+            ${page.id === "9_Ziele" ? renderZieleHelper() : ""}
 
             ${page.id === "10_Feinziele" ? renderFeinzieleHelper() : ""}
 
@@ -10850,6 +12047,277 @@ if (typeof window !== "undefined") {
   window.clearDurchfuehrungTargetFields = clearDurchfuehrungTargetFields;
 }
 
+
+
+function getZieleTargetConfig() {
+  return [
+    { key: "zielHauptziel", label: "Ziele – Hauptziel" },
+    { key: "zielBedeutung", label: "Ziele – Bedeutung" },
+    { key: "zielBezug", label: "Ziele – Bezug" },
+    { key: "zielHinweis", label: "Ziele – Hinweis" },
+  ];
+}
+
+function getZieleSuggestionKey() {
+  return getAiContextScopeKey() + "__9_Ziele__ziele";
+}
+
+function getZieleSuggestion() {
+  const key = getZieleSuggestionKey();
+  return String(APP.meta?.zieleSuggestionByContext?.[key] || "").trim();
+}
+
+function setZieleSuggestion(text) {
+  const key = getZieleSuggestionKey();
+  updateAppMeta({
+    zieleSuggestionByContext: {
+      ...(APP.meta?.zieleSuggestionByContext || {}),
+      [key]: sanitizeTextForApi(String(text || "").trim()),
+    },
+  });
+}
+
+function setZieleStatus(message) {
+  const el = document.getElementById("zieleSuggestionStatus");
+  if (el) el.textContent = cleanInline(message || "");
+}
+
+function syncZieleUi(message = "") {
+  const field = document.getElementById("zieleSuggestionField");
+  if (field) {
+    field.textContent =
+      getZieleSuggestion() ||
+      "Noch kein Vorschlag für Ziele vorhanden.";
+  }
+  if (message) setZieleStatus(message);
+  scheduleNavigatorTextareaResize(document.getElementById("pageHost"));
+}
+
+function renderZieleHelper() {
+  const suggestion = getZieleSuggestion();
+  return `
+            <details class="ki-collapsible ziele-helper" open>
+              <summary>KI-Hilfe Ziele</summary>
+              <div class="ki-collapsible-body">
+                <div class="internal-ai-panel">
+                  <div class="panel-title">Hauptziel fachlich formulieren</div>
+                  <div class="api-test-note">Erstellt aus dem ausgewählten Ziel, der Ausgangslage, dem Unterstützungsbedarf und dem Tagesstruktur-Kontext Vorschläge für die Zielfelder. Bestehende Felder werden nicht automatisch überschrieben.</div>
+                  <div class="tool-row">
+                    <button type="button" class="secondary" onclick="createZieleSuggestion()">Ziel formulieren</button>
+                    <button type="button" class="ghost" onclick="applyZieleSuggestion()">Vorschlag übernehmen</button>
+                    <button type="button" class="ghost" onclick="clearZieleSuggestion()">Vorschlag verwerfen</button>
+                    <button type="button" class="ghost" onclick="clearZieleTargetFields()">Übernommene Zielfelder leeren</button>
+                  </div>
+                  <div class="internal-ai-status" id="zieleSuggestionStatus">Der Vorschlag nutzt nur vorhandene Angaben und formuliert das Fernziel mit Bezug zu RIT/RET. Er verwendet nur Initialen.</div>
+                  <div class="preview-box internal-ai-output compact-ai-output" id="zieleSuggestionField">${escapeHtml(suggestion || "Noch kein Vorschlag für Ziele vorhanden.")}</div>
+                </div>
+              </div>
+            </details>
+  `;
+}
+
+function collectZielePageData() {
+  if (APP.currentView === "generator") mergeCurrentFormIntoState();
+  const page = getPageById("9_Ziele");
+  const state = getPageStateById("9_Ziele") || {};
+  const selected = page ? buildGroupedSelectionLines(page, state) : [];
+  const customEntries = page ? getPageCustomTextEntries(page, state) : [];
+  return {
+    selected,
+    freeText: cleanInline(state.freeText || ""),
+    customEntries,
+  };
+}
+
+function collectZieleContext() {
+  if (APP.currentView === "generator") mergeCurrentFormIntoState();
+  const gd = currentGeneratorState().grunddaten || {};
+  const contextPages = [
+    "2_Ausgangslage_A",
+    "2b_Diagnostik",
+    "3_Ausgangslage_B",
+    "4_Durchfuehrung_A",
+    "5_Durchfuehrung_B",
+    "6_Musik_Basal",
+    "7_Begleitansatz_A",
+    "8_Begleitansatz_B",
+  ];
+  const contextTexts = [];
+  contextPages.forEach((pageId) => {
+    const page = getPageById(pageId);
+    const state = getPageStateById(pageId) || {};
+    if (!page) return;
+    contextTexts.push(...buildGroupedSelectionLines(page, state));
+    if (cleanInline(state.freeText || "")) contextTexts.push(state.freeText);
+    getPageCustomTextEntries(page, state).forEach((entry) => {
+      if (cleanInline(entry.value || "")) contextTexts.push(entry.label + ": " + entry.value);
+    });
+  });
+  return {
+    initials: cleanInline(gd.initialen || ""),
+    kliententyp: cleanInline(gd.kliententyp || ""),
+    setting: getEffectiveSettingTyp(),
+    generator: currentModel().shortTitle,
+    contextTexts: trimEpSuggestionList(contextTexts, 18),
+  };
+}
+
+function buildLocalZieleSuggestion() {
+  const data = collectZielePageData();
+  const context = collectZieleContext();
+
+  function normalizeZieleSource(value) {
+    return cleanInline(String(value || ""))
+      .replace(/^[•\-\s]+/, "")
+      .replace(/^[^:]{3,90}:\s*/, "")
+      .replace(/\s+/g, " ")
+      .trim();
+  }
+
+  function ensureSentence(value) {
+    const text = normalizeZieleSource(value);
+    if (!text) return "";
+    return /[.!?]$/.test(text) ? text : text + ".";
+  }
+
+  const selectedGoal = ensureSentence(
+    data.freeText ||
+      (data.selected || []).map(normalizeZieleSource).filter(Boolean).join(" ") ||
+      (data.customEntries || []).find((entry) => entry.key === "zielHauptziel")?.value ||
+      "",
+  );
+
+  const contextItems = trimEpSuggestionList(context.contextTexts || [], 10);
+  const sourceText = contextItems.length
+    ? contextItems.join("; ")
+    : "Es wurden noch keine zusätzlichen Kontextangaben aus Ausgangslage, Unterstützungsbedarf, Durchführung oder Begleitung erfasst.";
+  const settingLine = context.setting ? context.setting + "-Rahmen" : "erfassten Tagesstrukturrahmen";
+  const personRef = context.initials || "die betreute Person";
+  const focusLine = context.kliententyp
+    ? "Der Förderfokus „" + context.kliententyp + "“ darf nur als fachlicher Leitmassstab mitgedacht werden; er wird nicht als Diagnose, Etikett oder eigenes Ziel formuliert."
+    : "Ein Förderfokus wird nur berücksichtigt, soweit er in den vorhandenen Angaben erfasst ist.";
+
+  if (!selectedGoal) return "";
+
+  return [
+    "Ziele – Hauptziel:\n" +
+      "Für " + personRef + " wird folgendes übergeordnetes Fernziel verwendet: " +
+      selectedGoal +
+      " Das Fernziel bleibt auf den " + settingLine + " bezogen und wird nicht durch zusätzliche Annahmen erweitert.",
+    "Ziele – Bedeutung:\n" +
+      "Die Bedeutung des Fernziels ergibt sich aus den vorhandenen Angaben: " +
+      sourceText +
+      ". " + focusLine,
+    "Ziele – Bezug:\n" +
+      "Der Bezug zur Tagesstruktur entsteht nur aus den erfassten Angaben zu Ausgangslage, Unterstützungsbedarf, Durchführung und Begleitung. Die spätere Umsetzung soll daran anschliessen und auf Seite 10 in Unterzielen sowie auf Seite 11 in beobachtbaren Wirkungen konkretisiert werden.",
+    "Ziele – Hinweis:\n" +
+      "Keine neuen Diagnosen, Angebote, Massnahmen oder Beobachtungen ergänzen. Der vollständige Name wird nicht verwendet; es gelten nur Initialen oder neutrale Bezeichnungen. Bestehende Zielfelder werden erst nach manueller Übernahme verändert.",
+  ].join("\n\n");
+}
+function createZieleSuggestion() {
+  const draft = buildLocalZieleSuggestion();
+  if (!draft) {
+    setZieleStatus("Bitte zuerst ein Ziel auswählen oder Angaben in Ausgangslage / Unterstützungsbedarf erfassen.");
+    return;
+  }
+  setZieleSuggestion(draft);
+  syncZieleUi("Vorschlag wurde erstellt. Bestehende Zielfelder wurden nicht überschrieben.");
+}
+
+function clearZieleSuggestion() {
+  setZieleSuggestion("");
+  syncZieleUi("Der Vorschlag wurde verworfen. Bereits übernommene Zielfelder bleiben erhalten.");
+}
+
+function clearZieleTargetFields() {
+  const targets = getZieleTargetConfig().map((entry) => ({
+    ...entry,
+    element: document.querySelector('#pageHost [data-extra-field="' + entry.key + '"]'),
+  }));
+  if (targets.some((entry) => !entry.element)) {
+    setZieleStatus("Die Zielfelder sind gerade nicht sichtbar. Bitte Seite 9 geöffnet lassen.");
+    return;
+  }
+  const filled = targets.filter((entry) => cleanInline(entry.element.value || ""));
+  if (!filled.length) {
+    setZieleStatus("Die Zielfelder sind bereits leer.");
+    return;
+  }
+  const ok = window.confirm("Übernommene Zielfelder wirklich leeren? Der Vorschlag unten bleibt unverändert.");
+  if (!ok) return;
+  targets.forEach((entry) => { entry.element.value = ""; });
+  saveFormState();
+  syncZieleUi("Übernommene Zielfelder wurden geleert. Der Vorschlag unten blieb unverändert.");
+}
+
+function parseZieleSuggestion(text) {
+  const clean = sanitizeTextForApi(text || "").trim();
+  const config = getZieleTargetConfig();
+  const result = {};
+  config.forEach((item, index) => {
+    const label = escapeRegExpText(item.label);
+    const nextLabels = config
+      .filter((_, i) => i !== index)
+      .map((entry) => escapeRegExpText(entry.label))
+      .join("|");
+    const pattern = new RegExp(
+      "(?:^|\\n)\\s*" + label + "\\s*:?\\s*([\\s\\S]*?)(?=\\n\\s*(?:" + nextLabels + ")\\s*:?|$)",
+      "i",
+    );
+    const match = clean.match(pattern);
+    result[item.key] = match && match[1] ? cleanInline(match[1]) : "";
+  });
+  if (!Object.values(result).some(Boolean) && config.length) result[config[0].key] = clean;
+  return result;
+}
+
+function applyZieleSuggestion() {
+  const suggestion = getZieleSuggestion();
+  if (!suggestion) {
+    setZieleStatus("Es ist noch kein Vorschlag vorhanden.");
+    return;
+  }
+  const fallback = parseZieleSuggestion(buildLocalZieleSuggestion());
+  const sections = parseZieleSuggestion(suggestion);
+  const targets = getZieleTargetConfig().map((entry) => ({
+    ...entry,
+    value: cleanInline(sections[entry.key] || fallback[entry.key] || ""),
+    element: document.querySelector('#pageHost [data-extra-field="' + entry.key + '"]'),
+  }));
+  if (targets.some((entry) => !entry.element)) {
+    setZieleStatus("Die Zielfelder sind gerade nicht sichtbar. Bitte Seite 9 geöffnet lassen.");
+    return;
+  }
+  if (targets.some((entry) => !entry.value)) {
+    setZieleStatus("Der Vorschlag konnte nicht alle Zielfelder füllen. Bitte zuerst ein Ziel auswählen oder Kontext erfassen.");
+    return;
+  }
+  const filled = targets.filter((entry) => cleanInline(entry.element.value || ""));
+  let replaceExisting = false;
+  if (filled.length) {
+    replaceExisting = window.confirm("Einige Zielfelder enthalten bereits Text. OK = ersetzen. Abbrechen = nur leere Felder füllen.");
+  }
+  let written = 0;
+  let skipped = 0;
+  targets.forEach((entry) => {
+    if (cleanInline(entry.element.value || "") && !replaceExisting) {
+      skipped += 1;
+      return;
+    }
+    entry.element.value = entry.value;
+    written += 1;
+  });
+  saveFormState();
+  setZieleSuggestion("");
+  syncZieleUi(written + " Zielfeld(er) übernommen." + (skipped ? " " + skipped + " bestehende Feld(er) blieben erhalten." : "") + " Der Vorschlag wurde nach der Übernahme geleert.");
+}
+
+if (typeof window !== "undefined") {
+  window.createZieleSuggestion = createZieleSuggestion;
+  window.applyZieleSuggestion = applyZieleSuggestion;
+  window.clearZieleSuggestion = clearZieleSuggestion;
+  window.clearZieleTargetFields = clearZieleTargetFields;
+}
 
 function getFeinzielSuggestionKey() {
   return getAiContextScopeKey() + "__10_Feinziele";
@@ -11564,18 +13032,18 @@ async function sendObservationCriteriaSuggestionToOpenAi() {
     const localDraft = buildLocalObservationCriteriaSuggestion();
     if (!localDraft) {
       setObservationCriteriaStatus(
-        "Bitte zuerst Beobachtungen auswählen oder erfassen. Für echte KI bitte zusätzlich OpenAI-Endpunkt, API-Key und Modell eintragen.",
+        "Bitte zuerst Beobachtungen auswählen oder erfassen. Für echte KI bitte zusätzlich API-Endpunkt, API-Schlüssel und Modell eintragen.",
       );
       return;
     }
     setObservationCriteriaSuggestion(localDraft);
     syncObservationCriteriaSuggestionUi(
-      "Lokaler Vorschlag wurde erstellt. Für echte KI-Formulierung bitte OpenAI-Endpunkt, API-Key und Modell eintragen.",
+      "Lokaler Vorschlag wurde erstellt. Für echte KI-Formulierung bitte API-Endpunkt, API-Schlüssel und Modell eintragen.",
     );
     return;
   }
 
-  setObservationCriteriaStatus("Beobachtungsfelder werden über OpenAI / ChatGPT erstellt...");
+  setObservationCriteriaStatus("Beobachtungsfelder werden über den KI-Dienst erstellt...");
   const field = document.getElementById("observationCriteriaSuggestionField");
   if (field) field.textContent = "Warte auf KI-Vorschlag...";
 
@@ -11626,14 +13094,14 @@ async function sendObservationCriteriaSuggestionToOpenAi() {
       applyPreferredPersonLabel(extractChatGptApiTestText(parsed, style)),
     );
 
-    if (!result) throw new Error("Die API-Antwort enthält keinen erkennbaren Text.");
+    if (!result) throw new Error("Die KI-Antwort enthält keinen erkennbaren Text.");
 
     setObservationCriteriaSuggestion(result);
     syncObservationCriteriaSuggestionUi(
       "Beobachtungsfelder wurden erstellt. Bestehende Felder wurden nicht überschrieben.",
     );
   } catch (error) {
-    console.warn("Beobachtungsfelder via OpenAI / ChatGPT fehlgeschlagen", error);
+    console.warn("Beobachtungsfelder via KI-Dienst fehlgeschlagen", error);
     const localDraft = buildLocalObservationCriteriaSuggestion();
     if (localDraft) {
       setObservationCriteriaSuggestion(localDraft);
@@ -11767,7 +13235,7 @@ function defaultGoalPlanEntry
     massnahmen: "",
     materialien: "",
     beobachtung: "",
-    kiText: "",
+    finalKiText: "",
     sourcePages: {},
   };
 }
@@ -11803,7 +13271,7 @@ function getGoalPlanStatus(plan) {
     plan.massnahmen,
     plan.materialien,
     plan.beobachtung,
-    plan.kiText,
+    plan.finalKiText,
   ].some((value) => cleanInline(value));
   const sourcePages =
     plan.sourcePages && typeof plan.sourcePages === "object"
@@ -11816,6 +13284,7 @@ function getGoalPlanStatus(plan) {
   const bits = [];
   if (cleanInline(plan.tag)) bits.push(plan.tag);
   if (cleanInline(plan.sequenz)) bits.push(plan.sequenz);
+  if (cleanInline(plan.finalKiText)) bits.push("KI-Text");
   bits.push("gespeichert");
   return bits.join(" • ");
 }
@@ -11858,6 +13327,7 @@ function renderZielplanungPage(page) {
               <div class="selection-status">Aktiver Speicherplatz: <strong>Baustein ${activeSlot + 1}</strong> · Status: <strong>${escapeHtml(activeStatus)}</strong></div>
               <div class="bausteinverwaltung-actions">
                 <button type="button" class="secondary" data-goalplan-action="import" data-goalplan-index="${activeSlot}">Aktuelle Inhalte in Baustein ${activeSlot + 1} speichern</button>
+                <button type="button" class="secondary" data-goalplan-action="importKiText" data-goalplan-index="${activeSlot}">Fertigen KI-Text in Baustein ${activeSlot + 1} speichern</button>
                 <button type="button" class="ghost" data-goalplan-action="load" data-goalplan-index="${activeSlot}">Baustein ${activeSlot + 1} in Generator laden</button>
                 <button type="button" class="ghost" data-goalplan-action="clear" data-goalplan-index="${activeSlot}">Baustein ${activeSlot + 1} leeren</button>
                 <button type="button" class="ghost" data-goalplan-action="clearWorking">Arbeitsfläche 4–8, 10 und 11 leeren</button>
@@ -11920,6 +13390,10 @@ function renderZielplanungPage(page) {
                     <span>Beobachtung / Wirkung</span>
                     <textarea data-goalplan-field="beobachtung" data-goalplan-index="${activeSlot}" placeholder="Beobachtung und Wirkung aus Seite 11 oder frei ergänzen">${escapeHtml(plan.beobachtung || "")}</textarea>
                   </label>
+                  <label class="full">
+                    <span>Fertiger KI-Text für Wochenplan</span>
+                    <textarea data-goalplan-field="finalKiText" data-goalplan-index="${activeSlot}" placeholder="Fertigen KI-Text über den Button oben bewusst in diesen Baustein speichern">${escapeHtml(plan.finalKiText || "")}</textarea>
+                  </label>
                 </div>
               </div>
             </section>
@@ -11927,6 +13401,210 @@ function renderZielplanungPage(page) {
         </div>
       `;
 }
+
+
+function getRedlineFields() {
+  const pageState = ensurePageState(APP.currentGenerator, REDLINE_PAGE_ID);
+  const fields = pageState.redlineFields && typeof pageState.redlineFields === "object"
+    ? pageState.redlineFields
+    : {};
+  return { ...defaultRedlineFields(), ...fields };
+}
+
+function setRedlineFields(fields) {
+  const generatorState = ensureGeneratorState(APP.currentGenerator);
+  const pageState = ensurePageState(APP.currentGenerator, REDLINE_PAGE_ID);
+  APP.state[APP.currentGenerator] = {
+    ...generatorState,
+    settingTyp: getLinkedSettingTypFromGenerator(APP.currentGenerator),
+    pages: {
+      ...generatorState.pages,
+      [REDLINE_PAGE_ID]: {
+        ...pageState,
+        redlineFields: { ...defaultRedlineFields(), ...(fields || {}) },
+      },
+    },
+  };
+  persistAllState();
+}
+
+function renderRedlinePage(page) {
+  const values = getRedlineFields();
+  const fieldHtml = REDLINE_FIELDS.map((field) => `
+    <label class="${field.full ? "full" : ""}">
+      <span>${escapeHtml(field.label)}</span>
+      <textarea data-redline-field="${escapeHtml(field.key)}" placeholder="${escapeHtml(field.label)}">${escapeHtml(values[field.key] || "")}</textarea>
+    </label>
+  `).join("");
+  return `
+    <div class="page-card">
+      <h3>${escapeHtml(page.title)}</h3>
+      <div class="page-hint">${escapeHtml(page.hint)}</div>
+      <div class="redline-panel">
+        <section class="redline-card">
+          <div class="redline-title">Bestehende Zielerfassung / Redline sichern</div>
+          <div class="redline-note">Diese Seite ist optional. Wenn nichts vorhanden ist, überspringen. Wenn Redline- oder Zieltexte vorhanden sind, haben sie Vorrang: Die Übernahme füllt nur leere Ziele- und EP-Felder und überschreibt nichts ungefragt.</div>
+          <div class="redline-grid">
+            ${fieldHtml}
+          </div>
+          <div class="redline-actions">
+            <button type="button" class="secondary" data-redline-action="applyToEp">In Ziele und EP übernehmen</button>
+            <button type="button" class="ghost" data-redline-action="skip">Keine Redline vorhanden – weiter</button>
+            <button type="button" class="ghost" data-redline-action="goEp">Zur Entwicklungsplanung</button>
+            <button type="button" class="ghost" data-redline-action="clear">Redline-Felder leeren</button>
+          </div>
+          <div class="redline-status" id="redlineStatus">Bereit. Leere Felder werden ergänzt; vorhandene Einträge bleiben erhalten.</div>
+        </section>
+      </div>
+    </div>
+  `;
+}
+
+function saveRedlineFieldsFromPage() {
+  if (!APP.currentGenerator) return;
+  const current = getRedlineFields();
+  document.querySelectorAll('#pageHost [data-redline-field]').forEach((field) => {
+    const key = String(field.dataset.redlineField || "");
+    if (!key) return;
+    current[key] = readFieldValue(field);
+  });
+  setRedlineFields(current);
+}
+
+function getRedlineSummaryLines() {
+  const fields = getRedlineFields();
+  const lines = [];
+  REDLINE_FIELDS.forEach((field) => {
+    const value = cleanInline(fields[field.key] || "");
+    if (value) lines.push(field.label + ": " + value);
+  });
+  return normalizeFertigtextLines(lines);
+}
+
+function buildRedlinePayload() {
+  const fields = getRedlineFields();
+  const payload = {};
+  REDLINE_FIELDS.forEach((field) => {
+    const value = String(fields[field.key] || "").trim();
+    if (value) payload[field.key] = value;
+  });
+  return compactEpObject(payload);
+}
+
+function setRedlineStatus(message) {
+  const el = document.getElementById("redlineStatus");
+  if (el) el.textContent = cleanInline(message || "");
+}
+
+function clearRedlineFields() {
+  const fields = getRedlineFields();
+  const hasContent = Object.values(fields).some((value) => cleanInline(value || ""));
+  if (!hasContent) {
+    setRedlineStatus("Es sind keine Redline-Felder gefüllt.");
+    return;
+  }
+  if (!window.confirm("Redline-Felder wirklich leeren? Die Entwicklungsplanung und Zielseiten bleiben unverändert.")) return;
+  setRedlineFields(defaultRedlineFields());
+  updateView();
+  setRedlineStatus("Redline-Felder wurden geleert. Zielseiten und Entwicklungsplanung blieben unverändert.");
+}
+
+function applyRedlineToEntwicklungsplanung() {
+  saveRedlineFieldsFromPage();
+  const redline = getRedlineFields();
+  const fields = { ...getEntwicklungsplanungFields() };
+  const mapping = [
+    ["hauptziel", "epHauptzielBeschreibung", "epHauptzielTitel"],
+    ["unterziel1", "epUnterziel1Beschreibung", "epUnterziel1Titel"],
+    ["massnahme1", "epMassnahme1Ablauf", "epMassnahme1Titel"],
+    ["unterziel2", "epUnterziel2Beschreibung", "epUnterziel2Titel"],
+    ["massnahme2", "epMassnahme2Ablauf", "epMassnahme2Titel"],
+    ["beobachtung", "epGesamtstand", null],
+    ["hinweis", "epGesamtNaechsterSchritt", null],
+  ];
+  let changed = 0;
+  const copyIfEmpty = (target, key, value) => {
+    const cleanValue = cleanInline(value || "");
+    if (!cleanValue) return false;
+    if (cleanInline(target[key] || "")) return false;
+    target[key] = cleanValue;
+    return true;
+  };
+
+  mapping.forEach(([sourceKey, targetKey, titleKey]) => {
+    const value = cleanInline(redline[sourceKey] || "");
+    if (!value) return;
+    if (copyIfEmpty(fields, targetKey, value)) changed += 1;
+    if (titleKey && copyIfEmpty(fields, titleKey, buildShortEpTitle(value))) changed += 1;
+  });
+
+  const generatorState = ensureGeneratorState(APP.currentGenerator);
+  const zielPageState = ensurePageState(APP.currentGenerator, "9_Ziele");
+  const feinzielePageState = ensurePageState(APP.currentGenerator, "10_Feinziele");
+  const zielTextFields = {
+    ...(zielPageState.textFields && typeof zielPageState.textFields === "object"
+      ? zielPageState.textFields
+      : {}),
+  };
+  const feinzieleTextFields = {
+    ...(feinzielePageState.textFields && typeof feinzielePageState.textFields === "object"
+      ? feinzielePageState.textFields
+      : {}),
+  };
+
+  if (copyIfEmpty(zielTextFields, "zielHauptziel", redline.hauptziel)) changed += 1;
+  if (copyIfEmpty(zielTextFields, "zielBedeutung", redline.rawText)) changed += 1;
+  if (copyIfEmpty(zielTextFields, "zielHinweis", redline.hinweis)) changed += 1;
+  if (copyIfEmpty(feinzieleTextFields, "feinziel1", redline.unterziel1)) changed += 1;
+  if (copyIfEmpty(feinzieleTextFields, "feinziel2", redline.unterziel2)) changed += 1;
+  if (copyIfEmpty(feinzieleTextFields, "feinzielHinweis", redline.beobachtung)) changed += 1;
+
+  if (!changed) {
+    setRedlineStatus("Es wurden keine Felder geändert, weil bereits passende Inhalte vorhanden sind oder keine Redline-Inhalte eingetragen wurden.");
+    return;
+  }
+
+  APP.state[APP.currentGenerator] = {
+    ...generatorState,
+    settingTyp: getLinkedSettingTypFromGenerator(APP.currentGenerator),
+    pages: {
+      ...generatorState.pages,
+      "9_Ziele": {
+        ...zielPageState,
+        textFields: zielTextFields,
+      },
+      "10_Feinziele": {
+        ...feinzielePageState,
+        textFields: feinzieleTextFields,
+      },
+    },
+  };
+  setEntwicklungsplanungFields(fields);
+  persistAllState();
+  renderEntwicklungsplanungPanel();
+  updatePreview();
+  setRedlineStatus("Redline-Inhalte wurden in leere Ziel-, Unterziel- und EP-Felder übernommen. Bereits gefüllte Felder blieben erhalten.");
+}
+
+function goToEntwicklungsplanungPage() {
+  saveRedlineFieldsFromPage();
+  const index = currentModel().pages.findIndex((page) => page.type === "entwicklungsplanung");
+  if (index >= 0) {
+    APP.currentPage = index;
+    updateView();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+}
+
+function skipRedlinePage() {
+  saveRedlineFieldsFromPage();
+  if (APP.currentPage < currentModel().pages.length - 1) {
+    APP.currentPage += 1;
+    updateView();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+}
+
 
 function renderEntwicklungsplanungPage(page) {
   return `
@@ -12076,8 +13754,8 @@ function renderEntwicklungsplanungPage(page) {
                       </details>
                       <div class="ki-generator-note">Die Zugänge für die Entwicklungsplanung werden im unteren KI-Bereich verwaltet.</div>
                       <div class="tool-row">
-                        <button type="button" class="ghost" onclick="sendEntwicklungsplanungToInternalAi()">Entwicklungsplanung an internen KI-Dienst senden</button>
-                        <button type="button" class="ghost" onclick="sendEntwicklungsplanungToOpenAi()">Entwicklungsplanung an OpenAI / ChatGPT senden</button>
+                        <button type="button" class="ghost bt-internal-ai-hidden" onclick="sendEntwicklungsplanungToInternalAi()">Entwicklungsplanung an internen KI-Dienst senden</button>
+                        <button type="button" class="ghost" onclick="sendEntwicklungsplanungToOpenAi()">Entwicklungsplanung an KI senden</button>
                       </div>
                       <div class="tool-row">
                         <button type="button" class="ghost" onclick="copyEntwicklungsplanungText()">Entwicklungsplanung kopieren</button>
@@ -12164,6 +13842,10 @@ function bindEvents() {
       if (index < 0) return;
       if (action === "import") {
         applyCurrentContentToGoalPlan(index);
+        return;
+      }
+      if (action === "importKiText") {
+        applyFinishedKiTextToGoalPlan(index);
         return;
       }
       if (action === "load") {
@@ -12869,6 +14551,16 @@ function buildPreviewSections() {
     empty: "Noch keine Grunddaten erfasst.",
   });
 
+  const redlineLines = getRedlineSummaryLines();
+  if (redlineLines.length) {
+    sections.push({
+      heading: "Bestehende Zielerfassung / Redline",
+      outputHeading: "Bestehende Zielerfassung / Redline",
+      lines: redlineLines,
+      empty: "",
+    });
+  }
+
   let zielsystemInserted = false;
   model.pages
     .filter((page) => page.type === "items")
@@ -13059,39 +14751,42 @@ function collectCurrentFernzielForGoalPlanning() {
   return uniqueClean(candidates)[0] || "";
 }
 
-function getCheckedSelectionsOnlyForPage(pageId) {
-  const page = getPageById(pageId);
-  const state = getPageStateById(pageId) || {};
-  if (!page) return [];
-  const checked = new Set(
-    (Array.isArray(state.selected) ? state.selected : [])
-      .map((value) => cleanInline(value || ""))
-      .filter(Boolean),
+function collectCurrentFeinzieleForGoalPlanning() {
+  const feinPage = getPageById("10_Feinziele");
+  if (!feinPage) return [];
+  const state = getPageStateById(feinPage.id);
+  const preferred = [
+    cleanInline(state?.textFields?.feinziel1 || ""),
+    cleanInline(state?.textFields?.feinziel2 || ""),
+    cleanInline(state?.textFields?.feinziel3 || ""),
+  ];
+  const selected = getFlatSelectionsForPage(feinPage.id).map((item) =>
+    cleanInline(item || ""),
   );
-  if (!checked.size) return [];
-  const knownOptions = new Set(
-    (page.groups || []).flatMap((group) =>
-      (group.options || []).map((option) => cleanInline(option || "")),
-    ),
-  );
-  const ordered = [];
-  (page.groups || []).forEach((group) => {
-    (group.options || []).forEach((option) => {
-      const clean = cleanInline(option || "");
-      if (checked.has(clean)) ordered.push(clean);
-    });
-  });
-  Array.from(checked).forEach((item) => {
-    if (!knownOptions.has(item)) ordered.push(item);
-  });
-  return uniqueClean(ordered);
+  const freeText = cleanInline(state.freeText || "");
+  const combined = uniqueClean([...preferred, ...selected, freeText]);
+  return combined.slice(0, 3);
 }
 
-function collectCheckedSelectionsForGoalPlanning(sourcePageIds) {
+function collectCurrentActivitiesForGoalPlanning() {
+  const sourcePageIds = [
+    "4_Durchfuehrung_A",
+    "5_Durchfuehrung_B",
+    "6_Musik_Basal",
+  ];
   const pool = [];
-  (sourcePageIds || []).forEach((pageId) => {
-    getCheckedSelectionsOnlyForPage(pageId).forEach((item) => {
+  sourcePageIds.forEach((pageId) => {
+    const page = getPageById(pageId);
+    if (!page) return;
+    const state = getPageStateById(pageId);
+    getFlatSelectionsForPage(pageId).forEach((item) => {
       const value = cleanInline(item || "");
+      if (value) pool.push(value);
+    });
+    const freeText = cleanInline(state.freeText || "");
+    if (freeText) pool.push(freeText);
+    getPageCustomTextEntries(page, state).forEach((entry) => {
+      const value = cleanInline(entry.value || "");
       if (value) pool.push(value);
     });
   });
@@ -13100,27 +14795,26 @@ function collectCheckedSelectionsForGoalPlanning(sourcePageIds) {
     .join("\n");
 }
 
-function getCurrentFinishedKiTextForGoalPlan() {
-  return String(typeof getInternalAiCorrectedOutput === "function" ? getInternalAiCorrectedOutput() : "").trim();
-}
-
-function collectCurrentFeinzieleForGoalPlanning() {
-  return getCheckedSelectionsOnlyForPage("10_Feinziele")
-    .map((item) => cleanInline(item || ""))
-    .filter(Boolean)
-    .slice(0, 3);
-}
-
-function collectCurrentActivitiesForGoalPlanning() {
-  return collectCheckedSelectionsForGoalPlanning([
-    "4_Durchfuehrung_A",
-    "5_Durchfuehrung_B",
-    "6_Musik_Basal",
-  ]);
-}
-
 function collectCurrentTextFromPagesForGoalPlanning(sourcePageIds) {
-  return collectCheckedSelectionsForGoalPlanning(sourcePageIds);
+  const pool = [];
+  sourcePageIds.forEach((pageId) => {
+    const page = getPageById(pageId);
+    if (!page) return;
+    const state = getPageStateById(pageId);
+    getFlatSelectionsForPage(pageId).forEach((item) => {
+      const value = cleanInline(item || "");
+      if (value) pool.push(value);
+    });
+    const freeText = cleanInline(state.freeText || "");
+    if (freeText) pool.push(freeText);
+    getPageCustomTextEntries(page, state).forEach((entry) => {
+      const value = cleanInline(entry.value || "");
+      if (value) pool.push(value);
+    });
+  });
+  return uniqueClean(pool)
+    .map((item) => "• " + normalizePhrase(item))
+    .join("\n");
 }
 
 function collectCurrentDurchfuehrungForGoalPlanning() {
@@ -13157,17 +14851,62 @@ function applyCurrentContentToGoalPlan(slotIndex, options = {}) {
   const massnahmen = collectCurrentMassnahmenForGoalPlanning();
   const beobachtung = collectCurrentBeobachtungForGoalPlanning();
   const sourcePages = collectGoalWorkingPageSnapshots();
-  const finishedKiText = getCurrentFinishedKiTextForGoalPlan();
-  if (finishedKiText) current.kiText = finishedKiText;
-  current.feinziel1 = feinziele[0] || "";
-  current.feinziel2 = feinziele[1] || "";
-  current.feinziel3 = feinziele[2] || "";
-  current.aktivitaeten = aktivitaeten || "";
-  current.durchfuehrung = durchfuehrung || "";
-  current.massnahmen = massnahmen || "";
-  current.beobachtung = beobachtung || "";
+  if (feinziele[0]) current.feinziel1 = feinziele[0];
+  if (feinziele[1]) current.feinziel2 = feinziele[1];
+  if (feinziele[2]) current.feinziel3 = feinziele[2];
+  if (aktivitaeten) current.aktivitaeten = aktivitaeten;
+  if (durchfuehrung) current.durchfuehrung = durchfuehrung;
+  if (massnahmen) current.massnahmen = massnahmen;
+  if (beobachtung) current.beobachtung = beobachtung;
   current.sourcePages = sourcePages;
 
+  pageState.goalPlans[slotIndex] = current;
+  APP.state[APP.currentGenerator] = {
+    ...ensureGeneratorState(APP.currentGenerator),
+    pages: {
+      ...ensureGeneratorState(APP.currentGenerator).pages,
+      ["10b_Zielplanung_1_10"]: {
+        ...pageState,
+        goalPlans: pageState.goalPlans,
+      },
+    },
+  };
+  persistAllState();
+  updateView();
+}
+
+function getFinishedKiTextForGoalPlan() {
+  if (!APP.currentGenerator) return "";
+  if (!isInternalAiOutputActive()) return "";
+  return String(
+    readClientScopedGeneratorMeta("correctedOutputByGenerator", "") || "",
+  ).trim();
+}
+
+function applyFinishedKiTextToGoalPlan(slotIndex) {
+  const finishedText = getFinishedKiTextForGoalPlan();
+  if (!cleanInline(finishedText)) {
+    window.alert("Es ist noch kein fertiger KI-Text auf Seite 13 vorhanden. Bitte zuerst die KI-Antwort generieren und prüfen.");
+    return;
+  }
+
+  const pageState = getGoalPlanningState(
+    APP.currentGenerator,
+    "10b_Zielplanung_1_10",
+  );
+  const current = {
+    ...defaultGoalPlanEntry(slotIndex),
+    ...(pageState.goalPlans[slotIndex] || {}),
+  };
+
+  if (cleanInline(current.finalKiText || "")) {
+    const replace = window.confirm(
+      "Dieser Baustein enthält bereits einen fertigen KI-Text. OK = ersetzen. Abbrechen = nichts ändern.",
+    );
+    if (!replace) return;
+  }
+
+  current.finalKiText = finishedText;
   pageState.goalPlans[slotIndex] = current;
   APP.state[APP.currentGenerator] = {
     ...ensureGeneratorState(APP.currentGenerator),
@@ -13210,22 +14949,13 @@ function emptyGoalWorkingPageState() {
   };
 }
 
-function sanitizeGoalPlanSourcePageState(pageState) {
-  const source = pageState && typeof pageState === "object" ? pageState : {};
-  return {
-    selected: Array.isArray(source.selected)
-      ? source.selected.map((value) => cleanInline(value || "")).filter(Boolean)
-      : [],
-    partial: [],
-    freeText: "",
-    textFields: {},
-  };
-}
-
 function hasGoalWorkingPageStateContent(pageState) {
-  const sanitized = sanitizeGoalPlanSourcePageState(pageState);
-  return Array.isArray(sanitized.selected) &&
-    sanitized.selected.some((value) => cleanInline(value || ""));
+  if (!pageState || typeof pageState !== "object") return false;
+  if (Array.isArray(pageState.selected) && pageState.selected.some((value) => cleanInline(value || ""))) return true;
+  if (Array.isArray(pageState.partial) && pageState.partial.some((value) => cleanInline(value || ""))) return true;
+  if (cleanInline(pageState.freeText || "")) return true;
+  const textFields = pageState.textFields && typeof pageState.textFields === "object" ? pageState.textFields : {};
+  return Object.values(textFields).some((value) => cleanInline(value || ""));
 }
 
 function collectGoalWorkingPageSnapshots() {
@@ -13233,7 +14963,7 @@ function collectGoalWorkingPageSnapshots() {
   const pages = generatorState.pages || {};
   const sourcePages = {};
   GOAL_WORKING_PAGE_IDS.forEach((pageId) => {
-    sourcePages[pageId] = sanitizeGoalPlanSourcePageState(pages[pageId] || emptyGoalWorkingPageState());
+    sourcePages[pageId] = cloneGoalPlanPageState(pages[pageId] || emptyGoalWorkingPageState());
   });
   return sourcePages;
 }
@@ -13310,6 +15040,7 @@ function loadGoalPlanIntoGenerator(slotIndex) {
     plan.massnahmen,
     plan.materialien,
     plan.beobachtung,
+    plan.finalKiText,
   ].some((value) => cleanInline(value || ""));
   const rawSourcePages = plan.sourcePages && typeof plan.sourcePages === "object" ? plan.sourcePages : {};
   const hasStoredSourceContent = GOAL_WORKING_PAGE_IDS.some((pageId) => hasGoalWorkingPageStateContent(rawSourcePages[pageId]));
@@ -13325,7 +15056,7 @@ function loadGoalPlanIntoGenerator(slotIndex) {
   GOAL_WORKING_PAGE_IDS.forEach((pageId) => {
     const restored = sourcePages[pageId];
     nextPages[pageId] = restored && typeof restored === "object"
-      ? sanitizeGoalPlanSourcePageState(restored)
+      ? cloneGoalPlanPageState(restored)
       : emptyGoalWorkingPageState();
   });
 
@@ -14746,8 +16477,12 @@ async function sendOutputToChatGptApiTest() {
     return;
   }
   if (!apiKey) {
-    if (statusField)
-      statusField.textContent = "Bitte zuerst einen API-Key eintragen.";
+    const missingKeyMessage =
+      "Noch kein API-Schlüssel hinterlegt. Bitte im Bereich „Mit KI verbinden“ einen API-Schlüssel eintragen.";
+    if (statusField) statusField.textContent = missingKeyMessage;
+    const finalInline = document.getElementById("finalOutputInline");
+    if (finalInline) finalInline.textContent = missingKeyMessage;
+    if (outputField) outputField.textContent = missingKeyMessage;
     return;
   }
   if (!model) {
@@ -14764,8 +16499,8 @@ async function sendOutputToChatGptApiTest() {
 
   if (statusField)
     statusField.textContent =
-      "Strukturierte Vorschau wird an die API gesendet...";
-  if (outputField) outputField.textContent = "Warte auf API-Antwort...";
+      "Strukturierte Vorschau wird an den KI-Dienst gesendet...";
+  if (outputField) outputField.textContent = "Warte auf KI-Antwort...";
 
   const payload =
     style === "chat_completions"
@@ -14828,7 +16563,7 @@ async function sendOutputToChatGptApiTest() {
     );
 
     if (!corrected) {
-      throw new Error("Die API-Antwort enthält keinen erkennbaren Text.");
+      throw new Error("Die KI-Antwort enthält keinen erkennbaren Text.");
     }
 
     setInternalAiCorrectedOutput(corrected);
@@ -14854,7 +16589,7 @@ function applyChatGptApiTestOutput() {
   if (!text) {
     if (statusField)
       statusField.textContent =
-        "Es ist noch kein gespeichertes OpenAI-/ChatGPT-Ergebnis vorhanden.";
+        "Es ist noch kein gespeichertes KI-Ergebnis vorhanden.";
     return;
   }
   setInternalAiOutputActive(true);
@@ -14862,7 +16597,7 @@ function applyChatGptApiTestOutput() {
   updatePreview();
   if (statusField)
     statusField.textContent =
-      "Das gespeicherte OpenAI-/ChatGPT-Ergebnis wird wieder oben im Bereich „KI-Ergebnis“ angezeigt.";
+      "Das gespeicherte KI-Ergebnis wird wieder oben im Bereich „KI-Ergebnis“ angezeigt.";
 }
 
 function clearChatGptApiTestOutput() {
@@ -14873,7 +16608,7 @@ function clearChatGptApiTestOutput() {
   updatePreview();
   if (statusField)
     statusField.textContent =
-      "Das gespeicherte OpenAI-/ChatGPT-Ergebnis wurde gelöscht.";
+      "Das gespeicherte KI-Ergebnis wurde gelöscht.";
 }
 
 function renderInternalAiPanel() {
@@ -14904,8 +16639,8 @@ function renderInternalAiPanel() {
   }
   if (chatOutputField) {
     chatOutputField.textContent = hasKiText
-      ? "OpenAI-/ChatGPT-Ergebnis gespeichert. Die Anzeige erfolgt oben im Bereich „KI-Ergebnis“."
-      : "Noch kein OpenAI-/ChatGPT-Ergebnis gespeichert.";
+      ? "KI-Ergebnis gespeichert. Die Anzeige erfolgt oben im Bereich „KI-Ergebnis“."
+      : "Noch kein KI-Ergebnis gespeichert.";
   }
   if (statusField && !cleanInline(statusField.textContent)) {
     statusField.textContent =
@@ -15461,7 +17196,7 @@ function buildGoalPlanSourcePagesPayload(plan) {
 
   GOAL_WORKING_PAGE_IDS.forEach((pageId) => {
     const page = getPageById(pageId);
-    const pageState = sanitizeGoalPlanSourcePageState(sourcePages[pageId]);
+    const pageState = sourcePages[pageId];
     if (!page || !hasGoalWorkingPageStateContent(pageState)) return;
     const lines = buildGroupedSelectionLines(page, pageState);
     if (!lines.length) return;
@@ -15490,7 +17225,6 @@ function buildStoredGoalPlanPayload(plan, index) {
     massnahmen: plan.massnahmen,
     materialien: plan.materialien,
     beobachtung: plan.beobachtung,
-    fertiger_ki_text: plan.kiText,
     gespeicherte_arbeitsseiten: buildGoalPlanSourcePagesPayload(plan),
   });
 }
@@ -15577,6 +17311,7 @@ function buildNavigatorAllInputData() {
             "Der Kliententyp ist als vorrangiger Förder- und Unterstützungsfokus zu nutzen und nicht als eigenes Ziel zu formulieren.",
         }
       : null,
+    bestehende_zielerfassung_redline: buildRedlinePayload(),
     zielsystem_aktuell_und_gespeichert: buildNavigatorGoalTransferPayload(),
     gespeicherte_bausteine_1_10: buildStoredGoalPlanningPayload(),
     aktuelle_arbeitsseiten_4_8_10_11: buildGoalPlanSourcePagesPayload({
@@ -15991,6 +17726,9 @@ function buildEntwicklungsplanungSourceText() {
             "Als vorrangiger fachlicher Leitmassstab verwenden. Nicht als Ziel formulieren, sondern in Massnahmen, Durchführung, Begleitung und Beobachtung einweben.",
         }
       : null,
+    bestehende_zielerfassung_redline: buildRedlinePayload(),
+    redline_regel:
+      "Vorhandene Zielerfassungen / Redline-Texte haben Vorrang. Sie dürfen sprachlich geglättet und fachlich eingeordnet, aber nicht inhaltlich ersetzt oder frei erweitert werden.",
     gemeinsames_fernziel_aus_seite_9: collectCurrentFernzielForGoalPlanning(),
     unterziele_aus_feinzielen: zielsystem?.feinziele_und_unterziele || null,
     zielrahmen_aus_generator: zielsystem?.uebergeordnete_ziele || null,
@@ -16307,16 +18045,16 @@ async function sendEpMassnahmenSuggestionToOpenAi() {
   if (!endpoint || !apiKey || !model) {
     const localDraft = buildLocalEpMassnahmenSuggestion();
     if (!localDraft) {
-      setEpActionStatus("Bitte zuerst Generator- oder Baustein-Inhalte erfassen. Für KI bitte zusätzlich OpenAI-Endpunkt, API-Key und Modell eintragen.");
+      setEpActionStatus("Bitte zuerst Generator- oder Baustein-Inhalte erfassen. Für KI bitte zusätzlich API-Endpunkt, API-Schlüssel und Modell eintragen.");
       return;
     }
     setEpMassnahmenSuggestion(localDraft);
     renderEntwicklungsplanungPanel();
-    setEpActionStatus("Lokaler Massnahmen-Vorschlag wurde erstellt. Für echte KI-Formulierung bitte OpenAI-Endpunkt, API-Key und Modell eintragen.");
+    setEpActionStatus("Lokaler Massnahmen-Vorschlag wurde erstellt. Für echte KI-Formulierung bitte API-Endpunkt, API-Schlüssel und Modell eintragen.");
     return;
   }
 
-  setEpActionStatus("Massnahmen-Vorschlag wird über OpenAI / ChatGPT erstellt...");
+  setEpActionStatus("Massnahmen-Vorschlag wird über den KI-Dienst erstellt...");
   if (output) output.textContent = "Warte auf KI-Vorschlag...";
 
   const payload =
@@ -16366,13 +18104,13 @@ async function sendEpMassnahmenSuggestionToOpenAi() {
       applyPreferredPersonLabel(extractChatGptApiTestText(parsed, style)),
     );
 
-    if (!result) throw new Error("Die API-Antwort enthält keinen erkennbaren Text.");
+    if (!result) throw new Error("Die KI-Antwort enthält keinen erkennbaren Text.");
 
     setEpMassnahmenSuggestion(result);
     renderEntwicklungsplanungPanel();
     setEpActionStatus("Massnahmen-Vorschlag wurde erstellt. Bestehende Felder wurden nicht überschrieben.");
   } catch (error) {
-    console.warn("Massnahmen-Vorschlag via OpenAI / ChatGPT fehlgeschlagen", error);
+    console.warn("Massnahmen-Vorschlag via KI-Dienst fehlgeschlagen", error);
     const localDraft = buildLocalEpMassnahmenSuggestion();
     if (localDraft) {
       setEpMassnahmenSuggestion(localDraft);
@@ -16544,13 +18282,13 @@ async function sendEntwicklungsplanungToOpenAi() {
   if (!endpoint) {
     if (status)
       status.textContent =
-        "Bitte zuerst einen OpenAI-Endpunkt für die Entwicklungsplanung eintragen.";
+        "Bitte zuerst einen API-Endpunkt für den KI-Dienst der Entwicklungsplanung eintragen.";
     return;
   }
   if (!apiKey) {
     if (status)
       status.textContent =
-        "Bitte zuerst einen OpenAI-API-Key für die Entwicklungsplanung eintragen.";
+        "Bitte zuerst einen API-Schlüssel für den KI-Dienst der Entwicklungsplanung eintragen.";
     return;
   }
   if (!model) {
@@ -16568,7 +18306,7 @@ async function sendEntwicklungsplanungToOpenAi() {
 
   if (status)
     status.textContent =
-      "Angaben zur Entwicklungsplanung werden an den getrennten OpenAI-/ChatGPT-Zugang gesendet...";
+      "Angaben zur Entwicklungsplanung werden an den verbundenen KI-Dienst gesendet...";
 
   const payload =
     style === "chat_completions"
@@ -16621,17 +18359,17 @@ async function sendEntwicklungsplanungToOpenAi() {
     );
 
     if (!result) {
-      throw new Error("Die API-Antwort enthält keinen erkennbaren Text.");
+      throw new Error("Die KI-Antwort enthält keinen erkennbaren Text.");
     }
 
     setEntwicklungsplanungText(result);
     renderEntwicklungsplanungPanel();
     if (status)
       status.textContent =
-        "Die Entwicklungsplanung wurde über den getrennten OpenAI-/ChatGPT-Zugang erstellt. Leere Angaben wurden weggelassen.";
+        "Die Entwicklungsplanung wurde über den verbundenen KI-Dienst erstellt. Leere Angaben wurden weggelassen.";
   } catch (error) {
     console.warn(
-      "Entwicklungsplanung via OpenAI / ChatGPT fehlgeschlagen",
+      "Entwicklungsplanung via KI-Dienst fehlgeschlagen",
       error,
     );
     if (status)
@@ -17086,7 +18824,7 @@ function buildRoadmapStatus() {
     {
       title: "Übergabe / Sicherung",
       detail:
-        "Arbeitsstand kann exportiert, importiert und per Druckansicht ausgegeben werden.",
+        "Arbeitsstand kann verschlüsselt gespeichert, verschlüsselt geladen und per Druckansicht ausgegeben werden.",
       done: true,
       active: false,
     },
@@ -17115,7 +18853,7 @@ function buildRoadmapStatus() {
       detail: productReady
         ? "Produktivkandidat und Abschlussmappe sind bereit. Der Stand kann direkt als Komplettpaket abgelegt werden."
         : finalReady
-          ? "Die Endfassung ist erreicht. Jetzt wird das Komplettpaket für Ablage und Weitergabe erzeugt."
+          ? "Die Endfassung ist erreicht. Jetzt wird das verschlüsselte Komplettpaket für Ablage und Weitergabe erzeugt."
           : "Der Produktivkandidat startet nach der Schlussprüfung.",
       done: productReady,
       active: finalReady && !productReady,
@@ -17123,7 +18861,7 @@ function buildRoadmapStatus() {
     {
       title: "Produktivfreigabe / Releasepaket",
       detail: productionReady
-        ? "Produktivfreigabe ist erreicht. Produktivdatei und Releasepaket können direkt exportiert werden."
+        ? "Produktivfreigabe ist erreicht. Produktivdatei und Releasepaket können verschlüsselt gespeichert werden."
         : productReady
           ? "Der Produktivkandidat ist erreicht. Jetzt wird die Produktivfreigabe samt Releasepaket geschlossen."
           : "Die Produktivfreigabe startet nach dem Produktivkandidaten.",
@@ -17136,7 +18874,7 @@ function buildRoadmapStatus() {
     steps.find((step) => !step.done) ||
     steps[steps.length - 1];
   const summary = productionReady
-    ? "Die Produktivfreigabe ist erreicht. Produktivdatei und Releasepaket können direkt exportiert werden."
+    ? "Die Produktivfreigabe ist erreicht. Produktivdatei und Releasepaket können verschlüsselt gespeichert werden."
     : productReady
       ? "Der Produktivkandidat ist bereit. Jetzt wird die Produktivfreigabe mit Releasepaket geschlossen."
       : finalReady
@@ -17268,13 +19006,20 @@ function renderWorkspaceMeta() {
   const note = document.getElementById("workspaceMetaNote");
   const snapshotStatus = document.getElementById("browserSnapshotStatus");
   const snapshots = loadBrowserSnapshots();
-  const currentLabel = formatSnapshotLabel(snapshots.current);
+  const currentLabel = formatSnapshotLabel(snapshots.current || (snapshots.__locked ? { __locked: true } : null));
   const previousLabel = formatSnapshotLabel(snapshots.previous);
   const emergencyLabel = formatSnapshotLabel(snapshots.emergency);
+  const encryptedLabel = snapshots.__encrypted
+    ? snapshots.__locked
+      ? "verschlüsselt / gesperrt"
+      : "verschlüsselt / entsperrt"
+    : "noch unverschlüsselt oder leer";
 
   if (snapshotStatus) {
     snapshotStatus.textContent =
-      "Aktuell: " +
+      "Browser-Stände: " +
+      encryptedLabel +
+      " • Aktuell: " +
       currentLabel +
       " • Vorherig: " +
       previousLabel +
@@ -17296,15 +19041,19 @@ function renderWorkspaceMeta() {
       " • letzter Generator: " +
       generatorLabel +
       saveLabel +
-      " • Browser-Stände: aktuell " +
+      " • Browser-Stände: " +
+      encryptedLabel +
+      " • aktuell " +
       currentLabel +
       ", vorherig " +
       previousLabel +
       ", Notfall " +
       emergencyLabel
-    : "Der Arbeitsstand wird lokal im Browser gespeichert und kann zusätzlich als JSON exportiert werden." +
+    : "Der Arbeitsstand wird lokal im Browser gespeichert. Datei-Exporte und Browser-Stände können verschlüsselt gesichert werden." +
       saveLabel +
-      " • Browser-Stände: aktuell " +
+      " • Browser-Stände: " +
+      encryptedLabel +
+      " • aktuell " +
       currentLabel +
       ", vorherig " +
       previousLabel +
@@ -17397,6 +19146,378 @@ function setStoredWeekplanModeState(mode, state) {
   );
 }
 
+
+const BT_NAVIGATOR_ENCRYPTED_FILE_MARKER = "BT-NAVIGATOR-ENCRYPTED";
+const BT_NAVIGATOR_ENCRYPTED_FILE_VERSION = 1;
+const BT_NAVIGATOR_KDF_ITERATIONS = 250000;
+
+function isNavigatorEncryptionAvailable() {
+  return !!(
+    window.crypto &&
+    window.crypto.subtle &&
+    window.crypto.getRandomValues &&
+    window.TextEncoder &&
+    window.TextDecoder
+  );
+}
+
+function bytesToBase64(bytes) {
+  let binary = "";
+  const chunkSize = 0x8000;
+  for (let i = 0; i < bytes.length; i += chunkSize) {
+    const chunk = bytes.subarray(i, i + chunkSize);
+    binary += String.fromCharCode.apply(null, chunk);
+  }
+  return btoa(binary);
+}
+
+function base64ToBytes(base64) {
+  const binary = atob(String(base64 || ""));
+  const bytes = new Uint8Array(binary.length);
+  for (let i = 0; i < binary.length; i += 1) {
+    bytes[i] = binary.charCodeAt(i);
+  }
+  return bytes;
+}
+
+function getEncryptedFileKindLabel(kind) {
+  if (kind === "single-client") return "Klient-Datei";
+  if (kind === "workspace") return "Gesamtstand";
+  return "BT-Navigator-Datei";
+}
+
+async function deriveNavigatorEncryptionKey(password, saltBytes) {
+  const encoder = new TextEncoder();
+  const baseKey = await crypto.subtle.importKey(
+    "raw",
+    encoder.encode(password),
+    "PBKDF2",
+    false,
+    ["deriveKey"],
+  );
+  return crypto.subtle.deriveKey(
+    {
+      name: "PBKDF2",
+      salt: saltBytes,
+      iterations: BT_NAVIGATOR_KDF_ITERATIONS,
+      hash: "SHA-256",
+    },
+    baseKey,
+    { name: "AES-GCM", length: 256 },
+    false,
+    ["encrypt", "decrypt"],
+  );
+}
+
+async function encryptNavigatorPayload(payload, kind) {
+  if (!isNavigatorEncryptionAvailable()) {
+    alert("Verschlüsselung ist in diesem Browser nicht verfügbar. Bitte einen aktuellen Browser verwenden.");
+    return null;
+  }
+
+  const label = getEncryptedFileKindLabel(kind);
+  const password = await requestNavigatorPassword({
+    title: label + " verschlüsseln",
+    message: "Ohne dieses Passwort kann die Datei später nicht geöffnet werden.",
+    confirm: true,
+    autocomplete: "new-password",
+    minLength: 8,
+  });
+  if (!password) return null;
+  await rememberNavigatorPasswordInBrowserManager(password);
+
+  const encoder = new TextEncoder();
+  const salt = crypto.getRandomValues(new Uint8Array(16));
+  const iv = crypto.getRandomValues(new Uint8Array(12));
+  const key = await deriveNavigatorEncryptionKey(password, salt);
+  const plainText = JSON.stringify(payload);
+  const cipherBuffer = await crypto.subtle.encrypt(
+    {
+      name: "AES-GCM",
+      iv,
+      additionalData: encoder.encode(BT_NAVIGATOR_ENCRYPTED_FILE_MARKER + ":" + kind),
+      tagLength: 128,
+    },
+    key,
+    encoder.encode(plainText),
+  );
+
+  return {
+    btNavigatorEncrypted: true,
+    marker: BT_NAVIGATOR_ENCRYPTED_FILE_MARKER,
+    version: BT_NAVIGATOR_ENCRYPTED_FILE_VERSION,
+    kind,
+    exportedAt: new Date().toISOString(),
+    kdf: {
+      name: "PBKDF2",
+      hash: "SHA-256",
+      iterations: BT_NAVIGATOR_KDF_ITERATIONS,
+      salt: bytesToBase64(salt),
+    },
+    cipher: {
+      name: "AES-GCM",
+      iv: bytesToBase64(iv),
+      tagLength: 128,
+    },
+    payload: bytesToBase64(new Uint8Array(cipherBuffer)),
+  };
+}
+
+function isEncryptedNavigatorFile(parsed) {
+  return !!(
+    parsed &&
+    parsed.btNavigatorEncrypted === true &&
+    parsed.marker === BT_NAVIGATOR_ENCRYPTED_FILE_MARKER &&
+    typeof parsed.payload === "string"
+  );
+}
+
+async function parseNavigatorImportText(raw, expectedKind) {
+  const parsed = JSON.parse(raw);
+
+  if (!isEncryptedNavigatorFile(parsed)) {
+    const legacyOk = confirm(
+      "Diese Datei ist nicht verschlüsselt.\n\nSie kann als ältere BT-Navigator-Datei importiert werden. Trotzdem laden?",
+    );
+    if (!legacyOk) return null;
+    return parsed;
+  }
+
+  if (expectedKind && parsed.kind && parsed.kind !== expectedKind) {
+    const continueAnyway = confirm(
+      "Diese verschlüsselte Datei ist als " +
+        getEncryptedFileKindLabel(parsed.kind) +
+        " markiert. Erwartet wird " +
+        getEncryptedFileKindLabel(expectedKind) +
+        ". Trotzdem versuchen?",
+    );
+    if (!continueAnyway) return null;
+  }
+
+  if (!isNavigatorEncryptionAvailable()) {
+    alert("Verschlüsseltes Laden ist in diesem Browser nicht verfügbar. Bitte einen aktuellen Browser verwenden.");
+    return null;
+  }
+
+  const password = await requestNavigatorPassword({
+    title: "Verschlüsselte BT-Navigator-Datei öffnen",
+    message: "Passwort für die verschlüsselte Datei eingeben.",
+    confirm: false,
+    autocomplete: "current-password",
+    minLength: 1,
+  });
+  if (!password) return null;
+
+  try {
+    const salt = base64ToBytes(parsed?.kdf?.salt);
+    const iv = base64ToBytes(parsed?.cipher?.iv);
+    const cipherBytes = base64ToBytes(parsed.payload);
+    const key = await deriveNavigatorEncryptionKey(password, salt);
+    const decoder = new TextDecoder();
+    const plainBuffer = await crypto.subtle.decrypt(
+      {
+        name: "AES-GCM",
+        iv,
+        additionalData: new TextEncoder().encode(
+          BT_NAVIGATOR_ENCRYPTED_FILE_MARKER + ":" + (parsed.kind || expectedKind || "workspace"),
+        ),
+        tagLength: 128,
+      },
+      key,
+      cipherBytes,
+    );
+    await rememberNavigatorPasswordInBrowserManager(password);
+    return JSON.parse(decoder.decode(plainBuffer));
+  } catch (error) {
+    console.warn("Entschlüsselung fehlgeschlagen", error);
+    alert("Datei konnte nicht entschlüsselt werden. Passwort oder Datei passt nicht.");
+    return null;
+  }
+}
+
+async function saveEncryptedNavigatorFile(payload, kind, fileNamePrefix) {
+  const encrypted = await encryptNavigatorPayload(payload, kind);
+  if (!encrypted) return false;
+
+  const data = JSON.stringify(encrypted, null, 2);
+  const blob = new Blob([data], { type: "application/json;charset=utf-8" });
+  const stamp = new Date().toISOString().slice(0, 19).replace(/[T:]/g, "-");
+  const fileName = fileNamePrefix + "-verschluesselt-" + stamp + ".json";
+
+  try {
+    if (typeof window.showSaveFilePicker === "function") {
+      const handle = await window.showSaveFilePicker({
+        suggestedName: fileName,
+        types: [
+          {
+            description: "Verschlüsselte BT-Navigator-Datei",
+            accept: {
+              "application/json": [".json"],
+            },
+          },
+        ],
+      });
+      const writable = await handle.createWritable();
+      await writable.write(blob);
+      await writable.close();
+      updateAppMeta({ lastUpdated: new Date().toISOString() });
+      return true;
+    }
+  } catch (error) {
+    if (error && error.name === "AbortError") return false;
+    console.warn("Speichern unter nicht verfügbar, Download wird verwendet.", error);
+  }
+
+  try {
+    const file = new File([blob], fileName, { type: "application/json" });
+    if (
+      navigator.share &&
+      (!navigator.canShare || navigator.canShare({ files: [file] }))
+    ) {
+      await navigator.share({
+        title: fileName,
+        text: "Verschlüsselte BT-Navigator-Datei",
+        files: [file],
+      });
+      updateAppMeta({ lastUpdated: new Date().toISOString() });
+      return true;
+    }
+  } catch (shareError) {
+    if (shareError && shareError.name === "AbortError") return false;
+    console.warn("Teilen/Speichern nicht verfügbar, Download wird verwendet.", shareError);
+  }
+
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = fileName;
+  link.rel = "noopener";
+  link.style.display = "none";
+  document.body.appendChild(link);
+  link.click();
+
+  setTimeout(() => {
+    link.remove();
+    URL.revokeObjectURL(url);
+  }, 1000);
+
+  updateAppMeta({ lastUpdated: new Date().toISOString() });
+  alert("Verschlüsselte Datei wurde zum Speichern/Download übergeben.");
+  return true;
+}
+
+
+async function encryptNavigatorPayloadWithPassword(payload, kind, password) {
+  if (!isNavigatorEncryptionAvailable()) {
+    throw new Error("Verschlüsselung ist in diesem Browser nicht verfügbar.");
+  }
+  const encoder = new TextEncoder();
+  const salt = crypto.getRandomValues(new Uint8Array(16));
+  const iv = crypto.getRandomValues(new Uint8Array(12));
+  const key = await deriveNavigatorEncryptionKey(password, salt);
+  const plainText = JSON.stringify(payload || {});
+  const cipherBuffer = await crypto.subtle.encrypt(
+    {
+      name: "AES-GCM",
+      iv,
+      additionalData: encoder.encode(BT_NAVIGATOR_ENCRYPTED_FILE_MARKER + ":" + kind),
+      tagLength: 128,
+    },
+    key,
+    encoder.encode(plainText),
+  );
+  return {
+    btNavigatorEncrypted: true,
+    marker: BT_NAVIGATOR_ENCRYPTED_FILE_MARKER,
+    version: BT_NAVIGATOR_ENCRYPTED_FILE_VERSION,
+    kind,
+    exportedAt: new Date().toISOString(),
+    kdf: {
+      name: "PBKDF2",
+      hash: "SHA-256",
+      iterations: BT_NAVIGATOR_KDF_ITERATIONS,
+      salt: bytesToBase64(salt),
+    },
+    cipher: {
+      name: "AES-GCM",
+      iv: bytesToBase64(iv),
+      tagLength: 128,
+    },
+    payload: bytesToBase64(new Uint8Array(cipherBuffer)),
+  };
+}
+
+async function decryptNavigatorPayloadWithPassword(parsed, expectedKind, password) {
+  const salt = base64ToBytes(parsed?.kdf?.salt);
+  const iv = base64ToBytes(parsed?.cipher?.iv);
+  const cipherBytes = base64ToBytes(parsed.payload);
+  const key = await deriveNavigatorEncryptionKey(password, salt);
+  const plainBuffer = await crypto.subtle.decrypt(
+    {
+      name: "AES-GCM",
+      iv,
+      additionalData: new TextEncoder().encode(
+        BT_NAVIGATOR_ENCRYPTED_FILE_MARKER + ":" + (parsed.kind || expectedKind),
+      ),
+      tagLength: 128,
+    },
+    key,
+    cipherBytes,
+  );
+  return JSON.parse(new TextDecoder().decode(plainBuffer));
+}
+
+async function encryptBrowserSnapshotsWithPassword(snapshots, password) {
+  return encryptNavigatorPayloadWithPassword(
+    normalizeBrowserSnapshots(snapshots),
+    "browser-snapshots",
+    password,
+  );
+}
+
+async function decryptBrowserSnapshotsWithPassword(parsed, password) {
+  const decoded = await decryptNavigatorPayloadWithPassword(parsed, "browser-snapshots", password);
+  return normalizeBrowserSnapshots(decoded);
+}
+
+async function unlockBrowserSnapshotsFromUi() {
+  const raw = localStorage.getItem(browserSnapshotKey());
+  if (!raw) {
+    const password = await promptBrowserSnapshotPasswordForEncrypt();
+    if (!password) return;
+    setBrowserSnapshotSessionPassword(password);
+    encryptedBrowserSnapshotsCache = defaultBrowserSnapshots();
+    await persistBrowserSnapshotsEncrypted(encryptedBrowserSnapshotsCache, { promptForPassword: false });
+    alert("Verschlüsselung für Browser-Stände ist aktiviert.");
+    renderWorkspaceMeta();
+    return;
+  }
+
+  try {
+    const parsed = JSON.parse(raw);
+    if (!isEncryptedNavigatorFile(parsed)) {
+      const password = await promptBrowserSnapshotPasswordForEncrypt();
+      if (!password) return;
+      encryptedBrowserSnapshotsCache = normalizeBrowserSnapshots(parsed);
+      setBrowserSnapshotSessionPassword(password);
+      await persistBrowserSnapshotsEncrypted(encryptedBrowserSnapshotsCache, { promptForPassword: false });
+      alert("Vorhandene Browser-Stände wurden verschlüsselt.");
+      renderWorkspaceMeta();
+      return;
+    }
+
+    const password = await promptBrowserSnapshotPasswordForDecrypt();
+    if (!password) return;
+    encryptedBrowserSnapshotsCache = await decryptBrowserSnapshotsWithPassword(parsed, password);
+    setBrowserSnapshotSessionPassword(password);
+    alert("Browser-Stände sind für diese Sitzung entsperrt.");
+    renderWorkspaceMeta();
+  } catch (error) {
+    console.warn("Browser-Stände konnten nicht entsperrt werden.", error);
+    alert("Browser-Stände konnten nicht entsperrt werden. Passwort prüfen.");
+  }
+}
+
 function getSingleClientSnapshot(index) {
   saveWeekplanFrameState();
   commitCurrentClientWorkspace();
@@ -17418,47 +19539,11 @@ function getSingleClientSnapshot(index) {
 
 async function downloadSingleClientSnapshot(index) {
   const snapshot = getSingleClientSnapshot(index);
-  const data = JSON.stringify(snapshot, null, 2);
-  const blob = new Blob([data], { type: "application/json;charset=utf-8" });
-  const stamp = new Date().toISOString().slice(0, 19).replace(/[T:]/g, "-");
-  const fileName = "bt-navigator-klient-" + (index + 1) + "-" + stamp + ".json";
-
-  try {
-    if (typeof window.showSaveFilePicker === "function") {
-      const handle = await window.showSaveFilePicker({
-        suggestedName: fileName,
-        types: [
-          {
-            description: "JSON-Datei",
-            accept: {
-              "application/json": [".json"],
-            },
-          },
-        ],
-      });
-      const writable = await handle.createWritable();
-      await writable.write(blob);
-      await writable.close();
-      updateAppMeta({ lastUpdated: new Date().toISOString() });
-      return;
-    }
-  } catch (error) {
-    const aborted = error && (error.name === "AbortError" || error.name === "SecurityError");
-    if (aborted) {
-      return;
-    }
-    console.warn("Speichern unter nicht verfügbar, Download wird verwendet.", error);
-  }
-
-  const url = URL.createObjectURL(blob);
-  const link = document.createElement("a");
-  link.href = url;
-  link.download = fileName;
-  document.body.appendChild(link);
-  link.click();
-  link.remove();
-  URL.revokeObjectURL(url);
-  updateAppMeta({ lastUpdated: new Date().toISOString() });
+  await saveEncryptedNavigatorFile(
+    snapshot,
+    "single-client",
+    "bt-navigator-klient-" + (index + 1),
+  );
 }
 
 function triggerSingleClientImport(index) {
@@ -17527,7 +19612,11 @@ async function handleSingleClientImport(event) {
 
   try {
     const raw = await file.text();
-    const parsed = JSON.parse(raw);
+    const parsed = await parseNavigatorImportText(raw, "single-client");
+    if (!parsed) {
+      if (event?.target) event.target.value = "";
+      return;
+    }
     const targetCount = Math.max(getWorkspaceClientCount(), index + 1);
 
     ensureClientStateCapacity(targetCount);
@@ -17572,10 +19661,10 @@ async function handleSingleClientImport(event) {
     }
 
     recordBrowserSnapshot("single-client-import", { emergency: true });
-    alert(importAsNew ? "Klient wurde als neuer Klient importiert." : "Klient wurde importiert.");
+    alert(importAsNew ? "Klient wurde als neuer Klient geladen." : "Klient wurde geladen.");
   } catch (error) {
     console.warn("Klienten-Import fehlgeschlagen", error);
-    alert("Klient konnte nicht importiert werden.");
+    alert("Klient konnte nicht geladen werden.");
   } finally {
     pendingSingleClientImportIndex = null;
     if (event?.target) {
@@ -17601,47 +19690,11 @@ function buildWorkspaceSnapshot() {
 }
 
 async function downloadWorkspaceSnapshot() {
-  const data = JSON.stringify(buildWorkspaceSnapshot(), null, 2);
-  const blob = new Blob([data], { type: "application/json;charset=utf-8" });
-  const stamp = new Date().toISOString().slice(0, 19).replace(/[T:]/g, "-");
-  const fileName = "bt-navigator-gesamtstand-" + stamp + ".json";
-
-  try {
-    if (typeof window.showSaveFilePicker === "function") {
-      const handle = await window.showSaveFilePicker({
-        suggestedName: fileName,
-        types: [
-          {
-            description: "JSON-Datei",
-            accept: {
-              "application/json": [".json"],
-            },
-          },
-        ],
-      });
-      const writable = await handle.createWritable();
-      await writable.write(blob);
-      await writable.close();
-      updateAppMeta({ lastUpdated: new Date().toISOString() });
-      return;
-    }
-  } catch (error) {
-    const aborted = error && (error.name === "AbortError" || error.name === "SecurityError");
-    if (aborted) {
-      return;
-    }
-    console.warn("Speichern unter nicht verfügbar, Download wird verwendet.", error);
-  }
-
-  const url = URL.createObjectURL(blob);
-  const link = document.createElement("a");
-  link.href = url;
-  link.download = fileName;
-  document.body.appendChild(link);
-  link.click();
-  link.remove();
-  URL.revokeObjectURL(url);
-  updateAppMeta({ lastUpdated: new Date().toISOString() });
+  await saveEncryptedNavigatorFile(
+    buildWorkspaceSnapshot(),
+    "workspace",
+    "bt-navigator-gesamtstand",
+  );
 }
 
 function triggerWorkspaceImport() {
@@ -17680,7 +19733,11 @@ async function handleWorkspaceImport(event) {
   if (!file) return;
   try {
     const raw = await file.text();
-    const parsed = JSON.parse(raw);
+    const parsed = await parseNavigatorImportText(raw, "workspace");
+    if (!parsed) {
+      event.target.value = "";
+      return;
+    }
     const weekplanBase = weekplanBaseStorageKey();
 
     if (Array.isArray(parsed?.clientStates)) {
@@ -17772,7 +19829,7 @@ async function handleWorkspaceImport(event) {
 
     recordBrowserSnapshot("import", { emergency: true });
     event.target.value = "";
-    alert("Gesamtstand wurde importiert.");
+    alert("Gesamtstand wurde geladen.");
   } catch (error) {
     console.warn("Import fehlgeschlagen", error);
     alert("Import konnte nicht sauber geladen werden.");
