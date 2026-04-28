@@ -3264,6 +3264,39 @@ body.bt-mobile-view .app-version-note { margin-top: 10px; border-radius: 14px; }
   display: none !important;
 }
 
+
+/* STRUCTURED_VIEW_ALWAYS_V1: Strukturierte Vorschau bleibt in Desktop, Mobile und Druck mit Zeilenstruktur erhalten */
+#previewField,
+#epPreviewFieldBottom {
+  white-space: pre-wrap !important;
+  overflow-wrap: anywhere;
+  word-break: normal;
+  hyphens: auto;
+}
+
+body.bt-mobile-view #generatorView #previewField,
+body.bt-mobile-view #generatorView #epPreviewFieldBottom {
+  white-space: pre-wrap !important;
+  overflow-wrap: anywhere;
+  word-break: normal;
+  hyphens: auto;
+}
+
+#previewField br,
+#epPreviewFieldBottom br {
+  display: initial;
+}
+
+@media print {
+  #previewField,
+  #epPreviewFieldBottom,
+  .print-content {
+    white-space: pre-wrap !important;
+    overflow-wrap: anywhere;
+    word-break: normal;
+    hyphens: auto;
+  }
+}
 </style>
 </head>
 <body>
@@ -3529,6 +3562,8 @@ body.bt-mobile-view .app-version-note { margin-top: 10px; border-radius: 14px; }
                         <button type="button" class="ghost" onclick="restoreBrowserSnapshot('previous')">Vorheriger Stand</button>
                         <button type="button" class="ghost" onclick="restoreBrowserSnapshot('emergency')">Notfall-Stand</button>
                         <button type="button" class="ghost" onclick="unlockBrowserSnapshotsFromUi()">Stände entsperren</button>
+                        <button type="button" class="ghost" onclick="changeBrowserSnapshotsPasswordFromUi()">Passwort ändern</button>
+                        <button type="button" class="ghost" onclick="clearBrowserSnapshotsFromUi()">Browser-Stände löschen</button>
                       </div>
                       <div class="browser-snapshot-status" id="browserSnapshotStatus">Es werden drei Browser-Stände mitgeführt: aktuell, vorherig und Notfall.</div>
                     </div>
@@ -7630,6 +7665,8 @@ body[data-weekplan-mode] .footer-note { color: #526075; }
             <button class="secondary" type="button" onclick="window.parent && typeof window.parent.restoreBrowserSnapshot === 'function' && window.parent.restoreBrowserSnapshot('previous')">Vorherig</button>
             <button class="secondary" type="button" onclick="window.parent && typeof window.parent.restoreBrowserSnapshot === 'function' && window.parent.restoreBrowserSnapshot('emergency')">Notfall</button>
             <button class="secondary" type="button" onclick="window.parent && typeof window.parent.unlockBrowserSnapshotsFromUi === 'function' && window.parent.unlockBrowserSnapshotsFromUi()">Entsperren</button>
+            <button class="secondary" type="button" onclick="window.parent && typeof window.parent.changeBrowserSnapshotsPasswordFromUi === 'function' && window.parent.changeBrowserSnapshotsPasswordFromUi()">Passwort ändern</button>
+            <button class="secondary" type="button" onclick="window.parent && typeof window.parent.clearBrowserSnapshotsFromUi === 'function' && window.parent.clearBrowserSnapshotsFromUi()">Stände löschen</button>
           </div>
         </div>
 
@@ -8929,6 +8966,14 @@ function setBrowserSnapshotSessionPassword(password) {
     if (password) sessionStorage.setItem(browserSnapshotPasswordSessionKey(), password);
   } catch (error) {
     console.warn("Browser-Stände-Passwort konnte nicht für diese Sitzung gemerkt werden.", error);
+  }
+}
+
+function clearBrowserSnapshotSessionPassword() {
+  try {
+    sessionStorage.removeItem(browserSnapshotPasswordSessionKey());
+  } catch (error) {
+    console.warn("Browser-Stände-Passwort konnte nicht aus dieser Sitzung entfernt werden.", error);
   }
 }
 
@@ -19466,6 +19511,84 @@ async function unlockBrowserSnapshotsFromUi() {
   } catch (error) {
     console.warn("Browser-Stände konnten nicht entsperrt werden.", error);
     alert("Browser-Stände konnten nicht entsperrt werden. Passwort prüfen.");
+  }
+}
+
+async function changeBrowserSnapshotsPasswordFromUi() {
+  const raw = localStorage.getItem(browserSnapshotKey());
+  if (!raw) {
+    alert("Es sind noch keine Browser-Stände vorhanden. Lege zuerst über „Stände entsperren“ die verschlüsselte Speicherung an.");
+    return;
+  }
+
+  try {
+    const parsed = JSON.parse(raw);
+    let snapshots = defaultBrowserSnapshots();
+
+    if (isEncryptedNavigatorFile(parsed)) {
+      const oldPassword = await requestNavigatorPassword({
+        title: "Bisheriges Passwort prüfen",
+        message: "Bitte zuerst das bisherige Passwort der Browser-Stände eingeben.",
+        confirm: false,
+        autocomplete: "current-password",
+        minLength: 1,
+      });
+      if (!oldPassword) return;
+      snapshots = await decryptBrowserSnapshotsWithPassword(parsed, oldPassword);
+    } else {
+      snapshots = normalizeBrowserSnapshots(parsed);
+    }
+
+    const newPassword = await requestNavigatorPassword({
+      title: "Neues Passwort für Browser-Stände",
+      message: "Das neue Passwort wird für aktueller / vorheriger / Notfall-Stand verwendet.",
+      confirm: true,
+      autocomplete: "new-password",
+      minLength: 8,
+    });
+    if (!newPassword) return;
+
+    encryptedBrowserSnapshotsCache = normalizeBrowserSnapshots(snapshots);
+    setBrowserSnapshotSessionPassword(newPassword);
+    await persistBrowserSnapshotsEncrypted(encryptedBrowserSnapshotsCache, { promptForPassword: false });
+    await rememberNavigatorPasswordInBrowserManager(newPassword);
+    alert("Das Passwort für die Browser-Stände wurde geändert.");
+    renderWorkspaceMeta();
+  } catch (error) {
+    console.warn("Passwort der Browser-Stände konnte nicht geändert werden.", error);
+    alert("Passwort konnte nicht geändert werden. Bitte bisheriges Passwort prüfen.");
+  }
+}
+
+async function clearBrowserSnapshotsFromUi() {
+  const raw = localStorage.getItem(browserSnapshotKey());
+  if (!raw) {
+    alert("Es sind keine Browser-Stände gespeichert.");
+    return;
+  }
+
+  const firstConfirm = confirm(
+    "Browser-Stände löschen?\n\n" +
+      "Gelöscht werden nur aktueller / vorheriger / Notfall-Stand im Browser und das Sitzungs-Passwort.\n" +
+      "Der normale Arbeitsstand und exportierte Dateien bleiben unverändert."
+  );
+  if (!firstConfirm) return;
+
+  const secondConfirm = confirm(
+    "Wirklich löschen?\n\n" +
+      "Danach können diese drei Browser-Stände nicht mehr wiederhergestellt werden."
+  );
+  if (!secondConfirm) return;
+
+  try {
+    localStorage.removeItem(browserSnapshotKey());
+    clearBrowserSnapshotSessionPassword();
+    encryptedBrowserSnapshotsCache = null;
+    alert("Browser-Stände wurden gelöscht. Beim nächsten Speichern kann ein neues Passwort gesetzt werden.");
+    renderWorkspaceMeta();
+  } catch (error) {
+    console.warn("Browser-Stände konnten nicht gelöscht werden.", error);
+    alert("Browser-Stände konnten nicht gelöscht werden.");
   }
 }
 
