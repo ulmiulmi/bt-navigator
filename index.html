@@ -3079,6 +3079,8 @@ body.bt-mobile-view #pageHost .extra-text-card {
     z-index: 10;
     display: flex;
     justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
     margin-top: -6px;
   }
 
@@ -3424,7 +3426,7 @@ body.bt-mobile-view #generatorView #epPreviewFieldBottom {
               <h3>Auswahl von GRIT und GRET</h3>
             </div>
             <div class="home-card-body">
-              <p>Hier kannst du wählen, ob du mit <strong>GRIT</strong> oder mit <strong>GRET</strong> arbeiten willst. Die Auswahl öffnet den jeweiligen Generator immer auf seiner eigenen Startseite.</p>
+              <p>Hier kannst du wählen, ob du mit <strong>GRIT</strong> oder mit <strong>GRET</strong> arbeiten willst. Die Auswahl öffnet den Wochenplan direkt im passenden RIT- oder RET-Modus.</p>
             </div>
           </div>
 
@@ -3450,14 +3452,14 @@ body.bt-mobile-view #generatorView #epPreviewFieldBottom {
                 <div class="badge grit">GRIT</div>
                 <h3 style="color:var(--grit);">Räumlich integrierte Tagesstruktur</h3>
                 <div class="muted">Automatisch mit RIT gekoppelt.</div>
-                <button type="button" onclick="openApp('grit')" style="background:var(--grit);border-color:var(--grit);">GRIT öffnen</button>
+                <button type="button" onclick="openWeekplanForGenerator('grit')" style="background:var(--grit);border-color:var(--grit);">GRIT-Wochenplan öffnen</button>
               </div>
 
               <div class="choice gret">
                 <div class="badge gret">GRET</div>
                 <h3 style="color:var(--gret);">Räumlich externe Tagesstruktur</h3>
                 <div class="muted">Automatisch mit RET gekoppelt.</div>
-                <button type="button" onclick="openApp('gret')" style="background:var(--gret);border-color:var(--gret);">GRET öffnen</button>
+                <button type="button" onclick="openWeekplanForGenerator('gret')" style="background:var(--gret);border-color:var(--gret);">GRET-Wochenplan öffnen</button>
               </div>
             </div>
           </div>
@@ -3549,7 +3551,7 @@ body.bt-mobile-view #generatorView #epPreviewFieldBottom {
             </div>
 
             <div class="preview-body">
-              <details class="text-collapsible" open>
+              <details class="text-collapsible">
                 <summary>Strukturierte Vorschau</summary>
                 <div class="text-collapsible-body">
                   <div class="small">Vorschau</div>
@@ -3579,8 +3581,15 @@ body.bt-mobile-view #generatorView #epPreviewFieldBottom {
                       <button type="button" class="ghost" onclick="resetCurrentGenerator()">Generator zurücksetzen</button>
                     </div>
                     <div class="tool-row">
-                      <button type="button" class="ghost" onclick="downloadWorkspaceSnapshot()">Gesamte Datei speichern</button>
-                      <button type="button" class="ghost" onclick="triggerWorkspaceImport()">Gesamte Datei importieren</button>
+                      <button type="button" class="ghost" onclick="downloadWorkspaceSnapshot()">Ganze Arbeitsdatei speichern</button>
+                      <button type="button" class="ghost" onclick="triggerWorkspaceImport()">Ganze Arbeitsdatei importieren</button>
+                    </div>
+                    <div class="browser-snapshot-tools">
+                      <div class="browser-snapshot-title">Startverhalten</div>
+                      <div class="browser-snapshot-row">
+                        <button type="button" class="ghost" id="lastActiveStartToggleBtn" onclick="toggleStartOnLastActiveView()">Start bei letzter Seite: Aus</button>
+                      </div>
+                      <div class="browser-snapshot-status" id="lastActiveStartStatus">Beim Öffnen startet der Navigator normal auf der Startseite.</div>
                     </div>
                     <div class="browser-snapshot-tools">
                       <div class="browser-snapshot-title">Browser-Stände</div>
@@ -7707,9 +7716,11 @@ body[data-weekplan-mode] .footer-note { color: #526075; }
           <div class="weekplan-action-title">Speichern</div>
           <div class="weekplan-action-row">
             <button class="secondary" type="button" onclick="manualSaveWeekplan()">Jetzt speichern</button>
-            <button class="secondary" type="button" onclick="window.parent && typeof window.parent.downloadWorkspaceSnapshot === 'function' && window.parent.downloadWorkspaceSnapshot()">Gesamte Datei speichern</button>
-            <button class="secondary" type="button" onclick="window.parent && typeof window.parent.triggerWorkspaceImport === 'function' && window.parent.triggerWorkspaceImport()">Gesamte Datei importieren</button>
+            <button class="secondary" type="button" onclick="window.parent && typeof window.parent.downloadWorkspaceSnapshot === 'function' && window.parent.downloadWorkspaceSnapshot()">Ganze Arbeitsdatei speichern</button>
+            <button class="secondary" type="button" onclick="window.parent && typeof window.parent.triggerWorkspaceImport === 'function' && window.parent.triggerWorkspaceImport()">Ganze Arbeitsdatei importieren</button>
+            <button class="secondary" type="button" id="weekplanLastActiveStartToggleBtn" onclick="window.parent && typeof window.parent.toggleStartOnLastActiveView === 'function' && window.parent.toggleStartOnLastActiveView()">Start bei letzter Seite: Aus</button>
           </div>
+          <div class="browser-snapshot-status" id="weekplanLastActiveStartStatus">Beim Öffnen startet der Navigator normal auf der Startseite.</div>
         </div>
 
         <div class="weekplan-action-group">
@@ -7725,9 +7736,9 @@ body[data-weekplan-mode] .footer-note { color: #526075; }
         </div>
 
         <div class="weekplan-action-group">
-          <div class="weekplan-action-title">Klient-Datei</div>
+          <div class="weekplan-action-title">Klientendatei</div>
           <div class="weekplan-action-row">
-            <button class="secondary" type="button" onclick="window.parent && typeof window.parent.triggerSingleClientImportAsNew === 'function' && window.parent.triggerSingleClientImportAsNew()">Klient-Datei als neu laden</button>
+            <button class="secondary" type="button" onclick="window.parent && typeof window.parent.triggerSingleClientImportAsNew === 'function' && window.parent.triggerSingleClientImportAsNew()">Klientendatei als neu laden</button>
           </div>
         </div>
 
@@ -8352,12 +8363,12 @@ body[data-weekplan-mode] .footer-note { color: #526075; }
               </div>
               <div class="client-plan-summary-mode">\${modeMeta.label}</div>
               <div class="client-plan-summary-actions" onclick="event.stopPropagation()">
-                <button class="secondary client-summary-generator wp-generator-link" type="button" onclick="event.stopPropagation(); const card = this.closest('.client-card'); const nameInput = card ? card.querySelector('.client-name') : null; const clientName = nameInput && nameInput.value ? nameInput.value : 'Klient ' + (\${i} + 1); if (window.parent && typeof window.parent.openGeneratorFromWeekplan === 'function') { window.parent.openGeneratorFromWeekplan(\${i}, clientName); }">Zum Generator</button>
+                <button class="secondary client-summary-generator wp-generator-link" type="button" onclick="event.stopPropagation(); const card = this.closest('.client-card'); const nameInput = card ? card.querySelector('.client-name') : null; const clientName = nameInput && nameInput.value ? nameInput.value : 'Klient ' + (\${i} + 1); if (window.parent && typeof window.parent.openGeneratorFromWeekplan === 'function') { window.parent.openGeneratorFromWeekplan(\${i}, clientName, getCurrentMode()); }">Zum Generator</button>
                 <details class="client-actions-menu" onclick="event.stopPropagation()">
                   <summary class="secondary client-actions-trigger" title="Klienten-Aktionen">☰</summary>
                   <div class="client-actions-panel">
-                    <button class="secondary" type="button" onclick="event.stopPropagation(); window.parent && typeof window.parent.downloadSingleClientSnapshot === 'function' && window.parent.downloadSingleClientSnapshot(\${i})">Klient verschlüsselt speichern</button>
-                    <button class="secondary" type="button" onclick="event.stopPropagation(); window.parent && typeof window.parent.triggerSingleClientImport === 'function' && window.parent.triggerSingleClientImport(\${i})">Klient-Datei laden</button>
+                    <button class="secondary" type="button" onclick="event.stopPropagation(); window.parent && typeof window.parent.downloadSingleClientSnapshot === 'function' && window.parent.downloadSingleClientSnapshot(\${i})">Klientendatei speichern</button>
+                    <button class="secondary" type="button" onclick="event.stopPropagation(); window.parent && typeof window.parent.triggerSingleClientImport === 'function' && window.parent.triggerSingleClientImport(\${i})">Klientendatei laden</button>
                     <button class="secondary client-remove-btn" type="button" onclick="event.stopPropagation(); removeClientAt(\${i})">Diesen Klienten entfernen</button>
                   </div>
                 </details>
@@ -8882,7 +8893,7 @@ body[data-weekplan-mode] .footer-note { color: #526075; }
         const nameInput = card.querySelector('.client-name');
         const clientName = nameInput ? nameInput.value : \`Klient \${index + 1}\`;
         if (window.parent && typeof window.parent.openGeneratorFromWeekplan === 'function') {
-          window.parent.openGeneratorFromWeekplan(index, clientName);
+          window.parent.openGeneratorFromWeekplan(index, clientName, typeof getCurrentMode === 'function' ? getCurrentMode() : undefined);
         }
       });
 
@@ -8971,6 +8982,255 @@ function weekplanBaseStorageKey() {
 
 function workspaceClientCountKey() {
   return storageKey() + "-client-count";
+}
+
+function deletedClientRegistryKey() {
+  return storageKey() + "-deleted-clients";
+}
+
+function normalizeDeletedClientText(value) {
+  return String(value || "").trim().toLowerCase().replace(/\s+/g, " ");
+}
+
+function stableDeletedClientJson(value) {
+  if (Array.isArray(value)) return "[" + value.map(stableDeletedClientJson).join(",") + "]";
+  if (value && typeof value === "object") return "{" + Object.keys(value).sort().map((key) => JSON.stringify(key) + ":" + stableDeletedClientJson(value[key])).join(",") + "}";
+  return JSON.stringify(value ?? "");
+}
+
+function hashDeletedClientParts(value) {
+  const text = stableDeletedClientJson(value);
+  let hash = 2166136261;
+  for (let i = 0; i < text.length; i++) {
+    hash ^= text.charCodeAt(i);
+    hash += (hash << 1) + (hash << 4) + (hash << 7) + (hash << 8) + (hash << 24);
+  }
+  return (hash >>> 0).toString(16);
+}
+
+function readDeletedClientRegistry() {
+  try {
+    const raw = localStorage.getItem(deletedClientRegistryKey());
+    const parsed = raw ? JSON.parse(raw) : [];
+    return Array.isArray(parsed) ? parsed.filter((entry) => entry && typeof entry === "object") : [];
+  } catch (error) {
+    return [];
+  }
+}
+
+function writeDeletedClientRegistry(registry) {
+  localStorage.setItem(deletedClientRegistryKey(), JSON.stringify(Array.isArray(registry) ? registry.slice(-40) : []));
+}
+
+function getWeekplanClientParts(client) {
+  const source = client && typeof client === "object" ? client : {};
+  const dayKeys = ["mo", "di", "mi", "do", "fr"];
+  const days = {};
+  dayKeys.forEach((dayKey) => {
+    const day = source.days && source.days[dayKey] && typeof source.days[dayKey] === "object" ? source.days[dayKey] : {};
+    days[dayKey] = {
+      morningGoal: normalizeDeletedClientText(day.morningGoal),
+      morningActivity: normalizeDeletedClientText(day.morningActivity),
+      morningActivityExtra: normalizeDeletedClientText(day.morningActivityExtra),
+      afternoonGoal: normalizeDeletedClientText(day.afternoonGoal),
+      afternoonActivity: normalizeDeletedClientText(day.afternoonActivity),
+      afternoonActivityExtra: normalizeDeletedClientText(day.afternoonActivityExtra),
+    };
+  });
+  return {
+    name: normalizeDeletedClientText(source.name),
+    setting: normalizeDeletedClientText(source.setting || source.ritSetting),
+    mainGoal: normalizeDeletedClientText(source.mainGoal),
+    notes: normalizeDeletedClientText(source.notes),
+    generatorKiText: normalizeDeletedClientText(source.generatorKiText),
+    generatorTimeSlots: Array.isArray(source.generatorTimeSlots) ? source.generatorTimeSlots.map((slot) => normalizeDeletedClientText(slot)).sort() : [],
+    days,
+  };
+}
+
+function getGeneratorStateClientNames(generatorState) {
+  const state = generatorState && typeof generatorState === "object" ? generatorState : {};
+  const grunddaten = state.grunddaten && typeof state.grunddaten === "object" ? state.grunddaten : {};
+  return [grunddaten.name, grunddaten.initialen].map(normalizeDeletedClientText).filter(Boolean);
+}
+
+function getWorkspaceClientParts(workspace) {
+  const source = normalizeStoredClientWorkspace(workspace || defaultClientWorkspace());
+  return {
+    grit: { names: getGeneratorStateClientNames(source.grit), grunddaten: source.grit?.grunddaten || {}, pages: source.grit?.pages || {} },
+    gret: { names: getGeneratorStateClientNames(source.gret), grunddaten: source.gret?.grunddaten || {}, pages: source.gret?.pages || {} },
+  };
+}
+
+function getWeekplanClientSignature(client) {
+  return hashDeletedClientParts(getWeekplanClientParts(client));
+}
+
+function getWorkspaceClientSignature(workspace) {
+  return hashDeletedClientParts(getWorkspaceClientParts(workspace));
+}
+
+function collectDeletedClientNamesFromParts(parts) {
+  const names = new Set();
+  if (!parts || typeof parts !== "object") return [];
+  [parts.name, ...(Array.isArray(parts.names) ? parts.names : [])].forEach((name) => {
+    const clean = normalizeDeletedClientText(name);
+    if (clean) names.add(clean);
+  });
+  [parts.grit, parts.gret].forEach((state) => {
+    if (!state || typeof state !== "object") return;
+    (Array.isArray(state.names) ? state.names : []).forEach((name) => {
+      const clean = normalizeDeletedClientText(name);
+      if (clean) names.add(clean);
+    });
+  });
+  return Array.from(names);
+}
+
+function collectCurrentClientNamesForProtection(workspace, ritClient, retClient, explicitName = "") {
+  const names = new Set();
+  [explicitName, ritClient?.name, retClient?.name].forEach((name) => {
+    const clean = normalizeDeletedClientText(name);
+    if (clean) names.add(clean);
+  });
+  collectDeletedClientNamesFromParts(getWorkspaceClientParts(workspace)).forEach((name) => names.add(name));
+  return Array.from(names);
+}
+
+function readWeekplanModeStateForProtection(mode) {
+  try { return JSON.parse(localStorage.getItem(weekplanBaseStorageKey() + "_" + mode) || "{}") || {}; }
+  catch (error) { return {}; }
+}
+
+function writeWeekplanModeStateForProtection(mode, state) {
+  localStorage.setItem(weekplanBaseStorageKey() + "_" + mode, JSON.stringify(state || {}));
+}
+
+
+function createProtectedEmptyWeekplanClient(index = 0) {
+  const client = {
+    name: "",
+    setting: "",
+    mainGoal: "",
+    notes: "",
+    generatorTimeSlots: [],
+    generatorKiText: "",
+    days: {},
+  };
+  ["mo", "di", "mi", "do", "fr"].forEach((dayKey) => {
+    client.days[dayKey] = {
+      morningGoal: "",
+      morningActivity: "",
+      morningActivityExtra: "",
+      afternoonGoal: "",
+      afternoonActivity: "",
+      afternoonActivityExtra: "",
+    };
+  });
+  return client;
+}
+
+function registerDeletedClientProtection(index, explicitName = "") {
+  const safeIndex = Number.isInteger(index) && index >= 0 ? index : 0;
+  const ritState = readWeekplanModeStateForProtection("rit");
+  const retState = readWeekplanModeStateForProtection("ret");
+  const ritClient = Array.isArray(ritState.clients) ? ritState.clients[safeIndex] : null;
+  const retClient = Array.isArray(retState.clients) ? retState.clients[safeIndex] : null;
+  const workspace = Array.isArray(APP.clientStates) ? APP.clientStates[safeIndex] : null;
+  const names = collectCurrentClientNamesForProtection(workspace, ritClient, retClient, explicitName);
+  const displayName = String(explicitName || ritClient?.name || retClient?.name || names[0] || ("Klient " + (safeIndex + 1))).trim();
+  const registry = readDeletedClientRegistry();
+  registry.push({
+    id: "deleted-" + Date.now() + "-" + Math.random().toString(36).slice(2),
+    deletedAt: new Date().toISOString(),
+    index: safeIndex,
+    name: displayName,
+    names,
+    workspaceSignature: workspace ? getWorkspaceClientSignature(workspace) : "",
+    weekplanSignatures: {
+      rit: ritClient ? getWeekplanClientSignature(ritClient) : "",
+      ret: retClient ? getWeekplanClientSignature(retClient) : "",
+    },
+  });
+  writeDeletedClientRegistry(registry);
+}
+
+function deletionRecordMatchesClient(record, index, workspace, ritClient, retClient) {
+  if (!record || typeof record !== "object") return false;
+  const workspaceSignature = workspace ? getWorkspaceClientSignature(workspace) : "";
+  const ritSignature = ritClient ? getWeekplanClientSignature(ritClient) : "";
+  const retSignature = retClient ? getWeekplanClientSignature(retClient) : "";
+  if (record.workspaceSignature && workspaceSignature && record.workspaceSignature === workspaceSignature) return true;
+  if (record.weekplanSignatures?.rit && ritSignature && record.weekplanSignatures.rit === ritSignature) return true;
+  if (record.weekplanSignatures?.ret && retSignature && record.weekplanSignatures.ret === retSignature) return true;
+  const recordNames = new Set((Array.isArray(record.names) ? record.names : [record.name]).map(normalizeDeletedClientText).filter(Boolean));
+  if (!recordNames.size) return false;
+  const currentNames = collectCurrentClientNamesForProtection(workspace, ritClient, retClient);
+  return currentNames.some((name) => recordNames.has(name)) && Number(record.index) === Number(index);
+}
+
+function getProtectedDeletedClientIndices(workspaces, ritClients, retClients, registry = readDeletedClientRegistry()) {
+  const blocked = new Set();
+  const maxLength = Math.max(Array.isArray(workspaces) ? workspaces.length : 0, Array.isArray(ritClients) ? ritClients.length : 0, Array.isArray(retClients) ? retClients.length : 0);
+  for (let index = 0; index < maxLength; index++) {
+    const workspace = Array.isArray(workspaces) ? workspaces[index] : null;
+    const ritClient = Array.isArray(ritClients) ? ritClients[index] : null;
+    const retClient = Array.isArray(retClients) ? retClients[index] : null;
+    if (registry.some((record) => deletionRecordMatchesClient(record, index, workspace, ritClient, retClient))) blocked.add(index);
+  }
+  return blocked;
+}
+
+function filterArrayByDeletedClientIndices(items, blockedIndices) {
+  return Array.isArray(items) ? items.filter((_, index) => !blockedIndices.has(index)) : [];
+}
+
+function applyDeletedClientProtectionToStoredData() {
+  const registry = readDeletedClientRegistry();
+  if (!registry.length) return 0;
+  const ritState = readWeekplanModeStateForProtection("rit");
+  const retState = readWeekplanModeStateForProtection("ret");
+  let appRaw = {};
+  try { const stored = localStorage.getItem(storageKey()); appRaw = stored ? JSON.parse(stored) : {}; } catch (error) { appRaw = {}; }
+  let workspaces = Array.isArray(appRaw.clientStates) ? appRaw.clientStates.map((workspace) => normalizeStoredClientWorkspace(workspace)) : [];
+  if (!workspaces.length && (appRaw.grit || appRaw.gret)) {
+    workspaces = [normalizeStoredClientWorkspace(appRaw)];
+  }
+  const currentCount = clampWorkspaceClientCount(localStorage.getItem(workspaceClientCountKey()) || appRaw.clientCount || workspaces.length || 5);
+  while (workspaces.length < currentCount) workspaces.push(defaultClientWorkspace());
+  workspaces = workspaces.slice(0, currentCount);
+  const blockedIndices = getProtectedDeletedClientIndices(workspaces, Array.isArray(ritState.clients) ? ritState.clients : [], Array.isArray(retState.clients) ? retState.clients : [], registry);
+  if (!blockedIndices.size) return 0;
+  const filteredWorkspaces = filterArrayByDeletedClientIndices(workspaces, blockedIndices).slice(0, 10);
+  const finalCount = clampWorkspaceClientCount(filteredWorkspaces.length || 5);
+  while (filteredWorkspaces.length < finalCount) filteredWorkspaces.push(defaultClientWorkspace());
+  appRaw = { ...(appRaw && typeof appRaw === "object" ? appRaw : {}), version: 2, clientCount: finalCount, clientStates: filteredWorkspaces.slice(0, finalCount) };
+  localStorage.setItem(storageKey(), JSON.stringify(appRaw));
+  localStorage.setItem(workspaceClientCountKey(), String(finalCount));
+  [["rit", ritState], ["ret", retState]].forEach(([mode, state]) => {
+    const nextState = state && typeof state === "object" ? { ...state } : {};
+    const filteredClients = filterArrayByDeletedClientIndices(Array.isArray(nextState.clients) ? nextState.clients : [], blockedIndices).slice(0, finalCount);
+    while (filteredClients.length < finalCount) filteredClients.push(createProtectedEmptyWeekplanClient(filteredClients.length));
+    nextState.clients = filteredClients;
+    nextState.count = String(finalCount);
+    writeWeekplanModeStateForProtection(mode, nextState);
+  });
+  try {
+    const rawMeta = localStorage.getItem(storageMetaKey());
+    const meta = rawMeta ? JSON.parse(rawMeta) : {};
+    const oldIndex = Number(meta?.lastWeekplanClient?.index);
+    const lastActiveClientIndex = Number(meta?.lastActiveView?.clientIndex);
+    if (!Number.isInteger(oldIndex) || oldIndex >= finalCount || blockedIndices.has(oldIndex)) {
+      meta.lastWeekplanClient = { index: 0, name: "Klient 1" };
+      meta.lastPageByGenerator = { ...(meta.lastPageByGenerator || {}), grit: 0, gret: 0 };
+    }
+    if (Number.isInteger(lastActiveClientIndex) && (lastActiveClientIndex >= finalCount || blockedIndices.has(lastActiveClientIndex))) {
+      meta.lastActiveView = null;
+      meta.rememberedView = null;
+    }
+    localStorage.setItem(storageMetaKey(), JSON.stringify(meta));
+  } catch (error) {}
+  return blockedIndices.size;
 }
 
 function clampWorkspaceClientCount(value) {
@@ -9496,6 +9756,8 @@ function applyBrowserRecoveryBundle(bundle) {
 
   if (bundle.weekplanRet) localStorage.setItem(weekplanBase + "_ret", bundle.weekplanRet);
   else localStorage.removeItem(weekplanBase + "_ret");
+
+  applyDeletedClientProtectionToStoredData();
 }
 
 async function restoreBrowserSnapshot(slot = "current") {
@@ -9578,6 +9840,9 @@ function defaultAppMeta() {
     entwicklungsplanungTextByGenerator: { grit: "", gret: "" },
     epMassnahmenSuggestionByGenerator: { grit: "", gret: "" },
     observationCriteriaSuggestionByGenerator: { grit: "", gret: "" },
+    rememberedView: null,
+    startOnLastActiveView: false,
+    lastActiveView: null,
   };
 }
 
@@ -9951,6 +10216,7 @@ function getStoredClientIndexFromMeta(meta) {
 }
 
 function loadAllClientStates() {
+  applyDeletedClientProtectionToStoredData();
   const total = getWorkspaceClientCount();
   const fallback = Array.from({ length: total }, () => defaultClientWorkspace());
 
@@ -11001,8 +11267,10 @@ function ensureWeekplanFrame() {
       () => {
         setupWeekplanDirtyTracking();
         setupWeekplanFrameFitting();
+        updateLastActiveStartUi();
         setTimeout(syncGenerator1DataToWeekplan, 60);
         setTimeout(setupWeekplanFrameFitting, 120);
+        setTimeout(updateLastActiveStartUi, 140);
       },
       { once: true },
     );
@@ -11064,7 +11332,7 @@ function addWorkspaceClientFromWeekplan() {
   return nextTotal;
 }
 
-function removeWorkspaceClientAtFromWeekplan(index) {
+function removeWorkspaceClientAtFromWeekplan(index, explicitName = "") {
   const currentTotal = getWorkspaceClientCount();
   const nextTotal = clampWorkspaceClientCount(currentTotal - 1);
 
@@ -11077,6 +11345,8 @@ function removeWorkspaceClientAtFromWeekplan(index) {
   if (!Number.isInteger(index) || index < 0 || index >= currentTotal) {
     index = currentTotal - 1;
   }
+
+  registerDeletedClientProtection(index, explicitName);
 
   APP.clientStates.splice(index, 1);
 
@@ -11113,19 +11383,43 @@ function removeWorkspaceClientAtFromWeekplan(index) {
 }
 
 function startNavigator() {
-  ensureWeekplanFrame();
-  setView("weekplan");
-  setTimeout(syncGenerator1DataToWeekplan, 60);
-  setTimeout(setupWeekplanFrameFitting, 120);
+  setView("home");
   renderResumeButton();
   renderClientContextNotice();
 }
 
-function openGeneratorFromWeekplan(index, clientName) {
+function readCurrentWeekplanModeFromFrame() {
+  const frame = document.getElementById("weekplanFrame");
+
+  try {
+    const win = frame && frame.contentWindow;
+    if (win && typeof win.getCurrentMode === "function") {
+      return win.getCurrentMode() === "ret" ? "ret" : "rit";
+    }
+  } catch (error) {
+    console.warn("Wochenplan-Modus konnte nicht direkt gelesen werden.", error);
+  }
+
+  try {
+    return localStorage.getItem(weekplanBaseStorageKey() + "_mode") === "ret" ? "ret" : "rit";
+  } catch (error) {
+    return "rit";
+  }
+}
+
+function generatorKeyFromWeekplanMode(mode) {
+  return mode === "ret" ? "gret" : "grit";
+}
+
+function openGeneratorFromWeekplan(index, clientName, weekplanMode) {
   ensureWeekplanFrame();
 
   if (!Number.isInteger(index) || index < 0 || index > 9) {
     return;
+  }
+
+  if (APP.currentGenerator) {
+    mergeCurrentFormIntoState();
   }
 
   if (index >= getWorkspaceClientCount()) {
@@ -11135,6 +11429,12 @@ function openGeneratorFromWeekplan(index, clientName) {
     syncWeekplanClientCountToStorage(requiredTotal);
     persistAllState();
   }
+
+  const normalizedWeekplanMode =
+    weekplanMode === "ret" || weekplanMode === "rit"
+      ? weekplanMode
+      : readCurrentWeekplanModeFromFrame();
+  const targetGenerator = generatorKeyFromWeekplanMode(normalizedWeekplanMode);
 
   setCurrentClientIndex(index);
 
@@ -11146,13 +11446,223 @@ function openGeneratorFromWeekplan(index, clientName) {
         typeof clientName === "string" && clientName.trim()
           ? clientName.trim()
           : "Klient " + (index + 1),
+      mode: normalizedWeekplanMode,
+      generator: targetGenerator,
     },
   };
   persistAllState();
 
-  setView("home");
+  APP.currentGenerator = targetGenerator;
+  APP.currentPage = getStartPageIndex(targetGenerator);
+  setView("generator");
+  touchAppMeta();
+  renderGenerator();
   renderResumeButton();
   renderClientContextNotice();
+}
+
+
+function getLastActiveView() {
+  const last = APP.meta?.lastActiveView || APP.meta?.rememberedView;
+  return last && typeof last === "object" ? last : null;
+}
+
+function isStartOnLastActiveViewEnabled() {
+  return APP.meta?.startOnLastActiveView === true;
+}
+
+function getLastActiveViewLabel(last = getLastActiveView()) {
+  if (!last) return "Noch keine letzte Ansicht gespeichert.";
+  const clientLabel = last.clientName || (Number.isInteger(last.clientIndex) ? "Klient " + (last.clientIndex + 1) : "Klient");
+  const savedAt = last.savedAt || last.updatedAt ? " • zuletzt: " + formatDateTime(last.savedAt || last.updatedAt) : "";
+
+  if (last.view === "generator") {
+    const generatorLabel = last.generator === "gret" ? "GRET" : "GRIT";
+    const pageTitle = last.pageTitle || "Generator";
+    return clientLabel + " • " + generatorLabel + " • " + pageTitle + savedAt;
+  }
+
+  if (last.view === "weekplan") {
+    const modeLabel = last.weekplanMode === "ret" ? "RET / GRET" : "RIT / GRIT";
+    return "Wochenplan • " + modeLabel + savedAt;
+  }
+
+  if (last.view === "home") {
+    return "GRIT/GRET-Auswahl" + savedAt;
+  }
+
+  return "Letzte Ansicht vorhanden" + savedAt;
+}
+
+function buildLastActiveViewFromCurrentState() {
+  const now = new Date().toISOString();
+  const clientIndex = getCurrentClientIndex();
+  const clientName = getCurrentClientLabel();
+
+  if (APP.currentView === "generator" && APP.currentGenerator && MODELS[APP.currentGenerator]) {
+    const page = currentPageModel();
+    return {
+      version: 1,
+      view: "generator",
+      generator: APP.currentGenerator,
+      page: APP.currentPage,
+      pageTitle: page?.title || "Generator",
+      clientIndex,
+      clientName,
+      updatedAt: now,
+    };
+  }
+
+  if (APP.currentView === "weekplan") {
+    const mode = readCurrentWeekplanModeFromFrame();
+    return {
+      version: 1,
+      view: "weekplan",
+      weekplanMode: mode,
+      generator: generatorKeyFromWeekplanMode(mode),
+      clientIndex,
+      clientName,
+      updatedAt: now,
+    };
+  }
+
+  if (APP.currentView === "home") {
+    return {
+      version: 1,
+      view: "home",
+      clientIndex,
+      clientName,
+      updatedAt: now,
+    };
+  }
+
+  return null;
+}
+
+function updateLastActiveStartUi() {
+  const enabled = isStartOnLastActiveViewEnabled();
+  const last = getLastActiveView();
+  const label = getLastActiveViewLabel(last);
+  const buttonText = enabled ? "Start bei letzter Seite: Ein" : "Start bei letzter Seite: Aus";
+  const statusText = enabled
+    ? "Aktiv: Beim Öffnen startet der Navigator bei der letzten aktiven Seite. " + label
+    : "Aus: Beim Öffnen startet der Navigator normal auf der Startseite.";
+
+  const button = document.getElementById("lastActiveStartToggleBtn");
+  if (button) {
+    button.textContent = buttonText;
+    button.title = statusText;
+  }
+
+  const status = document.getElementById("lastActiveStartStatus");
+  if (status) status.textContent = statusText;
+
+  try {
+    const frame = document.getElementById("weekplanFrame");
+    const doc = frame && frame.contentDocument;
+    const weekplanButton = doc && doc.getElementById("weekplanLastActiveStartToggleBtn");
+    if (weekplanButton) {
+      weekplanButton.textContent = buttonText;
+      weekplanButton.title = statusText;
+    }
+    const weekplanStatus = doc && doc.getElementById("weekplanLastActiveStartStatus");
+    if (weekplanStatus) weekplanStatus.textContent = statusText;
+  } catch (error) {}
+}
+
+function recordLastActiveView(options = {}) {
+  if (!options.force && !isStartOnLastActiveViewEnabled()) {
+    updateLastActiveStartUi();
+    return;
+  }
+
+  const last = buildLastActiveViewFromCurrentState();
+  if (!last) {
+    updateLastActiveStartUi();
+    return;
+  }
+
+  APP.meta = {
+    ...APP.meta,
+    lastActiveView: last,
+    lastUpdated: new Date().toISOString(),
+  };
+  persistAppMeta();
+  updateLastActiveStartUi();
+}
+
+function toggleStartOnLastActiveView() {
+  if (APP.currentGenerator) mergeCurrentFormIntoState();
+  saveWeekplanFrameState();
+
+  const enabled = !isStartOnLastActiveViewEnabled();
+  const last = buildLastActiveViewFromCurrentState() || getLastActiveView();
+
+  APP.meta = {
+    ...APP.meta,
+    startOnLastActiveView: enabled,
+    lastActiveView: enabled && last ? last : APP.meta?.lastActiveView || null,
+    lastUpdated: new Date().toISOString(),
+  };
+
+  persistAllState();
+  updateLastActiveStartUi();
+  alert(enabled ? "Start bei letzter Seite ist jetzt aktiviert." : "Start bei letzter Seite ist jetzt deaktiviert.");
+}
+
+function openLastActiveView() {
+  const last = getLastActiveView();
+  if (!last) return false;
+
+  if (APP.currentGenerator) mergeCurrentFormIntoState();
+  saveWeekplanFrameState();
+
+  const lastClientIndex = Number.isInteger(last.clientIndex)
+    ? last.clientIndex
+    : getStoredClientIndexFromMeta(APP.meta);
+  setCurrentClientIndex(lastClientIndex);
+
+  if (last.view === "generator" && MODELS[last.generator]) {
+    APP.currentGenerator = last.generator;
+    const model = MODELS[last.generator];
+    const maxPage = Array.isArray(model.pages) ? model.pages.length - 1 : 0;
+    APP.currentPage = Math.max(0, Math.min(Number(last.page || 0), maxPage));
+    setView("generator");
+    renderGenerator();
+    renderResumeButton();
+    renderClientContextNotice();
+    updateLastActiveStartUi();
+    return true;
+  }
+
+  if (last.view === "weekplan") {
+    const targetGenerator = last.weekplanMode === "ret" || last.generator === "gret" ? "gret" : "grit";
+    openWeekplanForGenerator(targetGenerator);
+    updateLastActiveStartUi();
+    return true;
+  }
+
+  if (last.view === "home") {
+    APP.currentGenerator = null;
+    APP.currentPage = 0;
+    setView("home");
+    renderResumeButton();
+    renderClientContextNotice();
+    updateLastActiveStartUi();
+    return true;
+  }
+
+  return false;
+}
+
+function applyStartOnLastActiveViewOnLoad() {
+  updateLastActiveStartUi();
+  if (!isStartOnLastActiveViewEnabled()) return;
+  const last = getLastActiveView();
+  if (!last) return;
+  setTimeout(() => {
+    openLastActiveView();
+  }, 0);
 }
 
 function showHomeRules() {
@@ -11189,13 +11699,51 @@ function getStartPageIndex(generatorKey) {
   return introIndex >= 0 ? introIndex : 0;
 }
 
-function openApp(which) {
+function openWeekplanForGenerator(which) {
   if (APP.currentGenerator) mergeCurrentFormIntoState();
-  APP.currentGenerator = which;
-  APP.currentPage = getStartPageIndex(which);
-  setView("generator");
-  touchAppMeta();
-  renderGenerator();
+
+  const targetGenerator = which === "gret" ? "gret" : "grit";
+  const targetMode = targetGenerator === "gret" ? "ret" : "rit";
+
+  APP.currentGenerator = null;
+  APP.currentPage = 0;
+  APP.meta = {
+    ...APP.meta,
+    lastStartSelection: {
+      mode: targetMode,
+      generator: targetGenerator,
+      selectedAt: new Date().toISOString(),
+    },
+  };
+
+  try {
+    localStorage.setItem(weekplanBaseStorageKey() + "_mode", targetMode);
+  } catch (error) {
+    console.warn("Wochenplan-Modus konnte nicht gespeichert werden.", error);
+  }
+
+  ensureWeekplanFrame();
+
+  const frame = document.getElementById("weekplanFrame");
+  try {
+    const win = frame && frame.contentWindow;
+    if (win && typeof win.setMode === "function") {
+      win.setMode(targetMode);
+    }
+  } catch (error) {
+    console.warn("Wochenplan-Modus konnte nicht direkt gesetzt werden.", error);
+  }
+
+  persistAllState();
+  setView("weekplan");
+  setTimeout(syncGenerator1DataToWeekplan, 60);
+  setTimeout(setupWeekplanFrameFitting, 120);
+  renderResumeButton();
+  renderClientContextNotice();
+}
+
+function openApp(which) {
+  openWeekplanForGenerator(which);
 }
 
 function applyGeneratorTheme() {
@@ -11225,6 +11773,8 @@ function setView(view) {
   }
   applyGeneratorTheme();
   renderGeneratorContextStatus();
+  updateLastActiveStartUi();
+  setTimeout(() => recordLastActiveView(), 0);
 }
 
 function currentModel() {
@@ -11362,6 +11912,7 @@ function updateView() {
     model.pages.length,
   );
   touchAppMeta();
+  recordLastActiveView();
 }
 
 function buildFooterNote(page, totalPages) {
@@ -19419,75 +19970,119 @@ async function parseNavigatorImportText(raw, expectedKind) {
   }
 }
 
+function padFileDatePart(value) {
+  return String(value).padStart(2, "0");
+}
+
+function getNumericLocalTimestampForFileName(dateValue) {
+  const date = dateValue instanceof Date ? dateValue : new Date();
+  return (
+    String(date.getFullYear()) +
+    padFileDatePart(date.getMonth() + 1) +
+    padFileDatePart(date.getDate()) +
+    "_" +
+    padFileDatePart(date.getHours()) +
+    padFileDatePart(date.getMinutes()) +
+    padFileDatePart(date.getSeconds())
+  );
+}
+
+function sanitizeFileNamePart(value, fallback) {
+  const cleaned = String(value || "")
+    .trim()
+    .replace(/[^a-zA-Z0-9ÄÖÜäöüÀ-ÿ_-]+/g, "-")
+    .replace(/-+/g, "-")
+    .replace(/^[-_]+|[-_]+$/g, "");
+  return cleaned || fallback || "Datei";
+}
+
+function buildEncryptedNavigatorFileName(fileNamePrefix) {
+  const prefix = sanitizeFileNamePart(fileNamePrefix, "BT-Navigator_Datei");
+  const stamp = getNumericLocalTimestampForFileName();
+  return prefix + "_" + stamp + "_verschluesselt.json";
+}
+
+let navigatorFileExportInProgress = false;
+
 async function saveEncryptedNavigatorFile(payload, kind, fileNamePrefix) {
-  const encrypted = await encryptNavigatorPayload(payload, kind);
-  if (!encrypted) return false;
+  if (navigatorFileExportInProgress) {
+    alert("Der Datei-Export läuft bereits. Bitte kurz warten und nicht nochmals drücken.");
+    return false;
+  }
 
-  const data = JSON.stringify(encrypted, null, 2);
-  const blob = new Blob([data], { type: "application/json;charset=utf-8" });
-  const stamp = new Date().toISOString().slice(0, 19).replace(/[T:]/g, "-");
-  const fileName = fileNamePrefix + "-verschluesselt-" + stamp + ".json";
+  navigatorFileExportInProgress = true;
 
   try {
-    if (typeof window.showSaveFilePicker === "function") {
-      const handle = await window.showSaveFilePicker({
-        suggestedName: fileName,
-        types: [
-          {
-            description: "Verschlüsselte BT-Navigator-Datei",
-            accept: {
-              "application/json": [".json"],
+    const encrypted = await encryptNavigatorPayload(payload, kind);
+    if (!encrypted) return false;
+
+    const data = JSON.stringify(encrypted, null, 2);
+    const blob = new Blob([data], { type: "application/json;charset=utf-8" });
+    const fileName = buildEncryptedNavigatorFileName(fileNamePrefix);
+
+    try {
+      if (typeof window.showSaveFilePicker === "function") {
+        const handle = await window.showSaveFilePicker({
+          suggestedName: fileName,
+          types: [
+            {
+              description: "Verschlüsselte BT-Navigator-Datei",
+              accept: {
+                "application/json": [".json"],
+              },
             },
-          },
-        ],
-      });
-      const writable = await handle.createWritable();
-      await writable.write(blob);
-      await writable.close();
-      updateAppMeta({ lastUpdated: new Date().toISOString() });
-      return true;
+          ],
+        });
+        const writable = await handle.createWritable();
+        await writable.write(blob);
+        await writable.close();
+        updateAppMeta({ lastUpdated: new Date().toISOString() });
+        return true;
+      }
+    } catch (error) {
+      if (error && error.name === "AbortError") return false;
+      console.warn("Speichern unter nicht verfügbar, Download wird verwendet.", error);
     }
-  } catch (error) {
-    if (error && error.name === "AbortError") return false;
-    console.warn("Speichern unter nicht verfügbar, Download wird verwendet.", error);
-  }
 
-  try {
-    const file = new File([blob], fileName, { type: "application/json" });
-    if (
-      navigator.share &&
-      (!navigator.canShare || navigator.canShare({ files: [file] }))
-    ) {
-      await navigator.share({
-        title: fileName,
-        text: "Verschlüsselte BT-Navigator-Datei",
-        files: [file],
-      });
-      updateAppMeta({ lastUpdated: new Date().toISOString() });
-      return true;
+    try {
+      const file = new File([blob], fileName, { type: "application/json" });
+      if (
+        navigator.share &&
+        (!navigator.canShare || navigator.canShare({ files: [file] }))
+      ) {
+        await navigator.share({
+          title: fileName,
+          text: "Verschlüsselte BT-Navigator-Datei",
+          files: [file],
+        });
+        updateAppMeta({ lastUpdated: new Date().toISOString() });
+        return true;
+      }
+    } catch (shareError) {
+      if (shareError && shareError.name === "AbortError") return false;
+      console.warn("Teilen/Speichern nicht verfügbar, Download wird verwendet.", shareError);
     }
-  } catch (shareError) {
-    if (shareError && shareError.name === "AbortError") return false;
-    console.warn("Teilen/Speichern nicht verfügbar, Download wird verwendet.", shareError);
+
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = fileName;
+    link.rel = "noopener";
+    link.style.display = "none";
+    document.body.appendChild(link);
+    link.click();
+
+    setTimeout(() => {
+      link.remove();
+      URL.revokeObjectURL(url);
+    }, 1000);
+
+    updateAppMeta({ lastUpdated: new Date().toISOString() });
+    alert("Verschlüsselte Datei wurde zum Speichern/Download übergeben:\n" + fileName);
+    return true;
+  } finally {
+    navigatorFileExportInProgress = false;
   }
-
-  const url = URL.createObjectURL(blob);
-  const link = document.createElement("a");
-  link.href = url;
-  link.download = fileName;
-  link.rel = "noopener";
-  link.style.display = "none";
-  document.body.appendChild(link);
-  link.click();
-
-  setTimeout(() => {
-    link.remove();
-    URL.revokeObjectURL(url);
-  }, 1000);
-
-  updateAppMeta({ lastUpdated: new Date().toISOString() });
-  alert("Verschlüsselte Datei wurde zum Speichern/Download übergeben.");
-  return true;
 }
 
 
@@ -19688,12 +20283,28 @@ function getSingleClientSnapshot(index) {
   const ritState = getStoredWeekplanModeState("rit");
   const retState = getStoredWeekplanModeState("ret");
 
+  const clientState = cloneClientWorkspace(APP.clientStates[index] || defaultClientWorkspace());
+  const clientInitials = cleanInline(
+    clientState?.grit?.grunddaten?.initialen ||
+      clientState?.gret?.grunddaten?.initialen ||
+      ""
+  );
+  const clientName = cleanInline(
+    clientState?.grit?.grunddaten?.name ||
+      clientState?.gret?.grunddaten?.name ||
+      ritState.clients?.[index]?.name ||
+      retState.clients?.[index]?.name ||
+      "Klient " + (index + 1)
+  );
+
   return {
     version: 1,
     exportedAt: new Date().toISOString(),
     slotIndex: index,
     clientLabel: "Klient " + (index + 1),
-    clientState: cloneClientWorkspace(APP.clientStates[index] || defaultClientWorkspace()),
+    clientInitials,
+    clientName,
+    clientState,
     weekplanRitClient: ritState.clients?.[index] || createEmptyWeekplanClient(index),
     weekplanRetClient: retState.clients?.[index] || createEmptyWeekplanClient(index),
   };
@@ -19701,10 +20312,14 @@ function getSingleClientSnapshot(index) {
 
 async function downloadSingleClientSnapshot(index) {
   const snapshot = getSingleClientSnapshot(index);
+  const initialsPart = sanitizeFileNamePart(
+    snapshot.clientInitials || snapshot.clientName || "Klient-" + (index + 1),
+    "Klient-" + (index + 1)
+  );
   await saveEncryptedNavigatorFile(
     snapshot,
     "single-client",
-    "bt-navigator-klient-" + (index + 1),
+    "BT-Navigator_Klientendatei_" + initialsPart,
   );
 }
 
@@ -19855,7 +20470,7 @@ async function downloadWorkspaceSnapshot() {
   await saveEncryptedNavigatorFile(
     buildWorkspaceSnapshot(),
     "workspace",
-    "bt-navigator-gesamtstand",
+    "BT-Navigator_Ganze-Arbeitsdatei",
   );
 }
 
@@ -19886,6 +20501,7 @@ window.addEventListener("blur", () => {
 
 harmonizeSharedStateOnLoad();
 renderClientContextNotice();
+applyStartOnLastActiveViewOnLoad();
 if (!loadBrowserSnapshots().current) {
   recordBrowserSnapshot("initial", { emergency: true });
 }
@@ -21625,6 +22241,7 @@ renderClientContextNotice();
 renderGeneratorContextStatus();
 renderWorkspaceMeta();
 setView("start");
+updateLastActiveStartUi();
 applyBtNavigatorResponsiveView();
   </script>
 
