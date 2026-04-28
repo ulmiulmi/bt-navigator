@@ -3581,8 +3581,8 @@ body.bt-mobile-view #generatorView #epPreviewFieldBottom {
                       <button type="button" class="ghost" onclick="resetCurrentGenerator()">Generator zurücksetzen</button>
                     </div>
                     <div class="tool-row">
-                      <button type="button" class="ghost" onclick="downloadWorkspaceSnapshot()">Gesamte Datei speichern</button>
-                      <button type="button" class="ghost" onclick="triggerWorkspaceImport()">Gesamte Datei importieren</button>
+                      <button type="button" class="ghost" onclick="downloadWorkspaceSnapshot()">Ganze Arbeitsdatei speichern</button>
+                      <button type="button" class="ghost" onclick="triggerWorkspaceImport()">Ganze Arbeitsdatei importieren</button>
                     </div>
                     <div class="browser-snapshot-tools">
                       <div class="browser-snapshot-title">Startverhalten</div>
@@ -7716,8 +7716,8 @@ body[data-weekplan-mode] .footer-note { color: #526075; }
           <div class="weekplan-action-title">Speichern</div>
           <div class="weekplan-action-row">
             <button class="secondary" type="button" onclick="manualSaveWeekplan()">Jetzt speichern</button>
-            <button class="secondary" type="button" onclick="window.parent && typeof window.parent.downloadWorkspaceSnapshot === 'function' && window.parent.downloadWorkspaceSnapshot()">Gesamte Datei speichern</button>
-            <button class="secondary" type="button" onclick="window.parent && typeof window.parent.triggerWorkspaceImport === 'function' && window.parent.triggerWorkspaceImport()">Gesamte Datei importieren</button>
+            <button class="secondary" type="button" onclick="window.parent && typeof window.parent.downloadWorkspaceSnapshot === 'function' && window.parent.downloadWorkspaceSnapshot()">Ganze Arbeitsdatei speichern</button>
+            <button class="secondary" type="button" onclick="window.parent && typeof window.parent.triggerWorkspaceImport === 'function' && window.parent.triggerWorkspaceImport()">Ganze Arbeitsdatei importieren</button>
             <button class="secondary" type="button" id="weekplanLastActiveStartToggleBtn" onclick="window.parent && typeof window.parent.toggleStartOnLastActiveView === 'function' && window.parent.toggleStartOnLastActiveView()">Start bei letzter Seite: Aus</button>
           </div>
           <div class="browser-snapshot-status" id="weekplanLastActiveStartStatus">Beim Öffnen startet der Navigator normal auf der Startseite.</div>
@@ -7736,9 +7736,9 @@ body[data-weekplan-mode] .footer-note { color: #526075; }
         </div>
 
         <div class="weekplan-action-group">
-          <div class="weekplan-action-title">Klient-Datei</div>
+          <div class="weekplan-action-title">Klientendatei</div>
           <div class="weekplan-action-row">
-            <button class="secondary" type="button" onclick="window.parent && typeof window.parent.triggerSingleClientImportAsNew === 'function' && window.parent.triggerSingleClientImportAsNew()">Klient-Datei als neu laden</button>
+            <button class="secondary" type="button" onclick="window.parent && typeof window.parent.triggerSingleClientImportAsNew === 'function' && window.parent.triggerSingleClientImportAsNew()">Klientendatei als neu laden</button>
           </div>
         </div>
 
@@ -8367,8 +8367,8 @@ body[data-weekplan-mode] .footer-note { color: #526075; }
                 <details class="client-actions-menu" onclick="event.stopPropagation()">
                   <summary class="secondary client-actions-trigger" title="Klienten-Aktionen">☰</summary>
                   <div class="client-actions-panel">
-                    <button class="secondary" type="button" onclick="event.stopPropagation(); window.parent && typeof window.parent.downloadSingleClientSnapshot === 'function' && window.parent.downloadSingleClientSnapshot(\${i})">Klient verschlüsselt speichern</button>
-                    <button class="secondary" type="button" onclick="event.stopPropagation(); window.parent && typeof window.parent.triggerSingleClientImport === 'function' && window.parent.triggerSingleClientImport(\${i})">Klient-Datei laden</button>
+                    <button class="secondary" type="button" onclick="event.stopPropagation(); window.parent && typeof window.parent.downloadSingleClientSnapshot === 'function' && window.parent.downloadSingleClientSnapshot(\${i})">Klientendatei speichern</button>
+                    <button class="secondary" type="button" onclick="event.stopPropagation(); window.parent && typeof window.parent.triggerSingleClientImport === 'function' && window.parent.triggerSingleClientImport(\${i})">Klientendatei laden</button>
                     <button class="secondary client-remove-btn" type="button" onclick="event.stopPropagation(); removeClientAt(\${i})">Diesen Klienten entfernen</button>
                   </div>
                 </details>
@@ -19970,14 +19970,45 @@ async function parseNavigatorImportText(raw, expectedKind) {
   }
 }
 
+function padFileDatePart(value) {
+  return String(value).padStart(2, "0");
+}
+
+function getNumericLocalTimestampForFileName(dateValue) {
+  const date = dateValue instanceof Date ? dateValue : new Date();
+  return (
+    String(date.getFullYear()) +
+    padFileDatePart(date.getMonth() + 1) +
+    padFileDatePart(date.getDate()) +
+    "_" +
+    padFileDatePart(date.getHours()) +
+    padFileDatePart(date.getMinutes()) +
+    padFileDatePart(date.getSeconds())
+  );
+}
+
+function sanitizeFileNamePart(value, fallback) {
+  const cleaned = String(value || "")
+    .trim()
+    .replace(/[^a-zA-Z0-9ÄÖÜäöüÀ-ÿ_-]+/g, "-")
+    .replace(/-+/g, "-")
+    .replace(/^[-_]+|[-_]+$/g, "");
+  return cleaned || fallback || "Datei";
+}
+
+function buildEncryptedNavigatorFileName(fileNamePrefix) {
+  const prefix = sanitizeFileNamePart(fileNamePrefix, "BT-Navigator_Datei");
+  const stamp = getNumericLocalTimestampForFileName();
+  return prefix + "_" + stamp + "_verschluesselt.json";
+}
+
 async function saveEncryptedNavigatorFile(payload, kind, fileNamePrefix) {
   const encrypted = await encryptNavigatorPayload(payload, kind);
   if (!encrypted) return false;
 
   const data = JSON.stringify(encrypted, null, 2);
   const blob = new Blob([data], { type: "application/json;charset=utf-8" });
-  const stamp = new Date().toISOString().slice(0, 19).replace(/[T:]/g, "-");
-  const fileName = fileNamePrefix + "-verschluesselt-" + stamp + ".json";
+  const fileName = buildEncryptedNavigatorFileName(fileNamePrefix);
 
   try {
     if (typeof window.showSaveFilePicker === "function") {
@@ -20239,12 +20270,28 @@ function getSingleClientSnapshot(index) {
   const ritState = getStoredWeekplanModeState("rit");
   const retState = getStoredWeekplanModeState("ret");
 
+  const clientState = cloneClientWorkspace(APP.clientStates[index] || defaultClientWorkspace());
+  const clientInitials = cleanInline(
+    clientState?.grit?.grunddaten?.initialen ||
+      clientState?.gret?.grunddaten?.initialen ||
+      ""
+  );
+  const clientName = cleanInline(
+    clientState?.grit?.grunddaten?.name ||
+      clientState?.gret?.grunddaten?.name ||
+      ritState.clients?.[index]?.name ||
+      retState.clients?.[index]?.name ||
+      "Klient " + (index + 1)
+  );
+
   return {
     version: 1,
     exportedAt: new Date().toISOString(),
     slotIndex: index,
     clientLabel: "Klient " + (index + 1),
-    clientState: cloneClientWorkspace(APP.clientStates[index] || defaultClientWorkspace()),
+    clientInitials,
+    clientName,
+    clientState,
     weekplanRitClient: ritState.clients?.[index] || createEmptyWeekplanClient(index),
     weekplanRetClient: retState.clients?.[index] || createEmptyWeekplanClient(index),
   };
@@ -20252,10 +20299,14 @@ function getSingleClientSnapshot(index) {
 
 async function downloadSingleClientSnapshot(index) {
   const snapshot = getSingleClientSnapshot(index);
+  const initialsPart = sanitizeFileNamePart(
+    snapshot.clientInitials || snapshot.clientName || "Klient-" + (index + 1),
+    "Klient-" + (index + 1)
+  );
   await saveEncryptedNavigatorFile(
     snapshot,
     "single-client",
-    "bt-navigator-klient-" + (index + 1),
+    "BT-Navigator_Klientendatei_" + initialsPart,
   );
 }
 
@@ -20406,7 +20457,7 @@ async function downloadWorkspaceSnapshot() {
   await saveEncryptedNavigatorFile(
     buildWorkspaceSnapshot(),
     "workspace",
-    "bt-navigator-gesamtstand",
+    "BT-Navigator_Ganze-Arbeitsdatei",
   );
 }
 
