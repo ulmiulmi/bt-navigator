@@ -10319,20 +10319,11 @@ function goalPlanSequenceKey(label) {
 }
 
 function buildWeekplanGoalTextFromPlan(plan) {
-  const bits = [];
-
-  ["feinziel1", "feinziel2", "feinziel3"].forEach((key, index) => {
-    const value = normalizePhrase(plan?.[key] || "");
-    if (value) {
-      bits.push("Feinziel " + (index + 1) + ": " + value);
-    }
-  });
-
-  return bits.join("\n");
+  return "";
 }
 
 function buildWeekplanActivityTextFromPlan(plan) {
-  return normalizePhrase(plan?.aktivitaeten || "");
+  return String(plan?.finalKiText || "").trim();
 }
 
 function getGenerator1GoalPlanAssignments(modeKey) {
@@ -10486,9 +10477,7 @@ function syncGenerator1TimeSelectionToWeekplan() {
 
 function syncGenerator1DataToWeekplan() {
   syncGenerator1NameToWeekplan();
-  syncGenerator1GoalToWeekplan();
   syncGenerator1TimeSelectionToWeekplan();
-  syncGenerator1ActivitiesToWeekplan();
   syncGenerator1GoalPlansToWeekplan();
 }
 
@@ -10683,10 +10672,10 @@ function syncGenerator1GoalPlansToWeekplan() {
 
       state.clients[clientIndex].days[dayKey] = {
         ...existingDay,
-        morningGoal: morningGoalText,
-        morningActivity: morningActivityText,
-        afternoonGoal: afternoonGoalText,
-        afternoonActivity: afternoonActivityText,
+        morningGoal: dayAssignment.morning ? morningGoalText : existingDay.morningGoal || "",
+        morningActivity: dayAssignment.morning ? morningActivityText : existingDay.morningActivity || "",
+        afternoonGoal: dayAssignment.afternoon ? afternoonGoalText : existingDay.afternoonGoal || "",
+        afternoonActivity: dayAssignment.afternoon ? afternoonActivityText : existingDay.afternoonActivity || "",
       };
     });
 
@@ -13246,6 +13235,7 @@ function defaultGoalPlanEntry
     massnahmen: "",
     materialien: "",
     beobachtung: "",
+    finalKiText: "",
     sourcePages: {},
   };
 }
@@ -13281,6 +13271,7 @@ function getGoalPlanStatus(plan) {
     plan.massnahmen,
     plan.materialien,
     plan.beobachtung,
+    plan.finalKiText,
   ].some((value) => cleanInline(value));
   const sourcePages =
     plan.sourcePages && typeof plan.sourcePages === "object"
@@ -13293,6 +13284,7 @@ function getGoalPlanStatus(plan) {
   const bits = [];
   if (cleanInline(plan.tag)) bits.push(plan.tag);
   if (cleanInline(plan.sequenz)) bits.push(plan.sequenz);
+  if (cleanInline(plan.finalKiText)) bits.push("KI-Text");
   bits.push("gespeichert");
   return bits.join(" • ");
 }
@@ -13335,6 +13327,7 @@ function renderZielplanungPage(page) {
               <div class="selection-status">Aktiver Speicherplatz: <strong>Baustein ${activeSlot + 1}</strong> · Status: <strong>${escapeHtml(activeStatus)}</strong></div>
               <div class="bausteinverwaltung-actions">
                 <button type="button" class="secondary" data-goalplan-action="import" data-goalplan-index="${activeSlot}">Aktuelle Inhalte in Baustein ${activeSlot + 1} speichern</button>
+                <button type="button" class="secondary" data-goalplan-action="importKiText" data-goalplan-index="${activeSlot}">Fertigen KI-Text in Baustein ${activeSlot + 1} speichern</button>
                 <button type="button" class="ghost" data-goalplan-action="load" data-goalplan-index="${activeSlot}">Baustein ${activeSlot + 1} in Generator laden</button>
                 <button type="button" class="ghost" data-goalplan-action="clear" data-goalplan-index="${activeSlot}">Baustein ${activeSlot + 1} leeren</button>
                 <button type="button" class="ghost" data-goalplan-action="clearWorking">Arbeitsfläche 4–8, 10 und 11 leeren</button>
@@ -13396,6 +13389,10 @@ function renderZielplanungPage(page) {
                   <label class="full">
                     <span>Beobachtung / Wirkung</span>
                     <textarea data-goalplan-field="beobachtung" data-goalplan-index="${activeSlot}" placeholder="Beobachtung und Wirkung aus Seite 11 oder frei ergänzen">${escapeHtml(plan.beobachtung || "")}</textarea>
+                  </label>
+                  <label class="full">
+                    <span>Fertiger KI-Text für Wochenplan</span>
+                    <textarea data-goalplan-field="finalKiText" data-goalplan-index="${activeSlot}" placeholder="Fertigen KI-Text über den Button oben bewusst in diesen Baustein speichern">${escapeHtml(plan.finalKiText || "")}</textarea>
                   </label>
                 </div>
               </div>
@@ -13845,6 +13842,10 @@ function bindEvents() {
       if (index < 0) return;
       if (action === "import") {
         applyCurrentContentToGoalPlan(index);
+        return;
+      }
+      if (action === "importKiText") {
+        applyFinishedKiTextToGoalPlan(index);
         return;
       }
       if (action === "load") {
@@ -14874,6 +14875,53 @@ function applyCurrentContentToGoalPlan(slotIndex, options = {}) {
   updateView();
 }
 
+function getFinishedKiTextForGoalPlan() {
+  if (!APP.currentGenerator) return "";
+  if (!isInternalAiOutputActive()) return "";
+  return String(
+    readClientScopedGeneratorMeta("correctedOutputByGenerator", "") || "",
+  ).trim();
+}
+
+function applyFinishedKiTextToGoalPlan(slotIndex) {
+  const finishedText = getFinishedKiTextForGoalPlan();
+  if (!cleanInline(finishedText)) {
+    window.alert("Es ist noch kein fertiger KI-Text auf Seite 13 vorhanden. Bitte zuerst die KI-Antwort generieren und prüfen.");
+    return;
+  }
+
+  const pageState = getGoalPlanningState(
+    APP.currentGenerator,
+    "10b_Zielplanung_1_10",
+  );
+  const current = {
+    ...defaultGoalPlanEntry(slotIndex),
+    ...(pageState.goalPlans[slotIndex] || {}),
+  };
+
+  if (cleanInline(current.finalKiText || "")) {
+    const replace = window.confirm(
+      "Dieser Baustein enthält bereits einen fertigen KI-Text. OK = ersetzen. Abbrechen = nichts ändern.",
+    );
+    if (!replace) return;
+  }
+
+  current.finalKiText = finishedText;
+  pageState.goalPlans[slotIndex] = current;
+  APP.state[APP.currentGenerator] = {
+    ...ensureGeneratorState(APP.currentGenerator),
+    pages: {
+      ...ensureGeneratorState(APP.currentGenerator).pages,
+      ["10b_Zielplanung_1_10"]: {
+        ...pageState,
+        goalPlans: pageState.goalPlans,
+      },
+    },
+  };
+  persistAllState();
+  updateView();
+}
+
 const GOAL_WORKING_PAGE_IDS = [
   "4_Durchfuehrung_A",
   "5_Durchfuehrung_B",
@@ -14992,6 +15040,7 @@ function loadGoalPlanIntoGenerator(slotIndex) {
     plan.massnahmen,
     plan.materialien,
     plan.beobachtung,
+    plan.finalKiText,
   ].some((value) => cleanInline(value || ""));
   const rawSourcePages = plan.sourcePages && typeof plan.sourcePages === "object" ? plan.sourcePages : {};
   const hasStoredSourceContent = GOAL_WORKING_PAGE_IDS.some((pageId) => hasGoalWorkingPageStateContent(rawSourcePages[pageId]));
