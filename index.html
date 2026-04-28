@@ -7110,6 +7110,33 @@ button {
   gap: 8px;
 }
 
+.synced-section {
+  border: 1px solid #dce6fb;
+  border-radius: 12px;
+  background: #ffffff;
+  padding: 9px;
+  display: grid;
+  gap: 7px;
+}
+
+.synced-section-title {
+  font-size: 13px;
+  font-weight: 900;
+  color: var(--mode-main);
+  padding-bottom: 5px;
+  border-bottom: 1px solid #edf2fb;
+}
+
+.synced-section-list {
+  display: grid;
+  gap: 7px;
+}
+
+.synced-ki-text {
+  line-height: 1.55;
+  white-space: pre-wrap;
+}
+
 .synced-field-label {
   display: block;
   font-size: 12px;
@@ -7709,12 +7736,8 @@ body[data-weekplan-mode] .footer-note { color: #526075; }
               <span><strong>Standard</strong>Ziel und Aktivität direkt sichtbar, ohne Freitext- oder KI-Zusatz.</span>
             </label>
             <label class="overview-view-option">
-              <input type="radio" name="overviewViewMode" value="extra" onchange="setOverviewViewMode(this.value)" />
-              <span><strong>Zusatz</strong>Ziel, Aktivität und bewusst ausgewählter Freitext-/KI-Zusatz sichtbar.</span>
-            </label>
-            <label class="overview-view-option">
               <input type="radio" name="overviewViewMode" value="detail" onchange="setOverviewViewMode(this.value)" />
-              <span><strong>Detail</strong>Hauptziel, Setting, Ziel, Aktivität, Zusatz und Hinweise sichtbar.</span>
+              <span><strong>Detail</strong>Nur der vollständige KI-Text, wenn vorhanden.</span>
             </label>
           </div>
         </details>
@@ -7764,7 +7787,7 @@ body[data-weekplan-mode] .footer-note { color: #526075; }
     const storageKey = 'wochenplan_bt_navigator_v2_morgen_nachmittag_print';
     const modeStorageKey = storageKey + '_mode';
     const overviewViewStorageKey = storageKey + '_overview_view';
-    const OVERVIEW_VIEW_MODES = ['compact', 'standard', 'extra', 'detail'];
+    const OVERVIEW_VIEW_MODES = ['compact', 'standard', 'detail'];
     const MIN_CLIENTS = 5;
     const DEFAULT_CLIENTS = 5;
     const MAX_CLIENTS = 10;
@@ -7807,12 +7830,12 @@ body[data-weekplan-mode] .footer-note { color: #526075; }
 
     function getOverviewViewMode() {
       const stored = localStorage.getItem(overviewViewStorageKey);
+      if (stored === 'extra') return 'standard';
       return OVERVIEW_VIEW_MODES.includes(stored) ? stored : 'compact';
     }
 
     function getOverviewViewLabel(mode) {
       if (mode === 'detail') return 'Detail';
-      if (mode === 'extra') return 'Zusatz';
       if (mode === 'standard') return 'Standard';
       return 'Kompakt';
     }
@@ -7858,6 +7881,7 @@ body[data-weekplan-mode] .footer-note { color: #526075; }
         mainGoal: '',
         notes: '',
         generatorTimeSlots: [],
+        generatorKiText: '',
         days: {}
       };
 
@@ -7907,6 +7931,7 @@ body[data-weekplan-mode] .footer-note { color: #526075; }
           mainGoal: existing.mainGoal || '',
           notes: existing.notes || '',
           generatorTimeSlots: Array.isArray(existing.generatorTimeSlots) ? existing.generatorTimeSlots : [],
+          generatorKiText: existing.generatorKiText || '',
           days: {}
         };
 
@@ -7987,6 +8012,7 @@ body[data-weekplan-mode] .footer-note { color: #526075; }
           mainGoal: card.querySelector(\`[data-client-main-goal="\${index}"]\`).value,
           notes: card.querySelector('.notes').value,
           generatorTimeSlots: Array.isArray(currentState.clients?.[index]?.generatorTimeSlots) ? [...currentState.clients[index].generatorTimeSlots] : [],
+          generatorKiText: currentState.clients?.[index]?.generatorKiText || '',
           days: {}
         };
 
@@ -8029,40 +8055,41 @@ body[data-weekplan-mode] .footer-note { color: #526075; }
       return String(goal || '').trim() !== '' && String(activity || '').trim() !== '';
     }
 
-    function renderSyncedClientCard(client, index, dayKey, period, mode, viewMode = 'compact', printMode = false) {
-      const modeMeta = getModeMeta(mode);
-      const dayData = client.days?.[dayKey] || {};
-      const goal = period === 'morning' ? dayData.morningGoal : dayData.afternoonGoal;
-      const activity = period === 'morning' ? dayData.morningActivity : dayData.afternoonActivity;
-      const extraText = period === 'morning' ? dayData.morningActivityExtra : dayData.afternoonActivityExtra;
-      const periodLabel = period === 'morning' ? 'Morgen' : 'Nachmittag';
-      const standardFields = [
-        { label: 'Ziel', value: goal },
-        { label: 'Aktivität', value: activity }
-      ];
-      const extraFields = [
-        ...standardFields,
-        { label: 'Zusatztext', value: extraText }
-      ];
-      const detailFields = [
-        { label: 'Hauptziel', value: client.mainGoal },
-        { label: modeMeta.settingLabel, value: client.setting },
-        { label: 'Ziel', value: goal },
-        { label: 'Aktivität', value: activity },
-        { label: 'Zusatztext', value: extraText },
-        { label: 'Hinweise', value: client.notes }
-      ];
-      const fields = (viewMode === 'detail' ? detailFields : viewMode === 'extra' ? extraFields : viewMode === 'standard' ? standardFields : [])
-        .filter(field => String(field.value || '').trim() !== '');
-
-      const clientName = escapeHtml(client.name || ('Klient ' + (index + 1)));
-      const fieldHtml = fields.map(field =>
+    function renderSyncedSimpleFields(fields) {
+      return fields.map(field =>
         '<div>' +
           '<span class="synced-field-label">' + escapeHtml(field.label) + '</span>' +
           '<div class="synced-field-value">' + displayValue(field.value) + '</div>' +
         '</div>'
       ).join('');
-      const openAttribute = (printMode || viewMode !== 'compact') && fields.length ? ' open' : '';
+    }
+
+    function renderSyncedClientCard(client, index, dayKey, period, mode, viewMode = 'compact', printMode = false) {
+      const modeMeta = getModeMeta(mode);
+      const dayData = client.days?.[dayKey] || {};
+      const goal = period === 'morning' ? dayData.morningGoal : dayData.afternoonGoal;
+      const activity = period === 'morning' ? dayData.morningActivity : dayData.afternoonActivity;
+      const periodLabel = period === 'morning' ? 'Morgen' : 'Nachmittag';
+      const standardFields = [
+        { label: 'Ziel', value: goal },
+        { label: 'Aktivität', value: activity }
+      ].filter(field => String(field.value || '').trim() !== '');
+
+      let contentHtml = '';
+      if (viewMode === 'standard') {
+        contentHtml = renderSyncedSimpleFields(standardFields);
+      } else if (viewMode === 'detail') {
+        const kiText = String(client.generatorKiText || '').trim();
+        if (kiText) {
+          contentHtml = '<section class="synced-section">' +
+            '<div class="synced-section-title">Vollständiger KI-Text</div>' +
+            '<div class="synced-field-value synced-ki-text">' + displayValue(kiText) + '</div>' +
+          '</section>';
+        }
+      }
+
+      const clientName = escapeHtml(client.name || ('Klient ' + (index + 1)));
+      const openAttribute = (printMode || viewMode !== 'compact') && contentHtml ? ' open' : '';
 
       return '<div class="synced-client-card synced-client-card-compact synced-client-card-' + escapeHtml(viewMode) + '">' +
         '<details class="synced-client-details"' + openAttribute + '>' +
@@ -8072,7 +8099,7 @@ body[data-weekplan-mode] .footer-note { color: #526075; }
             '</span>' +
             '<span class="synced-client-meta">' + modeMeta.label + ' · ' + periodLabel + ' · gespeichert</span>' +
           '</summary>' +
-          (fields.length ? '<div class="synced-fields">' + fieldHtml + '</div>' : '') +
+          (contentHtml ? '<div class="synced-fields">' + contentHtml + '</div>' : '') +
         '</details>' +
       '</div>';
     }
@@ -10516,6 +10543,22 @@ function getGenerator1ActivityExtraText(modeKey) {
   return collected.join("; ");
 }
 
+function getGenerator1KiText(modeKey) {
+  const generatorKey = getGeneratorStateByWeekplanMode(modeKey);
+  if (!generatorKey) return "";
+  const map = APP.meta && APP.meta.correctedOutputByGenerator && typeof APP.meta.correctedOutputByGenerator === "object"
+    ? APP.meta.correctedOutputByGenerator
+    : {};
+  const scopedKey = getClientScopedGeneratorMetaKey(generatorKey, APP.currentClientIndex);
+  if (Object.prototype.hasOwnProperty.call(map, scopedKey)) {
+    return String(map[scopedKey] || "").trim();
+  }
+  if (APP.currentClientIndex === 0 && Object.prototype.hasOwnProperty.call(map, generatorKey)) {
+    return String(map[generatorKey] || "").trim();
+  }
+  return "";
+}
+
 function syncGenerator1TimeSelectionToWeekplan() {
   const frame = document.getElementById("weekplanFrame");
   if (!frame || !frame.dataset.loaded) return;
@@ -10565,6 +10608,44 @@ function syncGenerator1DataToWeekplan() {
   syncGenerator1TimeSelectionToWeekplan();
   syncGenerator1ActivitiesToWeekplan();
   syncGenerator1GoalPlansToWeekplan();
+  syncGenerator1KiTextToWeekplan();
+}
+
+function syncGenerator1KiTextToWeekplan() {
+  const frame = document.getElementById("weekplanFrame");
+  if (!frame || !frame.dataset.loaded) return;
+
+  try {
+    const win = frame.contentWindow;
+    if (!win) return;
+    const targetMode = ensureWeekplanModeForCurrentGenerator(win);
+    const key =
+      typeof win.getModeStorageKey === "function"
+        ? win.getModeStorageKey(targetMode)
+        : "wochenplan_bt_navigator_v2_morgen_nachmittag_print_" + targetMode;
+
+    let state = {};
+    try {
+      state = JSON.parse(win.localStorage.getItem(key) || "{}") || {};
+    } catch (error) {
+      state = {};
+    }
+
+    if (!Array.isArray(state.clients)) state.clients = [];
+    const clientIndex = getCurrentClientIndex();
+    if (!state.clients[clientIndex] || typeof state.clients[clientIndex] !== "object")
+      state.clients[clientIndex] = {};
+
+    state.clients[clientIndex] = {
+      ...state.clients[clientIndex],
+      generatorKiText: getGenerator1KiText(targetMode),
+    };
+
+    win.localStorage.setItem(key, JSON.stringify(state));
+    if (typeof win.renderAll === "function") win.renderAll();
+  } catch (error) {
+    console.warn("KI-Text konnte nicht in den Wochenplan übernommen werden.", error);
+  }
 }
 
 function syncGenerator1ActivitiesToWeekplan() {
@@ -16605,6 +16686,7 @@ async function sendOutputToChatGptApiTest() {
     setInternalAiOutputActive(true);
     renderInternalAiPanel();
     updatePreview();
+    setTimeout(syncGenerator1KiTextToWeekplan, 60);
     renderInternalAiPanel();
     if (statusField)
       statusField.textContent =
@@ -16641,6 +16723,7 @@ function clearChatGptApiTestOutput() {
   setInternalAiOutputActive(false);
   renderInternalAiPanel();
   updatePreview();
+  setTimeout(syncGenerator1KiTextToWeekplan, 60);
   if (statusField)
     statusField.textContent =
       "Das gespeicherte KI-Ergebnis wurde gelöscht.";
