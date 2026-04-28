@@ -20275,6 +20275,175 @@ async function clearBrowserSnapshotsFromUi() {
   }
 }
 
+
+function readClientScopedGeneratorMetaForExport(mapName, generatorKey, clientIndex, fallbackValue) {
+  const map = APP.meta && APP.meta[mapName] && typeof APP.meta[mapName] === "object" ? APP.meta[mapName] : {};
+  const scopedKey = getClientScopedGeneratorMetaKey(generatorKey, clientIndex);
+  if (Object.prototype.hasOwnProperty.call(map, scopedKey)) return map[scopedKey];
+  if (clientIndex === 0 && Object.prototype.hasOwnProperty.call(map, generatorKey)) return map[generatorKey];
+  return fallbackValue;
+}
+
+function writeClientExportMetaValue(clientMeta, mapName, generatorKey, clientIndex, value) {
+  if (!clientMeta[mapName] || typeof clientMeta[mapName] !== "object") {
+    clientMeta[mapName] = {};
+  }
+  const scopedKey = getClientScopedGeneratorMetaKey(generatorKey, clientIndex);
+  const ritRetKey = generatorKey === "gret" ? "ret" : "rit";
+  clientMeta[mapName][scopedKey] = value;
+  clientMeta[mapName][generatorKey] = value;
+  clientMeta[mapName][ritRetKey] = value;
+}
+
+function buildStructuredPreviewForClientExport(clientState, generatorKey, clientIndex) {
+  const oldGenerator = APP.currentGenerator;
+  const oldPage = APP.currentPage;
+  const oldState = APP.state;
+  const oldClientIndex = APP.currentClientIndex;
+
+  try {
+    APP.currentGenerator = generatorKey;
+    APP.currentPage = 0;
+    APP.currentClientIndex = Number.isInteger(clientIndex) ? clientIndex : 0;
+    APP.state = cloneClientWorkspace(clientState || defaultClientWorkspace());
+    return buildStructuredPreview();
+  } catch (error) {
+    console.warn("Strukturierte Vorschau konnte für die Klientendatei nicht vorbereitet werden.", error);
+    return "";
+  } finally {
+    APP.currentGenerator = oldGenerator;
+    APP.currentPage = oldPage;
+    APP.state = oldState;
+    APP.currentClientIndex = oldClientIndex;
+  }
+}
+
+function buildSingleClientExportMeta(index, clientState) {
+  const clientMeta = {
+    exportedAt: new Date().toISOString(),
+    note: "Viewer-relevante Texte für genau diese Klientendatei. API-Schlüssel werden nicht exportiert.",
+  };
+
+  ["grit", "gret"].forEach((generatorKey) => {
+    const correctedOutput = readClientScopedGeneratorMetaForExport(
+      "correctedOutputByGenerator",
+      generatorKey,
+      index,
+      "",
+    );
+    const correctedActive = readClientScopedGeneratorMetaForExport(
+      "correctedActiveByGenerator",
+      generatorKey,
+      index,
+      false,
+    );
+    const epText = readClientScopedGeneratorMetaForExport(
+      "entwicklungsplanungTextByGenerator",
+      generatorKey,
+      index,
+      "",
+    );
+    const epFields = readClientScopedGeneratorMetaForExport(
+      "entwicklungsplanungFieldsByGenerator",
+      generatorKey,
+      index,
+      {},
+    );
+    const epMassnahmen = readClientScopedGeneratorMetaForExport(
+      "epMassnahmenSuggestionByGenerator",
+      generatorKey,
+      index,
+      "",
+    );
+    const observationCriteria = readClientScopedGeneratorMetaForExport(
+      "observationCriteriaSuggestionByGenerator",
+      generatorKey,
+      index,
+      "",
+    );
+    const originalOutput = readClientScopedGeneratorMetaForExport(
+      "originalOutputByGenerator",
+      generatorKey,
+      index,
+      "",
+    );
+    const structuredPreview = buildStructuredPreviewForClientExport(
+      clientState,
+      generatorKey,
+      index,
+    );
+
+    writeClientExportMetaValue(clientMeta, "correctedOutputByGenerator", generatorKey, index, correctedOutput || "");
+    writeClientExportMetaValue(clientMeta, "kiTextByGenerator", generatorKey, index, correctedOutput || "");
+    writeClientExportMetaValue(clientMeta, "aiTextByGenerator", generatorKey, index, correctedOutput || "");
+    writeClientExportMetaValue(clientMeta, "finalOutputByGenerator", generatorKey, index, correctedOutput || "");
+    writeClientExportMetaValue(clientMeta, "correctedActiveByGenerator", generatorKey, index, !!correctedActive);
+    writeClientExportMetaValue(clientMeta, "originalOutputByGenerator", generatorKey, index, originalOutput || "");
+    writeClientExportMetaValue(clientMeta, "structuredPreviewByGenerator", generatorKey, index, structuredPreview || "");
+    writeClientExportMetaValue(clientMeta, "previewByGenerator", generatorKey, index, structuredPreview || "");
+    writeClientExportMetaValue(clientMeta, "entwicklungsplanungTextByGenerator", generatorKey, index, epText || "");
+    writeClientExportMetaValue(clientMeta, "epTextByGenerator", generatorKey, index, epText || "");
+    writeClientExportMetaValue(clientMeta, "entwicklungsplanungFieldsByGenerator", generatorKey, index, epFields && typeof epFields === "object" ? epFields : {});
+    writeClientExportMetaValue(clientMeta, "epMassnahmenSuggestionByGenerator", generatorKey, index, epMassnahmen || "");
+    writeClientExportMetaValue(clientMeta, "observationCriteriaSuggestionByGenerator", generatorKey, index, observationCriteria || "");
+  });
+
+  return clientMeta;
+}
+
+function readSingleClientImportMetaValue(sourceMeta, mapName, generatorKey, exportedSlotIndex) {
+  const map = sourceMeta && sourceMeta[mapName] && typeof sourceMeta[mapName] === "object" ? sourceMeta[mapName] : null;
+  if (!map) return undefined;
+  const exportedScopedKey = getClientScopedGeneratorMetaKey(generatorKey, exportedSlotIndex);
+  const ritRetKey = generatorKey === "gret" ? "ret" : "rit";
+  const keys = [exportedScopedKey, generatorKey, ritRetKey];
+  for (const key of keys) {
+    if (Object.prototype.hasOwnProperty.call(map, key)) return map[key];
+  }
+  return undefined;
+}
+
+function importSingleClientMetaForIndex(parsed, targetIndex) {
+  const sourceMeta = parsed?.clientMeta || parsed?.viewerMeta || {};
+  if (!sourceMeta || typeof sourceMeta !== "object") return;
+
+  const exportedSlotIndex = Number.isInteger(parsed?.slotIndex) ? parsed.slotIndex : targetIndex;
+  const mapNames = [
+    "originalOutputByGenerator",
+    "correctedOutputByGenerator",
+    "correctedActiveByGenerator",
+    "entwicklungsplanungFieldsByGenerator",
+    "entwicklungsplanungTextByGenerator",
+    "epMassnahmenSuggestionByGenerator",
+    "observationCriteriaSuggestionByGenerator",
+    "structuredPreviewByGenerator",
+    "previewByGenerator",
+    "kiTextByGenerator",
+    "aiTextByGenerator",
+    "finalOutputByGenerator",
+    "epTextByGenerator",
+  ];
+  const patch = {};
+
+  mapNames.forEach((mapName) => {
+    const existing = APP.meta && APP.meta[mapName] && typeof APP.meta[mapName] === "object" ? APP.meta[mapName] : {};
+    const nextMap = { ...existing };
+    let changed = false;
+
+    ["grit", "gret"].forEach((generatorKey) => {
+      const value = readSingleClientImportMetaValue(sourceMeta, mapName, generatorKey, exportedSlotIndex);
+      if (value === undefined) return;
+      nextMap[getClientScopedGeneratorMetaKey(generatorKey, targetIndex)] = value;
+      if (targetIndex === 0) nextMap[generatorKey] = value;
+      changed = true;
+    });
+
+    if (changed) patch[mapName] = nextMap;
+  });
+
+  if (Object.keys(patch).length) updateAppMeta(patch);
+}
+
 function getSingleClientSnapshot(index) {
   saveWeekplanFrameState();
   commitCurrentClientWorkspace();
@@ -20305,6 +20474,7 @@ function getSingleClientSnapshot(index) {
     clientInitials,
     clientName,
     clientState,
+    clientMeta: buildSingleClientExportMeta(index, clientState),
     weekplanRitClient: ritState.clients?.[index] || createEmptyWeekplanClient(index),
     weekplanRetClient: retState.clients?.[index] || createEmptyWeekplanClient(index),
   };
@@ -20400,6 +20570,7 @@ async function handleSingleClientImport(event) {
     APP.clientStates[index] = normalizeStoredClientWorkspace(
       parsed?.clientState || parsed?.state || parsed || defaultClientWorkspace(),
     );
+    importSingleClientMetaForIndex(parsed, index);
 
     persistWorkspaceClientCount(targetCount);
     syncWeekplanClientCountToStorage(targetCount);
