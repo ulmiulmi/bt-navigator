@@ -2402,33 +2402,6 @@ button.secondary {
   font: inherit;
   line-height: 1.5;
 }
-
-.bausteinverwaltung-readonly {
-  width: 100%;
-  min-height: 46px;
-  border: 1px solid #d8e2ea;
-  border-radius: 12px;
-  background: #fbfcff;
-  padding: 10px 12px;
-  font: inherit;
-  line-height: 1.55;
-  color: var(--text);
-  white-space: pre-wrap;
-  overflow-wrap: anywhere;
-}
-.bausteinverwaltung-readonly.empty {
-  color: var(--muted);
-  font-style: italic;
-  background: #f7faff;
-}
-.bausteinverwaltung-structured-note {
-  padding: 12px 14px;
-  border: 1px dashed var(--theme-line, var(--line));
-  border-radius: 14px;
-  background: #fff;
-  color: var(--muted);
-  line-height: 1.5;
-}
 @media (max-width: 920px) {
   .bausteinverwaltung-fields {
     grid-template-columns: 1fr;
@@ -3291,39 +3264,6 @@ body.bt-mobile-view .app-version-note { margin-top: 10px; border-radius: 14px; }
   display: none !important;
 }
 
-
-/* STRUCTURED_VIEW_ALWAYS_V1: Strukturierte Vorschau bleibt in Desktop, Mobile und Druck mit Zeilenstruktur erhalten */
-#previewField,
-#epPreviewFieldBottom {
-  white-space: pre-wrap !important;
-  overflow-wrap: anywhere;
-  word-break: normal;
-  hyphens: auto;
-}
-
-body.bt-mobile-view #generatorView #previewField,
-body.bt-mobile-view #generatorView #epPreviewFieldBottom {
-  white-space: pre-wrap !important;
-  overflow-wrap: anywhere;
-  word-break: normal;
-  hyphens: auto;
-}
-
-#previewField br,
-#epPreviewFieldBottom br {
-  display: initial;
-}
-
-@media print {
-  #previewField,
-  #epPreviewFieldBottom,
-  .print-content {
-    white-space: pre-wrap !important;
-    overflow-wrap: anywhere;
-    word-break: normal;
-    hyphens: auto;
-  }
-}
 </style>
 </head>
 <body>
@@ -3589,8 +3529,6 @@ body.bt-mobile-view #generatorView #epPreviewFieldBottom {
                         <button type="button" class="ghost" onclick="restoreBrowserSnapshot('previous')">Vorheriger Stand</button>
                         <button type="button" class="ghost" onclick="restoreBrowserSnapshot('emergency')">Notfall-Stand</button>
                         <button type="button" class="ghost" onclick="unlockBrowserSnapshotsFromUi()">Stände entsperren</button>
-                        <button type="button" class="ghost" onclick="changeBrowserSnapshotsPasswordFromUi()">Passwort ändern</button>
-                        <button type="button" class="ghost" onclick="clearBrowserSnapshotsFromUi()">Browser-Stände löschen</button>
                       </div>
                       <div class="browser-snapshot-status" id="browserSnapshotStatus">Es werden drei Browser-Stände mitgeführt: aktuell, vorherig und Notfall.</div>
                     </div>
@@ -4987,7 +4925,7 @@ const MODELS = {
         id: "10b_Zielplanung_1_10",
         title: "12. Bausteinverwaltung",
         section: "Bausteinverwaltung",
-        hint: "Hier verwaltest du Bausteine 1–10 zum gemeinsamen Fernziel aus Seite 9. Ein Baustein speichert nur ausgewählte Inhalte aus 4–8, 10 und 11. Freitexte und KI-Zusatztexte werden in der Bausteinverwaltung nicht übernommen. Seite 9 / Fernziel bleibt unverändert.",
+        hint: "Hier verwaltest du Bausteine 1–10 zum gemeinsamen Fernziel aus Seite 9. Ein Baustein speichert Durchführung, Begleitansatz, Feinziele sowie Beobachtung/Wirkung aus 4–8, 10 und 11. Seite 9 / Fernziel bleibt unverändert.",
         type: "zielplanung",
         itemCount: 10,
       },
@@ -6305,7 +6243,7 @@ const MODELS = {
         id: "10b_Zielplanung_1_10",
         title: "12. Bausteinverwaltung",
         section: "Bausteinverwaltung",
-        hint: "Hier verwaltest du Bausteine 1–10 zum gemeinsamen Fernziel aus Seite 9. Ein Baustein speichert nur ausgewählte Inhalte aus 4–8, 10 und 11. Freitexte und KI-Zusatztexte werden in der Bausteinverwaltung nicht übernommen. Seite 9 / Fernziel bleibt unverändert.",
+        hint: "Hier verwaltest du Bausteine 1–10 zum gemeinsamen Fernziel aus Seite 9. Ein Baustein speichert Durchführung, Begleitansatz, Feinziele sowie Beobachtung/Wirkung aus 4–8, 10 und 11. Seite 9 / Fernziel bleibt unverändert.",
         type: "zielplanung",
         itemCount: 10,
       },
@@ -7137,33 +7075,6 @@ button {
   gap: 8px;
 }
 
-.synced-section {
-  border: 1px solid #dce6fb;
-  border-radius: 12px;
-  background: #ffffff;
-  padding: 9px;
-  display: grid;
-  gap: 7px;
-}
-
-.synced-section-title {
-  font-size: 13px;
-  font-weight: 900;
-  color: var(--mode-main);
-  padding-bottom: 5px;
-  border-bottom: 1px solid #edf2fb;
-}
-
-.synced-section-list {
-  display: grid;
-  gap: 7px;
-}
-
-.synced-ki-text {
-  line-height: 1.55;
-  white-space: pre-wrap;
-}
-
 .synced-field-label {
   display: block;
   font-size: 12px;
@@ -7719,8 +7630,6 @@ body[data-weekplan-mode] .footer-note { color: #526075; }
             <button class="secondary" type="button" onclick="window.parent && typeof window.parent.restoreBrowserSnapshot === 'function' && window.parent.restoreBrowserSnapshot('previous')">Vorherig</button>
             <button class="secondary" type="button" onclick="window.parent && typeof window.parent.restoreBrowserSnapshot === 'function' && window.parent.restoreBrowserSnapshot('emergency')">Notfall</button>
             <button class="secondary" type="button" onclick="window.parent && typeof window.parent.unlockBrowserSnapshotsFromUi === 'function' && window.parent.unlockBrowserSnapshotsFromUi()">Entsperren</button>
-            <button class="secondary" type="button" onclick="window.parent && typeof window.parent.changeBrowserSnapshotsPasswordFromUi === 'function' && window.parent.changeBrowserSnapshotsPasswordFromUi()">Passwort ändern</button>
-            <button class="secondary" type="button" onclick="window.parent && typeof window.parent.clearBrowserSnapshotsFromUi === 'function' && window.parent.clearBrowserSnapshotsFromUi()">Stände löschen</button>
           </div>
         </div>
 
@@ -7760,11 +7669,11 @@ body[data-weekplan-mode] .footer-note { color: #526075; }
             </label>
             <label class="overview-view-option">
               <input type="radio" name="overviewViewMode" value="standard" onchange="setOverviewViewMode(this.value)" />
-              <span><strong>Standard</strong>Ziel und Aktivität direkt sichtbar, ohne Freitext- oder KI-Zusatz.</span>
+              <span><strong>Standard</strong>Zusätzlich Ziel und Aktivität direkt sichtbar.</span>
             </label>
             <label class="overview-view-option">
               <input type="radio" name="overviewViewMode" value="detail" onchange="setOverviewViewMode(this.value)" />
-              <span><strong>Detail</strong>Nur der vollständige KI-Text, wenn vorhanden.</span>
+              <span><strong>Detail</strong>Hauptziel, Setting, Ziel, Aktivität und Hinweise sichtbar.</span>
             </label>
           </div>
         </details>
@@ -7857,7 +7766,6 @@ body[data-weekplan-mode] .footer-note { color: #526075; }
 
     function getOverviewViewMode() {
       const stored = localStorage.getItem(overviewViewStorageKey);
-      if (stored === 'extra') return 'standard';
       return OVERVIEW_VIEW_MODES.includes(stored) ? stored : 'compact';
     }
 
@@ -7908,7 +7816,6 @@ body[data-weekplan-mode] .footer-note { color: #526075; }
         mainGoal: '',
         notes: '',
         generatorTimeSlots: [],
-        generatorKiText: '',
         days: {}
       };
 
@@ -7917,10 +7824,8 @@ body[data-weekplan-mode] .footer-note { color: #526075; }
         client.days[day.key] = {
           morningGoal: fallback.ziel,
           morningActivity: fallback.akt,
-          morningActivityExtra: '',
           afternoonGoal: '',
-          afternoonActivity: '',
-          afternoonActivityExtra: ''
+          afternoonActivity: ''
         };
       });
 
@@ -7958,7 +7863,6 @@ body[data-weekplan-mode] .footer-note { color: #526075; }
           mainGoal: existing.mainGoal || '',
           notes: existing.notes || '',
           generatorTimeSlots: Array.isArray(existing.generatorTimeSlots) ? existing.generatorTimeSlots : [],
-          generatorKiText: existing.generatorKiText || '',
           days: {}
         };
 
@@ -7967,10 +7871,8 @@ body[data-weekplan-mode] .footer-note { color: #526075; }
           client.days[day.key] = {
             morningGoal: oldDay.morningGoal ?? oldDay.goal ?? fallback.days[day.key].morningGoal,
             morningActivity: oldDay.morningActivity ?? oldDay.activity ?? fallback.days[day.key].morningActivity,
-            morningActivityExtra: oldDay.morningActivityExtra ?? oldDay.activityExtra ?? '',
             afternoonGoal: oldDay.afternoonGoal ?? '',
-            afternoonActivity: oldDay.afternoonActivity ?? '',
-            afternoonActivityExtra: oldDay.afternoonActivityExtra ?? ''
+            afternoonActivity: oldDay.afternoonActivity ?? ''
           };
         });
 
@@ -8039,19 +7941,15 @@ body[data-weekplan-mode] .footer-note { color: #526075; }
           mainGoal: card.querySelector(\`[data-client-main-goal="\${index}"]\`).value,
           notes: card.querySelector('.notes').value,
           generatorTimeSlots: Array.isArray(currentState.clients?.[index]?.generatorTimeSlots) ? [...currentState.clients[index].generatorTimeSlots] : [],
-          generatorKiText: currentState.clients?.[index]?.generatorKiText || '',
           days: {}
         };
 
         days.forEach(day => {
-          const existingDay = currentState.clients?.[index]?.days?.[day.key] || {};
           client.days[day.key] = {
-            morningGoal: card.querySelector(\`[data-field="\${index}-\${day.key}-morning-goal"]\`)?.value || '',
-            morningActivity: card.querySelector(\`[data-field="\${index}-\${day.key}-morning-activity"]\`)?.value || '',
-            morningActivityExtra: existingDay.morningActivityExtra || '',
-            afternoonGoal: card.querySelector(\`[data-field="\${index}-\${day.key}-afternoon-goal"]\`)?.value || '',
-            afternoonActivity: card.querySelector(\`[data-field="\${index}-\${day.key}-afternoon-activity"]\`)?.value || '',
-            afternoonActivityExtra: existingDay.afternoonActivityExtra || ''
+            morningGoal: card.querySelector(\`[data-field="\${index}-\${day.key}-morning-goal"]\`).value,
+            morningActivity: card.querySelector(\`[data-field="\${index}-\${day.key}-morning-activity"]\`).value,
+            afternoonGoal: card.querySelector(\`[data-field="\${index}-\${day.key}-afternoon-goal"]\`).value,
+            afternoonActivity: card.querySelector(\`[data-field="\${index}-\${day.key}-afternoon-activity"]\`).value
           };
         });
 
@@ -8082,41 +7980,34 @@ body[data-weekplan-mode] .footer-note { color: #526075; }
       return String(goal || '').trim() !== '' && String(activity || '').trim() !== '';
     }
 
-    function renderSyncedSimpleFields(fields) {
-      return fields.map(field =>
-        '<div>' +
-          '<span class="synced-field-label">' + escapeHtml(field.label) + '</span>' +
-          '<div class="synced-field-value">' + displayValue(field.value) + '</div>' +
-        '</div>'
-      ).join('');
-    }
-
     function renderSyncedClientCard(client, index, dayKey, period, mode, viewMode = 'compact', printMode = false) {
       const modeMeta = getModeMeta(mode);
       const dayData = client.days?.[dayKey] || {};
       const goal = period === 'morning' ? dayData.morningGoal : dayData.afternoonGoal;
       const activity = period === 'morning' ? dayData.morningActivity : dayData.afternoonActivity;
       const periodLabel = period === 'morning' ? 'Morgen' : 'Nachmittag';
+      const detailFields = [
+        { label: 'Hauptziel', value: client.mainGoal },
+        { label: modeMeta.settingLabel, value: client.setting },
+        { label: 'Ziel', value: goal },
+        { label: 'Aktivität', value: activity },
+        { label: 'Hinweise', value: client.notes }
+      ];
       const standardFields = [
         { label: 'Ziel', value: goal },
         { label: 'Aktivität', value: activity }
-      ].filter(field => String(field.value || '').trim() !== '');
-
-      let contentHtml = '';
-      if (viewMode === 'standard') {
-        contentHtml = renderSyncedSimpleFields(standardFields);
-      } else if (viewMode === 'detail') {
-        const kiText = String(client.generatorKiText || '').trim();
-        if (kiText) {
-          contentHtml = '<section class="synced-section">' +
-            '<div class="synced-section-title">Vollständiger KI-Text</div>' +
-            '<div class="synced-field-value synced-ki-text">' + displayValue(kiText) + '</div>' +
-          '</section>';
-        }
-      }
+      ];
+      const fields = (viewMode === 'detail' ? detailFields : viewMode === 'standard' ? standardFields : [])
+        .filter(field => String(field.value || '').trim() !== '');
 
       const clientName = escapeHtml(client.name || ('Klient ' + (index + 1)));
-      const openAttribute = (printMode || viewMode !== 'compact') && contentHtml ? ' open' : '';
+      const fieldHtml = fields.map(field =>
+        '<div>' +
+          '<span class="synced-field-label">' + escapeHtml(field.label) + '</span>' +
+          '<div class="synced-field-value">' + displayValue(field.value) + '</div>' +
+        '</div>'
+      ).join('');
+      const openAttribute = (printMode || viewMode !== 'compact') && fields.length ? ' open' : '';
 
       return '<div class="synced-client-card synced-client-card-compact synced-client-card-' + escapeHtml(viewMode) + '">' +
         '<details class="synced-client-details"' + openAttribute + '>' +
@@ -8126,7 +8017,7 @@ body[data-weekplan-mode] .footer-note { color: #526075; }
             '</span>' +
             '<span class="synced-client-meta">' + modeMeta.label + ' · ' + periodLabel + ' · gespeichert</span>' +
           '</summary>' +
-          (contentHtml ? '<div class="synced-fields">' + contentHtml + '</div>' : '') +
+          (fields.length ? '<div class="synced-fields">' + fieldHtml + '</div>' : '') +
         '</details>' +
       '</div>';
     }
@@ -8690,7 +8581,7 @@ body[data-weekplan-mode] .footer-note { color: #526075; }
 
       if (window.parent && typeof window.parent.removeWorkspaceClientAtFromWeekplan === 'function') {
         try {
-          const parentCount = Number(window.parent.removeWorkspaceClientAtFromWeekplan(index));
+          const parentCount = Number(window.parent.removeWorkspaceClientAtFromWeekplan(index, clientName));
           if (Number.isFinite(parentCount)) {
             nextCount = parentCount;
           }
@@ -8973,6 +8864,251 @@ function workspaceClientCountKey() {
   return storageKey() + "-client-count";
 }
 
+
+function deletedClientRegistryKey() {
+  return storageKey() + "-deleted-clients";
+}
+
+function normalizeDeletedClientText(value) {
+  return String(value || "").trim().toLowerCase().replace(/\s+/g, " ");
+}
+
+function stableDeletedClientJson(value) {
+  if (Array.isArray(value)) return "[" + value.map(stableDeletedClientJson).join(",") + "]";
+  if (value && typeof value === "object") return "{" + Object.keys(value).sort().map((key) => JSON.stringify(key) + ":" + stableDeletedClientJson(value[key])).join(",") + "}";
+  return JSON.stringify(value ?? "");
+}
+
+function hashDeletedClientParts(value) {
+  const text = stableDeletedClientJson(value);
+  let hash = 2166136261;
+  for (let i = 0; i < text.length; i++) {
+    hash ^= text.charCodeAt(i);
+    hash += (hash << 1) + (hash << 4) + (hash << 7) + (hash << 8) + (hash << 24);
+  }
+  return (hash >>> 0).toString(16);
+}
+
+function readDeletedClientRegistry() {
+  try {
+    const raw = localStorage.getItem(deletedClientRegistryKey());
+    const parsed = raw ? JSON.parse(raw) : [];
+    return Array.isArray(parsed) ? parsed.filter((entry) => entry && typeof entry === "object") : [];
+  } catch (error) {
+    return [];
+  }
+}
+
+function writeDeletedClientRegistry(registry) {
+  localStorage.setItem(deletedClientRegistryKey(), JSON.stringify(Array.isArray(registry) ? registry.slice(-40) : []));
+}
+
+function getWeekplanClientParts(client) {
+  const source = client && typeof client === "object" ? client : {};
+  const dayKeys = ["mo", "di", "mi", "do", "fr"];
+  const days = {};
+  dayKeys.forEach((dayKey) => {
+    const day = source.days && source.days[dayKey] && typeof source.days[dayKey] === "object" ? source.days[dayKey] : {};
+    days[dayKey] = {
+      morningGoal: normalizeDeletedClientText(day.morningGoal),
+      morningActivity: normalizeDeletedClientText(day.morningActivity),
+      morningActivityExtra: normalizeDeletedClientText(day.morningActivityExtra),
+      afternoonGoal: normalizeDeletedClientText(day.afternoonGoal),
+      afternoonActivity: normalizeDeletedClientText(day.afternoonActivity),
+      afternoonActivityExtra: normalizeDeletedClientText(day.afternoonActivityExtra),
+    };
+  });
+  return {
+    name: normalizeDeletedClientText(source.name),
+    setting: normalizeDeletedClientText(source.setting || source.ritSetting),
+    mainGoal: normalizeDeletedClientText(source.mainGoal),
+    notes: normalizeDeletedClientText(source.notes),
+    generatorKiText: normalizeDeletedClientText(source.generatorKiText),
+    generatorTimeSlots: Array.isArray(source.generatorTimeSlots) ? source.generatorTimeSlots.map((slot) => normalizeDeletedClientText(slot)).sort() : [],
+    days,
+  };
+}
+
+function getGeneratorStateClientNames(generatorState) {
+  const state = generatorState && typeof generatorState === "object" ? generatorState : {};
+  const grunddaten = state.grunddaten && typeof state.grunddaten === "object" ? state.grunddaten : {};
+  return [grunddaten.name, grunddaten.initialen].map(normalizeDeletedClientText).filter(Boolean);
+}
+
+function getWorkspaceClientParts(workspace) {
+  const source = normalizeStoredClientWorkspace(workspace || defaultClientWorkspace());
+  return {
+    grit: { names: getGeneratorStateClientNames(source.grit), grunddaten: source.grit?.grunddaten || {}, pages: source.grit?.pages || {} },
+    gret: { names: getGeneratorStateClientNames(source.gret), grunddaten: source.gret?.grunddaten || {}, pages: source.gret?.pages || {} },
+  };
+}
+
+function getWeekplanClientSignature(client) {
+  return hashDeletedClientParts(getWeekplanClientParts(client));
+}
+
+function getWorkspaceClientSignature(workspace) {
+  return hashDeletedClientParts(getWorkspaceClientParts(workspace));
+}
+
+function collectDeletedClientNamesFromParts(parts) {
+  const names = new Set();
+  if (!parts || typeof parts !== "object") return [];
+  [parts.name, ...(Array.isArray(parts.names) ? parts.names : [])].forEach((name) => {
+    const clean = normalizeDeletedClientText(name);
+    if (clean) names.add(clean);
+  });
+  [parts.grit, parts.gret].forEach((state) => {
+    if (!state || typeof state !== "object") return;
+    (Array.isArray(state.names) ? state.names : []).forEach((name) => {
+      const clean = normalizeDeletedClientText(name);
+      if (clean) names.add(clean);
+    });
+  });
+  return Array.from(names);
+}
+
+function collectCurrentClientNamesForProtection(workspace, ritClient, retClient, explicitName = "") {
+  const names = new Set();
+  [explicitName, ritClient?.name, retClient?.name].forEach((name) => {
+    const clean = normalizeDeletedClientText(name);
+    if (clean) names.add(clean);
+  });
+  collectDeletedClientNamesFromParts(getWorkspaceClientParts(workspace)).forEach((name) => names.add(name));
+  return Array.from(names);
+}
+
+function readWeekplanModeStateForProtection(mode) {
+  try { return JSON.parse(localStorage.getItem(weekplanBaseStorageKey() + "_" + mode) || "{}") || {}; }
+  catch (error) { return {}; }
+}
+
+function writeWeekplanModeStateForProtection(mode, state) {
+  localStorage.setItem(weekplanBaseStorageKey() + "_" + mode, JSON.stringify(state || {}));
+}
+
+
+function createProtectedEmptyWeekplanClient(index = 0) {
+  const client = {
+    name: "",
+    setting: "",
+    mainGoal: "",
+    notes: "",
+    generatorTimeSlots: [],
+    generatorKiText: "",
+    days: {},
+  };
+  ["mo", "di", "mi", "do", "fr"].forEach((dayKey) => {
+    client.days[dayKey] = {
+      morningGoal: "",
+      morningActivity: "",
+      morningActivityExtra: "",
+      afternoonGoal: "",
+      afternoonActivity: "",
+      afternoonActivityExtra: "",
+    };
+  });
+  return client;
+}
+
+function registerDeletedClientProtection(index, explicitName = "") {
+  const safeIndex = Number.isInteger(index) && index >= 0 ? index : 0;
+  const ritState = readWeekplanModeStateForProtection("rit");
+  const retState = readWeekplanModeStateForProtection("ret");
+  const ritClient = Array.isArray(ritState.clients) ? ritState.clients[safeIndex] : null;
+  const retClient = Array.isArray(retState.clients) ? retState.clients[safeIndex] : null;
+  const workspace = Array.isArray(APP.clientStates) ? APP.clientStates[safeIndex] : null;
+  const names = collectCurrentClientNamesForProtection(workspace, ritClient, retClient, explicitName);
+  const displayName = String(explicitName || ritClient?.name || retClient?.name || names[0] || ("Klient " + (safeIndex + 1))).trim();
+  const registry = readDeletedClientRegistry();
+  registry.push({
+    id: "deleted-" + Date.now() + "-" + Math.random().toString(36).slice(2),
+    deletedAt: new Date().toISOString(),
+    index: safeIndex,
+    name: displayName,
+    names,
+    workspaceSignature: workspace ? getWorkspaceClientSignature(workspace) : "",
+    weekplanSignatures: {
+      rit: ritClient ? getWeekplanClientSignature(ritClient) : "",
+      ret: retClient ? getWeekplanClientSignature(retClient) : "",
+    },
+  });
+  writeDeletedClientRegistry(registry);
+}
+
+function deletionRecordMatchesClient(record, index, workspace, ritClient, retClient) {
+  if (!record || typeof record !== "object") return false;
+  const workspaceSignature = workspace ? getWorkspaceClientSignature(workspace) : "";
+  const ritSignature = ritClient ? getWeekplanClientSignature(ritClient) : "";
+  const retSignature = retClient ? getWeekplanClientSignature(retClient) : "";
+  if (record.workspaceSignature && workspaceSignature && record.workspaceSignature === workspaceSignature) return true;
+  if (record.weekplanSignatures?.rit && ritSignature && record.weekplanSignatures.rit === ritSignature) return true;
+  if (record.weekplanSignatures?.ret && retSignature && record.weekplanSignatures.ret === retSignature) return true;
+  const recordNames = new Set((Array.isArray(record.names) ? record.names : [record.name]).map(normalizeDeletedClientText).filter(Boolean));
+  if (!recordNames.size) return false;
+  const currentNames = collectCurrentClientNamesForProtection(workspace, ritClient, retClient);
+  return currentNames.some((name) => recordNames.has(name)) && Number(record.index) === Number(index);
+}
+
+function getProtectedDeletedClientIndices(workspaces, ritClients, retClients, registry = readDeletedClientRegistry()) {
+  const blocked = new Set();
+  const maxLength = Math.max(Array.isArray(workspaces) ? workspaces.length : 0, Array.isArray(ritClients) ? ritClients.length : 0, Array.isArray(retClients) ? retClients.length : 0);
+  for (let index = 0; index < maxLength; index++) {
+    const workspace = Array.isArray(workspaces) ? workspaces[index] : null;
+    const ritClient = Array.isArray(ritClients) ? ritClients[index] : null;
+    const retClient = Array.isArray(retClients) ? retClients[index] : null;
+    if (registry.some((record) => deletionRecordMatchesClient(record, index, workspace, ritClient, retClient))) blocked.add(index);
+  }
+  return blocked;
+}
+
+function filterArrayByDeletedClientIndices(items, blockedIndices) {
+  return Array.isArray(items) ? items.filter((_, index) => !blockedIndices.has(index)) : [];
+}
+
+function applyDeletedClientProtectionToStoredData() {
+  const registry = readDeletedClientRegistry();
+  if (!registry.length) return 0;
+  const ritState = readWeekplanModeStateForProtection("rit");
+  const retState = readWeekplanModeStateForProtection("ret");
+  let appRaw = {};
+  try { const stored = localStorage.getItem(storageKey()); appRaw = stored ? JSON.parse(stored) : {}; } catch (error) { appRaw = {}; }
+  let workspaces = Array.isArray(appRaw.clientStates) ? appRaw.clientStates.map((workspace) => normalizeStoredClientWorkspace(workspace)) : [];
+  if (!workspaces.length && (appRaw.grit || appRaw.gret)) {
+    workspaces = [normalizeStoredClientWorkspace(appRaw)];
+  }
+  const currentCount = clampWorkspaceClientCount(localStorage.getItem(workspaceClientCountKey()) || appRaw.clientCount || workspaces.length || 5);
+  while (workspaces.length < currentCount) workspaces.push(defaultClientWorkspace());
+  workspaces = workspaces.slice(0, currentCount);
+  const blockedIndices = getProtectedDeletedClientIndices(workspaces, Array.isArray(ritState.clients) ? ritState.clients : [], Array.isArray(retState.clients) ? retState.clients : [], registry);
+  if (!blockedIndices.size) return 0;
+  const filteredWorkspaces = filterArrayByDeletedClientIndices(workspaces, blockedIndices).slice(0, 10);
+  const finalCount = clampWorkspaceClientCount(filteredWorkspaces.length || 5);
+  while (filteredWorkspaces.length < finalCount) filteredWorkspaces.push(defaultClientWorkspace());
+  appRaw = { ...(appRaw && typeof appRaw === "object" ? appRaw : {}), version: 2, clientCount: finalCount, clientStates: filteredWorkspaces.slice(0, finalCount) };
+  localStorage.setItem(storageKey(), JSON.stringify(appRaw));
+  localStorage.setItem(workspaceClientCountKey(), String(finalCount));
+  [["rit", ritState], ["ret", retState]].forEach(([mode, state]) => {
+    const nextState = state && typeof state === "object" ? { ...state } : {};
+    const filteredClients = filterArrayByDeletedClientIndices(Array.isArray(nextState.clients) ? nextState.clients : [], blockedIndices).slice(0, finalCount);
+    while (filteredClients.length < finalCount) filteredClients.push(createProtectedEmptyWeekplanClient(filteredClients.length));
+    nextState.clients = filteredClients;
+    nextState.count = String(finalCount);
+    writeWeekplanModeStateForProtection(mode, nextState);
+  });
+  try {
+    const rawMeta = localStorage.getItem(storageMetaKey());
+    const meta = rawMeta ? JSON.parse(rawMeta) : {};
+    const oldIndex = Number(meta?.lastWeekplanClient?.index);
+    if (!Number.isInteger(oldIndex) || oldIndex >= finalCount || blockedIndices.has(oldIndex)) {
+      meta.lastWeekplanClient = { index: 0, name: "Klient 1" };
+      meta.lastPageByGenerator = { ...(meta.lastPageByGenerator || {}), grit: 0, gret: 0 };
+      localStorage.setItem(storageMetaKey(), JSON.stringify(meta));
+    }
+  } catch (error) {}
+  return blockedIndices.size;
+}
+
 function clampWorkspaceClientCount(value) {
   const number = Number(value);
   if (!Number.isFinite(number)) return 7;
@@ -9038,14 +9174,6 @@ function setBrowserSnapshotSessionPassword(password) {
     if (password) sessionStorage.setItem(browserSnapshotPasswordSessionKey(), password);
   } catch (error) {
     console.warn("Browser-Stände-Passwort konnte nicht für diese Sitzung gemerkt werden.", error);
-  }
-}
-
-function clearBrowserSnapshotSessionPassword() {
-  try {
-    sessionStorage.removeItem(browserSnapshotPasswordSessionKey());
-  } catch (error) {
-    console.warn("Browser-Stände-Passwort konnte nicht aus dieser Sitzung entfernt werden.", error);
   }
 }
 
@@ -9496,6 +9624,8 @@ function applyBrowserRecoveryBundle(bundle) {
 
   if (bundle.weekplanRet) localStorage.setItem(weekplanBase + "_ret", bundle.weekplanRet);
   else localStorage.removeItem(weekplanBase + "_ret");
+
+  applyDeletedClientProtectionToStoredData();
 }
 
 async function restoreBrowserSnapshot(slot = "current") {
@@ -9951,6 +10081,7 @@ function getStoredClientIndexFromMeta(meta) {
 }
 
 function loadAllClientStates() {
+  applyDeletedClientProtectionToStoredData();
   const total = getWorkspaceClientCount();
   const fallback = Array.from({ length: total }, () => defaultClientWorkspace());
 
@@ -10534,19 +10665,7 @@ function getGenerator1ActivityText(modeKey) {
         collected.push(text);
       }
     });
-  });
 
-  return collected.join("; ");
-}
-
-function getGenerator1ActivityExtraText(modeKey) {
-  const generatorKey = modeKey === "ret" ? "gret" : "grit";
-  const pageIds = ["4_Durchfuehrung_A", "5_Durchfuehrung_B", "6_Musik_Basal"];
-  const collected = [];
-  const seen = new Set();
-
-  pageIds.forEach((pageId) => {
-    const pageState = ensurePageState(generatorKey, pageId);
     const freeText = normalizePhrase(pageState?.freeText || "");
     if (freeText && !seen.has(freeText.toLowerCase())) {
       seen.add(freeText.toLowerCase());
@@ -10568,22 +10687,6 @@ function getGenerator1ActivityExtraText(modeKey) {
   });
 
   return collected.join("; ");
-}
-
-function getGenerator1KiText(modeKey) {
-  const generatorKey = getGeneratorStateByWeekplanMode(modeKey);
-  if (!generatorKey) return "";
-  const map = APP.meta && APP.meta.correctedOutputByGenerator && typeof APP.meta.correctedOutputByGenerator === "object"
-    ? APP.meta.correctedOutputByGenerator
-    : {};
-  const scopedKey = getClientScopedGeneratorMetaKey(generatorKey, APP.currentClientIndex);
-  if (Object.prototype.hasOwnProperty.call(map, scopedKey)) {
-    return String(map[scopedKey] || "").trim();
-  }
-  if (APP.currentClientIndex === 0 && Object.prototype.hasOwnProperty.call(map, generatorKey)) {
-    return String(map[generatorKey] || "").trim();
-  }
-  return "";
 }
 
 function syncGenerator1TimeSelectionToWeekplan() {
@@ -10635,44 +10738,6 @@ function syncGenerator1DataToWeekplan() {
   syncGenerator1TimeSelectionToWeekplan();
   syncGenerator1ActivitiesToWeekplan();
   syncGenerator1GoalPlansToWeekplan();
-  syncGenerator1KiTextToWeekplan();
-}
-
-function syncGenerator1KiTextToWeekplan() {
-  const frame = document.getElementById("weekplanFrame");
-  if (!frame || !frame.dataset.loaded) return;
-
-  try {
-    const win = frame.contentWindow;
-    if (!win) return;
-    const targetMode = ensureWeekplanModeForCurrentGenerator(win);
-    const key =
-      typeof win.getModeStorageKey === "function"
-        ? win.getModeStorageKey(targetMode)
-        : "wochenplan_bt_navigator_v2_morgen_nachmittag_print_" + targetMode;
-
-    let state = {};
-    try {
-      state = JSON.parse(win.localStorage.getItem(key) || "{}") || {};
-    } catch (error) {
-      state = {};
-    }
-
-    if (!Array.isArray(state.clients)) state.clients = [];
-    const clientIndex = getCurrentClientIndex();
-    if (!state.clients[clientIndex] || typeof state.clients[clientIndex] !== "object")
-      state.clients[clientIndex] = {};
-
-    state.clients[clientIndex] = {
-      ...state.clients[clientIndex],
-      generatorKiText: getGenerator1KiText(targetMode),
-    };
-
-    win.localStorage.setItem(key, JSON.stringify(state));
-    if (typeof win.renderAll === "function") win.renderAll();
-  } catch (error) {
-    console.warn("KI-Text konnte nicht in den Wochenplan übernommen werden.", error);
-  }
 }
 
 function syncGenerator1ActivitiesToWeekplan() {
@@ -10690,10 +10755,9 @@ function syncGenerator1ActivitiesToWeekplan() {
         : "wochenplan_bt_navigator_v2_morgen_nachmittag_print_" + targetMode;
 
     const generatorActivity = getGenerator1ActivityText(targetMode);
-    const generatorActivityExtra = getGenerator1ActivityExtraText(targetMode);
     const generatorTimeSlots = getGenerator1TimeSlots(targetMode);
     if (
-      (!generatorActivity && !generatorActivityExtra) ||
+      !generatorActivity ||
       !Array.isArray(generatorTimeSlots) ||
       !generatorTimeSlots.length
     )
@@ -10741,16 +10805,10 @@ function syncGenerator1ActivitiesToWeekplan() {
         morningActivity: daySelection.morning
           ? generatorActivity
           : existingDay.morningActivity || "",
-        morningActivityExtra: daySelection.morning
-          ? generatorActivityExtra
-          : existingDay.morningActivityExtra || "",
         afternoonGoal: existingDay.afternoonGoal || "",
         afternoonActivity: daySelection.afternoon
           ? generatorActivity
           : existingDay.afternoonActivity || "",
-        afternoonActivityExtra: daySelection.afternoon
-          ? generatorActivityExtra
-          : existingDay.afternoonActivityExtra || "",
       };
     });
 
@@ -10875,10 +10933,8 @@ function syncGenerator1GoalPlansToWeekplan() {
         ...existingDay,
         morningGoal: morningGoalText,
         morningActivity: morningActivityText,
-        morningActivityExtra: existingDay.morningActivityExtra || "",
         afternoonGoal: afternoonGoalText,
         afternoonActivity: afternoonActivityText,
-        afternoonActivityExtra: existingDay.afternoonActivityExtra || "",
       };
     });
 
@@ -11064,7 +11120,7 @@ function addWorkspaceClientFromWeekplan() {
   return nextTotal;
 }
 
-function removeWorkspaceClientAtFromWeekplan(index) {
+function removeWorkspaceClientAtFromWeekplan(index, explicitName = "") {
   const currentTotal = getWorkspaceClientCount();
   const nextTotal = clampWorkspaceClientCount(currentTotal - 1);
 
@@ -11077,6 +11133,8 @@ function removeWorkspaceClientAtFromWeekplan(index) {
   if (!Number.isInteger(index) || index < 0 || index >= currentTotal) {
     index = currentTotal - 1;
   }
+
+  registerDeletedClientProtection(index, explicitName);
 
   APP.clientStates.splice(index, 1);
 
@@ -13489,16 +13547,6 @@ function getGoalPlanStatus(plan) {
   return bits.join(" • ");
 }
 
-
-function renderGoalPlanReadonlyBlock(label, value, full = false) {
-  const clean = normalizeOutputText(value || "");
-  return `
-                  <label${full ? ' class="full"' : ''}>
-                    <span>${escapeHtml(label)}</span>
-                    <div class="bausteinverwaltung-readonly${clean ? "" : " empty"}">${escapeHtml(clean || "Wird aus den ausgewählten Baustein-Inhalten übernommen.")}</div>
-                  </label>`;
-}
-
 function renderZielplanungPage(page) {
   const pageState = getGoalPlanningState(APP.currentGenerator, page.id);
   const activeSlot = Math.min(9, Math.max(0, Number(pageState.activeSlot || 0)));
@@ -13525,7 +13573,7 @@ function renderZielplanungPage(page) {
               <div class="inline-note">Dieses Fernziel gilt für alle Bausteine. Es wird hier nur angezeigt und durch Speichern, Laden oder Leeren von Bausteinen nicht verändert.</div>
             </div>
 
-            <div class="zielplanung-note">Die Bausteinverwaltung speichert und lädt nur ausgewählte Baustein-Inhalte aus 4–8, 10 und 11. Freitexte und KI-Zusatztexte werden hier bewusst nicht übernommen. Der Wechsel im Dropdown lädt noch nichts automatisch. Erst der Button „Baustein laden“ verändert die aktuelle Arbeitsfläche.</div>
+            <div class="zielplanung-note">Die Bausteinverwaltung speichert und lädt nur die Arbeitsinhalte aus 4–8, 10 und 11. Der Wechsel im Dropdown lädt noch nichts automatisch. Erst der Button „Baustein laden“ verändert die aktuelle Arbeitsfläche.</div>
 
             <div class="bausteinverwaltung-control">
               <label>
@@ -13566,15 +13614,39 @@ function renderZielplanungPage(page) {
                     </select>
                   </label>
                 </div>
-                <div class="bausteinverwaltung-structured-note">Die Bausteinfelder sind hier bewusst nicht frei beschreibbar. Änderungen erfolgen über die Auswahlseiten 4–8, 10 und 11 und werden danach mit „Aktuelle Inhalte in Baustein speichern“ übernommen.</div>
                 <div class="bausteinverwaltung-fields">
-                  ${renderGoalPlanReadonlyBlock("Feinziel 1", plan.feinziel1)}
-                  ${renderGoalPlanReadonlyBlock("Feinziel 2", plan.feinziel2)}
-                  ${renderGoalPlanReadonlyBlock("Feinziel 3", plan.feinziel3, true)}
-                  ${renderGoalPlanReadonlyBlock("Aktivitäten / Teilhabe", plan.aktivitaeten, true)}
-                  ${renderGoalPlanReadonlyBlock("Durchführung", plan.durchfuehrung, true)}
-                  ${renderGoalPlanReadonlyBlock("Massnahmen / Begleitung", plan.massnahmen, true)}
-                  ${renderGoalPlanReadonlyBlock("Beobachtung / Wirkung", plan.beobachtung, true)}
+                  <label>
+                    <span>Feinziel 1</span>
+                    <textarea data-goalplan-field="feinziel1" data-goalplan-index="${activeSlot}" placeholder="Feinziel 1">${escapeHtml(plan.feinziel1 || "")}</textarea>
+                  </label>
+                  <label>
+                    <span>Feinziel 2</span>
+                    <textarea data-goalplan-field="feinziel2" data-goalplan-index="${activeSlot}" placeholder="Feinziel 2">${escapeHtml(plan.feinziel2 || "")}</textarea>
+                  </label>
+                  <label class="full">
+                    <span>Feinziel 3</span>
+                    <textarea data-goalplan-field="feinziel3" data-goalplan-index="${activeSlot}" placeholder="Feinziel 3">${escapeHtml(plan.feinziel3 || "")}</textarea>
+                  </label>
+                  <label class="full">
+                    <span>Aktivitäten / Teilhabe</span>
+                    <textarea data-goalplan-field="aktivitaeten" data-goalplan-index="${activeSlot}" placeholder="Aktivitäten aus Durchführung / Musik / basalen Situationen oder frei erfassen">${escapeHtml(plan.aktivitaeten || "")}</textarea>
+                  </label>
+                  <label class="full">
+                    <span>Durchführung</span>
+                    <textarea data-goalplan-field="durchfuehrung" data-goalplan-index="${activeSlot}" placeholder="Wie wird die Durchführung konkret gestaltet?">${escapeHtml(plan.durchfuehrung || "")}</textarea>
+                  </label>
+                  <label>
+                    <span>Massnahmen / Begleitung</span>
+                    <textarea data-goalplan-field="massnahmen" data-goalplan-index="${activeSlot}" placeholder="Begleitung, Unterstützung, Anpassungen">${escapeHtml(plan.massnahmen || "")}</textarea>
+                  </label>
+                  <label>
+                    <span>Materialien</span>
+                    <textarea data-goalplan-field="materialien" data-goalplan-index="${activeSlot}" placeholder="Benötigte Materialien">${escapeHtml(plan.materialien || "")}</textarea>
+                  </label>
+                  <label class="full">
+                    <span>Beobachtung / Wirkung</span>
+                    <textarea data-goalplan-field="beobachtung" data-goalplan-index="${activeSlot}" placeholder="Beobachtung und Wirkung aus Seite 11 oder frei ergänzen">${escapeHtml(plan.beobachtung || "")}</textarea>
+                  </label>
                 </div>
               </div>
             </section>
@@ -14931,10 +15003,18 @@ function collectCurrentFernzielForGoalPlanning() {
 function collectCurrentFeinzieleForGoalPlanning() {
   const feinPage = getPageById("10_Feinziele");
   if (!feinPage) return [];
+  const state = getPageStateById(feinPage.id);
+  const preferred = [
+    cleanInline(state?.textFields?.feinziel1 || ""),
+    cleanInline(state?.textFields?.feinziel2 || ""),
+    cleanInline(state?.textFields?.feinziel3 || ""),
+  ];
   const selected = getFlatSelectionsForPage(feinPage.id).map((item) =>
     cleanInline(item || ""),
   );
-  return uniqueClean(selected).slice(0, 3);
+  const freeText = cleanInline(state.freeText || "");
+  const combined = uniqueClean([...preferred, ...selected, freeText]);
+  return combined.slice(0, 3);
 }
 
 function collectCurrentActivitiesForGoalPlanning() {
@@ -14947,8 +15027,15 @@ function collectCurrentActivitiesForGoalPlanning() {
   sourcePageIds.forEach((pageId) => {
     const page = getPageById(pageId);
     if (!page) return;
+    const state = getPageStateById(pageId);
     getFlatSelectionsForPage(pageId).forEach((item) => {
       const value = cleanInline(item || "");
+      if (value) pool.push(value);
+    });
+    const freeText = cleanInline(state.freeText || "");
+    if (freeText) pool.push(freeText);
+    getPageCustomTextEntries(page, state).forEach((entry) => {
+      const value = cleanInline(entry.value || "");
       if (value) pool.push(value);
     });
   });
@@ -14962,8 +15049,15 @@ function collectCurrentTextFromPagesForGoalPlanning(sourcePageIds) {
   sourcePageIds.forEach((pageId) => {
     const page = getPageById(pageId);
     if (!page) return;
+    const state = getPageStateById(pageId);
     getFlatSelectionsForPage(pageId).forEach((item) => {
       const value = cleanInline(item || "");
+      if (value) pool.push(value);
+    });
+    const freeText = cleanInline(state.freeText || "");
+    if (freeText) pool.push(freeText);
+    getPageCustomTextEntries(page, state).forEach((entry) => {
+      const value = cleanInline(entry.value || "");
       if (value) pool.push(value);
     });
   });
@@ -15012,7 +15106,6 @@ function applyCurrentContentToGoalPlan(slotIndex, options = {}) {
   if (aktivitaeten) current.aktivitaeten = aktivitaeten;
   if (durchfuehrung) current.durchfuehrung = durchfuehrung;
   if (massnahmen) current.massnahmen = massnahmen;
-  current.materialien = "";
   if (beobachtung) current.beobachtung = beobachtung;
   current.sourcePages = sourcePages;
 
@@ -15062,20 +15155,9 @@ function hasGoalWorkingPageStateContent(pageState) {
   if (!pageState || typeof pageState !== "object") return false;
   if (Array.isArray(pageState.selected) && pageState.selected.some((value) => cleanInline(value || ""))) return true;
   if (Array.isArray(pageState.partial) && pageState.partial.some((value) => cleanInline(value || ""))) return true;
-  return false;
-}
-
-function stripFreeTextFromGoalPageState(pageState) {
-  return {
-    selected: Array.isArray(pageState?.selected)
-      ? pageState.selected.filter((value) => cleanInline(value || ""))
-      : [],
-    partial: Array.isArray(pageState?.partial)
-      ? pageState.partial.filter((value) => cleanInline(value || ""))
-      : [],
-    freeText: "",
-    textFields: {},
-  };
+  if (cleanInline(pageState.freeText || "")) return true;
+  const textFields = pageState.textFields && typeof pageState.textFields === "object" ? pageState.textFields : {};
+  return Object.values(textFields).some((value) => cleanInline(value || ""));
 }
 
 function collectGoalWorkingPageSnapshots() {
@@ -15083,7 +15165,7 @@ function collectGoalWorkingPageSnapshots() {
   const pages = generatorState.pages || {};
   const sourcePages = {};
   GOAL_WORKING_PAGE_IDS.forEach((pageId) => {
-    sourcePages[pageId] = stripFreeTextFromGoalPageState(pages[pageId] || emptyGoalWorkingPageState());
+    sourcePages[pageId] = cloneGoalPlanPageState(pages[pageId] || emptyGoalWorkingPageState());
   });
   return sourcePages;
 }
@@ -15110,8 +15192,38 @@ function clearGoalWorkingContentAfterConfirmation() {
 }
 
 function restoreGoalPlanFallbackToGeneratorPages(plan, nextPages) {
-  // Bausteine sollen keine Freitexte in die Generatorseiten zurückschreiben.
-  // Alte Fallback-Freitexte werden deshalb bewusst nicht mehr rekonstruiert.
+  if (!plan || typeof plan !== "object") return;
+  if (cleanInline(plan.aktivitaeten || "")) {
+    nextPages["4_Durchfuehrung_A"] = {
+      ...emptyGoalWorkingPageState(),
+      freeText: cleanInline(plan.aktivitaeten || ""),
+    };
+  }
+  if (cleanInline(plan.massnahmen || "")) {
+    nextPages["7_Begleitansatz_A"] = {
+      ...emptyGoalWorkingPageState(),
+      freeText: cleanInline(plan.massnahmen || ""),
+    };
+  }
+  const feinzielFields = {
+    feinziel1: cleanInline(plan.feinziel1 || ""),
+    feinziel2: cleanInline(plan.feinziel2 || ""),
+    feinziel3: cleanInline(plan.feinziel3 || ""),
+  };
+  if (Object.values(feinzielFields).some(Boolean)) {
+    nextPages["10_Feinziele"] = {
+      ...emptyGoalWorkingPageState(),
+      textFields: {
+        ...feinzielFields,
+      },
+    };
+  }
+  if (cleanInline(plan.beobachtung || "")) {
+    nextPages["11_Beobachtung"] = {
+      ...emptyGoalWorkingPageState(),
+      freeText: cleanInline(plan.beobachtung || ""),
+    };
+  }
 }
 
 function loadGoalPlanIntoGenerator(slotIndex) {
@@ -15121,7 +15233,16 @@ function loadGoalPlanIntoGenerator(slotIndex) {
   );
   const plan = pageState.goalPlans[slotIndex];
   if (!plan) return;
-  const hasFallbackContent = false;
+  const hasFallbackContent = [
+    plan.feinziel1,
+    plan.feinziel2,
+    plan.feinziel3,
+    plan.aktivitaeten,
+    plan.durchfuehrung,
+    plan.massnahmen,
+    plan.materialien,
+    plan.beobachtung,
+  ].some((value) => cleanInline(value || ""));
   const rawSourcePages = plan.sourcePages && typeof plan.sourcePages === "object" ? plan.sourcePages : {};
   const hasStoredSourceContent = GOAL_WORKING_PAGE_IDS.some((pageId) => hasGoalWorkingPageStateContent(rawSourcePages[pageId]));
   if (!hasFallbackContent && !hasStoredSourceContent) {
@@ -15136,7 +15257,7 @@ function loadGoalPlanIntoGenerator(slotIndex) {
   GOAL_WORKING_PAGE_IDS.forEach((pageId) => {
     const restored = sourcePages[pageId];
     nextPages[pageId] = restored && typeof restored === "object"
-      ? stripFreeTextFromGoalPageState(restored)
+      ? cloneGoalPlanPageState(restored)
       : emptyGoalWorkingPageState();
   });
 
@@ -16650,7 +16771,6 @@ async function sendOutputToChatGptApiTest() {
     setInternalAiOutputActive(true);
     renderInternalAiPanel();
     updatePreview();
-    setTimeout(syncGenerator1KiTextToWeekplan, 60);
     renderInternalAiPanel();
     if (statusField)
       statusField.textContent =
@@ -16687,7 +16807,6 @@ function clearChatGptApiTestOutput() {
   setInternalAiOutputActive(false);
   renderInternalAiPanel();
   updatePreview();
-  setTimeout(syncGenerator1KiTextToWeekplan, 60);
   if (statusField)
     statusField.textContent =
       "Das gespeicherte KI-Ergebnis wurde gelöscht.";
@@ -19205,10 +19324,8 @@ function createEmptyWeekplanClient(index = 0) {
     client.days[dayKey] = {
       morningGoal: "",
       morningActivity: "",
-      morningActivityExtra: "",
       afternoonGoal: "",
       afternoonActivity: "",
-      afternoonActivityExtra: "",
     };
   });
 
@@ -19599,84 +19716,6 @@ async function unlockBrowserSnapshotsFromUi() {
   } catch (error) {
     console.warn("Browser-Stände konnten nicht entsperrt werden.", error);
     alert("Browser-Stände konnten nicht entsperrt werden. Passwort prüfen.");
-  }
-}
-
-async function changeBrowserSnapshotsPasswordFromUi() {
-  const raw = localStorage.getItem(browserSnapshotKey());
-  if (!raw) {
-    alert("Es sind noch keine Browser-Stände vorhanden. Lege zuerst über „Stände entsperren“ die verschlüsselte Speicherung an.");
-    return;
-  }
-
-  try {
-    const parsed = JSON.parse(raw);
-    let snapshots = defaultBrowserSnapshots();
-
-    if (isEncryptedNavigatorFile(parsed)) {
-      const oldPassword = await requestNavigatorPassword({
-        title: "Bisheriges Passwort prüfen",
-        message: "Bitte zuerst das bisherige Passwort der Browser-Stände eingeben.",
-        confirm: false,
-        autocomplete: "current-password",
-        minLength: 1,
-      });
-      if (!oldPassword) return;
-      snapshots = await decryptBrowserSnapshotsWithPassword(parsed, oldPassword);
-    } else {
-      snapshots = normalizeBrowserSnapshots(parsed);
-    }
-
-    const newPassword = await requestNavigatorPassword({
-      title: "Neues Passwort für Browser-Stände",
-      message: "Das neue Passwort wird für aktueller / vorheriger / Notfall-Stand verwendet.",
-      confirm: true,
-      autocomplete: "new-password",
-      minLength: 8,
-    });
-    if (!newPassword) return;
-
-    encryptedBrowserSnapshotsCache = normalizeBrowserSnapshots(snapshots);
-    setBrowserSnapshotSessionPassword(newPassword);
-    await persistBrowserSnapshotsEncrypted(encryptedBrowserSnapshotsCache, { promptForPassword: false });
-    await rememberNavigatorPasswordInBrowserManager(newPassword);
-    alert("Das Passwort für die Browser-Stände wurde geändert.");
-    renderWorkspaceMeta();
-  } catch (error) {
-    console.warn("Passwort der Browser-Stände konnte nicht geändert werden.", error);
-    alert("Passwort konnte nicht geändert werden. Bitte bisheriges Passwort prüfen.");
-  }
-}
-
-async function clearBrowserSnapshotsFromUi() {
-  const raw = localStorage.getItem(browserSnapshotKey());
-  if (!raw) {
-    alert("Es sind keine Browser-Stände gespeichert.");
-    return;
-  }
-
-  const firstConfirm = confirm(
-    "Browser-Stände löschen?\n\n" +
-      "Gelöscht werden nur aktueller / vorheriger / Notfall-Stand im Browser und das Sitzungs-Passwort.\n" +
-      "Der normale Arbeitsstand und exportierte Dateien bleiben unverändert."
-  );
-  if (!firstConfirm) return;
-
-  const secondConfirm = confirm(
-    "Wirklich löschen?\n\n" +
-      "Danach können diese drei Browser-Stände nicht mehr wiederhergestellt werden."
-  );
-  if (!secondConfirm) return;
-
-  try {
-    localStorage.removeItem(browserSnapshotKey());
-    clearBrowserSnapshotSessionPassword();
-    encryptedBrowserSnapshotsCache = null;
-    alert("Browser-Stände wurden gelöscht. Beim nächsten Speichern kann ein neues Passwort gesetzt werden.");
-    renderWorkspaceMeta();
-  } catch (error) {
-    console.warn("Browser-Stände konnten nicht gelöscht werden.", error);
-    alert("Browser-Stände konnten nicht gelöscht werden.");
   }
 }
 
