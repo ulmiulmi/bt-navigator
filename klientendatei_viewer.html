@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BT-Navigator – Klientendatei-Viewer</title>
+  <style>
+    :root {
+      --bg:#f4f7fb; --panel:#fff; --line:#d8e1ee; --text:#1f2a37; --muted:#607086;
+      --accent:#2f6fed; --accent-soft:#eaf1ff; --grit:#5c3991; --grit-soft:#f1ecf8;
+      --gret:#2f7d5a; --gret-soft:#eaf7f1; --warn-bg:#fff8ea; --warn-line:#f0dfad;
+      --ok:#0f766e; --shadow:0 10px 30px rgba(20,34,52,.08); --radius:18px;
+    }
+    *{box-sizing:border-box} html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:Arial,Helvetica,sans-serif;overflow-x:hidden} body{min-height:100vh}
+    button,input{font:inherit}.app{max-width:1180px;margin:0 auto;padding:24px}.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}.section{padding:22px}.stack{display:grid;gap:18px}.muted{color:var(--muted);line-height:1.6}.small{font-size:13px;color:var(--muted);line-height:1.5}.badge{display:inline-flex;align-items:center;gap:8px;padding:6px 10px;border-radius:999px;background:var(--accent-soft);color:var(--accent);font-size:13px;font-weight:800}.badge.grit{background:var(--grit-soft);color:var(--grit)}.badge.gret{background:var(--gret-soft);color:var(--gret)}
+    h1,h2,h3{margin:0} h1{font-size:34px;line-height:1.1} h2{font-size:24px} h3{font-size:19px}.hero{display:grid;gap:16px;background:linear-gradient(180deg,#fff 0%,#fbfdff 100%);padding:24px}.hero-title{display:flex;align-items:center;gap:12px;flex-wrap:wrap}.tool-row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}button{border:1px solid var(--accent);background:var(--accent);color:#fff;border-radius:12px;padding:11px 16px;font-weight:800;cursor:pointer;min-height:42px;box-shadow:0 6px 16px rgba(31,57,90,.08)}button.secondary{background:#fff;color:var(--accent)}button.ghost{background:#fff;color:var(--text);border-color:var(--line);box-shadow:none}button.grit{background:var(--grit);border-color:var(--grit)}button.gret{background:var(--gret);border-color:var(--gret)}button.active{outline:3px solid rgba(47,111,237,.14)}
+    .file-panel{display:grid;gap:14px;padding:18px;border-top:1px solid var(--line);background:#fbfdff}.file-box{display:grid;gap:10px;border:1px dashed var(--line);border-radius:16px;background:#fff;padding:16px}.file-box input[type=file],.file-box input[type=password]{width:100%;border:1px solid var(--line);border-radius:12px;background:#fff;padding:11px 12px}.status{border:1px solid var(--line);border-radius:14px;background:#fff;padding:12px 14px;line-height:1.5;color:var(--muted)}.status.good{border-color:#b7eadb;background:#f2fffa;color:var(--ok)}.status.warn{border-color:var(--warn-line);background:var(--warn-bg);color:#8a6700}.hidden{display:none!important}
+    .summary-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.summary-box{border:1px solid var(--line);border-radius:16px;background:#fff;padding:14px}.summary-box strong{display:block;margin-bottom:6px;color:var(--text)}
+    .view-tabs{display:flex;gap:10px;flex-wrap:wrap;padding:14px;border:1px solid var(--line);border-radius:18px;background:#fff;box-shadow:var(--shadow)}
+    .generator-card{border:1px solid var(--theme-line,var(--line));border-radius:22px;box-shadow:0 14px 34px var(--theme-glow,rgba(31,57,90,.06));overflow:hidden;background:#fff}.generator-card.grit{--theme:var(--grit);--theme-soft:var(--grit-soft);--theme-line:#dacdf0;--theme-glow:rgba(92,57,145,.10)}.generator-card.gret{--theme:var(--gret);--theme-soft:var(--gret-soft);--theme-line:#cfe7d9;--theme-glow:rgba(47,125,90,.10)}.generator-head{display:grid;gap:8px;padding:18px 20px;background:linear-gradient(180deg,var(--theme-soft),#fff 72%);border-bottom:1px solid var(--theme-line)}.generator-head h2{color:var(--theme)}
+    details.viewer-section{border:1px solid var(--line);border-radius:16px;background:#fff;overflow:hidden;margin:14px 0}details.viewer-section>summary{list-style:none;cursor:pointer;padding:14px 16px;font-weight:900;color:var(--theme,var(--accent));background:linear-gradient(180deg,var(--theme-soft,#f8fbff),#fff);display:flex;justify-content:space-between;gap:10px}details.viewer-section>summary::-webkit-details-marker{display:none}details.viewer-section>summary::after{content:"▾";color:var(--muted);transition:transform .14s ease}details.viewer-section:not([open])>summary{border-bottom:none}details.viewer-section[open]>summary::after{transform:rotate(180deg)}.section-body{padding:16px;display:grid;gap:12px}.structured-box{border:1px solid var(--line);border-radius:14px;background:#fffefc;padding:14px;white-space:pre-wrap;line-height:1.7;overflow-wrap:anywhere}.kv-grid{display:grid;grid-template-columns:220px 1fr;border:1px solid var(--line);border-radius:14px;overflow:hidden}.kv-label,.kv-value{padding:10px 12px;border-bottom:1px solid var(--line)}.kv-label{font-weight:800;background:#f7faff;color:var(--muted)}.kv-value{background:#fff;white-space:pre-wrap;overflow-wrap:anywhere}.kv-grid div:nth-last-child(-n+2){border-bottom:none}.pill-list{display:grid;gap:8px}.pill-item{border:1px solid var(--line);border-radius:13px;background:#fbfcff;padding:10px 12px;line-height:1.5}.pill-item strong{display:block;margin-bottom:4px}.empty{border:1px dashed var(--line);border-radius:14px;background:#fbfdff;padding:14px;color:var(--muted);line-height:1.55}.footer-note{font-size:12px;color:var(--muted);text-align:center;padding:12px}.mode-hidden{display:none!important}
+    .generator-card.weekplan-view{--theme:var(--accent);--theme-soft:var(--accent-soft);--theme-line:#cfe0ff;--theme-glow:rgba(47,111,237,.10)}
+    .weekplan-overview{display:grid;gap:14px}.weekplan-meta-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.weekplan-meta-card{border:1px solid var(--theme-line,var(--line));border-radius:16px;background:#fff;padding:14px;display:grid;gap:8px;box-shadow:0 8px 18px rgba(31,57,90,.04)}.weekplan-meta-card.rit{--theme:var(--grit);--theme-soft:var(--grit-soft);--theme-line:#dacdf0}.weekplan-meta-card.ret{--theme:var(--gret);--theme-soft:var(--gret-soft);--theme-line:#cfe7d9}.weekplan-meta-title{font-weight:900;color:var(--theme);display:flex;align-items:center;gap:8px}.weekplan-meta-line{border-top:1px solid var(--line);padding-top:8px;line-height:1.5;white-space:pre-wrap;overflow-wrap:anywhere}.weekplan-meta-line:first-of-type{border-top:0;padding-top:0}
+    .viewer-week-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:6px;max-width:100%;scrollbar-width:none;-ms-overflow-style:none}.viewer-week-scroll::-webkit-scrollbar{display:none}.viewer-week-board{display:grid;grid-template-columns:repeat(5,minmax(235px,1fr));gap:14px;min-width:1180px;align-items:start}.viewer-day-card{border:1px solid var(--line);border-radius:18px;background:#fff;overflow:hidden;box-shadow:0 10px 24px rgba(31,57,90,.06)}.viewer-day-head{padding:13px 15px;font-weight:950;font-size:20px;border-bottom:1px solid var(--line);color:var(--day,#355070);background:linear-gradient(180deg,var(--day-soft,#f8fbff),#fff)}.viewer-day-card.mo{--day:#62a744;--day-soft:#f2faed}.viewer-day-card.di{--day:#84a032;--day-soft:#f7faea}.viewer-day-card.mi{--day:#2f84c6;--day-soft:#edf7ff}.viewer-day-card.do{--day:#c94f74;--day-soft:#fff0f5}.viewer-day-card.fr{--day:#a56620;--day-soft:#fff6eb}.viewer-day-body{padding:12px;display:grid;grid-template-rows:auto 128px minmax(240px,auto);gap:12px;background:#fbfcff}.viewer-seq-card{border:1px solid var(--line);border-radius:16px;background:#fff;overflow:hidden}.viewer-seq-title{padding:10px 12px;font-weight:900;color:#49566a;border-bottom:1px solid var(--line);background:linear-gradient(180deg,#fff,#fbfdff)}.viewer-mode-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;padding:10px}.viewer-seq-single{padding:10px;display:grid;gap:10px}.viewer-plan-entry{border:1px solid var(--theme-line,var(--line));border-radius:14px;background:linear-gradient(180deg,#fff,var(--theme-soft,#fbfdff));padding:10px;display:grid;gap:7px;min-width:0}.viewer-plan-entry.rit{--theme:var(--grit);--theme-soft:var(--grit-soft);--theme-line:#dacdf0}.viewer-plan-entry.ret{--theme:var(--gret);--theme-soft:var(--gret-soft);--theme-line:#cfe7d9}.viewer-plan-entry-title{font-weight:950;color:var(--theme);font-size:13px}.viewer-plan-entry.empty-entry{opacity:.62;background:#fff}.viewer-plan-entry.empty-entry .viewer-plan-entry-title{color:var(--muted)}.viewer-plan-field{display:grid;gap:3px}.viewer-plan-field-label{font-size:11px;font-weight:900;color:var(--muted);text-transform:uppercase;letter-spacing:.02em}.viewer-plan-field-value{line-height:1.45;white-space:pre-wrap;overflow-wrap:anywhere;font-size:14px}.viewer-morning-card{min-height:var(--viewer-morning-min,auto);display:grid;grid-template-rows:auto auto}.viewer-morning-card .viewer-mode-grid,.viewer-morning-card .viewer-seq-single{min-height:0;overflow:visible;align-content:start}.viewer-afternoon-card{min-height:0}.viewer-lunch-card{height:128px;min-height:128px;display:grid;grid-template-rows:auto minmax(0,1fr)}.viewer-lunch-single{padding:10px;min-height:0;display:grid}.viewer-lunch-value{min-height:58px;max-height:100%;overflow:hidden;border:1px solid var(--line);border-radius:14px;background:#fff;padding:10px;line-height:1.45;white-space:pre-wrap;overflow-wrap:anywhere}.viewer-lunch-value.empty-lunch{color:var(--muted);background:#fbfcff}
+    @media(max-width:760px){.weekplan-meta-grid{grid-template-columns:1fr}.viewer-week-board{min-width:1100px}.viewer-mode-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+    
+
+    .weekplan-grid{display:grid;gap:12px}
+    .weekplan-day{border:1px solid var(--line);border-radius:16px;background:#fbfcff;overflow:hidden}
+    .weekplan-day-title{padding:11px 13px;font-weight:900;color:var(--theme,var(--accent));background:linear-gradient(180deg,var(--theme-soft,#f8fbff),#fff);border-bottom:1px solid var(--line)}
+    .weekplan-periods{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;padding:12px}
+    .weekplan-period{border:1px solid var(--line);border-radius:14px;background:#fff;padding:11px;display:grid;gap:8px}
+    .weekplan-period-title{font-weight:900;color:var(--text)}
+    .weekplan-field{display:grid;gap:3px}
+    .weekplan-field-label{font-size:12px;font-weight:900;color:var(--muted)}
+    .weekplan-field-value{white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.55}
+    @media(max-width:760px){.app{padding:12px}h1{font-size:26px}.summary-grid{grid-template-columns:1fr}.weekplan-periods{grid-template-columns:1fr}.kv-grid{grid-template-columns:1fr}.kv-label{border-bottom:0}.kv-value{border-bottom:1px solid var(--line)}.tool-row button{width:100%}}
+    @media print{body{background:#fff}.app{max-width:none;padding:0}.file-panel,.view-tabs,.tool-row.print-actions,.footer-note{display:none!important}.card,.generator-card{box-shadow:none!important}.generator-card{page-break-inside:avoid}.viewer-section{page-break-inside:avoid}details.viewer-section{display:block}details.viewer-section:not([open]) .section-body{display:grid!important}}
+  </style>
+</head>
+<body>
+  <div class="app stack">
+    <section class="card">
+      <div class="hero">
+        <div class="hero-title">
+          <span class="badge">BT-Navigator</span>
+          <h1>Klientendatei-Viewer</h1>
+        </div>
+        <div class="muted">Lädt eine gespeicherte Klientendatei, entschlüsselt sie lokal im Browser und zeigt RIT und RET getrennt an. Der Wochenplan kann RIT und RET gemeinsam nebeneinander anzeigen. Der Viewer verändert keine Arbeitsmappe und speichert keine Browser-Stände.</div>
+        <div class="tool-row print-actions">
+          <button type="button" class="secondary" onclick="window.print()">Druckansicht / PDF</button>
+          <button type="button" class="ghost" onclick="resetViewer()">Viewer leeren</button>
+        </div>
+      </div>
+      <div class="file-panel">
+        <div class="file-box">
+          <strong>Klientendatei laden</strong>
+          <input id="fileInput" type="file" accept="application/json,.json" />
+          <div id="passwordRow" class="hidden">
+            <input id="passwordInput" type="password" placeholder="Passwort der Klientendatei" autocomplete="current-password" />
+            <div class="tool-row" style="margin-top:10px"><button type="button" onclick="openEncryptedFile()">Datei öffnen</button></div>
+          </div>
+          <div id="status" class="status">Noch keine Klientendatei geladen.</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="content" class="stack hidden">
+      <div class="view-tabs" id="viewTabs"></div>
+      <section class="card section">
+        <div class="summary-grid" id="summaryGrid"></div>
+      </section>
+      <div id="generatorsHost" class="stack"></div>
+    </section>
+    <div class="footer-note">BT-Navigator Klientendatei Viewer · lokale Anzeige · keine Bearbeitung</div>
+  </div>
+
+<script>
+const MARKER = "BT-NAVIGATOR-ENCRYPTED";
+const ITERATIONS = 250000;
+const DAY_LABELS = { mo:"Montag", di:"Dienstag", mi:"Mittwoch", do:"Donnerstag", fr:"Freitag" };
+const PAGE_TITLES = {
+  redline_zielerfassung:"Bestehende Zielerfassung / Redline",
+  "2_Ausgangslage_A":"2. Ausgangslage A – alltagsrelevante Beschreibung",
+  "2b_Diagnostik":"2b. Diagnostik und Hintergrund",
+  "3_Ausgangslage_B":"3. Ausgangslage / Rahmen / Unterstützungsbedarf",
+  "4_Durchfuehrung_A":"4. Durchführung A – Teilhabe",
+  "5_Durchfuehrung_B":"5. Durchführung B – Teilhabe",
+  "6_Musik_Basal":"6. Musik, basal und Entspannung",
+  "7_Begleitansatz_A":"7. Begleitansatz A – Struktur und Orientierung",
+  "8_Begleitansatz_B":"8. Begleitansatz B – Unterstützung und Regulation",
+  "9_Ziele":"9. Ziele",
+  "10_Feinziele":"10. Feinziele",
+  "11_Beobachtung":"11. Beobachtung und Wirkung",
+  "10b_Zielplanung_1_10":"12. Bausteinverwaltung",
+  entwicklungsplanung:"Entwicklungsplanung"
+};
+const ORDER = ["redline_zielerfassung","2_Ausgangslage_A","2b_Diagnostik","3_Ausgangslage_B","4_Durchfuehrung_A","5_Durchfuehrung_B","6_Musik_Basal","7_Begleitansatz_A","8_Begleitansatz_B","9_Ziele","10_Feinziele","11_Beobachtung","10b_Zielplanung_1_10"];
+let pendingEncrypted = null;
+let currentPayload = null;
+let activeMode = "all";
+
+function esc(v){return String(v ?? "").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[m]));}
+function clean(v){return String(v ?? "").replace(/\s+/g," ").trim();}
+function hasText(v){return clean(v).length>0;}
+function b64ToBytes(base64){const bin=atob(String(base64||"")); const out=new Uint8Array(bin.length); for(let i=0;i<bin.length;i++) out[i]=bin.charCodeAt(i); return out;}
+async function deriveKey(password,salt){const enc=new TextEncoder(); const base=await crypto.subtle.importKey("raw",enc.encode(password),"PBKDF2",false,["deriveKey"]); return crypto.subtle.deriveKey({name:"PBKDF2",salt,iterations:ITERATIONS,hash:"SHA-256"},base,{name:"AES-GCM",length:256},false,["decrypt"]);}
+function isEncrypted(parsed){return !!(parsed && parsed.btNavigatorEncrypted===true && parsed.marker===MARKER && typeof parsed.payload==="string");}
+async function decryptFile(parsed,password){const salt=b64ToBytes(parsed?.kdf?.salt); const iv=b64ToBytes(parsed?.cipher?.iv); const cipher=b64ToBytes(parsed.payload); const key=await deriveKey(password,salt); const kind=parsed.kind || "single-client"; const plain=await crypto.subtle.decrypt({name:"AES-GCM",iv,additionalData:new TextEncoder().encode(MARKER+":"+kind),tagLength:128},key,cipher); return JSON.parse(new TextDecoder().decode(plain));}
+function setStatus(text,type=""){const el=document.getElementById("status"); el.textContent=text; el.className="status"+(type?" "+type:"");}
+
+function resetViewer(){pendingEncrypted=null; currentPayload=null; activeMode="all"; document.getElementById("fileInput").value=""; document.getElementById("passwordInput").value=""; document.getElementById("passwordRow").classList.add("hidden"); document.getElementById("content").classList.add("hidden"); setStatus("Noch keine Klientendatei geladen.");}
+
+document.getElementById("fileInput").addEventListener("change", async (event)=>{
+  const file=event.target.files && event.target.files[0];
+  document.getElementById("passwordRow").classList.add("hidden");
+  document.getElementById("content").classList.add("hidden");
+  pendingEncrypted=null;
+  if(!file){setStatus("Noch keine Klientendatei geladen."); return;}
+  try{
+    const parsed=JSON.parse(await file.text());
+    if(isEncrypted(parsed)){
+      pendingEncrypted=parsed;
+      document.getElementById("passwordRow").classList.remove("hidden");
+      document.getElementById("passwordInput").focus();
+      setStatus("Verschlüsselte Datei erkannt. Bitte Passwort eingeben.","warn");
+      return;
+    }
+    loadPayload(parsed);
+  }catch(error){console.warn(error); setStatus("Datei konnte nicht gelesen werden.","warn");}
+});
+
+document.getElementById("passwordInput").addEventListener("keydown", (e)=>{ if(e.key==="Enter") openEncryptedFile(); });
+async function openEncryptedFile(){
+  if(!pendingEncrypted) return;
+  const password=document.getElementById("passwordInput").value;
+  if(!password){setStatus("Bitte Passwort eingeben.","warn"); return;}
+  try{ const payload=await decryptFile(pendingEncrypted,password); loadPayload(payload); document.getElementById("passwordRow").classList.add("hidden"); document.getElementById("passwordInput").value=""; }
+  catch(error){console.warn(error); setStatus("Datei konnte nicht entschlüsselt werden. Passwort oder Datei passt nicht.","warn");}
+}
+
+function loadPayload(payload){
+  if(!payload || typeof payload!=="object"){setStatus("Diese Datei enthält keine lesbaren Klientendaten.","warn"); return;}
+  if(payload.clientStates && !payload.clientState){setStatus("Das sieht nach einer ganzen Arbeitsdatei aus. Bitte eine Klientendatei laden.","warn"); return;}
+  currentPayload=payload;
+  activeMode=pickDefaultMode();
+  renderAll();
+  const name=clean(payload.clientName) || clean(payload.clientInitials) || clean(payload.clientLabel) || "Klientendatei";
+  setStatus("Klientendatei geöffnet: "+name,"good");
+}
+
+function getGenState(gen){
+  const candidates=[currentPayload?.clientState,currentPayload?.state,currentPayload?.workspaceState,currentPayload?.clientWorkspace,currentPayload];
+  for(const root of candidates){
+    if(!root || typeof root!=="object") continue;
+    if(root[gen] && typeof root[gen]==="object") return root[gen];
+    if(root.state && root.state[gen] && typeof root.state[gen]==="object") return root.state[gen];
+    if(root.clientState && root.clientState[gen] && typeof root.clientState[gen]==="object") return root.clientState[gen];
+  }
+  return {};
+}
+function getClientMeta(){return currentPayload?.clientMeta || currentPayload?.viewerMeta || {};}
+function valueFromGeneratorMap(map,gen){
+  if(!map || typeof map!=="object") return "";
+  const slot=Number.isInteger(currentPayload?.slotIndex)?currentPayload.slotIndex:0;
+  const scoped="client-"+slot+":"+gen;
+  if(Object.prototype.hasOwnProperty.call(map,scoped)) return map[scoped];
+  if(Object.prototype.hasOwnProperty.call(map,gen)) return map[gen];
+  if(gen==="grit" && Object.prototype.hasOwnProperty.call(map,"rit")) return map.rit;
+  if(gen==="gret" && Object.prototype.hasOwnProperty.call(map,"ret")) return map.ret;
+  return "";
+}
+function metaValue(mapName,gen){
+  const sources=[getClientMeta()?.[mapName],currentPayload?.meta?.[mapName],currentPayload?.[mapName],currentPayload?.viewerTexts?.[mapName],currentPayload?.clientMeta?.viewerTexts?.[mapName]];
+  for(const src of sources){
+    const value=valueFromGeneratorMap(src,gen);
+    if(hasText(value) || objectHasContent(value)) return value;
+  }
+  return "";
+}
+function objectHasContent(obj){
+  if(!obj || typeof obj!=="object") return false;
+  return Object.values(obj).some(v=>Array.isArray(v)?v.length>0:(v&&typeof v==="object"?objectHasContent(v):hasText(v)));
+}
+function pageHasContent(ps){
+  if(!ps || typeof ps!=="object") return false;
+  if(Array.isArray(ps.selected)&&ps.selected.some(hasText)) return true;
+  if(Array.isArray(ps.partial)&&ps.partial.some(hasText)) return true;
+  if(hasText(ps.freeText)) return true;
+  if(objectHasContent(ps.textFields)) return true;
+  if(objectHasContent(ps.redlineFields)) return true;
+  if(Array.isArray(ps.goalPlans)&&ps.goalPlans.some(plan=>planHasContent(plan))) return true;
+  return false;
+}
+function planHasContent(plan){return !!plan && ["tag","sequenz","fernziel","feinziel1","feinziel2","feinziel3","aktivitaeten","durchfuehrung","massnahmen","materialien","beobachtung"].some(k=>hasText(plan[k]));}
+function weekplanClientHasContent(wp){
+  if(!wp || typeof wp!=="object") return false;
+  if(hasText(wp.setting) || hasText(wp.mainGoal) || hasText(wp.notes)) return true;
+  const days=wp.days || {};
+  return Object.values(days).some(day=>day && typeof day==="object" && ["morningGoal","morningActivity","morningActivityExtra","afternoonGoal","afternoonActivity","afternoonActivityExtra"].some(k=>hasText(day[k])));
+}
+function anyWeekplanHasContent(){return weekplanClientHasContent(currentPayload?.weekplanRitClient) || weekplanClientHasContent(currentPayload?.weekplanRetClient);}
+function generatorHasContent(gen){
+  const st=getGenState(gen); const gd=st.grunddaten || {}; const pages=st.pages || {};
+  const hasPageContent = Object.values(pages).some(pageHasContent);
+  const hasTextContent = hasText(metaValue("correctedOutputByGenerator",gen)) || hasText(metaValue("entwicklungsplanungTextByGenerator",gen)) || objectHasContent(metaValue("entwicklungsplanungFieldsByGenerator",gen));
+  const hasSpecificGrunddaten = ["modus","kliententyp","zeiten","kontext","epBereich","epErsteller","epErstellerKuerzel","geschlecht"].some(k=>hasText(gd[k])) || (Array.isArray(gd.tage)&&gd.tage.length>0) || (Array.isArray(gd.timeSlots)&&gd.timeSlots.length>0);
+  return hasPageContent || hasTextContent || hasSpecificGrunddaten;
+}
+function areaHasContent(gen){return generatorHasContent(gen) || (gen==="grit"?weekplanClientHasContent(currentPayload?.weekplanRitClient):weekplanClientHasContent(currentPayload?.weekplanRetClient));}
+function presentAreas(){return ["grit","gret"].filter(areaHasContent);}
+function getAvailableViews(){
+  const views=[];
+  if(generatorHasContent("grit")) views.push("grit");
+  if(generatorHasContent("gret")) views.push("gret");
+  if(anyWeekplanHasContent()) views.push("weekplan");
+  return views;
+}
+function pickDefaultMode(){
+  const views=getAvailableViews();
+  if(views.includes("weekplan")) return "weekplan";
+  return views[0] || "grit";
+}
+function ensureActiveMode(){
+  const views=getAvailableViews();
+  if(!views.length){ activeMode="none"; return; }
+  if(!views.includes(activeMode)) activeMode=pickDefaultMode();
+}
+
+function renderAll(){
+  document.getElementById("content").classList.remove("hidden");
+  ensureActiveMode();
+  renderTabs(); renderSummary(); renderGenerators();
+}
+function renderTabs(){
+  ensureActiveMode();
+  const host=document.getElementById("viewTabs");
+  const buttons=[];
+  if(generatorHasContent("grit")) buttons.push(`<button class="grit ${activeMode==='grit'?'active':''}" onclick="setMode('grit')">RIT</button>`);
+  if(generatorHasContent("gret")) buttons.push(`<button class="gret ${activeMode==='gret'?'active':''}" onclick="setMode('gret')">RET</button>`);
+  if(anyWeekplanHasContent()) buttons.push(`<button class="secondary ${activeMode==='weekplan'?'active':''}" onclick="setMode('weekplan')">Wochenplan RIT und RET</button>`);
+  host.innerHTML=buttons.join("") || `<span class="muted">Keine RIT-/RET-Inhalte erkannt.</span>`;
+}
+function setMode(mode){activeMode=mode; renderAll();}
+function renderSummary(){
+  const areas=presentAreas(); const gdGrit=getGenState("grit").grunddaten || {}; const gdGret=getGenState("gret").grunddaten || {};
+  const initials=clean(currentPayload.clientInitials)||clean(gdGrit.initialen)||clean(gdGret.initialen)||"–";
+  const name=clean(currentPayload.clientName)||clean(gdGrit.name)||clean(gdGret.name)||"–";
+  const modeLabel=areas.length===2?"RIT und RET":areas[0]==="grit"?"RIT":areas[0]==="gret"?"RET":"–";
+  const currentView=activeMode==="weekplan"?"Wochenplan":activeMode==="grit"?"RIT":activeMode==="gret"?"RET":"–";
+  document.getElementById("summaryGrid").innerHTML=`
+    <div class="summary-box"><strong>Klientendatei</strong>${esc(clean(currentPayload.clientLabel)||"Klient")}</div>
+    <div class="summary-box"><strong>Initialen</strong>${esc(initials)}</div>
+    <div class="summary-box"><strong>Name</strong>${esc(name)}</div>
+    <div class="summary-box"><strong>Enthaltene Bereiche</strong>${esc(modeLabel)}</div>
+    <div class="summary-box"><strong>Exportiert am</strong>${esc(formatDate(currentPayload.exportedAt)||"–")}</div>
+    <div class="summary-box"><strong>Aktuelle Ansicht</strong>${esc(currentView)}</div>`;
+}
+function renderGenerators(){
+  const host=document.getElementById("generatorsHost");
+  if(activeMode==="weekplan"){
+    host.innerHTML=renderCombinedWeekplanSection();
+    requestAnimationFrame(syncViewerWeekplanHeights);
+    return;
+  }
+  if(activeMode==="grit" || activeMode==="gret"){
+    host.innerHTML=renderGenerator(activeMode);
+    return;
+  }
+  host.innerHTML=`<div class="empty">Keine passenden Inhalte vorhanden.</div>`;
+}
+function renderGenerator(gen){
+  const label=gen==="grit"?"RIT":"RET";
+  const st=getGenState(gen);
+  return `<section class="generator-card ${gen}"><div class="generator-head"><span class="badge ${gen}">${label}</span><h2>${label}</h2><div class="small">Anzeige der gespeicherten Klientendatei. Dieser Bereich ist nicht bearbeitbar. RIT und RET bleiben fachlich getrennt.</div></div><div class="section">${renderGrunddaten(st)}${renderStructuredPreview(gen,st)}${renderStructuredPages(gen,st)}${renderAiSections(gen)}</div></section>`;
+}
+function syncViewerWeekplanHeights(){
+  const board=document.querySelector(".viewer-week-board");
+  if(!board) return;
+  const morningCards=Array.from(board.querySelectorAll(".viewer-morning-card"));
+  if(!morningCards.length) return;
+  morningCards.forEach(card=>{ card.style.minHeight=""; });
+  requestAnimationFrame(()=>{
+    const maxHeight=Math.ceil(Math.max(...morningCards.map(card=>card.scrollHeight)));
+    morningCards.forEach(card=>{ card.style.minHeight=maxHeight+"px"; });
+  });
+}
+window.addEventListener("resize", ()=>{
+  if(activeMode==="weekplan") requestAnimationFrame(syncViewerWeekplanHeights);
+});
+
+function renderCombinedWeekplanSection(){
+  return `<section class="generator-card weekplan-view"><div class="generator-head"><span class="badge">Wochenplan</span><h2>Wochenplan RIT und RET</h2><div class="small">RIT und RET werden hier gemeinsam angezeigt. Die fachlichen RIT- und RET-Inhalte bleiben in den eigenen Ansichten getrennt.</div></div><div class="section">${renderCombinedWeekplan()}</div></section>`;
+}
+function renderGrunddaten(st){
+  const gd=st.grunddaten||{}; const rows=[
+    ["Datum",gd.datum],["Name",gd.name],["Initialen",gd.initialen],["Geburtsdatum",gd.geburtsdatum],["Bereich Entwicklungsplanung",gd.epBereich],["Ersteller/in",gd.epErsteller],["Kürzel Ersteller/in",gd.epErstellerKuerzel],["Personenbezug",gd.geschlecht],["Modus",gd.modus],["Kliententyp",gd.kliententyp],["Tage",Array.isArray(gd.tage)?gd.tage.join(", "):gd.tage],["Zeitfenster",Array.isArray(gd.timeSlots)?gd.timeSlots.join(", "):gd.timeSlots],["Zeiten",gd.zeiten],["Kontext",gd.kontext]
+  ].filter(r=>hasText(r[1]));
+  return renderDetails("Grunddaten", rows.length?`<div class="kv-grid">${rows.map(([k,v])=>`<div class="kv-label">${esc(k)}</div><div class="kv-value">${esc(v)}</div>`).join("")}</div>`:`<div class="empty">Keine Grunddaten vorhanden.</div>`, true);
+}
+function renderStructuredPages(gen,st){
+  const pages=st.pages||{}; const keys=[...ORDER, ...Object.keys(pages).filter(k=>!ORDER.includes(k))];
+  const parts=keys.map(id=>renderPage(id,pages[id])).filter(Boolean);
+  if(!parts.length) return renderDetails("Gespeicherte Daten zum Ausklappen", `<div class="empty">In dieser Klientendatei sind keine einzelnen Auswahlseiten gespeichert.</div>`, false);
+  return parts.join("");
+}
+function buildStructuredPreviewLines(gen,st){
+  const lines=[];
+  const gd=st.grunddaten||{};
+  const label=gen==="grit"?"RIT":"RET";
+  lines.push(label+" – strukturierte Übersicht");
+  if(hasText(gd.name)||hasText(gd.initialen)) lines.push("Klient/in: "+[gd.name,gd.initialen].filter(hasText).join(" / "));
+  const pages=st.pages||{};
+  const keys=[...ORDER, ...Object.keys(pages).filter(k=>!ORDER.includes(k))];
+  keys.forEach(id=>{
+    const text=pageTextForPreview(id,pages[id]);
+    if(hasText(text)) lines.push("\n"+(PAGE_TITLES[id]||id)+"\n"+text);
+  });
+  return lines.filter(hasText);
+}
+function renderStructuredPreview(gen,st){
+  const direct=firstText(metaValue("structuredPreviewByGenerator",gen),metaValue("previewByGenerator",gen),metaValue("structuredTextByGenerator",gen),currentPayload?.clientMeta?.structuredPreview,currentPayload?.structuredPreview);
+  const text=hasText(direct)?direct:buildStructuredPreviewLines(gen,st).join("\n");
+  return renderDetails("Strukturierte Vorschau", hasText(text)?`<div class="structured-box">${esc(text)}</div>`:`<div class="empty">Keine strukturierte Vorschau in dieser Klientendatei gespeichert.</div>`, false);
+}
+function pageTextForPreview(id,ps){
+  if(!pageHasContent(ps)) return "";
+  if(id==="10b_Zielplanung_1_10"){
+    const plans=(ps.goalPlans||[]).filter(planHasContent);
+    return plans.map(plan=>"Baustein "+(plan.slot||"")+"\n"+goalPlanText(plan)).join("\n\n");
+  }
+  const lines=[];
+  if(Array.isArray(ps.selected)&&ps.selected.length){const partial=new Set((ps.partial||[]).map(clean)); ps.selected.filter(hasText).forEach(item=>lines.push("• "+clean(item)+(partial.has(clean(item))?" (teilweise)":"")));}
+  if(hasText(ps.freeText)) lines.push("Freitext: "+clean(ps.freeText));
+  if(objectHasContent(ps.textFields)) Object.entries(ps.textFields).forEach(([k,v])=>{if(hasText(v)) lines.push(labelFromKey(k)+": "+clean(v));});
+  if(objectHasContent(ps.redlineFields)) Object.entries(ps.redlineFields).forEach(([k,v])=>{if(hasText(v)) lines.push(labelFromKey(k)+": "+clean(v));});
+  return lines.join("\n");
+}
+function renderPage(id,ps){
+  if(!pageHasContent(ps)) return "";
+  if(id==="10b_Zielplanung_1_10") return renderGoalPlans(ps);
+  const text=pageTextForPreview(id,ps);
+  return renderDetails(PAGE_TITLES[id]||id, hasText(text)?`<div class="structured-box">${esc(text)}</div>`:`<div class="empty">Keine Inhalte gespeichert.</div>`, false);
+}
+function renderGoalPlans(ps){
+  const plans=(ps.goalPlans||[]).filter(planHasContent);
+  if(!plans.length) return "";
+  const body=`<div class="pill-list">${plans.map(plan=>`<div class="pill-item"><strong>Baustein ${esc(plan.slot || "")}${hasText(plan.tag)||hasText(plan.sequenz)?" · "+esc([plan.tag,plan.sequenz].filter(hasText).join(" · ")):""}</strong>${esc(goalPlanText(plan)).replace(/\n/g,"<br>")}</div>`).join("")}</div>`;
+  return renderDetails("12. Bausteinverwaltung", body, false);
+}
+function goalPlanText(plan){
+  const rows=[["Fernziel",plan.fernziel],["Feinziel 1",plan.feinziel1],["Feinziel 2",plan.feinziel2],["Feinziel 3",plan.feinziel3],["Aktivitäten / Teilhabe",plan.aktivitaeten],["Durchführung",plan.durchfuehrung],["Massnahmen / Begleitung",plan.massnahmen],["Materialien",plan.materialien],["Beobachtung / Wirkung",plan.beobachtung]];
+  return rows.filter(r=>hasText(r[1])).map(([k,v])=>k+": "+clean(v)).join("\n");
+}
+function renderAiSections(gen){
+  const ki=getKiResultText(gen);
+  const epText=getEntwicklungsplanungText(gen);
+  const epFields=getEntwicklungsplanungFields(gen);
+  let out="";
+  out+=renderDetails("KI-Ergebnis", hasText(ki)?`<div class="structured-box">${esc(ki)}</div>`:`<div class="empty">Kein KI-Ergebnis in dieser Klientendatei gespeichert.</div>`, false);
+  if(hasText(epText)) out+=renderDetails("Entwicklungsplanung – KI-Ergebnis", `<div class="structured-box">${esc(epText)}</div>`, false);
+  else if(objectHasContent(epFields)){
+    const lines=[]; Object.entries(epFields).forEach(([k,v])=>{if(hasText(v)) lines.push(labelFromKey(k)+": "+clean(v));});
+    out+=renderDetails("Entwicklungsplanung – Felder", `<div class="structured-box">${esc(lines.join("\n"))}</div>`, false);
+  } else out+=renderDetails("Entwicklungsplanung", `<div class="empty">Keine Entwicklungsplanung in dieser Klientendatei gespeichert.</div>`, false);
+  return out;
+}
+function firstText(...values){for(const value of values){if(hasText(value)) return String(value);} return "";}
+function getKiResultText(gen){
+  const st=getGenState(gen); const pages=st.pages||{}; const fertig=pages.fertig||{};
+  return firstText(metaValue("correctedOutputByGenerator",gen),metaValue("kiTextByGenerator",gen),metaValue("aiTextByGenerator",gen),metaValue("finalOutputByGenerator",gen),valueFromGeneratorMap(currentPayload?.correctedOutputByGenerator,gen),valueFromGeneratorMap(currentPayload?.kiTextByGenerator,gen),valueFromGeneratorMap(currentPayload?.aiTextByGenerator,gen),st.correctedOutput,st.kiText,st.aiText,st.finalOutput,st.output,fertig.kiText,fertig.aiText,fertig.output,fertig.text,fertig.freeText,fertig?.textFields?.kiText,fertig?.textFields?.output,fertig?.textFields?.finalOutput);
+}
+function getEntwicklungsplanungText(gen){
+  const st=getGenState(gen); const ep=st.pages?.entwicklungsplanung||{};
+  return firstText(metaValue("entwicklungsplanungTextByGenerator",gen),metaValue("epTextByGenerator",gen),valueFromGeneratorMap(currentPayload?.entwicklungsplanungTextByGenerator,gen),st.entwicklungsplanungText,st.epText,ep.output,ep.text,ep.kiText,ep?.textFields?.output,ep?.textFields?.epOutput,ep?.textFields?.entwicklungsplanungText);
+}
+function getEntwicklungsplanungFields(gen){
+  const st=getGenState(gen); const ep=st.pages?.entwicklungsplanung||{}; const fromMeta=metaValue("entwicklungsplanungFieldsByGenerator",gen);
+  if(objectHasContent(fromMeta)) return fromMeta;
+  const mapped=valueFromGeneratorMap(currentPayload?.entwicklungsplanungFieldsByGenerator,gen); if(objectHasContent(mapped)) return mapped;
+  if(objectHasContent(st.entwicklungsplanungFields)) return st.entwicklungsplanungFields;
+  if(objectHasContent(ep.textFields)) return ep.textFields;
+  if(objectHasContent(ep.fields)) return ep.fields;
+  return {};
+}
+function renderCombinedWeekplan(){
+  const rit=currentPayload?.weekplanRitClient;
+  const ret=currentPayload?.weekplanRetClient;
+  const showRit=weekplanClientHasContent(rit);
+  const showRet=weekplanClientHasContent(ret);
+  if(!showRit && !showRet) return `<div class="empty">In dieser Klientendatei ist kein Wochenplan gespeichert.</div>`;
+  const metaCards=[];
+  if(showRit) metaCards.push(renderWeekplanMetaCard("rit","RIT",rit,"RIT-Setting"));
+  if(showRet) metaCards.push(renderWeekplanMetaCard("ret","RET",ret,"RET-Setting"));
+  const days=Object.entries(DAY_LABELS).map(([dk,label])=>renderCombinedWeekplanDay(dk,label,rit,ret,showRit,showRet)).join("");
+  return `<div class="weekplan-overview">${metaCards.length?`<div class="weekplan-meta-grid">${metaCards.join("")}</div>`:""}<div class="viewer-week-scroll"><div class="viewer-week-board">${days}</div></div></div>`;
+}
+function renderWeekplanMetaCard(cls,label,wp,settingLabel){
+  const rows=[];
+  if(hasText(wp?.name)) rows.push(["Name",wp.name]);
+  if(hasText(wp?.setting)) rows.push([settingLabel,wp.setting]);
+  if(hasText(wp?.mainGoal)) rows.push(["Hauptziel",wp.mainGoal]);
+  if(hasText(wp?.notes)) rows.push(["Hinweise",wp.notes]);
+  const body=rows.length?rows.map(([k,v])=>`<div class="weekplan-meta-line"><strong>${esc(k)}:</strong><br>${esc(v)}</div>`).join(""):`<div class="small">Keine Kopfdaten gespeichert.</div>`;
+  return `<div class="weekplan-meta-card ${cls}"><div class="weekplan-meta-title">${esc(label)}</div>${body}</div>`;
+}
+function renderCombinedWeekplanDay(dayKey,label,rit,ret,showRit,showRet){
+  const ritDay=rit?.days?.[dayKey] || {};
+  const retDay=ret?.days?.[dayKey] || {};
+  return `<div class="viewer-day-card ${esc(dayKey)}"><div class="viewer-day-head">${esc(label)}</div><div class="viewer-day-body">${renderCombinedWeekplanSequence("Morgen",ritDay,retDay,"morning",showRit,showRet)}${renderCombinedWeekplanLunch(ritDay,retDay,showRit,showRet)}${renderCombinedWeekplanSequence("Nachmittag",ritDay,retDay,"afternoon",showRit,showRet)}</div></div>`;
+}
+function renderCombinedWeekplanSequence(title,ritDay,retDay,prefix,showRit,showRet){
+  const ritFields = showRit ? weekplanPeriodFields(ritDay,prefix) : [];
+  const retFields = showRet ? weekplanPeriodFields(retDay,prefix) : [];
+  const seqClass = prefix==="morning" ? " viewer-morning-card" : prefix==="afternoon" ? " viewer-afternoon-card" : "";
+  const entries = [];
+  if(ritFields.length) entries.push(renderPlanEntry("rit","RIT",ritFields));
+  if(retFields.length) entries.push(renderPlanEntry("ret","RET",retFields));
+  const body = entries.length
+    ? entries.join("")
+    : `<div class="viewer-plan-entry empty-entry"><div class="small">Keine Einträge</div></div>`;
+  return `<div class="viewer-seq-card${seqClass}"><div class="viewer-seq-title">${esc(title)}</div><div class="viewer-seq-single">${body}</div></div>`;
+}
+function renderCombinedWeekplanLunch(ritDay,retDay,showRit,showRet){
+  const lunch=weekplanCombinedLunchText(ritDay,retDay);
+  const body=hasText(lunch)
+    ? `<div class="viewer-lunch-value">${esc(lunch)}</div>`
+    : `<div class="viewer-lunch-value empty-lunch">Keine Einträge</div>`;
+  return `<div class="viewer-seq-card viewer-lunch-card"><div class="viewer-seq-title">Mittagessen</div><div class="viewer-lunch-single">${body}</div></div>`;
+}
+function weekplanCombinedLunchText(ritDay,retDay){
+  const values=[];
+  const add=(value)=>{
+    if(!hasText(value)) return;
+    const clean=String(value).trim();
+    if(clean && !values.includes(clean)) values.push(clean);
+  };
+  add(weekplanLunchText(ritDay));
+  add(weekplanLunchText(retDay));
+  return values.join("\n\n");
+}
+function weekplanLunchText(day){
+  return firstText(day?.lunch, day?.mittagessen, day?.mittag, day?.midday, day?.middayMeal, day?.meal, day?.mittagessenText, day?.lunchText);
+}
+function weekplanLunchFields(day){
+  const lunch=weekplanLunchText(day);
+  return hasText(lunch) ? [["Mittagessen", lunch]] : [];
+}
+function weekplanPeriodFields(day,prefix){
+  const cap=prefix==="morning"?"morning":"afternoon";
+  const labels=[[cap+"Goal","Ziel"],[cap+"Activity","Aktivität"],[cap+"ActivityExtra","Zusatz"]];
+  return labels.map(([k,label])=>[label,day?.[k]]).filter(([,v])=>hasText(v));
+}
+function renderPlanEntry(cls,label,fields){
+  if(!fields.length) return `<div class="viewer-plan-entry ${cls} empty-entry"><div class="viewer-plan-entry-title">${esc(label)}</div><div class="small">Keine Einträge</div></div>`;
+  return `<div class="viewer-plan-entry ${cls}"><div class="viewer-plan-entry-title">${esc(label)}</div>${fields.map(([k,v])=>`<div class="viewer-plan-field"><div class="viewer-plan-field-label">${esc(k)}</div><div class="viewer-plan-field-value">${esc(v)}</div></div>`).join("")}</div>`;
+}
+
+function renderWeekplan(wp, gen){
+  if(!wp || typeof wp!=="object") return renderDetails("Wochenplan / Tagesplan", `<div class="empty">In dieser Klientendatei ist kein Wochenplan gespeichert.</div>`, false);
+  const rows=[];
+  if(hasText(wp.name)) rows.push(["Name", wp.name]);
+  if(hasText(wp.setting)) rows.push([gen==="gret"?"RET-Setting":"RIT-Setting", wp.setting]);
+  if(hasText(wp.mainGoal)) rows.push(["Hauptziel", wp.mainGoal]);
+  if(hasText(wp.notes)) rows.push(["Hinweise", wp.notes]);
+  const head = rows.length ? `<div class="kv-grid">${rows.map(([k,v])=>`<div class="kv-label">${esc(k)}</div><div class="kv-value">${esc(v)}</div>`).join("")}</div>` : "";
+  const daysObj=wp.days||{};
+  const dayCards=[];
+  Object.entries(DAY_LABELS).forEach(([dk,label])=>{
+    const day=daysObj[dk]||{};
+    const morningFields=[];
+    const afternoonFields=[];
+    if(hasText(day.morningGoal)) morningFields.push(["Ziel", day.morningGoal]);
+    if(hasText(day.morningActivity)) morningFields.push(["Aktivität", day.morningActivity]);
+    if(hasText(day.morningActivityExtra)) morningFields.push(["Zusatz", day.morningActivityExtra]);
+    if(hasText(day.afternoonGoal)) afternoonFields.push(["Ziel", day.afternoonGoal]);
+    if(hasText(day.afternoonActivity)) afternoonFields.push(["Aktivität", day.afternoonActivity]);
+    if(hasText(day.afternoonActivityExtra)) afternoonFields.push(["Zusatz", day.afternoonActivityExtra]);
+    if(morningFields.length || afternoonFields.length){
+      dayCards.push(`<div class="weekplan-day"><div class="weekplan-day-title">${esc(label)}</div><div class="weekplan-periods">${renderWeekplanPeriod("Morgen", morningFields)}${renderWeekplanPeriod("Nachmittag", afternoonFields)}</div></div>`);
+    }
+  });
+  if(!head && !dayCards.length) return renderDetails("Wochenplan / Tagesplan", `<div class="empty">In dieser Klientendatei sind für den Wochenplan noch keine Einträge vorhanden.</div>`, false);
+  return renderDetails("Wochenplan / Tagesplan", `<div class="weekplan-grid">${head}${dayCards.join("")}</div>`, true);
+}
+function renderWeekplanPeriod(title, fields){
+  const body = fields.length ? fields.map(([k,v])=>`<div class="weekplan-field"><div class="weekplan-field-label">${esc(k)}</div><div class="weekplan-field-value">${esc(v)}</div></div>`).join("") : `<div class="empty">Keine Einträge</div>`;
+  return `<div class="weekplan-period"><div class="weekplan-period-title">${esc(title)}</div>${body}</div>`;
+}
+function renderDetails(title,body,open){return `<details class="viewer-section" ${open?"open":""}><summary>${esc(title)}</summary><div class="section-body">${body}</div></details>`;}
+function labelFromKey(key){return String(key||"").replace(/([a-zäöü])([A-ZÄÖÜ])/g,"$1 $2").replace(/_/g," ").replace(/^ep /i,"EP ").replace(/\b\w/g,c=>c.toUpperCase());}
+function formatDate(value){if(!value) return ""; const d=new Date(value); if(Number.isNaN(d.getTime())) return value; return d.toLocaleString("de-CH",{day:"2-digit",month:"2-digit",year:"numeric",hour:"2-digit",minute:"2-digit"});}
+</script>
+</body>
+</html>
