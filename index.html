@@ -7706,11 +7706,15 @@ body[data-weekplan-mode] .footer-note { color: #526075; }
             </label>
             <label class="overview-view-option">
               <input type="radio" name="overviewViewMode" value="standard" onchange="setOverviewViewMode(this.value)" />
-              <span><strong>Standard</strong>Zusätzlich Ziel und Aktivität direkt sichtbar.</span>
+              <span><strong>Standard</strong>Ziel und Aktivität direkt sichtbar, ohne Freitext- oder KI-Zusatz.</span>
+            </label>
+            <label class="overview-view-option">
+              <input type="radio" name="overviewViewMode" value="extra" onchange="setOverviewViewMode(this.value)" />
+              <span><strong>Zusatz</strong>Ziel, Aktivität und bewusst ausgewählter Freitext-/KI-Zusatz sichtbar.</span>
             </label>
             <label class="overview-view-option">
               <input type="radio" name="overviewViewMode" value="detail" onchange="setOverviewViewMode(this.value)" />
-              <span><strong>Detail</strong>Hauptziel, Setting, Ziel, Aktivität und Hinweise sichtbar.</span>
+              <span><strong>Detail</strong>Hauptziel, Setting, Ziel, Aktivität, Zusatz und Hinweise sichtbar.</span>
             </label>
           </div>
         </details>
@@ -7760,7 +7764,7 @@ body[data-weekplan-mode] .footer-note { color: #526075; }
     const storageKey = 'wochenplan_bt_navigator_v2_morgen_nachmittag_print';
     const modeStorageKey = storageKey + '_mode';
     const overviewViewStorageKey = storageKey + '_overview_view';
-    const OVERVIEW_VIEW_MODES = ['compact', 'standard', 'detail'];
+    const OVERVIEW_VIEW_MODES = ['compact', 'standard', 'extra', 'detail'];
     const MIN_CLIENTS = 5;
     const DEFAULT_CLIENTS = 5;
     const MAX_CLIENTS = 10;
@@ -7808,6 +7812,7 @@ body[data-weekplan-mode] .footer-note { color: #526075; }
 
     function getOverviewViewLabel(mode) {
       if (mode === 'detail') return 'Detail';
+      if (mode === 'extra') return 'Zusatz';
       if (mode === 'standard') return 'Standard';
       return 'Kompakt';
     }
@@ -7861,8 +7866,10 @@ body[data-weekplan-mode] .footer-note { color: #526075; }
         client.days[day.key] = {
           morningGoal: fallback.ziel,
           morningActivity: fallback.akt,
+          morningActivityExtra: '',
           afternoonGoal: '',
-          afternoonActivity: ''
+          afternoonActivity: '',
+          afternoonActivityExtra: ''
         };
       });
 
@@ -7908,8 +7915,10 @@ body[data-weekplan-mode] .footer-note { color: #526075; }
           client.days[day.key] = {
             morningGoal: oldDay.morningGoal ?? oldDay.goal ?? fallback.days[day.key].morningGoal,
             morningActivity: oldDay.morningActivity ?? oldDay.activity ?? fallback.days[day.key].morningActivity,
+            morningActivityExtra: oldDay.morningActivityExtra ?? oldDay.activityExtra ?? '',
             afternoonGoal: oldDay.afternoonGoal ?? '',
-            afternoonActivity: oldDay.afternoonActivity ?? ''
+            afternoonActivity: oldDay.afternoonActivity ?? '',
+            afternoonActivityExtra: oldDay.afternoonActivityExtra ?? ''
           };
         });
 
@@ -7982,11 +7991,14 @@ body[data-weekplan-mode] .footer-note { color: #526075; }
         };
 
         days.forEach(day => {
+          const existingDay = currentState.clients?.[index]?.days?.[day.key] || {};
           client.days[day.key] = {
-            morningGoal: card.querySelector(\`[data-field="\${index}-\${day.key}-morning-goal"]\`).value,
-            morningActivity: card.querySelector(\`[data-field="\${index}-\${day.key}-morning-activity"]\`).value,
-            afternoonGoal: card.querySelector(\`[data-field="\${index}-\${day.key}-afternoon-goal"]\`).value,
-            afternoonActivity: card.querySelector(\`[data-field="\${index}-\${day.key}-afternoon-activity"]\`).value
+            morningGoal: card.querySelector(\`[data-field="\${index}-\${day.key}-morning-goal"]\`)?.value || '',
+            morningActivity: card.querySelector(\`[data-field="\${index}-\${day.key}-morning-activity"]\`)?.value || '',
+            morningActivityExtra: existingDay.morningActivityExtra || '',
+            afternoonGoal: card.querySelector(\`[data-field="\${index}-\${day.key}-afternoon-goal"]\`)?.value || '',
+            afternoonActivity: card.querySelector(\`[data-field="\${index}-\${day.key}-afternoon-activity"]\`)?.value || '',
+            afternoonActivityExtra: existingDay.afternoonActivityExtra || ''
           };
         });
 
@@ -8022,19 +8034,25 @@ body[data-weekplan-mode] .footer-note { color: #526075; }
       const dayData = client.days?.[dayKey] || {};
       const goal = period === 'morning' ? dayData.morningGoal : dayData.afternoonGoal;
       const activity = period === 'morning' ? dayData.morningActivity : dayData.afternoonActivity;
+      const extraText = period === 'morning' ? dayData.morningActivityExtra : dayData.afternoonActivityExtra;
       const periodLabel = period === 'morning' ? 'Morgen' : 'Nachmittag';
+      const standardFields = [
+        { label: 'Ziel', value: goal },
+        { label: 'Aktivität', value: activity }
+      ];
+      const extraFields = [
+        ...standardFields,
+        { label: 'Zusatztext', value: extraText }
+      ];
       const detailFields = [
         { label: 'Hauptziel', value: client.mainGoal },
         { label: modeMeta.settingLabel, value: client.setting },
         { label: 'Ziel', value: goal },
         { label: 'Aktivität', value: activity },
+        { label: 'Zusatztext', value: extraText },
         { label: 'Hinweise', value: client.notes }
       ];
-      const standardFields = [
-        { label: 'Ziel', value: goal },
-        { label: 'Aktivität', value: activity }
-      ];
-      const fields = (viewMode === 'detail' ? detailFields : viewMode === 'standard' ? standardFields : [])
+      const fields = (viewMode === 'detail' ? detailFields : viewMode === 'extra' ? extraFields : viewMode === 'standard' ? standardFields : [])
         .filter(field => String(field.value || '').trim() !== '');
 
       const clientName = escapeHtml(client.name || ('Klient ' + (index + 1)));
@@ -10462,7 +10480,19 @@ function getGenerator1ActivityText(modeKey) {
         collected.push(text);
       }
     });
+  });
 
+  return collected.join("; ");
+}
+
+function getGenerator1ActivityExtraText(modeKey) {
+  const generatorKey = modeKey === "ret" ? "gret" : "grit";
+  const pageIds = ["4_Durchfuehrung_A", "5_Durchfuehrung_B", "6_Musik_Basal"];
+  const collected = [];
+  const seen = new Set();
+
+  pageIds.forEach((pageId) => {
+    const pageState = ensurePageState(generatorKey, pageId);
     const freeText = normalizePhrase(pageState?.freeText || "");
     if (freeText && !seen.has(freeText.toLowerCase())) {
       seen.add(freeText.toLowerCase());
@@ -10552,9 +10582,10 @@ function syncGenerator1ActivitiesToWeekplan() {
         : "wochenplan_bt_navigator_v2_morgen_nachmittag_print_" + targetMode;
 
     const generatorActivity = getGenerator1ActivityText(targetMode);
+    const generatorActivityExtra = getGenerator1ActivityExtraText(targetMode);
     const generatorTimeSlots = getGenerator1TimeSlots(targetMode);
     if (
-      !generatorActivity ||
+      (!generatorActivity && !generatorActivityExtra) ||
       !Array.isArray(generatorTimeSlots) ||
       !generatorTimeSlots.length
     )
@@ -10602,10 +10633,16 @@ function syncGenerator1ActivitiesToWeekplan() {
         morningActivity: daySelection.morning
           ? generatorActivity
           : existingDay.morningActivity || "",
+        morningActivityExtra: daySelection.morning
+          ? generatorActivityExtra
+          : existingDay.morningActivityExtra || "",
         afternoonGoal: existingDay.afternoonGoal || "",
         afternoonActivity: daySelection.afternoon
           ? generatorActivity
           : existingDay.afternoonActivity || "",
+        afternoonActivityExtra: daySelection.afternoon
+          ? generatorActivityExtra
+          : existingDay.afternoonActivityExtra || "",
       };
     });
 
@@ -10730,8 +10767,10 @@ function syncGenerator1GoalPlansToWeekplan() {
         ...existingDay,
         morningGoal: morningGoalText,
         morningActivity: morningActivityText,
+        morningActivityExtra: existingDay.morningActivityExtra || "",
         afternoonGoal: afternoonGoalText,
         afternoonActivity: afternoonActivityText,
+        afternoonActivityExtra: existingDay.afternoonActivityExtra || "",
       };
     });
 
@@ -19119,8 +19158,10 @@ function createEmptyWeekplanClient(index = 0) {
     client.days[dayKey] = {
       morningGoal: "",
       morningActivity: "",
+      morningActivityExtra: "",
       afternoonGoal: "",
       afternoonActivity: "",
+      afternoonActivityExtra: "",
     };
   });
 
