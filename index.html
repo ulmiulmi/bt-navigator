@@ -7145,11 +7145,14 @@ td {
         };
 
         days.forEach(day => {
+          const existingDay = currentState.clients?.[index]?.days?.[day.key] || {};
           client.days[day.key] = {
             morningGoal: card.querySelector(\`[data-field="\${index}-\${day.key}-morning-goal"]\`).value,
             morningActivity: card.querySelector(\`[data-field="\${index}-\${day.key}-morning-activity"]\`).value,
+            morningKiText: existingDay.morningKiText || '',
             afternoonGoal: card.querySelector(\`[data-field="\${index}-\${day.key}-afternoon-goal"]\`).value,
-            afternoonActivity: card.querySelector(\`[data-field="\${index}-\${day.key}-afternoon-activity"]\`).value
+            afternoonActivity: card.querySelector(\`[data-field="\${index}-\${day.key}-afternoon-activity"]\`).value,
+            afternoonKiText: existingDay.afternoonKiText || ''
           };
         });
 
@@ -9144,7 +9147,24 @@ function buildWeekplanGoalTextFromPlan(plan) {
 }
 
 function buildWeekplanActivityTextFromPlan(plan) {
-  return normalizePhrase(plan?.aktivitaeten || "");
+  const sections = [];
+  const seen = new Set();
+
+  function addSection(label, value) {
+    const clean = String(value || "").trim();
+    if (!clean) return;
+    const key = clean.toLowerCase();
+    if (seen.has(key)) return;
+    seen.add(key);
+    sections.push(label + ":\n" + clean);
+  }
+
+  addSection("Aktivitäten / Durchführung", plan?.aktivitaeten || "");
+  addSection("Durchführung", plan?.durchfuehrung || "");
+  addSection("Massnahmen / Hilfestellung", plan?.massnahmen || "");
+  addSection("Beobachtung / Wirkung", plan?.beobachtung || "");
+
+  return sections.join("\n\n");
 }
 
 function getGenerator1GoalPlanAssignments(modeKey) {
@@ -9219,37 +9239,20 @@ function getGenerator1ActivityText(modeKey) {
   const seen = new Set();
 
   pageIds.forEach((pageId) => {
-    const pageState = ensurePageState(generatorKey, pageId);
-    const selected = Array.isArray(pageState?.selected)
-      ? pageState.selected
-      : [];
-    selected.forEach((value) => {
-      const text = normalizePhrase(value);
-      const key = text.toLowerCase();
-      if (text && !seen.has(key)) {
-        seen.add(key);
-        collected.push(text);
-      }
-    });
-
-    const freeText = normalizePhrase(pageState?.freeText || "");
-    if (freeText && !seen.has(freeText.toLowerCase())) {
-      seen.add(freeText.toLowerCase());
-      collected.push(freeText);
+    const previousGenerator = APP.currentGenerator;
+    APP.currentGenerator = generatorKey;
+    try {
+      getCheckedSelectionsOnlyForPage(pageId).forEach((value) => {
+        const text = normalizePhrase(value);
+        const key = text.toLowerCase();
+        if (text && !seen.has(key)) {
+          seen.add(key);
+          collected.push(text);
+        }
+      });
+    } finally {
+      APP.currentGenerator = previousGenerator;
     }
-
-    const textFields =
-      pageState?.textFields && typeof pageState.textFields === "object"
-        ? pageState.textFields
-        : {};
-    Object.values(textFields).forEach((value) => {
-      const text = normalizePhrase(value);
-      const key = text.toLowerCase();
-      if (text && !seen.has(key)) {
-        seen.add(key);
-        collected.push(text);
-      }
-    });
   });
 
   return collected.join("; ");
@@ -9371,10 +9374,12 @@ function syncGenerator1ActivitiesToWeekplan() {
         morningActivity: daySelection.morning
           ? generatorActivity
           : existingDay.morningActivity || "",
+        morningKiText: existingDay.morningKiText || "",
         afternoonGoal: existingDay.afternoonGoal || "",
         afternoonActivity: daySelection.afternoon
           ? generatorActivity
           : existingDay.afternoonActivity || "",
+        afternoonKiText: existingDay.afternoonKiText || "",
       };
     });
 
@@ -9503,12 +9508,24 @@ function syncGenerator1GoalPlansToWeekplan() {
 
       state.clients[clientIndex].days[dayKey] = {
         ...existingDay,
-        morningGoal: morningGoalText,
-        morningActivity: morningActivityText,
-        morningKiText,
-        afternoonGoal: afternoonGoalText,
-        afternoonActivity: afternoonActivityText,
-        afternoonKiText,
+        morningGoal: dayAssignment.morning
+          ? morningGoalText
+          : existingDay.morningGoal || "",
+        morningActivity: dayAssignment.morning
+          ? morningActivityText
+          : existingDay.morningActivity || "",
+        morningKiText: dayAssignment.morning
+          ? morningKiText
+          : existingDay.morningKiText || "",
+        afternoonGoal: dayAssignment.afternoon
+          ? afternoonGoalText
+          : existingDay.afternoonGoal || "",
+        afternoonActivity: dayAssignment.afternoon
+          ? afternoonActivityText
+          : existingDay.afternoonActivity || "",
+        afternoonKiText: dayAssignment.afternoon
+          ? afternoonKiText
+          : existingDay.afternoonKiText || "",
       };
     });
 
@@ -13142,13 +13159,13 @@ function applyCurrentContentToGoalPlan(slotIndex, options = {}) {
   const sourcePages = collectGoalWorkingPageSnapshots();
   const finishedKiText = getCurrentFinishedKiTextForGoalPlan();
   if (finishedKiText) current.kiText = finishedKiText;
-  if (feinziele[0]) current.feinziel1 = feinziele[0];
-  if (feinziele[1]) current.feinziel2 = feinziele[1];
-  if (feinziele[2]) current.feinziel3 = feinziele[2];
-  if (aktivitaeten) current.aktivitaeten = aktivitaeten;
-  if (durchfuehrung) current.durchfuehrung = durchfuehrung;
-  if (massnahmen) current.massnahmen = massnahmen;
-  if (beobachtung) current.beobachtung = beobachtung;
+  current.feinziel1 = feinziele[0] || "";
+  current.feinziel2 = feinziele[1] || "";
+  current.feinziel3 = feinziele[2] || "";
+  current.aktivitaeten = aktivitaeten || "";
+  current.durchfuehrung = durchfuehrung || "";
+  current.massnahmen = massnahmen || "";
+  current.beobachtung = beobachtung || "";
   current.sourcePages = sourcePages;
 
   pageState.goalPlans[slotIndex] = current;
@@ -13193,13 +13210,22 @@ function emptyGoalWorkingPageState() {
   };
 }
 
+function sanitizeGoalPlanSourcePageState(pageState) {
+  const source = pageState && typeof pageState === "object" ? pageState : {};
+  return {
+    selected: Array.isArray(source.selected)
+      ? source.selected.map((value) => cleanInline(value || "")).filter(Boolean)
+      : [],
+    partial: [],
+    freeText: "",
+    textFields: {},
+  };
+}
+
 function hasGoalWorkingPageStateContent(pageState) {
-  if (!pageState || typeof pageState !== "object") return false;
-  if (Array.isArray(pageState.selected) && pageState.selected.some((value) => cleanInline(value || ""))) return true;
-  if (Array.isArray(pageState.partial) && pageState.partial.some((value) => cleanInline(value || ""))) return true;
-  if (cleanInline(pageState.freeText || "")) return true;
-  const textFields = pageState.textFields && typeof pageState.textFields === "object" ? pageState.textFields : {};
-  return Object.values(textFields).some((value) => cleanInline(value || ""));
+  const sanitized = sanitizeGoalPlanSourcePageState(pageState);
+  return Array.isArray(sanitized.selected) &&
+    sanitized.selected.some((value) => cleanInline(value || ""));
 }
 
 function collectGoalWorkingPageSnapshots() {
@@ -13207,7 +13233,7 @@ function collectGoalWorkingPageSnapshots() {
   const pages = generatorState.pages || {};
   const sourcePages = {};
   GOAL_WORKING_PAGE_IDS.forEach((pageId) => {
-    sourcePages[pageId] = cloneGoalPlanPageState(pages[pageId] || emptyGoalWorkingPageState());
+    sourcePages[pageId] = sanitizeGoalPlanSourcePageState(pages[pageId] || emptyGoalWorkingPageState());
   });
   return sourcePages;
 }
@@ -13299,7 +13325,7 @@ function loadGoalPlanIntoGenerator(slotIndex) {
   GOAL_WORKING_PAGE_IDS.forEach((pageId) => {
     const restored = sourcePages[pageId];
     nextPages[pageId] = restored && typeof restored === "object"
-      ? cloneGoalPlanPageState(restored)
+      ? sanitizeGoalPlanSourcePageState(restored)
       : emptyGoalWorkingPageState();
   });
 
@@ -15435,7 +15461,7 @@ function buildGoalPlanSourcePagesPayload(plan) {
 
   GOAL_WORKING_PAGE_IDS.forEach((pageId) => {
     const page = getPageById(pageId);
-    const pageState = sourcePages[pageId];
+    const pageState = sanitizeGoalPlanSourcePageState(sourcePages[pageId]);
     if (!page || !hasGoalWorkingPageStateContent(pageState)) return;
     const lines = buildGroupedSelectionLines(page, pageState);
     if (!lines.length) return;
