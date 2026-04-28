@@ -700,15 +700,30 @@ function printViewer(kind){
     return;
   }
   if(!["weekplan","ki","all"].includes(kind)) kind="all";
-  const host=document.getElementById("printHost");
-  host.innerHTML=buildPrintDocument(kind);
-  host.setAttribute("aria-hidden","false");
-  document.body.classList.remove("print-mode-weekplan","print-mode-ki","print-mode-all");
-  document.body.classList.add("print-active","print-mode-"+kind);
-  requestAnimationFrame(()=>{
-    window.print();
-    setTimeout(clearPrintHost,900);
-  });
+
+  const printWindow = window.open("", "_blank");
+  if(!printWindow){
+    setStatus("Die Druckseite konnte nicht geöffnet werden. Bitte Pop-ups für diese Seite erlauben oder den Button nochmals antippen.","warn");
+    return;
+  }
+
+  const html = buildStandalonePrintHtml(kind);
+  printWindow.document.open();
+  printWindow.document.write(html);
+  printWindow.document.close();
+
+  const triggerPrint = () => {
+    try{
+      printWindow.focus();
+      printWindow.print();
+      setStatus("Druckseite wurde geöffnet. Dort kannst du als PDF speichern oder drucken.","good");
+    }catch(error){
+      console.warn(error);
+      setStatus("Druckseite wurde geöffnet. Falls der Druckdialog nicht erscheint, dort über das Browser-Menü drucken.","warn");
+    }
+  };
+
+  setTimeout(triggerPrint, 350);
 }
 function clearPrintHost(){
   const host=document.getElementById("printHost");
@@ -716,6 +731,57 @@ function clearPrintHost(){
   document.body.classList.remove("print-active","print-mode-weekplan","print-mode-ki","print-mode-all");
 }
 window.addEventListener("afterprint", clearPrintHost);
+
+function buildStandalonePrintHtml(kind){
+  const title={weekplan:"Wochenplan",ki:"KI-Ergebnis",all:"Ganze Klientendatei"}[kind] || "Klientendatei";
+  const baseStyles=Array.from(document.querySelectorAll("style")).map(style=>style.textContent || "").join("\n");
+  const pageRule = kind === "weekplan" ? "@page{size:A4 landscape;margin:9mm;}" : "@page{size:A4 portrait;margin:12mm;}";
+  const printStyles = `
+    ${pageRule}
+    html,body{background:#fff!important;color:#1f2a37!important;margin:0!important;padding:0!important;overflow:visible!important;}
+    body{font-family:Arial,Helvetica,sans-serif!important;}
+    .print-standalone{padding:0!important;background:#fff!important;}
+    .print-standalone .print-doc{display:block!important;background:#fff!important;color:#1f2a37!important;max-width:none!important;margin:0!important;padding:0!important;}
+    .print-doc-header{break-after:avoid;page-break-after:avoid;}
+    .print-doc-meta{grid-template-columns:repeat(3,minmax(0,1fr))!important;}
+    .print-section-title{break-after:avoid;page-break-after:avoid;}
+    .generator-card,.card,.viewer-day-card,.viewer-seq-card,.viewer-plan-entry,details.viewer-section{box-shadow:none!important;}
+    .generator-card{margin:0 0 12px 0!important;break-inside:avoid;page-break-inside:avoid;}
+    .generator-head{padding:12px 14px!important;}
+    .section{padding:10px!important;}
+    details.viewer-section{display:block!important;margin:8px 0!important;break-inside:avoid;page-break-inside:avoid;}
+    details.viewer-section > summary{padding:9px 11px!important;font-size:13px!important;border-bottom:1px solid #d8e1ee!important;}
+    details.viewer-section > summary::after{display:none!important;}
+    details.viewer-section:not([open]) .section-body,details.viewer-section .section-body{display:grid!important;padding:10px!important;gap:8px!important;}
+    .structured-box{font-size:12px!important;line-height:1.48!important;padding:10px!important;white-space:pre-wrap!important;overflow:visible!important;}
+    .kv-grid{grid-template-columns:150px 1fr!important;font-size:12px!important;}
+    .kv-label,.kv-value{padding:7px 8px!important;}
+    .pill-item{font-size:12px!important;line-height:1.4!important;padding:8px 9px!important;}
+    .viewer-week-filter{display:none!important;}
+    .weekplan-meta-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:8px!important;}
+    .weekplan-meta-card{padding:8px!important;border-radius:10px!important;break-inside:avoid;page-break-inside:avoid;}
+    .weekplan-meta-line{font-size:10px!important;line-height:1.3!important;padding-top:5px!important;}
+    .viewer-week-scroll{overflow:visible!important;padding-bottom:0!important;max-width:none!important;}
+    .viewer-week-board{min-width:0!important;width:100%!important;grid-template-columns:repeat(5,minmax(0,1fr))!important;gap:6px!important;align-items:start!important;}
+    .viewer-day-card{border-radius:10px!important;break-inside:avoid;page-break-inside:avoid;}
+    .viewer-day-head{padding:8px 9px!important;font-size:14px!important;}
+    .viewer-day-body{padding:7px!important;gap:7px!important;grid-template-rows:auto auto auto!important;background:#fff!important;}
+    .viewer-seq-card{border-radius:10px!important;min-height:0!important;height:auto!important;}
+    .viewer-seq-title{padding:6px 8px!important;font-size:11px!important;}
+    .viewer-seq-single{padding:6px!important;gap:6px!important;min-height:0!important;overflow:visible!important;}
+    .viewer-plan-entry{border-radius:9px!important;padding:6px!important;gap:4px!important;min-height:0!important;}
+    .viewer-plan-entry-title{font-size:10px!important;}
+    .viewer-plan-field-label{font-size:8px!important;}
+    .viewer-plan-field-value{font-size:9.5px!important;line-height:1.28!important;max-height:none!important;overflow:visible!important;}
+    .viewer-lunch-card{height:auto!important;min-height:0!important;}
+    .viewer-lunch-single{padding:6px!important;}
+    .viewer-lunch-value{min-height:0!important;max-height:none!important;overflow:visible!important;font-size:9.5px!important;line-height:1.28!important;padding:6px!important;border-radius:9px!important;}
+    .viewer-morning-card{min-height:0!important;}
+    .viewer-plan-field.ki-field .viewer-plan-field-value{max-height:none!important;overflow:visible!important;font-size:9px!important;line-height:1.25!important;}
+    @media print{html,body{background:#fff!important;overflow:visible!important}.print-standalone{padding:0!important}.print-doc{display:block!important}}
+  `;
+  return `<!DOCTYPE html><html lang="de"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>BT-Navigator – ${esc(title)}</title><style>${baseStyles}\n${printStyles}</style></head><body class="print-standalone"><main>${buildPrintDocument(kind)}</main></body></html>`;
+}
 
 function buildPrintDocument(kind){
   const title={weekplan:"Wochenplan",ki:"KI-Ergebnis",all:"Ganze Klientendatei"}[kind] || "Klientendatei";
