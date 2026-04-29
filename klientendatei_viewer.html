@@ -16,13 +16,27 @@
     h1,h2,h3{margin:0} h1{font-size:34px;line-height:1.1} h2{font-size:24px} h3{font-size:19px}.hero{display:grid;gap:16px;background:linear-gradient(180deg,#fff 0%,#fbfdff 100%);padding:24px}.hero-title{display:flex;align-items:center;gap:12px;flex-wrap:wrap}.tool-row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}button{border:1px solid var(--accent);background:var(--accent);color:#fff;border-radius:12px;padding:11px 16px;font-weight:800;cursor:pointer;min-height:42px;box-shadow:0 6px 16px rgba(31,57,90,.08)}button.secondary{background:#fff;color:var(--accent)}button.ghost{background:#fff;color:var(--text);border-color:var(--line);box-shadow:none}button.grit{background:var(--grit);border-color:var(--grit)}button.gret{background:var(--gret);border-color:var(--gret)}button.active{outline:3px solid rgba(47,111,237,.14)}
     .file-panel{display:grid;gap:14px;padding:18px;border-top:1px solid var(--line);background:#fbfdff}.file-box{display:grid;gap:10px;border:1px dashed var(--line);border-radius:16px;background:#fff;padding:16px}.file-box input[type=file],.file-box input[type=password]{width:100%;border:1px solid var(--line);border-radius:12px;background:#fff;padding:11px 12px}.status{border:1px solid var(--line);border-radius:14px;background:#fff;padding:12px 14px;line-height:1.5;color:var(--muted)}.status.good{border-color:#b7eadb;background:#f2fffa;color:var(--ok)}.status.warn{border-color:var(--warn-line);background:var(--warn-bg);color:#8a6700}.hidden{display:none!important}
     .summary-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.summary-box{border:1px solid var(--line);border-radius:16px;background:#fff;padding:14px}.summary-box strong{display:block;margin-bottom:6px;color:var(--text)}
+    .viewer-check-grid{margin-top:14px;border:1px solid var(--line);border-radius:18px;background:linear-gradient(180deg,#fff,#fbfdff);padding:14px;display:grid;gap:12px}
+    .viewer-check-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap}
+    .viewer-check-title{font-weight:950;color:var(--text)}
+    .viewer-check-note{font-size:13px;color:var(--muted);line-height:1.45}
+    .viewer-check-items{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px}
+    .viewer-check-item{border:1px solid var(--line);border-radius:14px;background:#fff;padding:10px 11px;display:grid;gap:6px;min-width:0}
+    .viewer-check-item.ok{border-color:#b7eadb;background:#f2fffa}
+    .viewer-check-item.missing{border-color:#e5ebf3;background:#fbfcff;opacity:.72}
+    .viewer-check-row{display:flex;align-items:center;gap:8px;font-weight:900;color:var(--text);min-width:0}
+    .viewer-check-icon{width:22px;height:22px;border-radius:999px;display:inline-grid;place-items:center;flex:0 0 auto;font-size:13px;font-weight:950;border:1px solid var(--line);background:#fff;color:var(--muted)}
+    .viewer-check-item.ok .viewer-check-icon{border-color:#b7eadb;background:#dcfce7;color:var(--ok)}
+    .viewer-check-item.missing .viewer-check-icon{border-color:#d8e1ee;background:#fff;color:#8b97a8}
+    .viewer-check-detail{font-size:12px;color:var(--muted);line-height:1.35;overflow-wrap:anywhere}
+
     .view-tabs{display:flex;gap:10px;flex-wrap:wrap;padding:14px;border:1px solid var(--line);border-radius:18px;background:#fff;box-shadow:var(--shadow)}
     .generator-card{border:1px solid var(--theme-line,var(--line));border-radius:22px;box-shadow:0 14px 34px var(--theme-glow,rgba(31,57,90,.06));overflow:hidden;background:#fff}.generator-card.grit{--theme:var(--grit);--theme-soft:var(--grit-soft);--theme-line:#dacdf0;--theme-glow:rgba(92,57,145,.10)}.generator-card.gret{--theme:var(--gret);--theme-soft:var(--gret-soft);--theme-line:#cfe7d9;--theme-glow:rgba(47,125,90,.10)}.generator-head{display:grid;gap:8px;padding:18px 20px;background:linear-gradient(180deg,var(--theme-soft),#fff 72%);border-bottom:1px solid var(--theme-line)}.generator-head h2{color:var(--theme)}
     details.viewer-section{border:1px solid var(--line);border-radius:16px;background:#fff;overflow:hidden;margin:14px 0}details.viewer-section>summary{list-style:none;cursor:pointer;padding:14px 16px;font-weight:900;color:var(--theme,var(--accent));background:linear-gradient(180deg,var(--theme-soft,#f8fbff),#fff);display:flex;justify-content:space-between;gap:10px}details.viewer-section>summary::-webkit-details-marker{display:none}details.viewer-section>summary::after{content:"▾";color:var(--muted);transition:transform .14s ease}details.viewer-section:not([open])>summary{border-bottom:none}details.viewer-section[open]>summary::after{transform:rotate(180deg)}.section-body{padding:16px;display:grid;gap:12px}.structured-box{border:1px solid var(--line);border-radius:14px;background:#fffefc;padding:14px;white-space:pre-wrap;line-height:1.7;overflow-wrap:anywhere}.kv-grid{display:grid;grid-template-columns:220px 1fr;border:1px solid var(--line);border-radius:14px;overflow:hidden}.kv-label,.kv-value{padding:10px 12px;border-bottom:1px solid var(--line)}.kv-label{font-weight:800;background:#f7faff;color:var(--muted)}.kv-value{background:#fff;white-space:pre-wrap;overflow-wrap:anywhere}.kv-grid div:nth-last-child(-n+2){border-bottom:none}.pill-list{display:grid;gap:8px}.pill-item{border:1px solid var(--line);border-radius:13px;background:#fbfcff;padding:10px 12px;line-height:1.5}.pill-item strong{display:block;margin-bottom:4px}.empty{border:1px dashed var(--line);border-radius:14px;background:#fbfdff;padding:14px;color:var(--muted);line-height:1.55}.footer-note{font-size:12px;color:var(--muted);text-align:center;padding:12px}.mode-hidden{display:none!important}
     .generator-card.weekplan-view{--theme:var(--accent);--theme-soft:var(--accent-soft);--theme-line:#cfe0ff;--theme-glow:rgba(47,111,237,.10)}
     .weekplan-overview{display:grid;gap:14px}.weekplan-meta-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.weekplan-meta-card{border:1px solid var(--theme-line,var(--line));border-radius:16px;background:#fff;padding:14px;display:grid;gap:8px;box-shadow:0 8px 18px rgba(31,57,90,.04)}.weekplan-meta-card.rit{--theme:var(--grit);--theme-soft:var(--grit-soft);--theme-line:#dacdf0}.weekplan-meta-card.ret{--theme:var(--gret);--theme-soft:var(--gret-soft);--theme-line:#cfe7d9}.weekplan-meta-title{font-weight:900;color:var(--theme);display:flex;align-items:center;gap:8px}.weekplan-meta-line{border-top:1px solid var(--line);padding-top:8px;line-height:1.5;white-space:pre-wrap;overflow-wrap:anywhere}.weekplan-meta-line:first-of-type{border-top:0;padding-top:0}
     .viewer-week-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:6px;max-width:100%;scrollbar-width:none;-ms-overflow-style:none}.viewer-week-scroll::-webkit-scrollbar{display:none}.viewer-week-board{display:grid;grid-template-columns:repeat(5,minmax(235px,1fr));gap:14px;min-width:1180px;align-items:start}.viewer-day-card{border:1px solid var(--line);border-radius:18px;background:#fff;overflow:hidden;box-shadow:0 10px 24px rgba(31,57,90,.06)}.viewer-day-head{padding:13px 15px;font-weight:950;font-size:20px;border-bottom:1px solid var(--line);color:var(--day,#355070);background:linear-gradient(180deg,var(--day-soft,#f8fbff),#fff)}.viewer-day-card.mo{--day:#62a744;--day-soft:#f2faed}.viewer-day-card.di{--day:#84a032;--day-soft:#f7faea}.viewer-day-card.mi{--day:#2f84c6;--day-soft:#edf7ff}.viewer-day-card.do{--day:#c94f74;--day-soft:#fff0f5}.viewer-day-card.fr{--day:#a56620;--day-soft:#fff6eb}.viewer-day-body{padding:12px;display:grid;grid-template-rows:auto 128px minmax(240px,auto);gap:12px;background:#fbfcff}.viewer-seq-card{border:1px solid var(--line);border-radius:16px;background:#fff;overflow:hidden}.viewer-seq-title{padding:10px 12px;font-weight:900;color:#49566a;border-bottom:1px solid var(--line);background:linear-gradient(180deg,#fff,#fbfdff)}.viewer-mode-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;padding:10px}.viewer-seq-single{padding:10px;display:grid;gap:10px}.viewer-plan-entry{border:1px solid var(--theme-line,var(--line));border-radius:14px;background:linear-gradient(180deg,#fff,var(--theme-soft,#fbfdff));padding:10px;display:grid;gap:7px;min-width:0}.viewer-plan-entry.rit{--theme:var(--grit);--theme-soft:var(--grit-soft);--theme-line:#dacdf0}.viewer-plan-entry.ret{--theme:var(--gret);--theme-soft:var(--gret-soft);--theme-line:#cfe7d9}.viewer-plan-entry-title{font-weight:950;color:var(--theme);font-size:13px}.viewer-plan-entry.empty-entry{opacity:.62;background:#fff}.viewer-plan-entry.empty-entry .viewer-plan-entry-title{color:var(--muted)}.viewer-plan-field{display:grid;gap:3px}.viewer-plan-field-label{font-size:11px;font-weight:900;color:var(--muted);text-transform:uppercase;letter-spacing:.02em}.viewer-plan-field-value{line-height:1.45;white-space:pre-wrap;overflow-wrap:anywhere;font-size:14px}.viewer-morning-card{min-height:var(--viewer-morning-min,auto);display:grid;grid-template-rows:auto auto}.viewer-morning-card .viewer-mode-grid,.viewer-morning-card .viewer-seq-single{min-height:0;overflow:visible;align-content:start}.viewer-afternoon-card{min-height:0}.viewer-lunch-card{height:128px;min-height:128px;display:grid;grid-template-rows:auto minmax(0,1fr)}.viewer-lunch-single{padding:10px;min-height:0;display:grid}.viewer-lunch-value{min-height:58px;max-height:100%;overflow:hidden;border:1px solid var(--line);border-radius:14px;background:#fff;padding:10px;line-height:1.45;white-space:pre-wrap;overflow-wrap:anywhere}.viewer-lunch-value.empty-lunch{color:var(--muted);background:#fbfcff}.viewer-week-filter{border:1px solid var(--line);border-radius:18px;background:linear-gradient(180deg,#fff,#fbfdff);padding:12px;display:grid;gap:10px;box-shadow:0 8px 18px rgba(31,57,90,.04)}.viewer-week-filter-head{display:grid;gap:2px}.viewer-week-filter-buttons{display:flex;gap:8px;flex-wrap:wrap}.viewer-week-filter-buttons button{flex:1 1 120px;box-shadow:none}.viewer-week-filter-buttons button.active{background:var(--accent);border-color:var(--accent);color:#fff}.viewer-plan-field.ki-field{margin-top:4px;border-top:1px dashed var(--theme-line,var(--line));padding-top:7px}.viewer-plan-field.ki-field .viewer-plan-field-value{font-size:13px;line-height:1.5;max-height:320px;overflow:auto;padding-right:3px}.viewer-week-filter-buttons button:not(.active){background:#fff;color:var(--text);border-color:var(--line)}
-    @media(max-width:760px){.weekplan-meta-grid{grid-template-columns:1fr}.viewer-week-board{min-width:1100px}.viewer-mode-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+    @media(max-width:760px){.weekplan-meta-grid{grid-template-columns:1fr}.viewer-week-board{min-width:1100px}.viewer-mode-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.viewer-check-items{grid-template-columns:repeat(2,minmax(0,1fr))}}
     
 
     .weekplan-grid{display:grid;gap:12px}
@@ -148,7 +162,276 @@
   .viewer-lunch-value{font-size:7.5pt!important;line-height:1.22!important;min-height:0!important;max-height:none!important;overflow:visible!important;}
 }
 
-  </style>
+
+/* QUICK_NAV_VIEWER_V1 */
+.viewer-quick-nav{
+  position: sticky;
+  top: 8px;
+  z-index: 60;
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  align-items:center;
+  padding:12px;
+  border:1px solid var(--line);
+  border-radius:18px;
+  background:rgba(255,255,255,.96);
+  box-shadow:var(--shadow);
+  backdrop-filter: blur(8px);
+}
+.viewer-quick-nav-label{
+  font-size:12px;
+  font-weight:900;
+  color:var(--muted);
+  text-transform:uppercase;
+  letter-spacing:.02em;
+  margin-right:2px;
+}
+.viewer-quick-nav button{
+  min-height:36px;
+  padding:8px 11px;
+  font-size:13px;
+  box-shadow:none;
+}
+@media(max-width:760px){
+  .viewer-quick-nav{top:4px;padding:8px;border-radius:14px;gap:6px;overflow-x:auto;flex-wrap:nowrap;scrollbar-width:none;-ms-overflow-style:none;}
+  .viewer-quick-nav::-webkit-scrollbar{display:none;}
+  .viewer-quick-nav button{flex:0 0 auto;white-space:nowrap;}
+  .viewer-quick-nav-label{flex:0 0 auto;}
+}
+@media print{
+  .viewer-quick-nav{display:none!important;}
+}
+
+  
+.privacy-note{border:1px solid #cfe7d9;border-radius:16px;background:linear-gradient(180deg,#ffffff 0%,#f2fffa 100%);padding:12px 14px;color:#244136;line-height:1.55;font-size:13px;display:grid;gap:4px;box-shadow:0 8px 18px rgba(31,57,90,.04)}.privacy-note strong{color:#0f766e}.privacy-note .privacy-small{color:var(--muted);font-size:12px;line-height:1.45}.privacy-note.compact{text-align:left;margin-top:10px}
+
+
+/* VIEWER_LESEMODUS_HANDYANSICHT_V1 */
+.viewer-display-controls{
+  display:grid;
+  gap:12px;
+  padding:14px;
+  border:1px solid var(--line);
+  border-radius:18px;
+  background:linear-gradient(180deg,#ffffff 0%,#fbfdff 100%);
+  box-shadow:var(--shadow);
+}
+.viewer-display-controls-head{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:12px;
+  flex-wrap:wrap;
+}
+.viewer-display-controls-title{
+  font-weight:950;
+  color:var(--text);
+}
+.viewer-display-controls-note{
+  color:var(--muted);
+  font-size:13px;
+  line-height:1.45;
+}
+.viewer-display-group{
+  display:grid;
+  gap:8px;
+}
+.viewer-display-label{
+  font-size:12px;
+  font-weight:950;
+  color:var(--muted);
+  text-transform:uppercase;
+  letter-spacing:.03em;
+}
+.viewer-display-buttons{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+}
+.viewer-display-buttons button{
+  flex:1 1 130px;
+  box-shadow:none;
+}
+.viewer-display-buttons button.active{
+  background:var(--accent);
+  border-color:var(--accent);
+  color:#fff;
+}
+body.viewer-read-large{
+  font-size:18px;
+}
+body.viewer-read-large .app{
+  max-width:1240px;
+}
+body.viewer-read-large h1{font-size:38px;}
+body.viewer-read-large h2{font-size:28px;}
+body.viewer-read-large h3{font-size:22px;}
+body.viewer-read-large .small,
+body.viewer-read-large .muted,
+body.viewer-read-large .viewer-check-note,
+body.viewer-read-large .viewer-display-controls-note{
+  font-size:15px;
+}
+body.viewer-read-large .structured-box,
+body.viewer-read-large .kv-value,
+body.viewer-read-large .pill-item,
+body.viewer-read-large .viewer-plan-field-value,
+body.viewer-read-large .viewer-lunch-value{
+  font-size:16px!important;
+  line-height:1.62!important;
+}
+body.viewer-read-large .viewer-plan-field-label{
+  font-size:12px!important;
+}
+body.viewer-read-large button{
+  min-height:48px;
+  padding:13px 18px;
+}
+body.viewer-read-printlike{
+  background:#fff;
+}
+body.viewer-read-printlike .app{
+  max-width:980px;
+}
+body.viewer-read-printlike .card,
+body.viewer-read-printlike .generator-card,
+body.viewer-read-printlike .viewer-display-controls,
+body.viewer-read-printlike .viewer-quick-nav,
+body.viewer-read-printlike .view-tabs{
+  box-shadow:none!important;
+}
+body.viewer-read-printlike .hero,
+body.viewer-read-printlike .file-panel,
+body.viewer-read-printlike .viewer-day-body{
+  background:#fff!important;
+}
+body.viewer-read-printlike .viewer-week-board{
+  grid-template-columns:1fr!important;
+  min-width:0!important;
+  width:100%!important;
+}
+body.viewer-read-printlike .viewer-day-card{
+  break-inside:avoid;
+}
+body.viewer-mobile-view{
+  overflow-x:hidden;
+}
+body.viewer-mobile-view .app{
+  max-width:100vw;
+  padding:10px;
+}
+body.viewer-mobile-view .hero,
+body.viewer-mobile-view .file-panel,
+body.viewer-mobile-view .section{
+  padding:14px;
+}
+body.viewer-mobile-view h1{
+  font-size:27px;
+}
+body.viewer-mobile-view h2{
+  font-size:22px;
+}
+body.viewer-mobile-view .tool-row.print-actions,
+body.viewer-mobile-view .viewer-display-buttons,
+body.viewer-mobile-view .view-tabs{
+  display:grid;
+  grid-template-columns:minmax(0,1fr);
+  gap:8px;
+}
+body.viewer-mobile-view .tool-row.print-actions button,
+body.viewer-mobile-view .viewer-display-buttons button,
+body.viewer-mobile-view .view-tabs button{
+  width:100%;
+  min-width:0;
+  white-space:normal;
+}
+body.viewer-mobile-view .viewer-quick-nav{
+  position:sticky;
+  top:0;
+  z-index:50;
+  margin:0 -4px;
+  overflow-x:auto;
+  flex-wrap:nowrap;
+  border-radius:14px;
+  padding:8px;
+}
+body.viewer-mobile-view .viewer-quick-nav button,
+body.viewer-mobile-view .viewer-quick-nav-label{
+  flex:0 0 auto;
+  white-space:nowrap;
+}
+body.viewer-mobile-view .summary-grid,
+body.viewer-mobile-view .viewer-check-items,
+body.viewer-mobile-view .weekplan-meta-grid{
+  grid-template-columns:1fr!important;
+}
+body.viewer-mobile-view .kv-grid{
+  grid-template-columns:1fr!important;
+}
+body.viewer-mobile-view .kv-label{
+  border-bottom:0;
+  padding-bottom:4px;
+}
+body.viewer-mobile-view .kv-value{
+  padding-top:4px;
+}
+body.viewer-mobile-view .viewer-week-scroll{
+  overflow-x:visible!important;
+  max-width:100%!important;
+}
+body.viewer-mobile-view .viewer-week-board{
+  grid-template-columns:1fr!important;
+  min-width:0!important;
+  width:100%!important;
+  gap:12px!important;
+}
+body.viewer-mobile-view .viewer-day-body{
+  grid-template-rows:auto auto auto!important;
+  padding:10px!important;
+  gap:10px!important;
+}
+body.viewer-mobile-view .viewer-day-head{
+  font-size:20px!important;
+  padding:12px!important;
+}
+body.viewer-mobile-view .viewer-seq-single,
+body.viewer-mobile-view .viewer-lunch-single{
+  padding:10px!important;
+}
+body.viewer-mobile-view .viewer-lunch-card{
+  height:auto!important;
+  min-height:0!important;
+}
+body.viewer-mobile-view .viewer-lunch-value{
+  min-height:0!important;
+  max-height:none!important;
+  overflow:visible!important;
+}
+body.viewer-mobile-view .viewer-morning-card{
+  min-height:0!important;
+}
+body.viewer-mobile-view .viewer-plan-field.ki-field .viewer-plan-field-value{
+  max-height:none!important;
+  overflow:visible!important;
+}
+body.viewer-mobile-view .viewer-display-controls-head{
+  display:grid;
+}
+@media(max-width:760px){
+  body:not(.viewer-mobile-view) .viewer-display-controls{
+    padding:12px;
+  }
+}
+@media print{
+  .viewer-display-controls{display:none!important;}
+  body.viewer-mobile-view .viewer-week-board,
+  body.viewer-read-printlike .viewer-week-board{
+    grid-template-columns:repeat(5,minmax(0,1fr))!important;
+  }
+}
+
+</style>
 </head>
 <body>
   <div class="app stack">
@@ -170,23 +453,54 @@
         <div class="file-box">
           <strong>Klientendatei laden</strong>
           <input id="fileInput" type="file" accept="application/json,.json" />
-          <div id="passwordRow" class="hidden">
-            <input id="passwordInput" type="password" placeholder="Passwort der Klientendatei" autocomplete="current-password" />
-            <div class="tool-row" style="margin-top:10px"><button type="button" onclick="openEncryptedFile()">Datei öffnen</button></div>
-          </div>
+          <form id="passwordRow" class="hidden" autocomplete="on" onsubmit="openEncryptedFile(); return false;">
+            <input type="text" name="username" value="BT-Navigator Klientendatei Viewer" autocomplete="username" tabindex="-1" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0;" />
+            <input id="passwordInput" name="bt-navigator-klientendatei-passwort" type="password" placeholder="Passwort der Klientendatei" autocomplete="current-password" autocapitalize="off" spellcheck="false" />
+            <div class="tool-row" style="margin-top:10px"><button type="submit">Datei öffnen</button></div>
+          </form>
           <div id="status" class="status">Noch keine Klientendatei geladen.</div>
+          <div class="privacy-note compact" id="privacyNotice">
+            <strong>Datenschutz</strong>
+            <div>Die Klientendatei wird ausschliesslich lokal in diesem Browser geöffnet und entschlüsselt. Der Viewer lädt keine Inhalte auf einen Server hoch und verändert keine Arbeitsmappe.</div>
+            <div class="privacy-small">Passwort und Dateiinhalt bleiben im Browserfenster. Beim Drucken/PDF-Erstellen gelten zusätzlich die Funktionen deines Browsers oder Geräts.</div>
+          </div>
         </div>
       </div>
     </section>
 
     <section id="content" class="stack hidden">
+      <div class="viewer-quick-nav" id="quickNav"></div>
+      <div class="viewer-display-controls" id="viewerDisplayControls">
+        <div class="viewer-display-controls-head">
+          <div>
+            <div class="viewer-display-controls-title">Ansicht</div>
+            <div class="viewer-display-controls-note" id="viewerDisplayStatus">Normale PC-Ansicht.</div>
+          </div>
+        </div>
+        <div class="viewer-display-group">
+          <div class="viewer-display-label">Lesemodus</div>
+          <div class="viewer-display-buttons">
+            <button type="button" class="ghost" data-read-mode="normal" onclick="setViewerReadMode('normal')">Normal</button>
+            <button type="button" class="ghost" data-read-mode="large" onclick="setViewerReadMode('large')">Grossschrift</button>
+            <button type="button" class="ghost" data-read-mode="printlike" onclick="setViewerReadMode('printlike')">Drucknah</button>
+          </div>
+        </div>
+        <div class="viewer-display-group">
+          <div class="viewer-display-label">Geräteansicht</div>
+          <div class="viewer-display-buttons">
+            <button type="button" class="ghost" data-device-mode="desktop" onclick="setViewerDeviceMode('desktop')">PC-Ansicht</button>
+            <button type="button" class="ghost" data-device-mode="mobile" onclick="setViewerDeviceMode('mobile')">Handy-Ansicht</button>
+          </div>
+        </div>
+      </div>
       <div class="view-tabs" id="viewTabs"></div>
-      <section class="card section">
+      <section class="card section" id="overviewSection">
         <div class="summary-grid" id="summaryGrid"></div>
+        <div class="viewer-check-grid" id="viewerCheckGrid"></div>
       </section>
       <div id="generatorsHost" class="stack"></div>
     </section>
-    <div class="footer-note">BT-Navigator Klientendatei Viewer · lokale Anzeige · keine Bearbeitung</div>
+    <div class="footer-note">BT-Navigator Klientendatei Viewer · lokale Anzeige · keine Bearbeitung · keine Datenübertragung durch den Viewer</div>
   </div>
   <div id="printHost" class="print-host" aria-hidden="true"></div>
 
@@ -215,6 +529,8 @@ let pendingEncrypted = null;
 let currentPayload = null;
 let activeMode = "all";
 let weekplanViewMode = "standard";
+let viewerReadMode = "normal";
+let viewerDeviceMode = "desktop";
 
 function esc(v){return String(v ?? "").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[m]));}
 function clean(v){return String(v ?? "").replace(/\s+/g," ").trim();}
@@ -225,7 +541,7 @@ function isEncrypted(parsed){return !!(parsed && parsed.btNavigatorEncrypted===t
 async function decryptFile(parsed,password){const salt=b64ToBytes(parsed?.kdf?.salt); const iv=b64ToBytes(parsed?.cipher?.iv); const cipher=b64ToBytes(parsed.payload); const key=await deriveKey(password,salt); const kind=parsed.kind || "single-client"; const plain=await crypto.subtle.decrypt({name:"AES-GCM",iv,additionalData:new TextEncoder().encode(MARKER+":"+kind),tagLength:128},key,cipher); return JSON.parse(new TextDecoder().decode(plain));}
 function setStatus(text,type=""){const el=document.getElementById("status"); el.textContent=text; el.className="status"+(type?" "+type:"");}
 
-function resetViewer(){pendingEncrypted=null; currentPayload=null; activeMode="all"; weekplanViewMode="standard"; document.getElementById("fileInput").value=""; document.getElementById("passwordInput").value=""; document.getElementById("passwordRow").classList.add("hidden"); document.getElementById("content").classList.add("hidden"); setStatus("Noch keine Klientendatei geladen.");}
+function resetViewer(){pendingEncrypted=null; currentPayload=null; activeMode="all"; weekplanViewMode="standard"; viewerReadMode="normal"; viewerDeviceMode="desktop"; applyViewerDisplayModes(); document.getElementById("fileInput").value=""; document.getElementById("passwordInput").value=""; document.getElementById("passwordRow").classList.add("hidden"); document.getElementById("content").classList.add("hidden"); setStatus("Noch keine Klientendatei geladen.");}
 
 document.getElementById("fileInput").addEventListener("change", async (event)=>{
   const file=event.target.files && event.target.files[0];
@@ -346,7 +662,82 @@ function ensureActiveMode(){
 function renderAll(){
   document.getElementById("content").classList.remove("hidden");
   ensureActiveMode();
-  renderTabs(); renderSummary(); renderGenerators();
+  renderQuickNav(); updateViewerDisplayControls(); renderTabs(); renderSummary(); renderFileChecks(); renderGenerators();
+}
+function renderQuickNav(){
+  const host=document.getElementById("quickNav");
+  if(!host) return;
+  const buttons=[];
+  buttons.push(`<button type="button" class="ghost" onclick="jumpViewerSection('overview')">Übersicht</button>`);
+  if(anyWeekplanHasContent()) buttons.push(`<button type="button" class="secondary" onclick="jumpViewerSection('weekplan')">Wochenplan</button>`);
+  if(generatorHasContent("grit")) buttons.push(`<button type="button" class="grit" onclick="jumpViewerSection('grit')">RIT</button>`);
+  if(generatorHasContent("gret")) buttons.push(`<button type="button" class="gret" onclick="jumpViewerSection('gret')">RET</button>`);
+  if(hasViewerKiResult()) buttons.push(`<button type="button" class="secondary" onclick="jumpViewerSection('ki')">KI-Ergebnis</button>`);
+  if(hasViewerEntwicklungsplanung()) buttons.push(`<button type="button" class="secondary" onclick="jumpViewerSection('ep')">Entwicklungsplanung</button>`);
+  buttons.push(`<button type="button" class="ghost" onclick="jumpViewerSection('print')">Drucken</button>`);
+  host.innerHTML=`<span class="viewer-quick-nav-label">Springen</span>${buttons.join("")}`;
+}
+
+function setViewerReadMode(mode){
+  if(!["normal","large","printlike"].includes(mode)) mode="normal";
+  viewerReadMode=mode;
+  applyViewerDisplayModes();
+  updateViewerDisplayControls();
+  if(activeMode==="weekplan") requestAnimationFrame(syncViewerWeekplanHeights);
+}
+function setViewerDeviceMode(mode){
+  if(!["desktop","mobile"].includes(mode)) mode="desktop";
+  viewerDeviceMode=mode;
+  applyViewerDisplayModes();
+  updateViewerDisplayControls();
+  if(activeMode==="weekplan") requestAnimationFrame(syncViewerWeekplanHeights);
+}
+function applyViewerDisplayModes(){
+  document.body.classList.toggle("viewer-read-large", viewerReadMode==="large");
+  document.body.classList.toggle("viewer-read-printlike", viewerReadMode==="printlike");
+  document.body.classList.toggle("viewer-mobile-view", viewerDeviceMode==="mobile");
+}
+function updateViewerDisplayControls(){
+  applyViewerDisplayModes();
+  document.querySelectorAll("[data-read-mode]").forEach(btn=>btn.classList.toggle("active", btn.getAttribute("data-read-mode")===viewerReadMode));
+  document.querySelectorAll("[data-device-mode]").forEach(btn=>btn.classList.toggle("active", btn.getAttribute("data-device-mode")===viewerDeviceMode));
+  const readLabels={normal:"Normal",large:"Grossschrift",printlike:"Drucknah"};
+  const deviceLabels={desktop:"PC-Ansicht",mobile:"Handy-Ansicht"};
+  const status=document.getElementById("viewerDisplayStatus");
+  if(status) status.textContent=`${deviceLabels[viewerDeviceMode] || "PC-Ansicht"} · Lesemodus: ${readLabels[viewerReadMode] || "Normal"}`;
+}
+function firstGeneratorWithKi(){
+  if(hasText(getKiResultText(activeMode))) return activeMode;
+  if(hasText(getKiResultText("grit"))) return "grit";
+  if(hasText(getKiResultText("gret"))) return "gret";
+  return generatorHasContent("grit") ? "grit" : "gret";
+}
+function firstGeneratorWithEp(){
+  const hasEp=(gen)=>hasText(getEntwicklungsplanungText(gen)) || objectHasContent(getEntwicklungsplanungFields(gen));
+  if(hasEp(activeMode)) return activeMode;
+  if(hasEp("grit")) return "grit";
+  if(hasEp("gret")) return "gret";
+  return generatorHasContent("grit") ? "grit" : "gret";
+}
+function scrollViewerTarget(selector,openDetails=false){
+  requestAnimationFrame(()=>{
+    const el=document.querySelector(selector);
+    if(!el) return;
+    if(openDetails){
+      const details=el.matches && el.matches("details") ? el : el.querySelector("details.viewer-section");
+      if(details) details.open=true;
+    }
+    el.scrollIntoView({behavior:"smooth",block:"start"});
+  });
+}
+function jumpViewerSection(section){
+  if(!currentPayload) return;
+  if(section==="overview"){scrollViewerTarget("#overviewSection"); return;}
+  if(section==="print"){scrollViewerTarget(".print-actions"); return;}
+  if(section==="weekplan"){activeMode="weekplan"; renderAll(); scrollViewerTarget("#weekplanSection"); return;}
+  if(section==="grit" || section==="gret"){activeMode=section; renderAll(); scrollViewerTarget(`#viewer-${section}-section`); return;}
+  if(section==="ki"){const mode=firstGeneratorWithKi(); activeMode=mode; renderAll(); scrollViewerTarget('[data-viewer-anchor="ki"]',true); return;}
+  if(section==="ep"){const mode=firstGeneratorWithEp(); activeMode=mode; renderAll(); scrollViewerTarget('[data-viewer-anchor="ep"]',true); return;}
 }
 function renderTabs(){
   ensureActiveMode();
@@ -403,6 +794,32 @@ function renderSummary(){
     <div class="summary-box"><strong>Exportiert am</strong>${esc(formatDate(currentPayload.exportedAt)||"–")}</div>
     <div class="summary-box"><strong>Aktuelle Ansicht</strong>${esc(currentView)}</div>`;
 }
+function renderFileChecks(){
+  const host=document.getElementById("viewerCheckGrid");
+  if(!host) return;
+  const checks=[
+    {label:"RIT", ok:generatorHasContent("grit"), detail:"RIT-Daten vorhanden"},
+    {label:"RET", ok:generatorHasContent("gret"), detail:"RET-Daten vorhanden"},
+    {label:"Wochenplan", ok:anyWeekplanHasContent(), detail:"Wochenplan gespeichert"},
+    {label:"KI-Ergebnis", ok:hasViewerKiResult(), detail:"KI-Text aus RIT oder RET vorhanden"},
+    {label:"Entwicklungsplanung", ok:hasViewerEntwicklungsplanung(), detail:"Felder oder KI-Text vorhanden"}
+  ];
+  const present=checks.filter(item=>item.ok).length;
+  host.innerHTML=`
+    <div class="viewer-check-head">
+      <div>
+        <div class="viewer-check-title">Prüfanzeige nach dem Laden</div>
+        <div class="viewer-check-note">Schnellprüfung, welche Inhalte in dieser Klientendatei erkannt wurden.</div>
+      </div>
+      <div class="viewer-check-note">${esc(present)} von ${esc(checks.length)} Bereichen vorhanden</div>
+    </div>
+    <div class="viewer-check-items">${checks.map(renderFileCheckItem).join("")}</div>`;
+}
+function renderFileCheckItem(item){
+  return `<div class="viewer-check-item ${item.ok?"ok":"missing"}"><div class="viewer-check-row"><span class="viewer-check-icon">${item.ok?"✓":"–"}</span><span>${esc(item.label)}</span></div><div class="viewer-check-detail">${esc(item.ok?item.detail:"nicht vorhanden")}</div></div>`;
+}
+function hasViewerKiResult(){return hasText(getKiResultText("grit")) || hasText(getKiResultText("gret"));}
+function hasViewerEntwicklungsplanung(){return hasText(getEntwicklungsplanungText("grit")) || hasText(getEntwicklungsplanungText("gret")) || objectHasContent(getEntwicklungsplanungFields("grit")) || objectHasContent(getEntwicklungsplanungFields("gret"));}
 function renderGenerators(){
   const host=document.getElementById("generatorsHost");
   if(activeMode==="weekplan"){
@@ -419,7 +836,7 @@ function renderGenerators(){
 function renderGenerator(gen){
   const label=gen==="grit"?"RIT":"RET";
   const st=getGenState(gen);
-  return `<section class="generator-card ${gen}"><div class="generator-head"><span class="badge ${gen}">${label}</span><h2>${label}</h2><div class="small">Anzeige der gespeicherten Klientendatei. Dieser Bereich ist nicht bearbeitbar. RIT und RET bleiben fachlich getrennt.</div></div><div class="section">${renderGrunddaten(st)}${renderStructuredPreview(gen,st)}${renderStructuredPages(gen,st)}${renderAiSections(gen)}</div></section>`;
+  return `<section class="generator-card ${gen}" id="viewer-${gen}-section"><div class="generator-head"><span class="badge ${gen}">${label}</span><h2>${label}</h2><div class="small">Anzeige der gespeicherten Klientendatei. Dieser Bereich ist nicht bearbeitbar. RIT und RET bleiben fachlich getrennt.</div></div><div class="section">${renderGrunddaten(st)}${renderStructuredPreview(gen,st)}${renderStructuredPages(gen,st)}${renderAiSections(gen)}</div></section>`;
 }
 function syncViewerWeekplanHeights(){
   const board=document.querySelector(".viewer-week-board");
@@ -437,7 +854,7 @@ window.addEventListener("resize", ()=>{
 });
 
 function renderCombinedWeekplanSection(){
-  return `<section class="generator-card weekplan-view"><div class="generator-head"><span class="badge">Wochenplan</span><h2>Wochenplan RIT und RET</h2><div class="small">RIT und RET werden hier gemeinsam angezeigt. Die fachlichen RIT- und RET-Inhalte bleiben in den eigenen Ansichten getrennt.</div></div><div class="section">${renderCombinedWeekplan()}</div></section>`;
+  return `<section class="generator-card weekplan-view" id="weekplanSection"><div class="generator-head"><span class="badge">Wochenplan</span><h2>Wochenplan RIT und RET</h2><div class="small">RIT und RET werden hier gemeinsam angezeigt. Die fachlichen RIT- und RET-Inhalte bleiben in den eigenen Ansichten getrennt.</div></div><div class="section">${renderCombinedWeekplan()}</div></section>`;
 }
 function setWeekplanViewMode(mode){
   if(!["compact","standard","detail"].includes(mode)) mode="standard";
@@ -567,12 +984,12 @@ function renderAiSections(gen){
   const epText=getEntwicklungsplanungText(gen);
   const epFields=getEntwicklungsplanungFields(gen);
   let out="";
-  out+=renderDetails("KI-Ergebnis", hasText(ki)?`<div class="structured-box">${esc(ki)}</div>`:`<div class="empty">Kein KI-Ergebnis in dieser Klientendatei gespeichert.</div>`, false);
-  if(hasText(epText)) out+=renderDetails("Entwicklungsplanung – KI-Ergebnis", `<div class="structured-box">${esc(epText)}</div>`, false);
+  out+=`<div data-viewer-anchor="ki">${renderDetails("KI-Ergebnis", hasText(ki)?`<div class="structured-box">${esc(ki)}</div>`:`<div class="empty">Kein KI-Ergebnis in dieser Klientendatei gespeichert.</div>`, false)}</div>`;
+  if(hasText(epText)) out+=`<div data-viewer-anchor="ep">${renderDetails("Entwicklungsplanung – KI-Ergebnis", `<div class="structured-box">${esc(epText)}</div>`, false)}</div>`;
   else if(objectHasContent(epFields)){
     const lines=[]; Object.entries(epFields).forEach(([k,v])=>{if(hasText(v)) lines.push(labelFromKey(k)+": "+clean(v));});
-    out+=renderDetails("Entwicklungsplanung – Felder", `<div class="structured-box">${esc(lines.join("\n"))}</div>`, false);
-  } else out+=renderDetails("Entwicklungsplanung", `<div class="empty">Keine Entwicklungsplanung in dieser Klientendatei gespeichert.</div>`, false);
+    out+=`<div data-viewer-anchor="ep">${renderDetails("Entwicklungsplanung – Felder", `<div class="structured-box">${esc(lines.join("\n"))}</div>`, false)}</div>`;
+  } else out+=`<div data-viewer-anchor="ep">${renderDetails("Entwicklungsplanung", `<div class="empty">Keine Entwicklungsplanung in dieser Klientendatei gespeichert.</div>`, false)}</div>`;
   return out;
 }
 function firstText(...values){for(const value of values){if(hasText(value)) return String(value);} return "";}
@@ -740,6 +1157,20 @@ function renderWeekplanPeriod(title, fields){
 function renderDetails(title,body,open){return `<details class="viewer-section" ${open?"open":""}><summary>${esc(title)}</summary><div class="section-body">${body}</div></details>`;}
 function labelFromKey(key){return String(key||"").replace(/([a-zäöü])([A-ZÄÖÜ])/g,"$1 $2").replace(/_/g," ").replace(/^ep /i,"EP ").replace(/\b\w/g,c=>c.toUpperCase());}
 function formatDate(value){if(!value) return ""; const d=new Date(value); if(Number.isNaN(d.getTime())) return value; return d.toLocaleString("de-CH",{day:"2-digit",month:"2-digit",year:"numeric",hour:"2-digit",minute:"2-digit"});}
+const PRINT_HEADER_IMAGE_DATA_URI = "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" width="220" height="72" viewBox="0 0 220 72">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#5c3991"/>
+      <stop offset="1" stop-color="#2f7d5a"/>
+    </linearGradient>
+  </defs>
+  <rect x="2" y="2" width="216" height="68" rx="18" fill="#ffffff" stroke="#d8e1ee" stroke-width="2"/>
+  <circle cx="38" cy="36" r="21" fill="url(#g)"/>
+  <path d="M29 37.5l6.2 6.4L48.5 27" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="70" y="32" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="900" fill="#1f2a37">BT-Navigator</text>
+  <text x="70" y="50" font-family="Arial, Helvetica, sans-serif" font-size="11" font-weight="700" fill="#607086">RIT · RET · Klientendatei</text>
+</svg>`);
+
 function printViewer(kind){
   if(!currentPayload){
     setStatus("Bitte zuerst eine Klientendatei laden.","warn");
@@ -787,10 +1218,27 @@ function buildStandalonePrintHtml(kind){
     html,body{background:#fff!important;color:#1f2a37!important;margin:0!important;padding:0!important;overflow:visible!important;}
     body{font-family:Arial,Helvetica,sans-serif!important;}
     .print-standalone{padding:0!important;background:#fff!important;}
-    .print-standalone .print-doc{display:block!important;background:#fff!important;color:#1f2a37!important;max-width:none!important;margin:0!important;padding:0!important;}
+    .print-standalone .print-doc{display:block!important;background:#fff!important;color:#1f2a37!important;max-width:none!important;margin:0!important;padding:24mm 0 18mm 0!important;}
+    .print-page-header{position:fixed;top:0;left:0;right:0;height:17mm;display:flex;align-items:center;justify-content:space-between;gap:10mm;border-bottom:1px solid #d8e1ee;background:#fff;z-index:20;padding:0 1mm 2mm 1mm;box-sizing:border-box;}
+    .print-page-header-left{display:flex;align-items:center;gap:4mm;min-width:0;}
+    .print-header-logo{width:48mm;height:auto;display:block;flex:0 0 auto;}
+    .print-page-header-title{font-size:10px;line-height:1.2;font-weight:900;color:#1f2a37;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+    .print-page-header-subtitle{font-size:8px;line-height:1.2;color:#607086;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+    .print-page-header-right{font-size:8px;line-height:1.35;color:#607086;text-align:right;white-space:nowrap;}
+    .print-page-footer{position:fixed;bottom:0;left:0;right:0;height:10mm;display:flex;align-items:flex-end;justify-content:space-between;border-top:1px solid #d8e1ee;background:#fff;color:#607086;font-size:8px;line-height:1.25;padding:2mm 1mm 0 1mm;z-index:20;box-sizing:border-box;}
     .print-doc-header{break-after:avoid;page-break-after:avoid;}
+    .print-doc-header-top{display:flex;align-items:center;gap:12px;}
+    .print-doc-logo{width:120px;height:auto;display:block;flex:0 0 auto;}
+    .print-doc-title-wrap{min-width:0;}
     .print-doc-meta{grid-template-columns:repeat(3,minmax(0,1fr))!important;}
     .print-section-title{break-after:avoid;page-break-after:avoid;}
+    .print-cover{min-height:235mm;display:grid;align-content:center;gap:18px;page-break-after:always;break-after:page;}
+    .print-cover-card{border:2px solid #d8e1ee;border-radius:24px;padding:28px;background:linear-gradient(180deg,#ffffff 0%,#f8fbff 100%);}
+    .print-cover-logo{width:190px;height:auto;display:block;margin-bottom:18px;}
+    .print-cover-title{font-size:34px;line-height:1.1;font-weight:950;color:#2f6fed;margin-bottom:8px;}
+    .print-cover-subtitle{font-size:15px;line-height:1.45;color:#607086;margin-bottom:18px;}
+    .print-cover-meta{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;}
+    .print-cover-note{border:1px solid #d8e1ee;border-radius:14px;background:#fff;padding:12px 14px;color:#607086;line-height:1.5;font-size:12px;}
     .generator-card,.card,.viewer-day-card,.viewer-seq-card,.viewer-plan-entry,details.viewer-section{box-shadow:none!important;}
     .generator-card{margin:0 0 12px 0!important;break-inside:avoid;page-break-inside:avoid;}
     .generator-head{padding:12px 14px!important;}
@@ -826,7 +1274,242 @@ function buildStandalonePrintHtml(kind){
     .viewer-plan-field.ki-field .viewer-plan-field-value{max-height:none!important;overflow:visible!important;font-size:9px!important;line-height:1.25!important;}
     @media print{html,body{background:#fff!important;overflow:visible!important}.print-standalone{padding:0!important}.print-doc{display:block!important}}
   `;
-  return `<!DOCTYPE html><html lang="de"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>BT-Navigator – ${esc(title)}</title><style>${baseStyles}\n${printStyles}</style></head><body class="print-standalone"><main>${buildPrintDocument(kind)}</main></body></html>`;
+  return `<!DOCTYPE html><html lang="de"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>BT-Navigator – ${esc(title)}</title><style>${baseStyles}\n${printStyles}
+
+/* VIEWER_LESEMODUS_HANDYANSICHT_V1 */
+.viewer-display-controls{
+  display:grid;
+  gap:12px;
+  padding:14px;
+  border:1px solid var(--line);
+  border-radius:18px;
+  background:linear-gradient(180deg,#ffffff 0%,#fbfdff 100%);
+  box-shadow:var(--shadow);
+}
+.viewer-display-controls-head{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:12px;
+  flex-wrap:wrap;
+}
+.viewer-display-controls-title{
+  font-weight:950;
+  color:var(--text);
+}
+.viewer-display-controls-note{
+  color:var(--muted);
+  font-size:13px;
+  line-height:1.45;
+}
+.viewer-display-group{
+  display:grid;
+  gap:8px;
+}
+.viewer-display-label{
+  font-size:12px;
+  font-weight:950;
+  color:var(--muted);
+  text-transform:uppercase;
+  letter-spacing:.03em;
+}
+.viewer-display-buttons{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+}
+.viewer-display-buttons button{
+  flex:1 1 130px;
+  box-shadow:none;
+}
+.viewer-display-buttons button.active{
+  background:var(--accent);
+  border-color:var(--accent);
+  color:#fff;
+}
+body.viewer-read-large{
+  font-size:18px;
+}
+body.viewer-read-large .app{
+  max-width:1240px;
+}
+body.viewer-read-large h1{font-size:38px;}
+body.viewer-read-large h2{font-size:28px;}
+body.viewer-read-large h3{font-size:22px;}
+body.viewer-read-large .small,
+body.viewer-read-large .muted,
+body.viewer-read-large .viewer-check-note,
+body.viewer-read-large .viewer-display-controls-note{
+  font-size:15px;
+}
+body.viewer-read-large .structured-box,
+body.viewer-read-large .kv-value,
+body.viewer-read-large .pill-item,
+body.viewer-read-large .viewer-plan-field-value,
+body.viewer-read-large .viewer-lunch-value{
+  font-size:16px!important;
+  line-height:1.62!important;
+}
+body.viewer-read-large .viewer-plan-field-label{
+  font-size:12px!important;
+}
+body.viewer-read-large button{
+  min-height:48px;
+  padding:13px 18px;
+}
+body.viewer-read-printlike{
+  background:#fff;
+}
+body.viewer-read-printlike .app{
+  max-width:980px;
+}
+body.viewer-read-printlike .card,
+body.viewer-read-printlike .generator-card,
+body.viewer-read-printlike .viewer-display-controls,
+body.viewer-read-printlike .viewer-quick-nav,
+body.viewer-read-printlike .view-tabs{
+  box-shadow:none!important;
+}
+body.viewer-read-printlike .hero,
+body.viewer-read-printlike .file-panel,
+body.viewer-read-printlike .viewer-day-body{
+  background:#fff!important;
+}
+body.viewer-read-printlike .viewer-week-board{
+  grid-template-columns:1fr!important;
+  min-width:0!important;
+  width:100%!important;
+}
+body.viewer-read-printlike .viewer-day-card{
+  break-inside:avoid;
+}
+body.viewer-mobile-view{
+  overflow-x:hidden;
+}
+body.viewer-mobile-view .app{
+  max-width:100vw;
+  padding:10px;
+}
+body.viewer-mobile-view .hero,
+body.viewer-mobile-view .file-panel,
+body.viewer-mobile-view .section{
+  padding:14px;
+}
+body.viewer-mobile-view h1{
+  font-size:27px;
+}
+body.viewer-mobile-view h2{
+  font-size:22px;
+}
+body.viewer-mobile-view .tool-row.print-actions,
+body.viewer-mobile-view .viewer-display-buttons,
+body.viewer-mobile-view .view-tabs{
+  display:grid;
+  grid-template-columns:minmax(0,1fr);
+  gap:8px;
+}
+body.viewer-mobile-view .tool-row.print-actions button,
+body.viewer-mobile-view .viewer-display-buttons button,
+body.viewer-mobile-view .view-tabs button{
+  width:100%;
+  min-width:0;
+  white-space:normal;
+}
+body.viewer-mobile-view .viewer-quick-nav{
+  position:sticky;
+  top:0;
+  z-index:50;
+  margin:0 -4px;
+  overflow-x:auto;
+  flex-wrap:nowrap;
+  border-radius:14px;
+  padding:8px;
+}
+body.viewer-mobile-view .viewer-quick-nav button,
+body.viewer-mobile-view .viewer-quick-nav-label{
+  flex:0 0 auto;
+  white-space:nowrap;
+}
+body.viewer-mobile-view .summary-grid,
+body.viewer-mobile-view .viewer-check-items,
+body.viewer-mobile-view .weekplan-meta-grid{
+  grid-template-columns:1fr!important;
+}
+body.viewer-mobile-view .kv-grid{
+  grid-template-columns:1fr!important;
+}
+body.viewer-mobile-view .kv-label{
+  border-bottom:0;
+  padding-bottom:4px;
+}
+body.viewer-mobile-view .kv-value{
+  padding-top:4px;
+}
+body.viewer-mobile-view .viewer-week-scroll{
+  overflow-x:visible!important;
+  max-width:100%!important;
+}
+body.viewer-mobile-view .viewer-week-board{
+  grid-template-columns:1fr!important;
+  min-width:0!important;
+  width:100%!important;
+  gap:12px!important;
+}
+body.viewer-mobile-view .viewer-day-body{
+  grid-template-rows:auto auto auto!important;
+  padding:10px!important;
+  gap:10px!important;
+}
+body.viewer-mobile-view .viewer-day-head{
+  font-size:20px!important;
+  padding:12px!important;
+}
+body.viewer-mobile-view .viewer-seq-single,
+body.viewer-mobile-view .viewer-lunch-single{
+  padding:10px!important;
+}
+body.viewer-mobile-view .viewer-lunch-card{
+  height:auto!important;
+  min-height:0!important;
+}
+body.viewer-mobile-view .viewer-lunch-value{
+  min-height:0!important;
+  max-height:none!important;
+  overflow:visible!important;
+}
+body.viewer-mobile-view .viewer-morning-card{
+  min-height:0!important;
+}
+body.viewer-mobile-view .viewer-plan-field.ki-field .viewer-plan-field-value{
+  max-height:none!important;
+  overflow:visible!important;
+}
+body.viewer-mobile-view .viewer-display-controls-head{
+  display:grid;
+}
+@media(max-width:760px){
+  body:not(.viewer-mobile-view) .viewer-display-controls{
+    padding:12px;
+  }
+}
+@media print{
+  .viewer-display-controls{display:none!important;}
+  body.viewer-mobile-view .viewer-week-board,
+  body.viewer-read-printlike .viewer-week-board{
+    grid-template-columns:repeat(5,minmax(0,1fr))!important;
+  }
+}
+
+</style></head><body class="print-standalone"><main>${renderPrintPageChrome(title)}${buildPrintDocument(kind)}</main></body></html>`;
+}
+
+function renderPrintPageChrome(title){
+  const gdGrit=getGenState("grit").grunddaten || {};
+  const gdGret=getGenState("gret").grunddaten || {};
+  const initials=clean(currentPayload?.clientInitials)||clean(gdGrit.initialen)||clean(gdGret.initialen)||"–";
+  const name=clean(currentPayload?.clientName)||clean(gdGrit.name)||clean(gdGret.name)||"–";
+  const printedAt=new Date().toLocaleString("de-CH",{day:"2-digit",month:"2-digit",year:"numeric",hour:"2-digit",minute:"2-digit"});
+  return `<div class="print-page-header"><div class="print-page-header-left"><img class="print-header-logo" src="${PRINT_HEADER_IMAGE_DATA_URI}" alt="BT-Navigator"/><div><div class="print-page-header-title">${esc(title)}</div><div class="print-page-header-subtitle">${esc(name)} · ${esc(initials)}</div></div></div><div class="print-page-header-right">gedruckt: ${esc(printedAt)}<br/>lokale Klientendatei</div></div><div class="print-page-footer"><span>BT-Navigator · Klientendatei-Viewer</span><span>lokal geöffnet · keine Datenübertragung durch den Viewer</span></div>`;
 }
 
 function buildPrintDocument(kind){
@@ -839,7 +1522,7 @@ function buildPrintDocument(kind){
   // Beim Druck der ganzen Klientendatei müssen alle Ausklappbereiche offen sein,
   // damit nicht nur die Titel, sondern auch alle Inhalte in der PDF/Druckansicht erscheinen.
   // Die normale Viewer-Seite bleibt unverändert, weil die Druckseite separat erzeugt wird.
-  if(kind==="all") body=forceDetailsOpenForPrint(body);
+  if(kind==="all") body=renderPrintCoverPage()+forceDetailsOpenForPrint(body);
 
   return `<article class="print-doc">${renderPrintHeader(title)}${body}</article>`;
 }
@@ -848,7 +1531,7 @@ function forceDetailsOpenForPrint(html){
     return /(^|\s)open(\s|=|$)/i.test(attrs) ? match : `<details${attrs} open>`;
   });
 }
-function renderPrintHeader(title){
+function getPrintMeta(){
   const gdGrit=getGenState("grit").grunddaten || {};
   const gdGret=getGenState("gret").grunddaten || {};
   const areas=presentAreas();
@@ -857,7 +1540,7 @@ function renderPrintHeader(title){
   const creator=formatCreatorSummary(gdGrit,gdGret);
   const modeLabel=areas.length===2?"RIT und RET":areas[0]==="grit"?"RIT":areas[0]==="gret"?"RET":"–";
   const printedAt=new Date().toLocaleString("de-CH",{day:"2-digit",month:"2-digit",year:"numeric",hour:"2-digit",minute:"2-digit"});
-  const meta=[
+  return [
     ["Name",name],
     ["Initialen",initials],
     ["Enthalten",modeLabel],
@@ -865,7 +1548,14 @@ function renderPrintHeader(title){
     ["Exportiert",formatDate(currentPayload?.exportedAt)||"–"],
     ["Gedruckt",printedAt],
   ];
-  return `<header class="print-doc-header"><div class="print-doc-title">${esc(title)}</div><div class="print-doc-subtitle">BT-Navigator Klientendatei-Viewer · lokale Druckansicht / PDF</div><div class="print-doc-meta">${meta.map(([k,v])=>`<div class="print-doc-meta-item"><strong>${esc(k)}</strong>${esc(v)}</div>`).join("")}</div></header>`;
+}
+function renderPrintCoverPage(){
+  const meta=getPrintMeta();
+  return `<section class="print-cover"><div class="print-cover-card"><img class="print-cover-logo" src="${PRINT_HEADER_IMAGE_DATA_URI}" alt="BT-Navigator"/><div class="print-cover-title">Ganze Klientendatei</div><div class="print-cover-subtitle">Druck-/PDF-Ausgabe aus dem BT-Navigator Klientendatei-Viewer</div><div class="print-cover-meta">${meta.map(([k,v])=>`<div class="print-doc-meta-item"><strong>${esc(k)}</strong>${esc(v)}</div>`).join("")}</div></div><div class="print-cover-note">Diese Druckausgabe wurde lokal im Browser aus einer Klientendatei erstellt. Der Viewer überträgt keine Inhalte an einen Server.</div></section>`;
+}
+function renderPrintHeader(title){
+  const meta=getPrintMeta();
+  return `<header class="print-doc-header"><div class="print-doc-header-top"><img class="print-doc-logo" src="${PRINT_HEADER_IMAGE_DATA_URI}" alt="BT-Navigator"/><div class="print-doc-title-wrap"><div class="print-doc-title">${esc(title)}</div><div class="print-doc-subtitle">BT-Navigator Klientendatei-Viewer · lokale Druckansicht / PDF</div></div></div><div class="print-doc-meta">${meta.map(([k,v])=>`<div class="print-doc-meta-item"><strong>${esc(k)}</strong>${esc(v)}</div>`).join("")}</div></header>`;
 }
 function renderPrintWeekplanOnly(){
   return `<h2 class="print-section-title">Wochenplan</h2>${renderCombinedWeekplan()}`;
