@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BT-Navigator – RET/TZ Sammelplan</title>
+  <style>
+    :root{
+      --bg:#f4f7fb; --panel:#fff; --line:#d8e1ee; --text:#1f2a37; --muted:#607086;
+      --accent:#2f6fed; --accent-soft:#eaf1ff; --ret:#2f7d5a; --ret-soft:#eaf7f1;
+      --warn-bg:#fff8ea; --warn-line:#f0dfad; --bad:#b42318; --ok:#0f766e;
+      --shadow:0 10px 30px rgba(20,34,52,.08); --radius:18px;
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:Arial,Helvetica,sans-serif}
+    body{min-height:100vh}
+    button,input,select{font:inherit}
+    .app{max-width:1420px;margin:0 auto;padding:24px;display:grid;gap:18px}
+    .card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
+    .section{padding:20px;display:grid;gap:14px}
+    .hero{padding:24px;background:linear-gradient(180deg,#fff 0%,#fbfdff 100%);display:grid;gap:12px}
+    h1,h2,h3{margin:0} h1{font-size:34px;line-height:1.1} h2{font-size:22px}.muted{color:var(--muted);line-height:1.55}.small{font-size:13px;color:var(--muted);line-height:1.45}
+    .badge{display:inline-flex;align-items:center;gap:8px;width:max-content;padding:6px 10px;border-radius:999px;background:var(--ret-soft);color:var(--ret);font-weight:900;font-size:13px}
+    .tools{display:flex;gap:10px;flex-wrap:wrap;align-items:center}.tools > *{min-height:42px}
+    button{border:1px solid var(--accent);background:var(--accent);color:#fff;border-radius:12px;padding:10px 14px;font-weight:800;cursor:pointer;box-shadow:0 6px 16px rgba(31,57,90,.08)}
+    button.secondary{background:#fff;color:var(--accent)}button.ghost{background:#fff;color:var(--text);border-color:var(--line);box-shadow:none}
+    input[type=file],input[type=password],input[type=number],select{border:1px solid var(--line);border-radius:12px;background:#fff;padding:10px 12px;color:var(--text);min-width:180px}
+    .file-panel{display:grid;gap:12px;border-top:1px solid var(--line);background:#fbfdff;padding:18px}
+    .drop{border:2px dashed var(--line);border-radius:18px;background:#fff;padding:18px;display:grid;gap:10px}.drop.drag{border-color:var(--accent);background:var(--accent-soft)}
+    .status{border:1px solid var(--line);border-radius:14px;background:#fff;padding:12px 14px;color:var(--muted);line-height:1.5}.status.good{border-color:#b7eadb;background:#f2fffa;color:var(--ok)}.status.warn{border-color:var(--warn-line);background:var(--warn-bg);color:#8a6700}.status.bad{border-color:#f3c1c1;background:#fff1f1;color:var(--bad)}
+    .summary-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}.summary-box{border:1px solid var(--line);border-radius:16px;background:#fff;padding:14px}.summary-box strong{display:block;margin-bottom:4px;color:var(--text);font-size:13px;text-transform:uppercase;letter-spacing:.02em}.summary-box .big{font-size:24px;font-weight:950;color:var(--ret)}
+    .hidden{display:none!important}
+    .plan-toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:space-between}.plan-toolbar-left,.plan-toolbar-right{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+    .table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid var(--line);border-radius:18px;background:#fff}
+    table{width:100%;min-width:980px;border-collapse:collapse;background:#fff}th,td{border-bottom:1px solid var(--line);border-right:1px solid var(--line);vertical-align:top;text-align:left}th:last-child,td:last-child{border-right:0}tr:last-child td{border-bottom:0}
+    th{position:sticky;top:0;z-index:2;background:linear-gradient(180deg,var(--ret-soft),#fff);color:var(--ret);padding:12px;font-size:13px;text-transform:uppercase;letter-spacing:.02em}td{padding:10px}
+    .client-cell{min-width:190px}.client-name{font-weight:950;color:var(--text)}.file-name{font-size:12px;color:var(--muted);margin-top:3px;overflow-wrap:anywhere}.day-cell{min-width:150px;background:#fbfcff}.day-cell.in-tz{background:linear-gradient(180deg,#fff,var(--ret-soft));}.day-cell.empty{color:#8b97a8;background:#fff}.tz-pill{display:inline-flex;align-items:center;gap:6px;padding:4px 8px;border-radius:999px;background:#dcfce7;color:var(--ok);font-size:12px;font-weight:950;margin-bottom:6px}.no-pill{display:inline-flex;align-items:center;padding:4px 8px;border-radius:999px;background:#f2f4f7;color:#667085;font-size:12px;font-weight:850}
+    .goal-list{display:grid;gap:7px}.goal-item{border:1px solid #cfe7d9;border-radius:12px;background:#fff;padding:8px;line-height:1.35;font-size:13px;overflow-wrap:anywhere}.goal-item strong{display:block;color:var(--ret);font-size:11px;text-transform:uppercase;letter-spacing:.02em;margin-bottom:3px}.client-mini{font-weight:900;color:var(--text);margin-bottom:5px}
+    .day-overview{display:grid;grid-template-columns:repeat(5,minmax(190px,1fr));gap:12px}.day-card{border:1px solid var(--line);border-radius:18px;background:#fff;overflow:hidden}.day-card h3{padding:12px 14px;background:linear-gradient(180deg,var(--ret-soft),#fff);color:var(--ret);border-bottom:1px solid var(--line);font-size:18px}.day-card-body{padding:12px;display:grid;gap:8px}.day-client{border:1px solid var(--line);border-radius:14px;background:#fbfcff;padding:10px;display:grid;gap:6px}.day-client.in{border-color:#cfe7d9;background:var(--ret-soft)}.empty-note{border:1px dashed var(--line);border-radius:14px;background:#fbfdff;padding:14px;color:var(--muted);line-height:1.5}
+    .error-list{display:grid;gap:8px}.error-item{border:1px solid #f3c1c1;background:#fff1f1;border-radius:12px;padding:10px 12px;color:#7a271a;line-height:1.45;overflow-wrap:anywhere}
+    .print-note{font-size:12px;color:var(--muted);text-align:center;padding:8px}
+
+    .week-controls{display:flex;gap:8px;flex-wrap:wrap;align-items:center;border:1px solid var(--line);border-radius:16px;background:#fff;padding:8px}
+    .week-controls label{display:flex;align-items:center;gap:6px;font-size:13px;font-weight:900;color:var(--muted)}
+    .week-controls input[type=number]{width:110px;min-width:0}.week-controls select{width:132px;min-width:0}.week-controls button{min-height:38px;padding:8px 10px;box-shadow:none}
+    .week-date-line{font-size:13px;color:var(--muted);font-weight:800;padding:0 4px;white-space:nowrap}
+    .cancel-line{margin-top:8px;border-top:1px dashed var(--line);padding-top:7px;display:flex;align-items:center;gap:7px;font-size:12px;font-weight:900;color:var(--bad)}
+    .cancel-line input{width:17px;height:17px;accent-color:var(--bad)}
+    .day-cell.cancelled,.day-client.cancelled{background:#fff1f1!important;border-color:#f3c1c1!important;color:#7a271a}.day-cell.cancelled .goal-item,.day-client.cancelled .goal-item{opacity:.65}.cancelled-mark{display:inline-flex;align-items:center;gap:5px;border-radius:999px;background:#fee4e2;color:#b42318;font-size:12px;font-weight:950;padding:4px 8px;margin-bottom:6px}.is-cancelled-text{text-decoration:line-through;text-decoration-thickness:2px;text-decoration-color:#b42318;opacity:.72}
+    .day-section-title{font-size:12px;font-weight:950;text-transform:uppercase;letter-spacing:.02em;color:var(--muted);margin-top:4px}.day-section-title.in{color:var(--ret)}.day-section-title.out{color:#667085}.day-card-date{font-size:12px;color:var(--muted);font-weight:700;margin-top:3px}.not-in-list{display:grid;gap:6px}.not-in-client{border:1px dashed var(--line);border-radius:12px;background:#fff;padding:8px 9px;color:#667085;font-size:13px;line-height:1.35}.not-in-client strong{color:#475467}
+
+    @media(max-width:900px){.app{padding:12px}.summary-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.tools,input[type=file],input[type=password],input[type=number],select,button{width:100%;min-width:0}.plan-toolbar,.plan-toolbar-left,.plan-toolbar-right{display:grid;width:100%;grid-template-columns:1fr}.hero{padding:18px}h1{font-size:27px}
+      /* MOBILE_WEEKPLAN_NEBENEINANDER_V1: Tageskarten bleiben auch auf dem Handy nebeneinander und werden horizontal scrollbar. */
+      #planHost{overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:6px;scrollbar-width:thin;max-width:100%}
+      .day-overview{grid-template-columns:repeat(5,minmax(220px,1fr));min-width:1120px;width:1120px;gap:10px;align-items:start}
+      .day-card{min-width:0}.day-card h3{font-size:16px;padding:10px 11px}.day-card-body{padding:10px;gap:7px}.day-client{padding:8px}.goal-item{font-size:12px;padding:7px}.not-in-client{font-size:12px;padding:7px 8px}.cancel-line{font-size:11px;align-items:flex-start}
+      .table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}.table-wrap table{min-width:980px}
+    }
+    @media print{body{background:#fff}.app{max-width:none;padding:0}.file-panel,.tools,.plan-toolbar,.print-note{display:none!important}.card{box-shadow:none!important;border-color:#d8e1ee}.section{padding:8mm}.table-wrap{overflow:visible;border-radius:0}table{min-width:0;font-size:9pt}th{position:static;font-size:8pt;padding:5px}td{padding:5px}.goal-item{font-size:7.5pt;padding:5px}.file-name{display:none}.summary-grid{grid-template-columns:repeat(4,1fr)}@page{size:A4 landscape;margin:8mm}}
+  </style>
+</head>
+<body>
+  <div class="app">
+    <section class="card">
+      <div class="hero">
+        <span class="badge">RET / TZ Sammelplan</span>
+        <h1>Klientendateien lesen und gemeinsamen TZ-Plan anzeigen</h1>
+        <div class="muted">Bis zu 100 BT-Navigator-Klientendateien lokal im Browser laden oder später weitere Dateien hinzufügen. Alle Klienten werden gemeinsam in einem Wochenplan angezeigt. Pro Kalenderwoche kann markiert werden, wenn ein Klient abgesagt hat.</div>
+      </div>
+      <div class="file-panel">
+        <div class="drop" id="dropZone">
+          <strong>Klientendateien auswählen oder hinzufügen</strong>
+          <div class="small">Du kannst mehrere JSON-Klientendateien gleichzeitig auswählen oder hineinziehen. Später weitere Dateien hinzufügen ist möglich; gleiche Klienten werden aktualisiert statt doppelt eingefügt.</div>
+          <div class="tools">
+            <input id="fileInput" type="file" accept="application/json,.json" multiple />
+            <input id="passwordInput" type="password" placeholder="Passwort, falls Dateien verschlüsselt sind" autocomplete="current-password" />
+            <button type="button" onclick="readSelectedFiles(false)">Dateien hinzufügen</button>
+            <button type="button" class="secondary" onclick="readSelectedFiles(true)">Neue Liste aus Auswahl</button>
+            <button type="button" class="secondary" onclick="loadSavedClients()">Gespeicherte laden</button>
+            <button type="button" class="ghost" onclick="saveLoadedClientsToBrowser()">Aktuellen Plan speichern</button>
+            <button type="button" class="ghost" onclick="clearSavedClients()">Gespeicherte löschen</button>
+            <button type="button" class="ghost" onclick="resetAll()">Leeren</button>
+          </div>
+        </div>
+        <div id="status" class="status">Noch keine Klientendateien geladen.</div>
+      </div>
+    </section>
+
+    <section id="resultSection" class="card section hidden">
+      <div class="plan-toolbar">
+        <div class="plan-toolbar-left">
+          <span class="badge">Gemeinsamer Wochenplan</span>
+          <div class="week-controls">
+            <button type="button" class="ghost" onclick="changeWeek(-1)">← Woche</button>
+            <label>Jahr <input id="yearInput" type="number" min="2020" max="2100" onchange="setSelectedYearWeekFromControls()" /></label>
+            <label>KW <select id="weekSelect" onchange="setSelectedYearWeekFromControls()"></select></label>
+            <button type="button" class="ghost" onclick="changeWeek(1)">Woche →</button>
+            <span class="week-date-line" id="weekDateLabel"></span>
+          </div>
+          <select id="displayMode" onchange="renderAll()">
+            <option value="names_goals">Namen + Ziele anzeigen</option>
+            <option value="names">Nur Namen anzeigen</option>
+            <option value="goals">Nur Ziele anzeigen</option>
+          </select>
+          <select id="viewMode" onchange="renderAll()">
+            <option value="days">Wochenübersicht nach Tagen</option>
+            <option value="table">Tabelle pro Klient</option>
+          </select>
+        </div>
+        <div class="plan-toolbar-right">
+          <button type="button" class="secondary" onclick="window.print()">Drucken / PDF</button>
+          <button type="button" class="ghost" onclick="exportCsv()">CSV exportieren</button>
+        </div>
+      </div>
+      <div class="summary-grid" id="summaryGrid"></div>
+      <div id="planHost"></div>
+      <div id="errorsHost"></div>
+      <div class="print-note">Alle Dateien werden nur lokal in diesem Browser gelesen. Gelesene Plandaten und Absagen werden lokal im Browser gespeichert. Es findet kein Upload statt.</div>
+    </section>
+  </div>
+
+<script>
+const MARKER = "BT-NAVIGATOR-ENCRYPTED";
+const ITERATIONS = 250000;
+const MAX_FILES = 100;
+const STORAGE_KEY = "BT_RET_TZ_SAMMELPLAN_SAVED_CLIENTS_V1";
+const STORAGE_META_KEY = "BT_RET_TZ_SAMMELPLAN_SAVED_META_V1";
+const STORAGE_CANCEL_KEY = "BT_RET_TZ_SAMMELPLAN_CANCELLATIONS_V1";
+const DAY_ORDER = ["mo","di","mi","do","fr"];
+const DAY_LABELS = {mo:"Montag",di:"Dienstag",mi:"Mittwoch",do:"Donnerstag",fr:"Freitag"};
+let loadedClients = [];
+let loadErrors = [];
+let selectedFilesCache = [];
+let cancellations = {};
+const nowForWeek = new Date();
+let selectedYear = nowForWeek.getFullYear();
+let selectedWeek = 1;
+
+function esc(v){return String(v ?? "").replace(/[&<>\"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[m]));}
+function clean(v){return String(v ?? "").replace(/\s+/g," ").trim();}
+function hasText(v){return clean(v).length>0;}
+function firstText(...values){for(const value of values){if(hasText(value)) return String(value);} return "";}
+function setStatus(text,type=""){const el=document.getElementById("status"); el.textContent=text; el.className="status"+(type?" "+type:"");}
+function b64ToBytes(base64){const bin=atob(String(base64||"")); const out=new Uint8Array(bin.length); for(let i=0;i<bin.length;i++) out[i]=bin.charCodeAt(i); return out;}
+function isEncrypted(parsed){return !!(parsed && parsed.btNavigatorEncrypted===true && parsed.marker===MARKER && typeof parsed.payload==="string");}
+async function deriveKey(password,salt){const enc=new TextEncoder(); const base=await crypto.subtle.importKey("raw",enc.encode(password),"PBKDF2",false,["deriveKey"]); return crypto.subtle.deriveKey({name:"PBKDF2",salt,iterations:ITERATIONS,hash:"SHA-256"},base,{name:"AES-GCM",length:256},false,["decrypt"]);}
+async function decryptFile(parsed,password){const salt=b64ToBytes(parsed?.kdf?.salt); const iv=b64ToBytes(parsed?.cipher?.iv); const cipher=b64ToBytes(parsed.payload); const key=await deriveKey(password,salt); const kind=parsed.kind || "single-client"; const plain=await crypto.subtle.decrypt({name:"AES-GCM",iv,additionalData:new TextEncoder().encode(MARKER+":"+kind),tagLength:128},key,cipher); return JSON.parse(new TextDecoder().decode(plain));}
+
+const fileInput=document.getElementById("fileInput");
+fileInput.addEventListener("change",()=>{selectedFilesCache=Array.from(fileInput.files||[]); setStatus(`${selectedFilesCache.length} Datei(en) ausgewählt. Mit „Dateien hinzufügen“ werden sie zum bestehenden Plan ergänzt.`, selectedFilesCache.length?"warn":"");});
+const dropZone=document.getElementById("dropZone");
+["dragenter","dragover"].forEach(ev=>dropZone.addEventListener(ev,e=>{e.preventDefault(); dropZone.classList.add("drag");}));
+["dragleave","drop"].forEach(ev=>dropZone.addEventListener(ev,e=>{e.preventDefault(); dropZone.classList.remove("drag");}));
+dropZone.addEventListener("drop",e=>{selectedFilesCache=Array.from(e.dataTransfer.files||[]).filter(f=>/\.json$/i.test(f.name)||f.type==="application/json"); fileInput.value=""; setStatus(`${selectedFilesCache.length} Datei(en) übernommen. Mit „Dateien hinzufügen“ werden sie zum bestehenden Plan ergänzt.`, selectedFilesCache.length?"warn":"");});
+
+async function readSelectedFiles(replaceExisting=false){
+  const files = selectedFilesCache.length ? selectedFilesCache : Array.from(fileInput.files||[]);
+  if(replaceExisting){ loadedClients=[]; loadErrors=[]; document.getElementById("resultSection").classList.add("hidden"); }
+  if(!files.length){setStatus("Bitte zuerst Klientendateien auswählen.","warn"); return;}
+  if(files.length>MAX_FILES){setStatus(`Bitte maximal ${MAX_FILES} Dateien auf einmal auswählen. Ausgewählt: ${files.length}.`,"bad"); return;}
+  if(!replaceExisting && loadedClients.length + files.length > MAX_FILES){
+    setStatus(`Es können insgesamt maximal ${MAX_FILES} Klientendateien im Sammelplan sein. Aktuell: ${loadedClients.length}, neu ausgewählt: ${files.length}.`,"bad");
+    return;
+  }
+  const password=document.getElementById("passwordInput").value;
+  setStatus(`${replaceExisting?"Lese neue Liste":"Füge hinzu"}: ${files.length} Datei(en)...`,"warn");
+  const newClients=[];
+  const startErrorCount=loadErrors.length;
+  for(const file of files){
+    try{
+      const parsed=JSON.parse(await file.text());
+      let payload=parsed;
+      if(isEncrypted(parsed)){
+        if(!password){throw new Error("verschlüsselt – Passwort fehlt");}
+        payload=await decryptFile(parsed,password);
+      }
+      const client=extractClientFromPayload(payload,file.name);
+      newClients.push(client);
+    }catch(error){
+      console.warn(error);
+      loadErrors.push({file:file.name,error:error && error.message ? error.message : String(error)});
+    }
+  }
+  const mergeResult=mergeClientsIntoPlan(newClients);
+  loadedClients.sort((a,b)=>a.name.localeCompare(b.name,"de-CH"));
+  document.getElementById("resultSection").classList.remove("hidden");
+  renderAll();
+  const bad=loadErrors.length-startErrorCount;
+  const saved=saveLoadedClientsToBrowser(true);
+  selectedFilesCache=[];
+  fileInput.value="";
+  setStatus(`${mergeResult.added} neu hinzugefügt, ${mergeResult.updated} aktualisiert. Insgesamt ${loadedClients.length} Klient(en)${saved?" im Browser gespeichert":""}${bad?`, ${bad} Fehler`:""}.`, bad?"warn":"good");
+}
+function clientIdentity(client){
+  const initials=clean(client?.initials).toLowerCase();
+  const name=clean(client?.name).toLowerCase();
+  const file=clean(client?.fileName).toLowerCase();
+  return initials ? `i:${initials}` : name ? `n:${name}` : `f:${file}`;
+}
+function mergeClientsIntoPlan(newClients){
+  let added=0;
+  let updated=0;
+  newClients.forEach(client=>{
+    const key=clientIdentity(client);
+    const fileKey=clean(client?.fileName).toLowerCase();
+    const index=loadedClients.findIndex(existing=>clientIdentity(existing)===key || (fileKey && clean(existing?.fileName).toLowerCase()===fileKey));
+    if(index>=0){ loadedClients[index]=client; updated++; }
+    else { loadedClients.push(client); added++; }
+  });
+  if(loadedClients.length>MAX_FILES){
+    loadedClients=loadedClients.slice(0,MAX_FILES);
+    setStatus(`Es wurden nur die ersten ${MAX_FILES} Klienten behalten.`,"warn");
+  }
+  return {added,updated};
+}
+
+function resetAll(){loadedClients=[];loadErrors=[];selectedFilesCache=[];fileInput.value="";document.getElementById("passwordInput").value="";document.getElementById("resultSection").classList.add("hidden");setStatus("Anzeige geleert. Gespeicherte Plandaten bleiben erhalten.");}
+
+function storageClient(client){
+  const days={};
+  DAY_ORDER.forEach(dayKey=>{
+    const day=client?.days?.[dayKey] || {};
+    days[dayKey]={
+      inTz:!!day.inTz,
+      goals:Array.isArray(day.goals) ? day.goals.map(goal=>({label:String(goal?.label||""),text:String(goal?.text||"")})) : [],
+      fallback:String(day.fallback||"")
+    };
+  });
+  return {
+    name:String(client?.name||"Unbekannt"),
+    initials:String(client?.initials||""),
+    fileName:String(client?.fileName||""),
+    hasRetPlan:!!client?.hasRetPlan,
+    days,
+    savedAt:new Date().toISOString()
+  };
+}
+function normalizeSavedClient(client){
+  const safe=storageClient(client);
+  safe.raw=null;
+  return safe;
+}
+function saveLoadedClientsToBrowser(silent=false){
+  if(!loadedClients.length){
+    if(!silent) setStatus("Es sind noch keine gelesenen Klientendateien zum Speichern vorhanden.","warn");
+    return false;
+  }
+  try{
+    const data=loadedClients.map(storageClient);
+    const meta={count:data.length,savedAt:new Date().toISOString()};
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+    localStorage.setItem(STORAGE_META_KEY, JSON.stringify(meta));
+    if(!silent) setStatus(`${data.length} Klient(en) lokal im Browser gespeichert. Beim nächsten Öffnen können sie direkt geladen werden.`,"good");
+    return true;
+  }catch(error){
+    console.warn(error);
+    if(!silent) setStatus("Speichern im Browser hat nicht funktioniert. Wahrscheinlich ist der lokale Speicher voll oder blockiert.","bad");
+    return false;
+  }
+}
+function loadSavedClients(silent=false){
+  try{
+    const raw=localStorage.getItem(STORAGE_KEY);
+    if(!raw){
+      if(!silent) setStatus("Es sind noch keine gespeicherten Plandaten im Browser vorhanden.","warn");
+      return false;
+    }
+    const parsed=JSON.parse(raw);
+    if(!Array.isArray(parsed) || !parsed.length){
+      if(!silent) setStatus("Gespeicherte Plandaten sind leer.","warn");
+      return false;
+    }
+    loadedClients=parsed.map(normalizeSavedClient).sort((a,b)=>a.name.localeCompare(b.name,"de-CH"));
+    loadErrors=[];
+    document.getElementById("resultSection").classList.remove("hidden");
+    renderAll();
+    const metaRaw=localStorage.getItem(STORAGE_META_KEY);
+    let savedText="";
+    if(metaRaw){
+      try{
+        const meta=JSON.parse(metaRaw);
+        if(meta?.savedAt){
+          const d=new Date(meta.savedAt);
+          savedText=Number.isNaN(d.getTime())?"":` Gespeichert: ${d.toLocaleString("de-CH",{day:"2-digit",month:"2-digit",year:"numeric",hour:"2-digit",minute:"2-digit"})}.`;
+        }
+      }catch(_error){}
+    }
+    if(!silent) setStatus(`${loadedClients.length} gespeicherte Klient(en) aus dem Browser geladen.${savedText}`,"good");
+    else setStatus(`${loadedClients.length} gespeicherte Klient(en) automatisch aus dem Browser geladen.${savedText}`,"good");
+    return true;
+  }catch(error){
+    console.warn(error);
+    if(!silent) setStatus("Gespeicherte Plandaten konnten nicht geladen werden.","bad");
+    return false;
+  }
+}
+function clearSavedClients(){
+  try{
+    localStorage.removeItem(STORAGE_KEY);
+    localStorage.removeItem(STORAGE_META_KEY);
+    localStorage.removeItem(STORAGE_CANCEL_KEY);
+    cancellations={};
+    setStatus("Gespeicherte Plandaten und Absagen wurden aus diesem Browser gelöscht. Die aktuelle Anzeige bleibt bis zum Leeren sichtbar.","good");
+  }catch(error){
+    console.warn(error);
+    setStatus("Gespeicherte Plandaten konnten nicht gelöscht werden.","bad");
+  }
+}
+
+function getISOWeek(date){
+  const d=new Date(Date.UTC(date.getFullYear(),date.getMonth(),date.getDate()));
+  const dayNum=d.getUTCDay() || 7;
+  d.setUTCDate(d.getUTCDate()+4-dayNum);
+  const yearStart=new Date(Date.UTC(d.getUTCFullYear(),0,1));
+  return Math.ceil((((d-yearStart)/86400000)+1)/7);
+}
+function getISOWeekYear(date){
+  const d=new Date(Date.UTC(date.getFullYear(),date.getMonth(),date.getDate()));
+  const dayNum=d.getUTCDay() || 7;
+  d.setUTCDate(d.getUTCDate()+4-dayNum);
+  return d.getUTCFullYear();
+}
+function weeksInISOYear(year){return getISOWeek(new Date(year,11,28));}
+function mondayOfISOWeek(year,week){
+  const simple=new Date(Date.UTC(year,0,1+(week-1)*7));
+  const dow=simple.getUTCDay() || 7;
+  const monday=new Date(simple);
+  if(dow<=4) monday.setUTCDate(simple.getUTCDate()-dow+1);
+  else monday.setUTCDate(simple.getUTCDate()+8-dow);
+  return monday;
+}
+function formatDateShort(date){return date.toLocaleDateString("de-CH",{day:"2-digit",month:"2-digit"});}
+function dateForDayKey(dayKey){
+  const offset={mo:0,di:1,mi:2,do:3,fr:4}[dayKey] || 0;
+  const d=mondayOfISOWeek(selectedYear,selectedWeek);
+  d.setUTCDate(d.getUTCDate()+offset);
+  return d;
+}
+function initWeekFromToday(){selectedYear=getISOWeekYear(new Date()); selectedWeek=getISOWeek(new Date());}
+function initWeekControls(){
+  const yearInput=document.getElementById("yearInput");
+  if(yearInput) yearInput.value=selectedYear;
+  fillWeekSelect();
+  updateWeekLabel();
+}
+function fillWeekSelect(){
+  const select=document.getElementById("weekSelect");
+  if(!select) return;
+  const max=weeksInISOYear(selectedYear);
+  if(selectedWeek>max) selectedWeek=max;
+  select.innerHTML=Array.from({length:max},(_,i)=>`<option value="${i+1}">KW ${String(i+1).padStart(2,"0")}</option>`).join("");
+  select.value=String(selectedWeek);
+}
+function setSelectedYearWeekFromControls(){
+  const yearInput=document.getElementById("yearInput");
+  const weekSelect=document.getElementById("weekSelect");
+  const year=Number(yearInput?.value) || new Date().getFullYear();
+  selectedYear=Math.min(2100,Math.max(2020,year));
+  const max=weeksInISOYear(selectedYear);
+  selectedWeek=Math.min(max,Math.max(1,Number(weekSelect?.value)||1));
+  initWeekControls();
+  renderAll();
+}
+function changeWeek(delta){
+  selectedWeek += delta;
+  if(selectedWeek<1){selectedYear-=1; selectedWeek=weeksInISOYear(selectedYear);}
+  const max=weeksInISOYear(selectedYear);
+  if(selectedWeek>max){selectedYear+=1; selectedWeek=1;}
+  initWeekControls();
+  renderAll();
+}
+function updateWeekLabel(){
+  const label=document.getElementById("weekDateLabel");
+  if(!label) return;
+  const monday=mondayOfISOWeek(selectedYear,selectedWeek);
+  const friday=new Date(monday); friday.setUTCDate(monday.getUTCDate()+4);
+  label.textContent=`${formatDateShort(monday)}–${formatDateShort(friday)}.${selectedYear}`;
+}
+function weekKey(){return `${selectedYear}-W${String(selectedWeek).padStart(2,"0")}`;}
+function cancelKey(clientIndex,dayKey){return `${weekKey()}::${clientIdentity(loadedClients[clientIndex])}::${dayKey}`;}
+function isCancelled(clientIndex,dayKey){return !!cancellations[cancelKey(clientIndex,dayKey)];}
+function toggleCancellation(clientIndex,dayKey,checked){
+  const key=cancelKey(clientIndex,dayKey);
+  if(checked) cancellations[key]=true;
+  else delete cancellations[key];
+  saveCancellationsToBrowser(true);
+  renderAll();
+}
+function cancellationControl(clientIndex,dayKey){
+  const checked=isCancelled(clientIndex,dayKey) ? "checked" : "";
+  return `<label class="cancel-line"><input type="checkbox" ${checked} onchange="toggleCancellation(${clientIndex},'${dayKey}',this.checked)" /> abgesagt</label>`;
+}
+function loadCancellationsFromBrowser(){
+  try{const raw=localStorage.getItem(STORAGE_CANCEL_KEY); cancellations=raw?JSON.parse(raw):{}; if(!cancellations || typeof cancellations!=="object") cancellations={};}
+  catch(error){console.warn(error); cancellations={};}
+}
+function saveCancellationsToBrowser(silent=false){
+  try{localStorage.setItem(STORAGE_CANCEL_KEY,JSON.stringify(cancellations)); return true;}
+  catch(error){console.warn(error); if(!silent) setStatus("Absagen konnten nicht gespeichert werden.","bad"); return false;}
+}
+
+window.addEventListener("DOMContentLoaded",()=>{initWeekFromToday(); initWeekControls(); loadCancellationsFromBrowser(); loadSavedClients(true);});
+
+function extractClientFromPayload(payload,fileName){
+  const gretState=getGenState(payload,"gret");
+  const gd=gretState?.grunddaten || {};
+  const wp=findRetWeekplan(payload);
+  const name=firstText(payload?.clientName,payload?.clientLabel,payload?.clientInitials,gd.name,gd.initialen,fileName.replace(/\.json$/i,""));
+  const initials=firstText(payload?.clientInitials,gd.initialen);
+  const days={};
+  DAY_ORDER.forEach(dayKey=>{days[dayKey]=extractDayPlan(wp?.days?.[dayKey] || wp?.[dayKey] || {});});
+  return {name:clean(name)||"Unbekannt", initials:clean(initials), fileName, hasRetPlan:!!wp, days, raw:payload};
+}
+function getGenState(payload,gen){
+  const candidates=[payload?.clientState,payload?.state,payload?.workspaceState,payload?.clientWorkspace,payload];
+  for(const root of candidates){
+    if(!root || typeof root!=="object") continue;
+    if(root[gen] && typeof root[gen]==="object") return root[gen];
+    if(root.state && root.state[gen] && typeof root.state[gen]==="object") return root.state[gen];
+    if(root.clientState && root.clientState[gen] && typeof root.clientState[gen]==="object") return root.clientState[gen];
+  }
+  return {};
+}
+function findRetWeekplan(payload){
+  const candidates=[
+    payload?.weekplanRetClient,
+    payload?.clientState?.weekplanRetClient,
+    payload?.state?.weekplanRetClient,
+    payload?.workspaceState?.weekplanRetClient,
+    payload?.clientWorkspace?.weekplanRetClient,
+    payload?.weekplan?.ret,
+    payload?.retWeekplan,
+    payload?.retPlan
+  ];
+  return candidates.find(obj=>obj && typeof obj==="object") || null;
+}
+function extractDayPlan(day){
+  const morningGoal=firstText(day.morningGoal,day.morning?.goal,day.morgenZiel,day.amGoal);
+  const morningActivity=firstText(day.morningActivity,day.morning?.activity,day.morgenAktivitaet,day.amActivity);
+  const morningExtra=firstText(day.morningImplementation,day.morningDurchfuehrung,day.morningDurchführung,day.morningActivityExtra,day.morningExtra,day.morning?.implementation,day.morning?.extra);
+  const afternoonGoal=firstText(day.afternoonGoal,day.afternoon?.goal,day.nachmittagZiel,day.pmGoal);
+  const afternoonActivity=firstText(day.afternoonActivity,day.afternoon?.activity,day.nachmittagAktivitaet,day.pmActivity);
+  const afternoonExtra=firstText(day.afternoonImplementation,day.afternoonDurchfuehrung,day.afternoonDurchführung,day.afternoonActivityExtra,day.afternoonExtra,day.afternoon?.implementation,day.afternoon?.extra);
+  const lunch=firstText(day.lunch,day.mittagessen,day.mittag,day.middayMeal,day.lunchText);
+  const goals=[];
+  if(hasText(morningGoal)) goals.push({label:"Morgen",text:morningGoal});
+  if(hasText(afternoonGoal)) goals.push({label:"Nachmittag",text:afternoonGoal});
+  const any=goals.length || [morningActivity,morningExtra,afternoonActivity,afternoonExtra,lunch].some(hasText);
+  return {inTz:!!any, goals, fallback:firstText(morningActivity,morningExtra,afternoonActivity,afternoonExtra,lunch)};
+}
+function clientHasAnyTz(client){return DAY_ORDER.some(d=>client.days[d]?.inTz);}
+
+function renderAll(){
+  renderSummary();
+  const view=document.getElementById("viewMode").value;
+  document.getElementById("planHost").innerHTML = view==="days" ? renderDayOverview() : renderClientTable();
+  renderErrors();
+}
+function renderSummary(){
+  updateWeekLabel();
+  const total=loadedClients.length;
+  const withAny=loadedClients.filter(clientHasAnyTz).length;
+  const without=total-withAny;
+  let plannedSlots=0;
+  let cancelledSlots=0;
+  DAY_ORDER.forEach(dayKey=>loadedClients.forEach((client,index)=>{if(client.days[dayKey]?.inTz){plannedSlots++; if(isCancelled(index,dayKey)) cancelledSlots++;}}));
+  const activeSlots=plannedSlots-cancelledSlots;
+  const dayCounts=DAY_ORDER.map(d=>`${DAY_LABELS[d].slice(0,2)}: ${loadedClients.filter((c,i)=>c.days[d]?.inTz && !isCancelled(i,d)).length}`).join(" · ");
+  document.getElementById("summaryGrid").innerHTML=`
+    <div class="summary-box"><strong>Klienten im Plan</strong><div class="big">${esc(total)}</div></div>
+    <div class="summary-box"><strong>KW ${esc(String(selectedWeek).padStart(2,"0"))} / ${esc(selectedYear)}</strong><div>${esc(document.getElementById("weekDateLabel")?.textContent || "")}</div></div>
+    <div class="summary-box"><strong>Geplante TZ-Tage</strong><div class="big">${esc(activeSlots)}</div><div class="small">${esc(cancelledSlots)} abgesagt · ${esc(plannedSlots)} geplant</div></div>
+    <div class="summary-box"><strong>Pro Tag im TZ</strong><div>${esc(dayCounts || "–")}</div></div>
+    <div class="summary-box"><strong>Mit RET/TZ-Eintrag</strong><div class="big">${esc(withAny)}</div></div>
+    <div class="summary-box"><strong>Ohne RET/TZ-Eintrag</strong><div class="big">${esc(without)}</div></div>`;
+}
+function renderClientTable(){
+  if(!loadedClients.length) return `<div class="empty-note">Keine Klientendateien gelesen.</div>`;
+  const head=`<tr><th>Klient</th>${DAY_ORDER.map(d=>`<th>${esc(DAY_LABELS[d])}<div class="day-card-date">${esc(formatDateShort(dateForDayKey(d)))}</div></th>`).join("")}<th>Status Woche</th></tr>`;
+  const rows=loadedClients.map((client,index)=>`<tr><td class="client-cell"><div class="client-name">${esc(client.name)}</div>${client.initials?`<div class="small">${esc(client.initials)}</div>`:""}<div class="file-name">${esc(client.fileName)}</div></td>${DAY_ORDER.map(d=>renderDayCell(client,index,d)).join("")}<td>${renderWeeklyStatus(index)}</td></tr>`).join("");
+  return `<div class="table-wrap"><table>${head}${rows}</table></div>`;
+}
+function renderWeeklyStatus(clientIndex){
+  const client=loadedClients[clientIndex];
+  const planned=DAY_ORDER.filter(d=>client.days[d]?.inTz);
+  if(!planned.length) return `<span class="no-pill">nicht im TZ</span>`;
+  const cancelled=planned.filter(d=>isCancelled(clientIndex,d));
+  if(cancelled.length===planned.length) return `<span class="cancelled-mark">abgesagt</span>`;
+  if(cancelled.length) return `<span class="tz-pill">teilweise im TZ</span><div class="small">${cancelled.length} von ${planned.length} abgesagt</div>`;
+  return `<span class="tz-pill">✓ im TZ</span>`;
+}
+function renderDayCell(client,clientIndex,dayKey){
+  const day=client.days[dayKey] || {inTz:false,goals:[]};
+  if(!day.inTz) return `<td class="day-cell empty"><span class="no-pill">nicht im TZ</span></td>`;
+  const mode=document.getElementById("displayMode").value;
+  const cancelled=isCancelled(clientIndex,dayKey);
+  let body="";
+  if(cancelled) body+=`<span class="cancelled-mark">abgesagt</span>`;
+  if(mode==="names") body+=`<div class="client-mini ${cancelled?"is-cancelled-text":""}">${esc(client.name)}</div>`;
+  else if(mode==="goals") body+=`<div class="${cancelled?"is-cancelled-text":""}">${renderGoals(day,false)}</div>`;
+  else body+=`<div class="client-mini ${cancelled?"is-cancelled-text":""}">${esc(client.name)}</div><div class="${cancelled?"is-cancelled-text":""}">${renderGoals(day,false)}</div>`;
+  body+=cancellationControl(clientIndex,dayKey);
+  return `<td class="day-cell in-tz ${cancelled?"cancelled":""}"><span class="tz-pill">✓ im TZ</span>${body}</td>`;
+}
+function renderGoals(day,includeEmpty){
+  if(day.goals && day.goals.length){
+    return `<div class="goal-list">${day.goals.map(goal=>`<div class="goal-item"><strong>${esc(goal.label)}</strong>${esc(goal.text)}</div>`).join("")}</div>`;
+  }
+  if(hasText(day.fallback)) return `<div class="goal-list"><div class="goal-item"><strong>Eintrag</strong>${esc(day.fallback)}</div></div>`;
+  return includeEmpty ? `<div class="small">Kein Zieltext gespeichert.</div>` : "";
+}
+function renderDayOverview(){
+  if(!loadedClients.length) return `<div class="empty-note">Keine Klientendateien gelesen.</div>`;
+  const mode=document.getElementById("displayMode").value;
+  return `<div class="day-overview">${DAY_ORDER.map(dayKey=>{
+    const inClients=loadedClients.map((client,index)=>({client,index})).filter(item=>item.client.days[dayKey]?.inTz);
+    const outClients=loadedClients.map((client,index)=>({client,index})).filter(item=>!item.client.days[dayKey]?.inTz);
+    const inBody=inClients.length ? inClients.map(({client,index})=>{
+      const day=client.days[dayKey];
+      const cancelled=isCancelled(index,dayKey);
+      let content="";
+      if(cancelled) content+=`<span class="cancelled-mark">abgesagt</span>`;
+      if(mode==="names") content+=`<strong class="${cancelled?"is-cancelled-text":""}">${esc(client.name)}</strong>`;
+      else if(mode==="goals") content+=`<div class="${cancelled?"is-cancelled-text":""}">${renderGoals(day,true)}</div>`;
+      else content+=`<strong class="${cancelled?"is-cancelled-text":""}">${esc(client.name)}</strong><div class="${cancelled?"is-cancelled-text":""}">${renderGoals(day,true)}</div>`;
+      content+=cancellationControl(index,dayKey);
+      return `<div class="day-client in ${cancelled?"cancelled":""}">${content}</div>`;
+    }).join("") : `<div class="empty-note">Keine Klienten im TZ.</div>`;
+    const outBody=outClients.length ? `<div class="not-in-list">${outClients.map(({client})=>`<div class="not-in-client"><strong>${esc(client.name)}</strong><br><span>nicht im TZ</span></div>`).join("")}</div>` : `<div class="empty-note">Alle geladenen Klienten sind an diesem Tag im TZ.</div>`;
+    return `<div class="day-card"><h3>${esc(DAY_LABELS[dayKey])}<div class="day-card-date">${esc(formatDateShort(dateForDayKey(dayKey)))}</div></h3><div class="day-card-body"><div class="day-section-title in">Im TZ</div>${inBody}<div class="day-section-title out">Nicht im TZ</div>${outBody}</div></div>`;
+  }).join("")}</div>`;
+}
+function renderErrors(){
+  const host=document.getElementById("errorsHost");
+  if(!loadErrors.length){host.innerHTML=""; return;}
+  host.innerHTML=`<details class="card" open><summary style="padding:12px 14px;font-weight:900;color:#b42318;cursor:pointer;">Nicht gelesene Dateien (${loadErrors.length})</summary><div class="section error-list">${loadErrors.map(item=>`<div class="error-item"><strong>${esc(item.file)}</strong><br>${esc(item.error)}</div>`).join("")}</div></details>`;
+}
+function exportCsv(){
+  if(!loadedClients.length){setStatus("Keine Daten für CSV vorhanden.","warn"); return;}
+  const rows=[["Jahr","Kalenderwoche","Klient","Datei",...DAY_ORDER.map(d=>DAY_LABELS[d]),"Status Woche"]];
+  loadedClients.forEach((client,index)=>{
+    const dayValues=DAY_ORDER.map(dayKey=>{
+      const day=client.days[dayKey];
+      if(!day?.inTz) return "nicht im TZ";
+      if(isCancelled(index,dayKey)) return "abgesagt";
+      const goals=(day.goals||[]).map(g=>`${g.label}: ${g.text}`).join(" | ");
+      return goals || day.fallback || "im TZ";
+    });
+    const status=DAY_ORDER.some(d=>client.days[d]?.inTz && !isCancelled(index,d)) ? "im TZ" : (DAY_ORDER.some(d=>client.days[d]?.inTz) ? "abgesagt" : "nicht im TZ");
+    rows.push([selectedYear,`KW ${String(selectedWeek).padStart(2,"0")}`,client.name,client.fileName,...dayValues,status]);
+  });
+  const csv=rows.map(row=>row.map(cell=>`"${String(cell??"").replace(/"/g,'""')}"`).join(";")).join("\n");
+  const blob=new Blob(["\ufeff"+csv],{type:"text/csv;charset=utf-8"});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement("a");
+  a.href=url; a.download=`RET_TZ_Sammelplan_${selectedYear}_KW${String(selectedWeek).padStart(2,"0")}.csv`; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+}
+</script>
+</body>
+</html>
