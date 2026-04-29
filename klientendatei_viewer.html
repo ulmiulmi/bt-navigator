@@ -102,6 +102,52 @@
       body.print-mode-ki .structured-box{font-size:12.5px;line-height:1.55}
     }
 
+  
+
+/* VIEWER_WEEKPLAN_WIDTH_FIX_2026_04_29
+   Wochenplan nutzt die volle Breite und wird nicht rechts abgeschnitten. */
+.app{max-width:1440px!important;}
+.viewer-week-scroll{overflow-x:visible!important;max-width:100%!important;padding-bottom:0!important;}
+.viewer-week-board{grid-template-columns:repeat(5,minmax(0,1fr))!important;min-width:0!important;width:100%!important;gap:10px!important;align-items:start!important;}
+.viewer-day-card{min-width:0!important;}
+.viewer-day-body{padding:10px!important;gap:10px!important;}
+.viewer-day-head{font-size:18px!important;padding:11px 12px!important;}
+.viewer-plan-entry{padding:9px!important;}
+.viewer-seq-title{padding:9px 10px!important;}
+.viewer-plan-field-value{font-size:13px!important;line-height:1.34!important;overflow-wrap:anywhere!important;word-break:normal!important;hyphens:auto!important;}
+.viewer-plan-field-label{font-size:10px!important;}
+.viewer-lunch-value{font-size:13px!important;line-height:1.34!important;}
+@media(max-width:760px){
+  .app{padding:8px!important;}
+  .viewer-week-scroll{overflow-x:visible!important;}
+  .viewer-week-board{grid-template-columns:repeat(5,minmax(0,1fr))!important;min-width:0!important;width:100%!important;gap:6px!important;}
+  .viewer-day-body{padding:6px!important;gap:6px!important;}
+  .viewer-day-head{font-size:14px!important;padding:8px!important;}
+  .viewer-seq-title{font-size:12px!important;padding:7px!important;}
+  .viewer-seq-single{padding:6px!important;gap:6px!important;}
+  .viewer-plan-entry{padding:6px!important;gap:5px!important;}
+  .viewer-plan-entry-title{font-size:11px!important;}
+  .viewer-plan-field-label{font-size:8px!important;}
+  .viewer-plan-field-value{font-size:10px!important;line-height:1.25!important;}
+  .viewer-lunch-single{padding:6px!important;}
+  .viewer-lunch-value{font-size:10px!important;line-height:1.25!important;min-height:0!important;}
+}
+@media print{
+  .app{max-width:none!important;width:100%!important;padding:0!important;}
+  .viewer-week-scroll{overflow:visible!important;max-width:none!important;}
+  .viewer-week-board{grid-template-columns:repeat(5,minmax(0,1fr))!important;min-width:0!important;width:100%!important;gap:5mm!important;}
+  .viewer-day-card{break-inside:avoid;page-break-inside:avoid;}
+  .viewer-day-head{font-size:12pt!important;padding:6px 7px!important;}
+  .viewer-day-body{padding:6px!important;gap:6px!important;}
+  .viewer-seq-title{font-size:9pt!important;padding:5px 6px!important;}
+  .viewer-plan-entry{padding:5px!important;}
+  .viewer-plan-entry-title{font-size:8pt!important;}
+  .viewer-plan-field-label{font-size:6.5pt!important;}
+  .viewer-plan-field-value{font-size:7.5pt!important;line-height:1.22!important;}
+  .viewer-lunch-card{height:auto!important;min-height:0!important;}
+  .viewer-lunch-value{font-size:7.5pt!important;line-height:1.22!important;min-height:0!important;max-height:none!important;overflow:visible!important;}
+}
+
   </style>
 </head>
 <body>
@@ -735,7 +781,7 @@ window.addEventListener("afterprint", clearPrintHost);
 function buildStandalonePrintHtml(kind){
   const title={weekplan:"Wochenplan",ki:"KI-Ergebnis",all:"Ganze Klientendatei"}[kind] || "Klientendatei";
   const baseStyles=Array.from(document.querySelectorAll("style")).map(style=>style.textContent || "").join("\n");
-  const pageRule = kind === "weekplan" ? "@page{size:A4 landscape;margin:9mm;}" : "@page{size:A4 portrait;margin:12mm;}";
+  const pageRule = kind === "weekplan" ? "@page{size:A4 landscape;margin:6mm;}" : "@page{size:A4 portrait;margin:12mm;}";
   const printStyles = `
     ${pageRule}
     html,body{background:#fff!important;color:#1f2a37!important;margin:0!important;padding:0!important;overflow:visible!important;}
@@ -762,20 +808,20 @@ function buildStandalonePrintHtml(kind){
     .weekplan-meta-card{padding:8px!important;border-radius:10px!important;break-inside:avoid;page-break-inside:avoid;}
     .weekplan-meta-line{font-size:10px!important;line-height:1.3!important;padding-top:5px!important;}
     .viewer-week-scroll{overflow:visible!important;padding-bottom:0!important;max-width:none!important;}
-    .viewer-week-board{min-width:0!important;width:100%!important;grid-template-columns:repeat(5,minmax(0,1fr))!important;gap:6px!important;align-items:start!important;}
+    .viewer-week-board{min-width:0!important;width:100%!important;grid-template-columns:repeat(5,minmax(0,1fr))!important;gap:4px!important;align-items:start!important;}
     .viewer-day-card{border-radius:10px!important;break-inside:avoid;page-break-inside:avoid;}
     .viewer-day-head{padding:8px 9px!important;font-size:14px!important;}
-    .viewer-day-body{padding:7px!important;gap:7px!important;grid-template-rows:auto auto auto!important;background:#fff!important;}
+    .viewer-day-body{padding:5px!important;gap:5px!important;grid-template-rows:auto auto auto!important;background:#fff!important;}
     .viewer-seq-card{border-radius:10px!important;min-height:0!important;height:auto!important;}
     .viewer-seq-title{padding:6px 8px!important;font-size:11px!important;}
     .viewer-seq-single{padding:6px!important;gap:6px!important;min-height:0!important;overflow:visible!important;}
     .viewer-plan-entry{border-radius:9px!important;padding:6px!important;gap:4px!important;min-height:0!important;}
     .viewer-plan-entry-title{font-size:10px!important;}
     .viewer-plan-field-label{font-size:8px!important;}
-    .viewer-plan-field-value{font-size:9.5px!important;line-height:1.28!important;max-height:none!important;overflow:visible!important;}
+    .viewer-plan-field-value{font-size:8.7px!important;line-height:1.22!important;max-height:none!important;overflow:visible!important;}
     .viewer-lunch-card{height:auto!important;min-height:0!important;}
     .viewer-lunch-single{padding:6px!important;}
-    .viewer-lunch-value{min-height:0!important;max-height:none!important;overflow:visible!important;font-size:9.5px!important;line-height:1.28!important;padding:6px!important;border-radius:9px!important;}
+    .viewer-lunch-value{min-height:0!important;max-height:none!important;overflow:visible!important;font-size:8.7px!important;line-height:1.22!important;padding:5px!important;border-radius:9px!important;}
     .viewer-morning-card{min-height:0!important;}
     .viewer-plan-field.ki-field .viewer-plan-field-value{max-height:none!important;overflow:visible!important;font-size:9px!important;line-height:1.25!important;}
     @media print{html,body{background:#fff!important;overflow:visible!important}.print-standalone{padding:0!important}.print-doc{display:block!important}}
