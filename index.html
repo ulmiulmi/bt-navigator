@@ -3378,23 +3378,9 @@ body.bt-mobile-view .viewer-embed-frame-wrap{border-radius:14px;}
 body.bt-mobile-view .viewer-embed-frame{min-height:calc(100vh - 120px);}
 
 
-/* PUNKT_15_VIEWER_IMPORT_V1 */
-.viewer-import-actions{
-  margin-top:8px;
-  padding-top:10px;
-  border-top:1px dashed var(--line);
-}
-.viewer-launch-note + .viewer-launch-status{
-  margin-top:8px;
-}
-body.bt-mobile-view .viewer-import-actions{
-  display:grid;
-  grid-template-columns:minmax(0,1fr);
-}
-body.bt-mobile-view .viewer-import-actions button{
-  width:100%;
-}
 
+/* BAUSTEIN_AKTIVITAETS_UEBERSICHT_V1 */
+.baustein-status-overview{display:grid;gap:12px}.baustein-status-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.baustein-status-panel{border:1px solid var(--theme-line,var(--line));border-radius:18px;background:linear-gradient(180deg,#fff 0%,var(--theme-soft,#fbfdff) 100%);padding:14px;display:grid;gap:10px}.baustein-status-panel h4{margin:0;color:var(--theme,var(--accent));font-size:16px}.baustein-status-list{display:grid;gap:8px}.baustein-status-item{border:1px solid var(--line);border-radius:14px;background:#fff;padding:10px 12px;display:grid;gap:4px;line-height:1.4}.baustein-status-item.ok{border-color:#b7eadb;background:#f2fffa}.baustein-status-item.warn{border-color:#f0dfad;background:#fff8ea}.baustein-status-item.inactive{border-color:#d8e1ee;background:#fbfcff;opacity:.86}.baustein-status-line-main{font-weight:800;color:var(--text)}.baustein-status-line-sub{color:var(--muted);font-size:13px}@media(max-width:920px){.baustein-status-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -7163,6 +7149,17 @@ button {
   gap: 8px;
 }
 
+.synced-client-card-missing-baustein {
+  background: #fff8ea !important;
+  border-color: #f0dfad !important;
+}
+.synced-client-card-missing-baustein .synced-client-details summary {
+  background: linear-gradient(180deg, #fffdf5 0%, #fff8ea 100%) !important;
+}
+.synced-client-card-missing-baustein .synced-client-meta {
+  color: #8a6700;
+}
+
 .synced-client-name {
   font-weight: 700;
   font-size: 15px;
@@ -8171,10 +8168,15 @@ body[data-weekplan-mode] .footer-note { color: #526075; }
       return escapeHtml(clean).replaceAll('\\n', '<br>');
     }
 
+    function isMissingBausteinValue(value) {
+      return String(value || '').trim().toLowerCase() === 'noch kein baustein hinterlegt';
+    }
+
     function hasPeriodContent(client, dayKey, period) {
       const dayData = client.days?.[dayKey] || {};
       const goal = period === 'morning' ? dayData.morningGoal : dayData.afternoonGoal;
       const activity = period === 'morning' ? dayData.morningActivity : dayData.afternoonActivity;
+      if (isMissingBausteinValue(goal)) return true;
       return String(goal || '').trim() !== '' && String(activity || '').trim() !== '';
     }
 
@@ -8193,6 +8195,7 @@ body[data-weekplan-mode] .footer-note { color: #526075; }
       const goal = period === 'morning' ? dayData.morningGoal : dayData.afternoonGoal;
       const activity = period === 'morning' ? dayData.morningActivity : dayData.afternoonActivity;
       const periodLabel = period === 'morning' ? 'Morgen' : 'Nachmittag';
+      const missingBaustein = isMissingBausteinValue(goal);
       const standardFields = [
         { label: 'Ziel', value: goal },
         { label: 'Aktivität', value: activity }
@@ -8214,13 +8217,13 @@ body[data-weekplan-mode] .footer-note { color: #526075; }
       const clientName = escapeHtml(client.name || ('Klient ' + (index + 1)));
       const openAttribute = (printMode || viewMode !== 'compact') && contentHtml ? ' open' : '';
 
-      return '<div class="synced-client-card synced-client-card-compact synced-client-card-' + escapeHtml(viewMode) + '">' +
+      return '<div class="synced-client-card synced-client-card-compact synced-client-card-' + escapeHtml(viewMode) + (missingBaustein ? ' synced-client-card-missing-baustein' : '') + '">' +
         '<details class="synced-client-details"' + openAttribute + '>' +
           '<summary>' +
             '<span class="synced-client-summary-main">' +
               '<span class="synced-client-name">' + clientName + '</span>' +
             '</span>' +
-            '<span class="synced-client-meta">' + modeMeta.label + ' · ' + periodLabel + ' · gespeichert</span>' +
+            '<span class="synced-client-meta">' + modeMeta.label + ' · ' + periodLabel + ' · ' + (missingBaustein ? 'Baustein fehlt' : 'gespeichert') + '</span>' +
           '</summary>' +
           (contentHtml ? '<div class="synced-fields">' + contentHtml + '</div>' : '') +
         '</details>' +
@@ -11184,6 +11187,18 @@ function syncGenerator1GoalPlansToWeekplan() {
         ? win.getModeStorageKey(targetMode)
         : "wochenplan_bt_navigator_v2_morgen_nachmittag_print_" + targetMode;
     const assignments = getGenerator1GoalPlanAssignments(targetMode);
+    const generatorTimeSlots = getGenerator1TimeSlots(targetMode);
+    const selectionMap =
+      typeof win.buildGeneratorTimeSelectionMap === "function"
+        ? win.buildGeneratorTimeSelectionMap(generatorTimeSlots)
+        : {
+            mo: { morning: false, afternoon: false },
+            di: { morning: false, afternoon: false },
+            mi: { morning: false, afternoon: false },
+            do: { morning: false, afternoon: false },
+            fr: { morning: false, afternoon: false },
+          };
+    const missingBausteinText = "Noch kein Baustein hinterlegt";
 
     let state = {};
     try {
@@ -11209,16 +11224,26 @@ function syncGenerator1GoalPlansToWeekplan() {
         morning: null,
         afternoon: null,
       };
-      const morningGoalText = dayAssignment.morning
-        ? String(dayAssignment.morning.goalText || "").trim()
-        : "";
-      const morningActivityText = dayAssignment.morning
+      const daySelection = selectionMap[dayKey] || {
+        morning: false,
+        afternoon: false,
+      };
+      const morningActive = !!daySelection.morning;
+      const afternoonActive = !!daySelection.afternoon;
+      const morningGoalText = !morningActive
+        ? ""
+        : dayAssignment.morning
+          ? String(dayAssignment.morning.goalText || "").trim()
+          : missingBausteinText;
+      const morningActivityText = morningActive && dayAssignment.morning
         ? String(dayAssignment.morning.activityText || "").trim()
         : "";
-      const afternoonGoalText = dayAssignment.afternoon
-        ? String(dayAssignment.afternoon.goalText || "").trim()
-        : "";
-      const afternoonActivityText = dayAssignment.afternoon
+      const afternoonGoalText = !afternoonActive
+        ? ""
+        : dayAssignment.afternoon
+          ? String(dayAssignment.afternoon.goalText || "").trim()
+          : missingBausteinText;
+      const afternoonActivityText = afternoonActive && dayAssignment.afternoon
         ? String(dayAssignment.afternoon.activityText || "").trim()
         : "";
 
@@ -14135,6 +14160,76 @@ function getGoalPlanStatus(plan) {
 }
 
 
+function getBausteinDayLabelFromKey(dayKey) {
+  const map = { mo: "Montag", di: "Dienstag", mi: "Mittwoch", do: "Donnerstag", fr: "Freitag" };
+  return map[String(dayKey || "")] || "";
+}
+function getBausteinDayKeyFromLabel(label) { return weekplanDayKeyFromLabel(label); }
+function getBausteinSequenceFromTimeLabel(timeLabel) {
+  const clean = String(timeLabel || "").trim();
+  if (clean.includes("09:00")) return { key: "morning", label: "Morgen" };
+  if (clean.includes("14:00")) return { key: "afternoon", label: "Nachmittag" };
+  return { key: "", label: "" };
+}
+function getActiveBausteinSlotsForGenerator(generatorKey) {
+  const timeSlots = Array.isArray(APP.state?.[generatorKey]?.grunddaten?.timeSlots) ? APP.state[generatorKey].grunddaten.timeSlots : [];
+  const seen = new Set();
+  return timeSlots.map((slot) => {
+    const parts = String(slot || "").split("|");
+    const dayLabel = cleanInline(parts[0] || "");
+    const dayKey = getBausteinDayKeyFromLabel(dayLabel);
+    const sequence = getBausteinSequenceFromTimeLabel(parts.slice(1).join("|"));
+    if (!dayKey || !sequence.key) return null;
+    const key = dayKey + ":" + sequence.key;
+    if (seen.has(key)) return null;
+    seen.add(key);
+    return { key, dayKey, dayLabel: getBausteinDayLabelFromKey(dayKey) || dayLabel, sequenceKey: sequence.key, sequenceLabel: sequence.label };
+  }).filter(Boolean);
+}
+function isGoalPlanStored(plan) { return getGoalPlanStatus(plan) !== "leer"; }
+function getGoalPlanSlotKey(plan) {
+  const dayKey = getBausteinDayKeyFromLabel(plan?.tag);
+  const sequenceKey = goalPlanSequenceKey(plan?.sequenz);
+  if (!dayKey || !sequenceKey) return "";
+  return dayKey + ":" + sequenceKey;
+}
+function findGoalPlanForActiveSlot(goalPlans, slot) {
+  return (Array.isArray(goalPlans) ? goalPlans : []).find((plan) => isGoalPlanStored(plan) && getGoalPlanSlotKey(plan) === slot.key);
+}
+function renderBausteinStatusItem(kind, main, sub) {
+  return `<div class="baustein-status-item ${escapeHtml(kind)}"><div class="baustein-status-line-main">${escapeHtml(main)}</div><div class="baustein-status-line-sub">${escapeHtml(sub)}</div></div>`;
+}
+function renderBausteinOverviewForGenerator(generatorKey) {
+  const label = generatorKey === "gret" ? "RET ausgewählt / aktiv" : "RIT ausgewählt / aktiv";
+  const pageState = getGoalPlanningState(generatorKey, "10b_Zielplanung_1_10");
+  const goalPlans = Array.isArray(pageState.goalPlans) ? pageState.goalPlans : [];
+  const activeSlots = getActiveBausteinSlotsForGenerator(generatorKey);
+  const activeKeys = new Set(activeSlots.map((slot) => slot.key));
+  const rows = [];
+  activeSlots.forEach((slot) => {
+    const plan = findGoalPlanForActiveSlot(goalPlans, slot);
+    if (plan) {
+      const index = goalPlans.indexOf(plan);
+      rows.push(renderBausteinStatusItem("ok", `${slot.dayLabel} · ${slot.sequenceLabel}`, `aktiv · Baustein ${index + 1} vorhanden`));
+    } else {
+      rows.push(renderBausteinStatusItem("warn", `${slot.dayLabel} · ${slot.sequenceLabel}`, "aktiv · Noch kein Baustein hinterlegt"));
+    }
+  });
+  goalPlans.forEach((plan, index) => {
+    if (!isGoalPlanStored(plan)) return;
+    const slotKey = getGoalPlanSlotKey(plan);
+    if (slotKey && activeKeys.has(slotKey)) return;
+    const day = cleanInline(plan.tag) || "ohne Tag";
+    const seq = cleanInline(plan.sequenz) || "ohne Sequenz";
+    rows.push(renderBausteinStatusItem("inactive", `Baustein ${index + 1} · ${day} · ${seq}`, "gespeichert, aktuell aber nicht in den Grunddaten aktiv"));
+  });
+  return `<section class="baustein-status-panel"><h4>${escapeHtml(label)}</h4><div class="baustein-status-list">${rows.length ? rows.join("") : renderBausteinStatusItem("inactive", "Noch nichts aktiv", "In den Grunddaten ist kein Zeitfenster angehakt und es ist kein Baustein gespeichert.")}</div></section>`;
+}
+function renderBausteinStatusOverview() {
+  return `<div class="baustein-status-overview"><div class="baustein-status-grid">${renderBausteinOverviewForGenerator("grit")}${renderBausteinOverviewForGenerator("gret")}</div><div class="inline-note">Diese Übersicht löscht nichts. Sie zeigt nur, welche gespeicherten Bausteine durch die Haken in den Grunddaten aktuell wirklich aktiv sind.</div></div>`;
+}
+
+
 function renderGoalPlanReadonlyBlock(label, value, full = false) {
   const clean = normalizeOutputText(value || "");
   return `
@@ -14171,6 +14266,8 @@ function renderZielplanungPage(page) {
             </div>
 
             <div class="zielplanung-note">Die Bausteinverwaltung speichert und lädt nur ausgewählte Baustein-Inhalte aus 4–8, 10 und 11. Freitexte und KI-Zusatztexte werden hier bewusst nicht übernommen. Der Wechsel im Dropdown lädt noch nichts automatisch. Erst der Button „Baustein laden“ verändert die aktuelle Arbeitsfläche.</div>
+
+            ${renderBausteinStatusOverview()}
 
             <div class="bausteinverwaltung-control">
               <label>
@@ -14610,11 +14707,6 @@ function renderViewerLaunchPage(page) {
                 <button type="button" onclick="reloadEmbeddedClientViewer()">Viewer neu laden</button>
                 <button type="button" class="ghost" onclick="downloadSingleClientSnapshot(getCurrentClientIndex())">Klientendatei speichern</button>
               </div>
-              <div class="viewer-launch-actions viewer-import-actions">
-                <button type="button" class="secondary" onclick="triggerSingleClientImport(getCurrentClientIndex())">Klientendatei in diesen Klienten laden</button>
-                <button type="button" class="ghost" onclick="triggerSingleClientImportAsNew()">Klientendatei als neuen Klienten laden</button>
-              </div>
-              <div class="viewer-launch-note">Geladen werden die verschlüsselten Klientendateien aus dem BT-Navigator. Die Datei wird nach Passworteingabe in den Navigator übernommen und kann danach hier im Viewer angezeigt werden.</div>
               <div class="viewer-launch-status" id="embeddedViewerStatus">Viewer wird vorbereitet …</div>
             </section>
             <div class="viewer-embed-frame-wrap">
