@@ -35,7 +35,7 @@
     table{width:100%;min-width:980px;border-collapse:collapse;background:#fff}th,td{border-bottom:1px solid var(--line);border-right:1px solid var(--line);vertical-align:top;text-align:left}th:last-child,td:last-child{border-right:0}tr:last-child td{border-bottom:0}
     th{position:sticky;top:0;z-index:2;background:linear-gradient(180deg,var(--ret-soft),#fff);color:var(--ret);padding:12px;font-size:13px;text-transform:uppercase;letter-spacing:.02em}td{padding:10px}
     .client-cell{min-width:190px}.client-name{font-weight:950;color:var(--text)}.file-name{font-size:12px;color:var(--muted);margin-top:3px;overflow-wrap:anywhere}.day-cell{min-width:150px;background:#fbfcff}.day-cell.in-tz{background:linear-gradient(180deg,#fff,var(--ret-soft));}.day-cell.empty{color:#8b97a8;background:#fff}.tz-pill{display:inline-flex;align-items:center;gap:6px;padding:4px 8px;border-radius:999px;background:#dcfce7;color:var(--ok);font-size:12px;font-weight:950;margin-bottom:6px}.no-pill{display:inline-flex;align-items:center;padding:4px 8px;border-radius:999px;background:#f2f4f7;color:#667085;font-size:12px;font-weight:850}
-    .goal-list{display:grid;gap:7px}.goal-item{border:1px solid #cfe7d9;border-radius:12px;background:#fff;padding:8px;line-height:1.35;font-size:13px;overflow-wrap:anywhere}.goal-item strong{display:block;color:var(--ret);font-size:11px;text-transform:uppercase;letter-spacing:.02em;margin-bottom:3px}.client-mini{font-weight:900;color:var(--text);margin-bottom:5px}
+    .goal-list{display:grid;gap:7px}.goal-item{border:1px solid #cfe7d9;border-radius:12px;background:#fff;padding:8px;line-height:1.35;font-size:13px;overflow-wrap:anywhere}.goal-item strong{display:block;color:var(--ret);font-size:11px;text-transform:uppercase;letter-spacing:.02em;margin-bottom:3px}.period-list{display:grid;gap:7px}.period-item{border:1px solid #cfe7d9;border-radius:12px;background:#fff;padding:8px;line-height:1.35;font-size:13px;overflow-wrap:anywhere}.period-item strong{display:block;color:var(--ret);font-size:11px;text-transform:uppercase;letter-spacing:.02em;margin-bottom:3px}.period-item.lunch{border-color:#f0dfad;background:#fffaf0}.period-item.lunch strong{color:#8a6700}.period-item.empty{border-style:dashed;color:var(--muted);background:#fbfdff}.client-mini{font-weight:900;color:var(--text);margin-bottom:5px}
     .day-overview{display:grid;grid-template-columns:repeat(5,minmax(190px,1fr));gap:12px}.day-card{border:1px solid var(--line);border-radius:18px;background:#fff;overflow:hidden}.day-card h3{padding:12px 14px;background:linear-gradient(180deg,var(--ret-soft),#fff);color:var(--ret);border-bottom:1px solid var(--line);font-size:18px}.day-card-body{padding:12px;display:grid;gap:8px}.day-client{border:1px solid var(--line);border-radius:14px;background:#fbfcff;padding:10px;display:grid;gap:6px}.day-client.in{border-color:#cfe7d9;background:var(--ret-soft)}.empty-note{border:1px dashed var(--line);border-radius:14px;background:#fbfdff;padding:14px;color:var(--muted);line-height:1.5}
     .error-list{display:grid;gap:8px}.error-item{border:1px solid #f3c1c1;background:#fff1f1;border-radius:12px;padding:10px 12px;color:#7a271a;line-height:1.45;overflow-wrap:anywhere}
     .print-note{font-size:12px;color:var(--muted);text-align:center;padding:8px}
@@ -222,7 +222,9 @@ function storageClient(client){
     const day=client?.days?.[dayKey] || {};
     days[dayKey]={
       inTz:!!day.inTz,
+      periods:Array.isArray(day.periods) ? day.periods.map(period=>({key:String(period?.key||""),label:String(period?.label||""),text:String(period?.text||""),type:String(period?.type||"")})) : [],
       goals:Array.isArray(day.goals) ? day.goals.map(goal=>({label:String(goal?.label||""),text:String(goal?.text||"")})) : [],
+      lunch:String(day.lunch||""),
       fallback:String(day.fallback||"")
     };
   });
@@ -442,11 +444,17 @@ function extractDayPlan(day){
   const afternoonActivity=firstText(day.afternoonActivity,day.afternoon?.activity,day.nachmittagAktivitaet,day.pmActivity);
   const afternoonExtra=firstText(day.afternoonImplementation,day.afternoonDurchfuehrung,day.afternoonDurchführung,day.afternoonActivityExtra,day.afternoonExtra,day.afternoon?.implementation,day.afternoon?.extra);
   const lunch=firstText(day.lunch,day.mittagessen,day.mittag,day.middayMeal,day.lunchText);
+  const morningText=firstText(morningGoal,morningActivity,morningExtra);
+  const afternoonText=firstText(afternoonGoal,afternoonActivity,afternoonExtra);
+  const periods=[];
+  if(hasText(morningText)) periods.push({key:"morning",label:"Morgen",text:morningText,type:"goal"});
+  if(hasText(lunch)) periods.push({key:"lunch",label:"Mittagessen",text:lunch,type:"lunch"});
+  if(hasText(afternoonText)) periods.push({key:"afternoon",label:"Nachmittag",text:afternoonText,type:"goal"});
   const goals=[];
   if(hasText(morningGoal)) goals.push({label:"Morgen",text:morningGoal});
   if(hasText(afternoonGoal)) goals.push({label:"Nachmittag",text:afternoonGoal});
-  const any=goals.length || [morningActivity,morningExtra,afternoonActivity,afternoonExtra,lunch].some(hasText);
-  return {inTz:!!any, goals, fallback:firstText(morningActivity,morningExtra,afternoonActivity,afternoonExtra,lunch)};
+  const any=periods.length || [morningActivity,morningExtra,afternoonActivity,afternoonExtra,lunch].some(hasText);
+  return {inTz:!!any, periods, goals, lunch, fallback:firstText(morningText,lunch,afternoonText)};
 }
 function clientHasAnyTz(client){return DAY_ORDER.some(d=>client.days[d]?.inTz);}
 
@@ -497,17 +505,42 @@ function renderDayCell(client,clientIndex,dayKey){
   let body="";
   if(cancelled) body+=`<span class="cancelled-mark">abgesagt</span>`;
   if(mode==="names") body+=`<div class="client-mini ${cancelled?"is-cancelled-text":""}">${esc(client.name)}</div>`;
-  else if(mode==="goals") body+=`<div class="${cancelled?"is-cancelled-text":""}">${renderGoals(day,false)}</div>`;
-  else body+=`<div class="client-mini ${cancelled?"is-cancelled-text":""}">${esc(client.name)}</div><div class="${cancelled?"is-cancelled-text":""}">${renderGoals(day,false)}</div>`;
+  else if(mode==="goals") body+=`<div class="${cancelled?"is-cancelled-text":""}">${renderDayPeriods(day,false)}</div>`;
+  else body+=`<div class="client-mini ${cancelled?"is-cancelled-text":""}">${esc(client.name)}</div><div class="${cancelled?"is-cancelled-text":""}">${renderDayPeriods(day,false)}</div>`;
   body+=cancellationControl(clientIndex,dayKey);
   return `<td class="day-cell in-tz ${cancelled?"cancelled":""}"><span class="tz-pill">✓ im TZ</span>${body}</td>`;
 }
-function renderGoals(day,includeEmpty){
-  if(day.goals && day.goals.length){
-    return `<div class="goal-list">${day.goals.map(goal=>`<div class="goal-item"><strong>${esc(goal.label)}</strong>${esc(goal.text)}</div>`).join("")}</div>`;
+function normalizedPeriods(day){
+  if(day && Array.isArray(day.periods) && day.periods.some(p=>hasText(p?.text))){
+    return day.periods.filter(p=>hasText(p?.text)).map(p=>({
+      key:p.key || "",
+      label:p.label || (p.type==="lunch" ? "Mittagessen" : "Eintrag"),
+      text:p.text || "",
+      type:p.type || (p.key==="lunch" ? "lunch" : "goal")
+    }));
   }
-  if(hasText(day.fallback)) return `<div class="goal-list"><div class="goal-item"><strong>Eintrag</strong>${esc(day.fallback)}</div></div>`;
+  const out=[];
+  if(day && Array.isArray(day.goals)){
+    const morning=day.goals.find(g=>String(g?.label||"").toLowerCase().includes("morgen"));
+    const afternoon=day.goals.find(g=>String(g?.label||"").toLowerCase().includes("nachmittag"));
+    const other=day.goals.filter(g=>g!==morning && g!==afternoon && hasText(g?.text));
+    if(morning && hasText(morning.text)) out.push({key:"morning",label:"Morgen",text:morning.text,type:"goal"});
+    if(hasText(day.lunch)) out.push({key:"lunch",label:"Mittagessen",text:day.lunch,type:"lunch"});
+    if(afternoon && hasText(afternoon.text)) out.push({key:"afternoon",label:"Nachmittag",text:afternoon.text,type:"goal"});
+    other.forEach(g=>out.push({key:"other",label:g.label || "Eintrag",text:g.text,type:"goal"}));
+  }
+  if(!out.length && hasText(day?.fallback)) out.push({key:"entry",label:"Eintrag",text:day.fallback,type:"goal"});
+  return out;
+}
+function renderDayPeriods(day,includeEmpty){
+  const periods=normalizedPeriods(day);
+  if(periods.length){
+    return `<div class="period-list">${periods.map(period=>`<div class="period-item ${period.type==="lunch"?"lunch":""}"><strong>${esc(period.label)}</strong>${esc(period.text)}</div>`).join("")}</div>`;
+  }
   return includeEmpty ? `<div class="small">Kein Zieltext gespeichert.</div>` : "";
+}
+function renderGoals(day,includeEmpty){
+  return renderDayPeriods(day,includeEmpty);
 }
 function renderDayOverview(){
   if(!loadedClients.length) return `<div class="empty-note">Keine Klientendateien gelesen.</div>`;
@@ -521,8 +554,8 @@ function renderDayOverview(){
       let content="";
       if(cancelled) content+=`<span class="cancelled-mark">abgesagt</span>`;
       if(mode==="names") content+=`<strong class="${cancelled?"is-cancelled-text":""}">${esc(client.name)}</strong>`;
-      else if(mode==="goals") content+=`<div class="${cancelled?"is-cancelled-text":""}">${renderGoals(day,true)}</div>`;
-      else content+=`<strong class="${cancelled?"is-cancelled-text":""}">${esc(client.name)}</strong><div class="${cancelled?"is-cancelled-text":""}">${renderGoals(day,true)}</div>`;
+      else if(mode==="goals") content+=`<div class="${cancelled?"is-cancelled-text":""}">${renderDayPeriods(day,true)}</div>`;
+      else content+=`<strong class="${cancelled?"is-cancelled-text":""}">${esc(client.name)}</strong><div class="${cancelled?"is-cancelled-text":""}">${renderDayPeriods(day,true)}</div>`;
       content+=cancellationControl(index,dayKey);
       return `<div class="day-client in ${cancelled?"cancelled":""}">${content}</div>`;
     }).join("") : `<div class="empty-note">Keine Klienten im TZ.</div>`;
@@ -543,7 +576,7 @@ function exportCsv(){
       const day=client.days[dayKey];
       if(!day?.inTz) return "nicht im TZ";
       if(isCancelled(index,dayKey)) return "abgesagt";
-      const goals=(day.goals||[]).map(g=>`${g.label}: ${g.text}`).join(" | ");
+      const goals=normalizedPeriods(day).map(g=>`${g.label}: ${g.text}`).join(" | ");
       return goals || day.fallback || "im TZ";
     });
     const status=DAY_ORDER.some(d=>client.days[d]?.inTz && !isCancelled(index,d)) ? "im TZ" : (DAY_ORDER.some(d=>client.days[d]?.inTz) ? "abgesagt" : "nicht im TZ");
