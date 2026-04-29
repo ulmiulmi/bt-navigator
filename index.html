@@ -3377,6 +3377,24 @@ body.bt-mobile-view .viewer-launch-actions {
 body.bt-mobile-view .viewer-embed-frame-wrap{border-radius:14px;}
 body.bt-mobile-view .viewer-embed-frame{min-height:calc(100vh - 120px);}
 
+
+/* PUNKT_15_VIEWER_IMPORT_V1 */
+.viewer-import-actions{
+  margin-top:8px;
+  padding-top:10px;
+  border-top:1px dashed var(--line);
+}
+.viewer-launch-note + .viewer-launch-status{
+  margin-top:8px;
+}
+body.bt-mobile-view .viewer-import-actions{
+  display:grid;
+  grid-template-columns:minmax(0,1fr);
+}
+body.bt-mobile-view .viewer-import-actions button{
+  width:100%;
+}
+
 </style>
 </head>
 <body>
@@ -14592,6 +14610,11 @@ function renderViewerLaunchPage(page) {
                 <button type="button" onclick="reloadEmbeddedClientViewer()">Viewer neu laden</button>
                 <button type="button" class="ghost" onclick="downloadSingleClientSnapshot(getCurrentClientIndex())">Klientendatei speichern</button>
               </div>
+              <div class="viewer-launch-actions viewer-import-actions">
+                <button type="button" class="secondary" onclick="triggerSingleClientImport(getCurrentClientIndex())">Klientendatei in diesen Klienten laden</button>
+                <button type="button" class="ghost" onclick="triggerSingleClientImportAsNew()">Klientendatei als neuen Klienten laden</button>
+              </div>
+              <div class="viewer-launch-note">Geladen werden die verschlüsselten Klientendateien aus dem BT-Navigator. Die Datei wird nach Passworteingabe in den Navigator übernommen und kann danach hier im Viewer angezeigt werden.</div>
               <div class="viewer-launch-status" id="embeddedViewerStatus">Viewer wird vorbereitet …</div>
             </section>
             <div class="viewer-embed-frame-wrap">
