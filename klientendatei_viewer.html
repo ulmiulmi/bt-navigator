@@ -1157,6 +1157,7 @@ function renderWeekplanPeriod(title, fields){
 function renderDetails(title,body,open){return `<details class="viewer-section" ${open?"open":""}><summary>${esc(title)}</summary><div class="section-body">${body}</div></details>`;}
 function labelFromKey(key){return String(key||"").replace(/([a-zäöü])([A-ZÄÖÜ])/g,"$1 $2").replace(/_/g," ").replace(/^ep /i,"EP ").replace(/\b\w/g,c=>c.toUpperCase());}
 function formatDate(value){if(!value) return ""; const d=new Date(value); if(Number.isNaN(d.getTime())) return value; return d.toLocaleString("de-CH",{day:"2-digit",month:"2-digit",year:"numeric",hour:"2-digit",minute:"2-digit"});}
+/* VIEWER_PRINT_LANDSCAPE_ALL_V1: Alle Druckarten werden im Querformat vorbereitet. */
 const PRINT_HEADER_IMAGE_DATA_URI = "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" width="220" height="72" viewBox="0 0 220 72">
   <defs>
     <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
@@ -1212,7 +1213,7 @@ window.addEventListener("afterprint", clearPrintHost);
 function buildStandalonePrintHtml(kind){
   const title={weekplan:"Wochenplan",ki:"KI-Ergebnis",all:"Ganze Klientendatei"}[kind] || "Klientendatei";
   const baseStyles=Array.from(document.querySelectorAll("style")).map(style=>style.textContent || "").join("\n");
-  const pageRule = kind === "weekplan" ? "@page{size:A4 landscape;margin:6mm;}" : "@page{size:A4 portrait;margin:12mm;}";
+  const pageRule = "@page{size:A4 landscape;margin:7mm;}";
   const printStyles = `
     ${pageRule}
     html,body{background:#fff!important;color:#1f2a37!important;margin:0!important;padding:0!important;overflow:visible!important;}
@@ -1232,7 +1233,7 @@ function buildStandalonePrintHtml(kind){
     .print-doc-title-wrap{min-width:0;}
     .print-doc-meta{grid-template-columns:repeat(3,minmax(0,1fr))!important;}
     .print-section-title{break-after:avoid;page-break-after:avoid;}
-    .print-cover{min-height:235mm;display:grid;align-content:center;gap:18px;page-break-after:always;break-after:page;}
+    .print-cover{min-height:150mm;display:grid;align-content:center;gap:18px;page-break-after:always;break-after:page;}
     .print-cover-card{border:2px solid #d8e1ee;border-radius:24px;padding:28px;background:linear-gradient(180deg,#ffffff 0%,#f8fbff 100%);}
     .print-cover-logo{width:190px;height:auto;display:block;margin-bottom:18px;}
     .print-cover-title{font-size:34px;line-height:1.1;font-weight:950;color:#2f6fed;margin-bottom:8px;}
