@@ -835,7 +835,18 @@ function buildPrintDocument(kind){
   if(kind==="weekplan") body=renderPrintWeekplanOnly();
   else if(kind==="ki") body=renderPrintKiOnly();
   else body=renderPrintFullClientFile();
+
+  // Beim Druck der ganzen Klientendatei müssen alle Ausklappbereiche offen sein,
+  // damit nicht nur die Titel, sondern auch alle Inhalte in der PDF/Druckansicht erscheinen.
+  // Die normale Viewer-Seite bleibt unverändert, weil die Druckseite separat erzeugt wird.
+  if(kind==="all") body=forceDetailsOpenForPrint(body);
+
   return `<article class="print-doc">${renderPrintHeader(title)}${body}</article>`;
+}
+function forceDetailsOpenForPrint(html){
+  return String(html||"").replace(/<details\b([^>]*)>/gi,(match,attrs)=>{
+    return /(^|\s)open(\s|=|$)/i.test(attrs) ? match : `<details${attrs} open>`;
+  });
 }
 function renderPrintHeader(title){
   const gdGrit=getGenState("grit").grunddaten || {};
