@@ -1,6 +1,6 @@
 <!-- SCODI-STAND: 2026-04-30_09-51 / Basis 09-41 / Speichern-Button robust ohne Passwortblockade -->
 <!DOCTYPE html>
-<!-- SCODI-STAND: Buchhaltung Jahr OK + Grunddaten Zeitmatrix waagrecht + Basler Fasnacht als festes Regelwerk/Freizeit + automatische Regelprüfung ohne KI -->
+<!-- SCODI-STAND: Buchhaltung Jahr OK + Grunddaten Zeitmatrix waagrecht + Basler Fasnacht nur Montag/Mittwoch Nachmittag = Freizeit + automatische Regelprüfung ohne KI -->
 <html lang="de">
 <head>
   <!-- SCODI-STAND: 2026-04-30_10-16 Aktionen bereinigt: keine ganze Arbeitsdatei, keine Browser-Stände-Mehrfachbuttons sichtbar -->
@@ -24071,9 +24071,8 @@ function scodiBaselStadtHolidays(year) {
   const easter = scodiEasterSunday(year);
   return [
     { key: "neujahr", label: "Neujahr", date: scodiDateUtc(year, 0, 1), scope: "full_day" },
-    { key: "fasnachtsmontag", label: "Basler Fasnacht · Fasnachtsmontag · Freizeit", date: scodiAddDays(easter, -41), scope: "full_day" },
-    { key: "fasnachtsdienstag", label: "Basler Fasnacht · Fasnachtsdienstag · Freizeit", date: scodiAddDays(easter, -40), scope: "full_day" },
-    { key: "fasnachtsmittwoch", label: "Basler Fasnacht · Fasnachtsmittwoch · Freizeit", date: scodiAddDays(easter, -39), scope: "full_day" },
+    { key: "fasnachtsmontag_nachmittag", label: "Basler Fasnacht · Fasnachtsmontag Nachmittag · Freizeit", date: scodiAddDays(easter, -41), scope: "afternoon" },
+    { key: "fasnachtsmittwoch_nachmittag", label: "Basler Fasnacht · Fasnachtsmittwoch Nachmittag · Freizeit", date: scodiAddDays(easter, -39), scope: "afternoon" },
     { key: "karfreitag", label: "Karfreitag", date: scodiAddDays(easter, -2), scope: "full_day" },
     { key: "ostermontag", label: "Ostermontag", date: scodiAddDays(easter, 1), scope: "full_day" },
     { key: "tag_der_arbeit", label: "Tag der Arbeit", date: scodiDateUtc(year, 4, 1), scope: "full_day" },
@@ -24119,6 +24118,18 @@ function scodiApplyHolidayRuleToAccountingRow(row, holiday) {
     row.gretMorning = 0;
     row.gretAfternoon = 0;
     scodiRefreshAccountingRowTotals(row);
+    return skipped;
+  }
+  if (scope === "afternoon") {
+    const beforeTotal = Number(row.total || 0);
+    const skippedGrit = Number(row.gritAfternoon || 0);
+    const skippedGret = Number(row.gretAfternoon || 0);
+    row.gritAfternoon = 0;
+    row.gretAfternoon = 0;
+    scodiRefreshAccountingRowTotals(row);
+    skipped.grit = skippedGrit;
+    skipped.gret = skippedGret;
+    skipped.total = Math.max(0, beforeTotal - Number(row.total || 0));
     return skipped;
   }
   if (scope === "ret_afternoon") {
@@ -24312,7 +24323,7 @@ function scodiRenderYearAccountingTable(yearAccounting = scodiBuildYearAccountin
 }
 
 function scodiRenderAccountingRuleBook() {
-  return `<details class="scodi-section" open><summary>Fest hinterlegtes Regelwerk</summary><div class="scodi-section-body"><div class="inline-note"><strong>Nicht KI-basiert:</strong> Die Buchhaltung rechnet mit fest im BT-Navigator hinterlegten Regeln. Die automatische Prüfung kontrolliert nur die Plausibilität der Berechnung.</div><ul class="scodi-rule-list"><li>Wochenenden werden nicht verrechnet.</li><li>Morgen 09:00–12:30 zählt 3.5 h.</li><li>Nachmittag 13:30–17:00 zählt 3.5 h.</li><li>Mittagessen wird gespeichert und angezeigt, zählt aber nicht als Arbeitszeit.</li><li>RIT und RET sind je Zeitfenster entweder/oder.</li><li>Feiertage Kanton Basel-Stadt zählen als Freizeit.</li><li>Basler Fasnacht von Fasnachtsmontag bis Fasnachtsmittwoch zählt als Freizeit ohne RIT-/RET-Verrechnung.</li></ul></div></details>`;
+  return `<details class="scodi-section" open><summary>Fest hinterlegtes Regelwerk</summary><div class="scodi-section-body"><div class="inline-note"><strong>Nicht KI-basiert:</strong> Die Buchhaltung rechnet mit fest im BT-Navigator hinterlegten Regeln. Die automatische Prüfung kontrolliert nur die Plausibilität der Berechnung.</div><ul class="scodi-rule-list"><li>Wochenenden werden nicht verrechnet.</li><li>Morgen 09:00–12:30 zählt 3.5 h.</li><li>Nachmittag 13:30–17:00 zählt 3.5 h.</li><li>Mittagessen wird gespeichert und angezeigt, zählt aber nicht als Arbeitszeit.</li><li>RIT und RET sind je Zeitfenster entweder/oder.</li><li>Feiertage Kanton Basel-Stadt zählen als Freizeit.</li><li>Basler Fasnacht: Fasnachtsmontag Nachmittag und Fasnachtsmittwoch Nachmittag zählen als Freizeit ohne RIT-/RET-Verrechnung.</li></ul></div></details>`;
 }
 
 function scodiRenderHolidayList(yearAccounting = scodiBuildYearAccounting()) {
@@ -24320,7 +24331,7 @@ function scodiRenderHolidayList(yearAccounting = scodiBuildYearAccounting()) {
     const skipped = holiday.totalSkipped > 0;
     return `<span class="scodi-holiday-pill${skipped ? " skipped" : ""}">${escapeHtml(scodiDisplayDate(holiday.date))} · ${escapeHtml(holiday.weekday)} · ${escapeHtml(holiday.label)}${skipped ? " · −" + escapeHtml(scodiFormatHours(holiday.totalSkipped)) : ""}</span>`;
   }).join("");
-  return `<div class="scodi-section-body"><div class="scodi-holiday-list">${pills}</div><div class="inline-note">Diese Liste wird aus dem fest hinterlegten Basel-Stadt-Regelwerk berechnet: Neujahr, Karfreitag, Ostermontag, Tag der Arbeit, Auffahrt, Pfingstmontag, Bundesfeiertag, Weihnachten, Stephanstag sowie Basler Fasnacht von Fasnachtsmontag bis Fasnachtsmittwoch als Freizeit.</div></div>`;
+  return `<div class="scodi-section-body"><div class="scodi-holiday-list">${pills}</div><div class="inline-note">Diese Liste wird aus dem fest hinterlegten Basel-Stadt-Regelwerk berechnet: Neujahr, Karfreitag, Ostermontag, Tag der Arbeit, Auffahrt, Pfingstmontag, Bundesfeiertag, Weihnachten, Stephanstag sowie Basler Fasnacht am Fasnachtsmontag Nachmittag und Fasnachtsmittwoch Nachmittag als Freizeit.</div></div>`;
 }
 
 function scodiBuildAccountingAutoCheck(weeklyAccounting = scodiBuildAccounting(), yearAccounting = scodiBuildYearAccounting()) {
@@ -24340,7 +24351,7 @@ function scodiBuildAccountingAutoCheck(weeklyAccounting = scodiBuildAccounting()
   } else {
     messages.push("Fest hinterlegte Feiertage und Basler Fasnacht wurden geprüft; es fällt kein aktives Zeitfenster auf eine Abzugsregel.");
   }
-  messages.push("Basler Fasnacht: Fasnachtsmontag, Fasnachtsdienstag und Fasnachtsmittwoch sind im Kalender fest als Freizeit hinterlegt.");
+  messages.push("Basler Fasnacht: Nur Fasnachtsmontag Nachmittag und Fasnachtsmittwoch Nachmittag sind im Kalender fest als Freizeit hinterlegt.");
   messages.push("Mittagessen wird mitgezählt als Information, aber nicht als Arbeitszeit verrechnet.");
   messages.push("RIT und RET werden als Entweder-oder-Zeitfenster gerechnet; ein Zeitfenster gehört entweder zu RIT oder zu RET.");
   return { level, label: level === "ok" ? "OK" : "Prüfen", messages };
