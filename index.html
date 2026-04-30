@@ -1,5 +1,7 @@
 <!-- SCODI-STAND: 2026-04-30_14-14 / Basis 11-02 / Fasnacht korrekt: nur Mo Nachmittag + Mi Nachmittag, je 3.5h -->
 <!DOCTYPE html>
+<!-- SCODI-STAND: 2026-04-30_14-20 / Basis 14-14 / Fortsetzen öffnet wieder zuletzt bearbeitete Seite -->
+
 <!-- SCODI-STAND: Buchhaltung Jahr OK + Grunddaten Zeitmatrix waagrecht + Basler Fasnacht nur Montag/Mittwoch Nachmittag + Tab-Mitte + automatische Regelprüfung ohne KI -->
 <html lang="de">
 <head>
@@ -10658,7 +10660,6 @@ function persistAppMeta() {
     ...APP.meta,
     startOnLastActiveView: false,
     lastActiveView: null,
-    rememberedView: null,
   };
   localStorage.setItem(storageMetaKey(), JSON.stringify(APP.meta));
 }
@@ -12586,20 +12587,17 @@ function updateLastActiveStartUi() {
 }
 
 function recordLastActiveView(options = {}) {
-  if (!options.force && !isStartOnLastActiveViewEnabled()) {
-    updateLastActiveStartUi();
-    return;
-  }
-
   const last = buildLastActiveViewFromCurrentState();
-  if (!last) {
+  if (!last || last.view === "home") {
     updateLastActiveStartUi();
     return;
   }
 
+  const shouldAutoStart = options.force || isStartOnLastActiveViewEnabled();
   APP.meta = {
     ...APP.meta,
-    lastActiveView: last,
+    rememberedView: last,
+    lastActiveView: shouldAutoStart ? last : null,
     lastUpdated: new Date().toISOString(),
   };
   persistAppMeta();
@@ -12611,12 +12609,11 @@ function toggleStartOnLastActiveView() {
     ...APP.meta,
     startOnLastActiveView: false,
     lastActiveView: null,
-    rememberedView: null,
     lastUpdated: new Date().toISOString(),
   };
   persistAllState();
   updateLastActiveStartUi();
-  alert("Start bei letzter Seite ist in dieser SCODI-Version deaktiviert.");
+  alert("Automatischer Start auf der letzten Seite ist deaktiviert. Fortsetzen öffnet weiterhin die zuletzt bearbeitete Seite.");
 }
 
 function openLastActiveView() {
@@ -12669,7 +12666,6 @@ function applyStartOnLastActiveViewOnLoad() {
     ...APP.meta,
     startOnLastActiveView: false,
     lastActiveView: null,
-    rememberedView: null,
   };
   persistAppMeta();
   updateLastActiveStartUi();
@@ -21117,6 +21113,12 @@ function renderClientContextNotice() {
 function renderResumeButton() {
   const btn = document.getElementById("resumeBtn");
   if (!btn) return;
+  const last = getLastActiveView();
+  if (last && last.view !== "home") {
+    btn.disabled = false;
+    btn.textContent = "Letzten Arbeitsstand fortsetzen (" + getLastActiveViewLabel(last) + ")";
+    return;
+  }
   const generator = APP.meta?.lastGenerator;
   const lastUpdated = formatDateTime(APP.meta?.lastUpdated);
   const hasGenerator = !!generator;
@@ -21131,6 +21133,10 @@ function renderResumeButton() {
 }
 
 function resumeLastSession() {
+  if (openLastActiveView()) {
+    return;
+  }
+
   const generator = APP.meta?.lastGenerator;
   if (!generator || !MODELS[generator]) {
     setView("home");
