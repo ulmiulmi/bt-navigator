@@ -9694,6 +9694,7 @@ body[data-weekplan-mode] .footer-note { color: #526075; }
 })();
 <\/script>
 
+<!-- SCODI_FIX_ACTIVE_TAB_CENTER_2026-04-30: ausgewählter Tab wird in der horizontalen Navigation automatisch mittig gehalten -->
 </body>
 </html>
 `;
@@ -12875,6 +12876,20 @@ function getTabContextLabel(page) {
   return "";
 }
 
+function centerActiveTabInView(behavior = "smooth") {
+  const host = document.getElementById("tabsHost");
+  const activeTab = host ? host.querySelector(".tab.active") : null;
+  if (!host || !activeTab) return;
+  const targetLeft = activeTab.offsetLeft - Math.max(0, (host.clientWidth - activeTab.offsetWidth) / 2);
+  const maxLeft = Math.max(0, host.scrollWidth - host.clientWidth);
+  const nextLeft = Math.max(0, Math.min(targetLeft, maxLeft));
+  try {
+    host.scrollTo({ left: nextLeft, behavior });
+  } catch (error) {
+    host.scrollLeft = nextLeft;
+  }
+}
+
 function renderTabs() {
   const model = currentModel();
   const host = document.getElementById("tabsHost");
@@ -12898,6 +12913,7 @@ function renderTabs() {
       updateView();
     });
   });
+  requestAnimationFrame(() => centerActiveTabInView("smooth"));
 }
 
 function updateView() {
@@ -23434,6 +23450,7 @@ body {
       ${outputHtml}
     </section>
   </div>
+<!-- SCODI_FIX_ACTIVE_TAB_CENTER_2026-04-30: ausgewählter Tab wird in der horizontalen Navigation automatisch mittig gehalten -->
 </body>
 </html>`;
 }
@@ -24463,7 +24480,8 @@ function scodiBuildPrintHtml(title, bodyHtml) {
   const logo1 = typeof BT_PRINT_HEADER_IMAGE_DATA_URI !== "undefined" ? BT_PRINT_HEADER_IMAGE_DATA_URI : "";
   const logo2 = typeof LIV_PRINT_HEADER_IMAGE_DATA_URI !== "undefined" ? LIV_PRINT_HEADER_IMAGE_DATA_URI : "";
   return `<!DOCTYPE html><html lang="de"><head><meta charset="UTF-8"><title>${escapeHtml(title)}</title><style>
-    body{font-family:Arial,Helvetica,sans-serif;margin:0;color:#1f2937;background:#fff;line-height:1.55}.wrap{padding:28mm 9mm 14mm;display:grid;gap:16px}.print-header{position:fixed;top:0;left:0;right:0;height:22mm;border-bottom:1px solid #d8e1ee;background:#fff;display:flex;align-items:center;justify-content:space-between;padding:2mm 8mm;box-sizing:border-box}.logos{display:flex;align-items:center;gap:4mm}.logos img{height:16mm;max-width:48mm;object-fit:contain}.meta{text-align:right;color:#607086;font-size:9px}.footer{position:fixed;left:0;right:0;bottom:0;height:9mm;border-top:1px solid #d8e1ee;background:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 8mm;color:#607086;font-size:9px;box-sizing:border-box}h1{margin:0 0 4px;font-size:24px}.subtitle{color:#607086;font-size:12px}.scodi-summary-grid,.scodi-year-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}.scodi-summary-card,.scodi-year-card{border:1px solid #d8e1ee;border-radius:10px;padding:8px;background:#fff}.scodi-summary-card span,.scodi-year-card span{display:block;color:#607086;font-size:9px;font-weight:700}.scodi-summary-card strong,.scodi-year-card strong{display:block;font-size:13px;color:#1f2937}.scodi-check,.scodi-note{border:1px solid #f0dfad;border-radius:10px;background:#fff8ea;padding:8px;font-size:10px}.scodi-check-title{font-weight:700}.scodi-check ul{margin:6px 0 0;padding-left:16px}.scodi-rule-list{margin:6px 0 0;padding-left:16px}.scodi-holiday-list{display:flex;flex-wrap:wrap;gap:4px}.scodi-holiday-pill{border:1px solid #d8e1ee;border-radius:999px;padding:3px 6px;font-size:9px}.scodi-holiday-pill.skipped{border-color:#f0dfad;background:#fff8ea}.scodi-week-wrap,.scodi-accounting-wrap{box-shadow:none!important}.scodi-week-table,.scodi-accounting-table{font-size:10px;min-width:0!important;width:100%;border-collapse:collapse}.scodi-week-table th,.scodi-week-table td,.scodi-accounting-table th,.scodi-accounting-table td{padding:6px!important;border:1px solid #d8e1ee}.scodi-slot-body{font-size:9px}.scodi-section,.generator-card,.scodi-summary-card,.scodi-year-card,.scodi-check{break-inside:avoid;page-break-inside:avoid}.scodi-section{border:1px solid #d8e1ee;border-radius:10px;padding:8px}.scodi-action-row,.scodi-viewer-nav{display:none!important}@page{size:A4 landscape;margin:8mm}</style></head><body><div class="print-header"><div class="logos"><img src="${logo1}" alt="BT-Navigator"><img src="${logo2}" alt="L!V"></div><div><strong>${escapeHtml(title)}</strong><div class="subtitle">SCODI-Einzelklient · BT-Navigator</div></div><div class="meta">gedruckt:<br>${escapeHtml(printedAt)}</div></div><div class="footer"><span>BT-Navigator · RIT / RET</span><span>L!V · Leben in Vielfalt</span></div><main class="wrap"><h1>${escapeHtml(title)}</h1>${bodyHtml}</main></body></html>`;
+    body{font-family:Arial,Helvetica,sans-serif;margin:0;color:#1f2937;background:#fff;line-height:1.55}.wrap{padding:28mm 9mm 14mm;display:grid;gap:16px}.print-header{position:fixed;top:0;left:0;right:0;height:22mm;border-bottom:1px solid #d8e1ee;background:#fff;display:flex;align-items:center;justify-content:space-between;padding:2mm 8mm;box-sizing:border-box}.logos{display:flex;align-items:center;gap:4mm}.logos img{height:16mm;max-width:48mm;object-fit:contain}.meta{text-align:right;color:#607086;font-size:9px}.footer{position:fixed;left:0;right:0;bottom:0;height:9mm;border-top:1px solid #d8e1ee;background:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 8mm;color:#607086;font-size:9px;box-sizing:border-box}h1{margin:0 0 4px;font-size:24px}.subtitle{color:#607086;font-size:12px}.scodi-summary-grid,.scodi-year-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}.scodi-summary-card,.scodi-year-card{border:1px solid #d8e1ee;border-radius:10px;padding:8px;background:#fff}.scodi-summary-card span,.scodi-year-card span{display:block;color:#607086;font-size:9px;font-weight:700}.scodi-summary-card strong,.scodi-year-card strong{display:block;font-size:13px;color:#1f2937}.scodi-check,.scodi-note{border:1px solid #f0dfad;border-radius:10px;background:#fff8ea;padding:8px;font-size:10px}.scodi-check-title{font-weight:700}.scodi-check ul{margin:6px 0 0;padding-left:16px}.scodi-rule-list{margin:6px 0 0;padding-left:16px}.scodi-holiday-list{display:flex;flex-wrap:wrap;gap:4px}.scodi-holiday-pill{border:1px solid #d8e1ee;border-radius:999px;padding:3px 6px;font-size:9px}.scodi-holiday-pill.skipped{border-color:#f0dfad;background:#fff8ea}.scodi-week-wrap,.scodi-accounting-wrap{box-shadow:none!important}.scodi-week-table,.scodi-accounting-table{font-size:10px;min-width:0!important;width:100%;border-collapse:collapse}.scodi-week-table th,.scodi-week-table td,.scodi-accounting-table th,.scodi-accounting-table td{padding:6px!important;border:1px solid #d8e1ee}.scodi-slot-body{font-size:9px}.scodi-section,.generator-card,.scodi-summary-card,.scodi-year-card,.scodi-check{break-inside:avoid;page-break-inside:avoid}.scodi-section{border:1px solid #d8e1ee;border-radius:10px;padding:8px}.scodi-action-row,.scodi-viewer-nav{display:none!important}@page{size:A4 landscape;margin:8mm}</style></head><body><div class="print-header"><div class="logos"><img src="${logo1}" alt="BT-Navigator"><img src="${logo2}" alt="L!V"></div><div><strong>${escapeHtml(title)}</strong><div class="subtitle">SCODI-Einzelklient · BT-Navigator</div></div><div class="meta">gedruckt:<br>${escapeHtml(printedAt)}</div></div><div class="footer"><span>BT-Navigator · RIT / RET</span><span>L!V · Leben in Vielfalt</span></div><main class="wrap"><h1>${escapeHtml(title)}</h1>${bodyHtml}</main><!-- SCODI_FIX_ACTIVE_TAB_CENTER_2026-04-30: ausgewählter Tab wird in der horizontalen Navigation automatisch mittig gehalten -->
+</body></html>`;
 }
 function scodiOpenPrintHtml(html) {
   const blob = new Blob([html], { type: "text/html;charset=utf-8" });
@@ -24593,5 +24611,6 @@ renderClientContextNotice = (function(original){ return function(){
 })();
 </script>
 
+<!-- SCODI_FIX_ACTIVE_TAB_CENTER_2026-04-30: ausgewählter Tab wird in der horizontalen Navigation automatisch mittig gehalten -->
 </body>
 </html>
