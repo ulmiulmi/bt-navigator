@@ -14,7 +14,7 @@
     *{box-sizing:border-box} html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:Arial,Helvetica,sans-serif;overflow-x:hidden} body{min-height:100vh}
     button,input{font:inherit}.app{max-width:1180px;margin:0 auto;padding:24px}.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}.section{padding:22px}.stack{display:grid;gap:18px}.muted{color:var(--muted);line-height:1.6}.small{font-size:13px;color:var(--muted);line-height:1.5}.badge{display:inline-flex;align-items:center;gap:8px;padding:6px 10px;border-radius:999px;background:var(--accent-soft);color:var(--accent);font-size:13px;font-weight:800}.badge.grit{background:var(--grit-soft);color:var(--grit)}.badge.gret{background:var(--gret-soft);color:var(--gret)}
     h1,h2,h3{margin:0} h1{font-size:34px;line-height:1.1} h2{font-size:24px} h3{font-size:19px}.hero{display:grid;gap:16px;background:linear-gradient(180deg,#fff 0%,#fbfdff 100%);padding:24px}.hero-title{display:flex;align-items:center;gap:12px;flex-wrap:wrap}.tool-row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}button{border:1px solid var(--accent);background:var(--accent);color:#fff;border-radius:12px;padding:11px 16px;font-weight:800;cursor:pointer;min-height:42px;box-shadow:0 6px 16px rgba(31,57,90,.08)}button.secondary{background:#fff;color:var(--accent)}button.ghost{background:#fff;color:var(--text);border-color:var(--line);box-shadow:none}button.grit{background:var(--grit);border-color:var(--grit)}button.gret{background:var(--gret);border-color:var(--gret)}button.active{outline:3px solid rgba(47,111,237,.14)}
-    .file-panel{display:grid;gap:14px;padding:18px;border-top:1px solid var(--line);background:#fbfdff}.file-box{display:grid;gap:10px;border:1px dashed var(--line);border-radius:16px;background:#fff;padding:16px}.file-box input[type=file],.file-box input[type=password]{width:100%;border:1px solid var(--line);border-radius:12px;background:#fff;padding:11px 12px}.status{border:1px solid var(--line);border-radius:14px;background:#fff;padding:12px 14px;line-height:1.5;color:var(--muted)}.status.good{border-color:#b7eadb;background:#f2fffa;color:var(--ok)}.status.warn{border-color:var(--warn-line);background:var(--warn-bg);color:#8a6700}.hidden{display:none!important}
+    .file-panel{display:grid;gap:14px;padding:18px;border-top:1px solid var(--line);background:#fbfdff}.file-box{display:grid;gap:10px;border:1px dashed var(--line);border-radius:16px;background:#fff;padding:16px}.file-box input[type=file],.file-box input[type=password]{width:100%;border:1px solid var(--line);border-radius:12px;background:#fff;padding:11px 12px}.file-box input.viewer-file-input-native{position:absolute!important;left:-9999px!important;width:1px!important;height:1px!important;opacity:0!important;padding:0!important;border:0!important}.viewer-upload-control{display:inline-flex;align-items:center;justify-content:center;gap:8px;width:100%;min-height:46px;border:0;border-radius:14px;background:linear-gradient(135deg,var(--accent),#2c70df);color:#fff;font-weight:900;padding:12px 16px;box-shadow:0 8px 18px rgba(43,108,217,.18);cursor:pointer}.viewer-upload-control:focus{outline:3px solid rgba(43,108,217,.22);outline-offset:2px}.viewer-upload-name{font-size:13px;color:var(--muted);line-height:1.45}.status{border:1px solid var(--line);border-radius:14px;background:#fff;padding:12px 14px;line-height:1.5;color:var(--muted)}.status.good{border-color:#b7eadb;background:#f2fffa;color:var(--ok)}.status.warn{border-color:var(--warn-line);background:var(--warn-bg);color:#8a6700}.hidden{display:none!important}
     .summary-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.summary-box{border:1px solid var(--line);border-radius:16px;background:#fff;padding:14px}.summary-box strong{display:block;margin-bottom:6px;color:var(--text)}
     .viewer-check-grid{margin-top:14px;border:1px solid var(--line);border-radius:18px;background:linear-gradient(180deg,#fff,#fbfdff);padding:14px;display:grid;gap:12px}
     .viewer-check-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap}
@@ -452,6 +452,7 @@ body.viewer-mobile-view .viewer-display-controls-head{
 }
 
 </style>
+  <!-- EXTERNER_VIEWER_UPLOAD_FIX_2026-04-30_16-52 -->
 </head>
 <body>
   <div class="app stack">
@@ -472,7 +473,9 @@ body.viewer-mobile-view .viewer-display-controls-head{
       <div class="file-panel">
         <div class="file-box">
           <strong>Klientendatei laden</strong>
-          <input id="fileInput" type="file" accept="application/json,.json" />
+          <button type="button" class="viewer-upload-control" onclick="document.getElementById('fileInput').click()">Klientendatei auswählen</button>
+          <input id="fileInput" class="viewer-file-input-native" type="file" />
+          <div id="selectedFileName" class="viewer-upload-name">Noch keine Datei ausgewählt.</div>
           <form id="passwordRow" class="hidden" autocomplete="on" onsubmit="openEncryptedFile(); return false;">
             <input type="text" name="username" value="BT-Navigator Klientendatei Viewer" autocomplete="username" tabindex="-1" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0;" />
             <input id="passwordInput" name="bt-navigator-klientendatei-passwort" type="password" placeholder="Passwort der Klientendatei" autocomplete="current-password" autocapitalize="off" spellcheck="false" />
@@ -561,10 +564,12 @@ function isEncrypted(parsed){return !!(parsed && parsed.btNavigatorEncrypted===t
 async function decryptFile(parsed,password){const salt=b64ToBytes(parsed?.kdf?.salt); const iv=b64ToBytes(parsed?.cipher?.iv); const cipher=b64ToBytes(parsed.payload); const key=await deriveKey(password,salt); const kind=parsed.kind || "single-client"; const plain=await crypto.subtle.decrypt({name:"AES-GCM",iv,additionalData:new TextEncoder().encode(MARKER+":"+kind),tagLength:128},key,cipher); return JSON.parse(new TextDecoder().decode(plain));}
 function setStatus(text,type=""){const el=document.getElementById("status"); el.textContent=text; el.className="status"+(type?" "+type:"");}
 
-function resetViewer(){pendingEncrypted=null; currentPayload=null; activeMode="all"; weekplanViewMode="standard"; viewerReadMode="normal"; viewerDeviceMode="desktop"; applyViewerDisplayModes(); document.getElementById("fileInput").value=""; document.getElementById("passwordInput").value=""; document.getElementById("passwordRow").classList.add("hidden"); document.getElementById("content").classList.add("hidden"); setStatus("Noch keine Klientendatei geladen.");}
+function resetViewer(){pendingEncrypted=null; currentPayload=null; activeMode="all"; weekplanViewMode="standard"; viewerReadMode="normal"; viewerDeviceMode="desktop"; applyViewerDisplayModes(); document.getElementById("fileInput").value=""; const selectedFileName=document.getElementById("selectedFileName"); if(selectedFileName) selectedFileName.textContent="Noch keine Datei ausgewählt."; document.getElementById("passwordInput").value=""; document.getElementById("passwordRow").classList.add("hidden"); document.getElementById("content").classList.add("hidden"); setStatus("Noch keine Klientendatei geladen.");}
 
 document.getElementById("fileInput").addEventListener("change", async (event)=>{
   const file=event.target.files && event.target.files[0];
+  const selectedFileName=document.getElementById("selectedFileName");
+  if(selectedFileName) selectedFileName.textContent=file ? ("Ausgewählt: " + file.name) : "Noch keine Datei ausgewählt.";
   document.getElementById("passwordRow").classList.add("hidden");
   document.getElementById("content").classList.add("hidden");
   pendingEncrypted=null;
@@ -1844,11 +1849,21 @@ function renderPrintFullClientFile(){
 </style>
 <script id="btEmbeddedViewerBridge">
 (function(){
-  document.documentElement.classList.add("bt-embedded-viewer");
   var pendingPayload = null;
+  var isEmbeddedViewer = false;
+  try{
+    isEmbeddedViewer = !!(window.parent && window.parent !== window);
+  }catch(error){
+    isEmbeddedViewer = false;
+  }
+  if(isEmbeddedViewer){
+    document.documentElement.classList.add("bt-embedded-viewer");
+  }
 
   function embeddedApplyChrome(){
+    if(!isEmbeddedViewer) return;
     try{
+      document.documentElement.classList.add("bt-embedded-viewer");
       var intro=document.querySelector(".hero .muted");
       if(intro){intro.textContent="Interner Viewer im BT-Navigator. Die Klientendatei wird direkt aus dem aktuellen Arbeitsstand übernommen; es ist kein Datei-Upload und kein Passwort nötig.";}
       var filePanel=document.querySelector(".file-panel");
@@ -1861,6 +1876,7 @@ function renderPrintFullClientFile(){
   }
 
   function embeddedNotifyHeight(){
+    if(!isEmbeddedViewer) return;
     try{
       var doc=document.documentElement;
       var body=document.body;
@@ -1870,6 +1886,7 @@ function renderPrintFullClientFile(){
   }
 
   function embeddedReady(){
+    if(!isEmbeddedViewer) return;
     embeddedApplyChrome();
     embeddedNotifyHeight();
     try{parent.postMessage({type:"BT_NAVIGATOR_VIEWER_READY"},"*");}catch(error){}
@@ -1878,6 +1895,7 @@ function renderPrintFullClientFile(){
 
   function embeddedLoadPayload(payload){
     pendingPayload = payload || pendingPayload;
+    isEmbeddedViewer = true;
     try{
       embeddedApplyChrome();
       if(typeof loadPayload!=="function") throw new Error("loadPayload fehlt im Viewer");
@@ -1903,16 +1921,17 @@ function renderPrintFullClientFile(){
   window.addEventListener("DOMContentLoaded", embeddedApplyChrome);
   window.addEventListener("load",function(){
     embeddedReady();
-    try{
-      var observer=new ResizeObserver(function(){embeddedNotifyHeight();});
-      observer.observe(document.body);
-      observer.observe(document.documentElement);
-    }catch(error){setInterval(embeddedNotifyHeight,1200);}
+    if(isEmbeddedViewer){
+      try{
+        var observer=new ResizeObserver(function(){embeddedNotifyHeight();});
+        observer.observe(document.body);
+        observer.observe(document.documentElement);
+      }catch(error){setInterval(embeddedNotifyHeight,1200);}
+    }
   });
 
-  // Falls srcdoc schneller geladen ist als das parent-onload zuverlässig auslöst.
-  setTimeout(embeddedReady,150);
-  setTimeout(embeddedReady,650);
+  // Nur eingebettet meldet sich der Viewer beim BT-Navigator. Standalone bleibt die Datei-Auswahl sichtbar.
+  setTimeout(embeddedReady,80);
 })();
 </script>
 </body>
