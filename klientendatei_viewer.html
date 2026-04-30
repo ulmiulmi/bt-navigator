@@ -163,6 +163,26 @@
 }
 
 
+/* VIEWER_ACCOUNTING_SCODI_V1 */
+.accounting-summary-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:12px}
+.accounting-summary-card{border:1px solid var(--line);border-radius:16px;background:#fff;padding:12px;box-shadow:0 8px 18px rgba(31,57,90,.04)}
+.accounting-summary-card span{display:block;color:var(--muted);font-size:12px;font-weight:900;text-transform:uppercase;letter-spacing:.02em}
+.accounting-summary-card strong{display:block;margin-top:4px;font-size:24px;color:var(--text);line-height:1.1}
+.accounting-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid var(--line);border-radius:18px;background:#fff;margin:10px 0 14px;box-shadow:0 8px 18px rgba(31,57,90,.04)}
+.accounting-table{width:100%;min-width:860px;border-collapse:collapse;font-size:14px}
+.accounting-table th,.accounting-table td{border-bottom:1px solid var(--line);border-right:1px solid var(--line);padding:10px 12px;text-align:left;vertical-align:top;background:#fff}
+.accounting-table th{font-weight:950;color:var(--text);background:#f8fbff}
+.accounting-table td strong,.accounting-table th strong{font-weight:950}
+.accounting-table tr:last-child th,.accounting-table tr:last-child td{border-bottom:0}
+.accounting-table th:last-child,.accounting-table td:last-child{border-right:0}
+.accounting-total-row th,.accounting-total-row td{background:#fbfdff;font-weight:950}
+.accounting-rule-list{margin:0;padding-left:18px;line-height:1.55;color:var(--text)}
+.accounting-holiday-list{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.accounting-holiday-pill{border:1px solid var(--line);border-radius:999px;padding:8px 10px;background:#fff;color:var(--text);font-size:13px;font-weight:800;line-height:1.25}
+.accounting-holiday-pill.skipped{background:#fff8ea;border-color:#f0dfad;color:#6b5200}
+@media(max-width:760px){.accounting-summary-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.accounting-summary-card strong{font-size:20px}.accounting-table{font-size:13px;min-width:760px}.accounting-table th,.accounting-table td{padding:9px}}
+@media print{.accounting-summary-grid{grid-template-columns:repeat(4,minmax(0,1fr))!important}.accounting-wrap{overflow:visible!important;box-shadow:none!important}.accounting-table{min-width:0!important;font-size:9px!important}.accounting-table th,.accounting-table td{padding:5px!important}.accounting-holiday-pill{font-size:8px!important;padding:3px 5px!important}}
+
 /* QUICK_NAV_VIEWER_V1 */
 .viewer-quick-nav{
   position: sticky;
@@ -646,6 +666,7 @@ function getAvailableViews(){
   if(generatorHasContent("grit")) views.push("grit");
   if(generatorHasContent("gret")) views.push("gret");
   if(anyWeekplanHasContent()) views.push("weekplan");
+  if(hasViewerAccounting()) views.push("accounting");
   return views;
 }
 function pickDefaultMode(){
@@ -670,6 +691,7 @@ function renderQuickNav(){
   const buttons=[];
   buttons.push(`<button type="button" class="ghost" onclick="jumpViewerSection('overview')">Übersicht</button>`);
   if(anyWeekplanHasContent()) buttons.push(`<button type="button" class="secondary" onclick="jumpViewerSection('weekplan')">Wochenplan</button>`);
+  if(hasViewerAccounting()) buttons.push(`<button type="button" class="secondary" onclick="jumpViewerSection('accounting')">Buchhaltung</button>`);
   if(generatorHasContent("grit")) buttons.push(`<button type="button" class="grit" onclick="jumpViewerSection('grit')">RIT</button>`);
   if(generatorHasContent("gret")) buttons.push(`<button type="button" class="gret" onclick="jumpViewerSection('gret')">RET</button>`);
   if(hasViewerKiResult()) buttons.push(`<button type="button" class="secondary" onclick="jumpViewerSection('ki')">KI-Ergebnis</button>`);
@@ -735,6 +757,7 @@ function jumpViewerSection(section){
   if(section==="overview"){scrollViewerTarget("#overviewSection"); return;}
   if(section==="print"){scrollViewerTarget(".print-actions"); return;}
   if(section==="weekplan"){activeMode="weekplan"; renderAll(); scrollViewerTarget("#weekplanSection"); return;}
+  if(section==="accounting"){activeMode="accounting"; renderAll(); scrollViewerTarget("#accountingSection"); return;}
   if(section==="grit" || section==="gret"){activeMode=section; renderAll(); scrollViewerTarget(`#viewer-${section}-section`); return;}
   if(section==="ki"){const mode=firstGeneratorWithKi(); activeMode=mode; renderAll(); scrollViewerTarget('[data-viewer-anchor="ki"]',true); return;}
   if(section==="ep"){const mode=firstGeneratorWithEp(); activeMode=mode; renderAll(); scrollViewerTarget('[data-viewer-anchor="ep"]',true); return;}
@@ -746,6 +769,7 @@ function renderTabs(){
   if(generatorHasContent("grit")) buttons.push(`<button class="grit ${activeMode==='grit'?'active':''}" onclick="setMode('grit')">RIT</button>`);
   if(generatorHasContent("gret")) buttons.push(`<button class="gret ${activeMode==='gret'?'active':''}" onclick="setMode('gret')">RET</button>`);
   if(anyWeekplanHasContent()) buttons.push(`<button class="secondary ${activeMode==='weekplan'?'active':''}" onclick="setMode('weekplan')">Wochenplan RIT und RET</button>`);
+  if(hasViewerAccounting()) buttons.push(`<button class="secondary ${activeMode==='accounting'?'active':''}" onclick="setMode('accounting')">Buchhaltung / Stunden</button>`);
   host.innerHTML=buttons.join("") || `<span class="muted">Keine RIT-/RET-Inhalte erkannt.</span>`;
 }
 function setMode(mode){activeMode=mode; renderAll();}
@@ -785,7 +809,7 @@ function renderSummary(){
   const name=clean(currentPayload.clientName)||clean(gdGrit.name)||clean(gdGret.name)||"–";
   const creator=formatCreatorSummary(gdGrit,gdGret);
   const modeLabel=areas.length===2?"RIT und RET":areas[0]==="grit"?"RIT":areas[0]==="gret"?"RET":"–";
-  const currentView=activeMode==="weekplan"?"Wochenplan":activeMode==="grit"?"RIT":activeMode==="gret"?"RET":"–";
+  const currentView=activeMode==="weekplan"?"Wochenplan":activeMode==="accounting"?"Buchhaltung":activeMode==="grit"?"RIT":activeMode==="gret"?"RET":"–";
   document.getElementById("summaryGrid").innerHTML=`
     <div class="summary-box"><strong>Ersteller</strong>${esc(creator)}</div>
     <div class="summary-box"><strong>Initialen</strong>${esc(initials)}</div>
@@ -801,6 +825,7 @@ function renderFileChecks(){
     {label:"RIT", ok:generatorHasContent("grit"), detail:"RIT-Daten vorhanden"},
     {label:"RET", ok:generatorHasContent("gret"), detail:"RET-Daten vorhanden"},
     {label:"Wochenplan", ok:anyWeekplanHasContent(), detail:"Wochenplan gespeichert"},
+    {label:"Buchhaltung", ok:hasViewerAccounting(), detail:"Stundenübersicht aus Grunddaten berechenbar"},
     {label:"KI-Ergebnis", ok:hasViewerKiResult(), detail:"KI-Text aus RIT oder RET vorhanden"},
     {label:"Entwicklungsplanung", ok:hasViewerEntwicklungsplanung(), detail:"Felder oder KI-Text vorhanden"}
   ];
@@ -825,6 +850,10 @@ function renderGenerators(){
   if(activeMode==="weekplan"){
     host.innerHTML=renderCombinedWeekplanSection();
     requestAnimationFrame(syncViewerWeekplanHeights);
+    return;
+  }
+  if(activeMode==="accounting"){
+    host.innerHTML=renderAccountingSection();
     return;
   }
   if(activeMode==="grit" || activeMode==="gret"){
@@ -852,6 +881,200 @@ function syncViewerWeekplanHeights(){
 window.addEventListener("resize", ()=>{
   if(activeMode==="weekplan") requestAnimationFrame(syncViewerWeekplanHeights);
 });
+
+// VIEWER_ACCOUNTING_SCODI_V1
+const ACCOUNTING_DAY_DEFS = [
+  {key:"mo",label:"Montag"},
+  {key:"di",label:"Dienstag"},
+  {key:"mi",label:"Mittwoch"},
+  {key:"do",label:"Donnerstag"},
+  {key:"fr",label:"Freitag"},
+];
+const ACCOUNTING_PERIOD_DEFS = [
+  {key:"morning",label:"Morgen",time:"09:00–12:30",hours:3.5},
+  {key:"afternoon",label:"Nachmittag",time:"13:30–17:00",hours:3.5},
+];
+const ACCOUNTING_MONTH_LABELS = ["Januar","Februar","März","April","Mai","Juni","Juli","August","September","Oktober","November","Dezember"];
+function normalizeAccountingText(value){return clean(value).toLowerCase().replace(/[–—]/g,"-").replace(/\s+/g," ");}
+function normalizeAccountingDayLabel(value){
+  const raw=normalizeAccountingText(value);
+  const map={mo:"Montag",montag:"Montag",di:"Dienstag",dienstag:"Dienstag",mi:"Mittwoch",mittwoch:"Mittwoch",do:"Donnerstag",donnerstag:"Donnerstag",fr:"Freitag",freitag:"Freitag"};
+  return map[raw] || "";
+}
+function normalizeAccountingPeriodLabel(value){
+  const raw=normalizeAccountingText(value);
+  if(raw.includes("mittag") && !raw.includes("nachmittag")) return "Mittagessen";
+  if(raw.includes("nachmittag") || raw.includes("13:30") || raw.includes("17:00") || raw.includes("14:00")) return "Nachmittag";
+  if(raw.includes("morgen") || raw.includes("09:00") || raw.includes("12:30") || raw.includes("12:00")) return "Morgen";
+  return "";
+}
+function collectAccountingSlots(gen, fieldName){
+  const gd=getGenState(gen).grunddaten || {};
+  const raw=gd?.[fieldName];
+  if(Array.isArray(raw)) return raw.slice();
+  if(hasText(raw)) return String(raw).split(/[,;]+/).map(s=>s.trim()).filter(Boolean);
+  return [];
+}
+function accountingSlotMatches(rawSlot, dayLabel, periodLabel){
+  const raw=String(rawSlot||"").trim();
+  if(!raw) return false;
+  let day="", period="";
+  if(raw.includes("|")){
+    const parts=raw.split("|");
+    day=normalizeAccountingDayLabel(parts[0]);
+    period=normalizeAccountingPeriodLabel(parts.slice(1).join("|"));
+  } else {
+    const m=raw.match(/^(Montag|Dienstag|Mittwoch|Donnerstag|Freitag|Mo|Di|Mi|Do|Fr)\s+(.+)$/i);
+    if(m){ day=normalizeAccountingDayLabel(m[1]); period=normalizeAccountingPeriodLabel(m[2]); }
+  }
+  return day===dayLabel && period===periodLabel;
+}
+function isViewerAccountingSlotActive(gen, dayLabel, periodLabel){
+  return collectAccountingSlots(gen,"timeSlots").some(slot=>accountingSlotMatches(slot,dayLabel,periodLabel));
+}
+function isViewerAccountingMealActive(dayLabel){
+  return ["grit","gret"].some(gen=>collectAccountingSlots(gen,"mittagSlots").some(slot=>accountingSlotMatches(slot,dayLabel,"Mittagessen")));
+}
+function hasViewerAccounting(){
+  return ["grit","gret"].some(gen=>collectAccountingSlots(gen,"timeSlots").length>0 || collectAccountingSlots(gen,"mittagSlots").length>0);
+}
+function viewerAccountingDateRaw(){
+  const gdGrit=getGenState("grit").grunddaten || {};
+  const gdGret=getGenState("gret").grunddaten || {};
+  return firstText(gdGrit.datum, gdGret.datum, currentPayload?.exportedAt);
+}
+function viewerAccountingYear(){
+  const raw=viewerAccountingDateRaw();
+  let m=String(raw||"").match(/^(\d{4})/);
+  if(!m) m=String(raw||"").match(/(\d{4})/);
+  const year=m ? Number(m[1]) : new Date().getFullYear();
+  return Number.isFinite(year) && year>=2000 && year<=2200 ? year : new Date().getFullYear();
+}
+function accountingPad2(v){return String(v).padStart(2,"0");}
+function accountingDateUtc(year,monthIndex,day){return new Date(Date.UTC(year,monthIndex,day));}
+function accountingDateKey(date){return date.getUTCFullYear()+"-"+accountingPad2(date.getUTCMonth()+1)+"-"+accountingPad2(date.getUTCDate());}
+function accountingDisplayDate(date){return accountingPad2(date.getUTCDate())+"."+accountingPad2(date.getUTCMonth()+1)+"."+date.getUTCFullYear();}
+function accountingAddDays(date,days){const next=new Date(date.getTime()); next.setUTCDate(next.getUTCDate()+Number(days||0)); return next;}
+function accountingEasterSunday(year){
+  const a=year%19,b=Math.floor(year/100),c=year%100,d=Math.floor(b/4),e=b%4,f=Math.floor((b+8)/25),g=Math.floor((b-f+1)/3),h=(19*a+b-d-g+15)%30,i=Math.floor(c/4),k=c%4,l=(32+2*e+2*i-h-k)%7,m=Math.floor((a+11*h+22*l)/451),month=Math.floor((h+l-7*m+114)/31),day=((h+l-7*m+114)%31)+1;
+  return accountingDateUtc(year,month-1,day);
+}
+function viewerBaselStadtHolidays(year){
+  const easter=accountingEasterSunday(year);
+  return [
+    {key:"neujahr",label:"Neujahr",date:accountingDateUtc(year,0,1),scope:"full_day"},
+    {key:"fasnachtsmontag_nachmittag",label:"Basler Fasnacht · Fasnachtsmontag Nachmittag · Freizeit",date:accountingAddDays(easter,-41),scope:"afternoon"},
+    {key:"fasnachtsmittwoch_nachmittag",label:"Basler Fasnacht · Fasnachtsmittwoch Nachmittag · Freizeit",date:accountingAddDays(easter,-39),scope:"afternoon"},
+    {key:"karfreitag",label:"Karfreitag",date:accountingAddDays(easter,-2),scope:"full_day"},
+    {key:"ostermontag",label:"Ostermontag",date:accountingAddDays(easter,1),scope:"full_day"},
+    {key:"tag_der_arbeit",label:"Tag der Arbeit",date:accountingDateUtc(year,4,1),scope:"full_day"},
+    {key:"auffahrt",label:"Auffahrt",date:accountingAddDays(easter,39),scope:"full_day"},
+    {key:"pfingstmontag",label:"Pfingstmontag",date:accountingAddDays(easter,50),scope:"full_day"},
+    {key:"bundesfeiertag",label:"Bundesfeiertag",date:accountingDateUtc(year,7,1),scope:"full_day"},
+    {key:"weihnachten",label:"Weihnachten",date:accountingDateUtc(year,11,25),scope:"full_day"},
+    {key:"stephanstag",label:"Stephanstag",date:accountingDateUtc(year,11,26),scope:"full_day"},
+  ].sort((a,b)=>a.date-b.date);
+}
+function accountingWeekdayNameUtc(date){return ["Sonntag","Montag","Dienstag","Mittwoch","Donnerstag","Freitag","Samstag"][date.getUTCDay()] || "";}
+function accountingDayLabelFromDate(date){const w=date.getUTCDay(); return w>=1 && w<=5 ? ACCOUNTING_DAY_DEFS[w-1].label : "";}
+function refreshViewerAccountingRow(row){
+  row.gritTotal=Number(row.gritMorning||0)+Number(row.gritAfternoon||0);
+  row.gretTotal=Number(row.gretMorning||0)+Number(row.gretAfternoon||0);
+  row.actualMorning=(Number(row.gritMorning||0)>0 || Number(row.gretMorning||0)>0) ? 3.5 : 0;
+  row.actualAfternoon=(Number(row.gritAfternoon||0)>0 || Number(row.gretAfternoon||0)>0) ? 3.5 : 0;
+  row.total=row.actualMorning+row.actualAfternoon;
+  return row;
+}
+function buildViewerAccountingDayRow(dayLabel){
+  const row={day:dayLabel,gritMorning:0,gritAfternoon:0,gretMorning:0,gretAfternoon:0,lunch:isViewerAccountingMealActive(dayLabel)};
+  ACCOUNTING_PERIOD_DEFS.forEach(period=>{
+    const rit=isViewerAccountingSlotActive("grit",dayLabel,period.label);
+    const ret=isViewerAccountingSlotActive("gret",dayLabel,period.label);
+    if(rit){ if(period.key==="morning") row.gritMorning=period.hours; else row.gritAfternoon=period.hours; }
+    else if(ret){ if(period.key==="morning") row.gretMorning=period.hours; else row.gretAfternoon=period.hours; }
+  });
+  return refreshViewerAccountingRow(row);
+}
+function cloneViewerAccountingRow(row){return refreshViewerAccountingRow({...row});}
+function applyViewerHoliday(row,holiday){
+  refreshViewerAccountingRow(row);
+  const skipped={grit:0,gret:0,total:0,fullDay:false};
+  if(holiday.scope==="full_day"){
+    skipped.grit=row.gritTotal; skipped.gret=row.gretTotal; skipped.total=row.total; skipped.fullDay=true;
+    row.gritMorning=0; row.gritAfternoon=0; row.gretMorning=0; row.gretAfternoon=0;
+    refreshViewerAccountingRow(row); return skipped;
+  }
+  if(holiday.scope==="afternoon"){
+    const before=Number(row.total||0);
+    const grit=Number(row.gritAfternoon||0), gret=Number(row.gretAfternoon||0);
+    row.gritAfternoon=0; row.gretAfternoon=0;
+    refreshViewerAccountingRow(row);
+    skipped.grit=grit; skipped.gret=gret; skipped.total=Math.max(0,before-Number(row.total||0));
+    return skipped;
+  }
+  return skipped;
+}
+function buildViewerWeekAccounting(){
+  const rows=ACCOUNTING_DAY_DEFS.map(day=>buildViewerAccountingDayRow(day.label));
+  const totals=rows.reduce((sum,row)=>{sum.grit+=row.gritTotal; sum.gret+=row.gretTotal; sum.all+=row.total; sum.lunch+=row.lunch?1:0; return sum;},{grit:0,gret:0,all:0,lunch:0});
+  return {rows,totals};
+}
+function buildViewerYearAccounting(year=viewerAccountingYear()){
+  const holidays=viewerBaselStadtHolidays(year).map(h=>({...h,dateKey:accountingDateKey(h.date),weekday:accountingWeekdayNameUtc(h.date),gritSkipped:0,gretSkipped:0,totalSkipped:0}));
+  const byKey=new Map();
+  holidays.forEach(h=>{const list=byKey.get(h.dateKey)||[]; list.push(h); byKey.set(h.dateKey,list);});
+  const months=ACCOUNTING_MONTH_LABELS.map((label,index)=>({index,label,activeDays:0,lunchDays:0,grit:0,gret:0,total:0,holidaySkipped:0}));
+  const totals={grit:0,gret:0,all:0,activeDays:0,lunchDays:0,holidaySkipped:0,activeHolidayCount:0};
+  for(let date=accountingDateUtc(year,0,1); date.getUTCFullYear()===year; date=accountingAddDays(date,1)){
+    const dayLabel=accountingDayLabelFromDate(date);
+    if(!dayLabel) continue;
+    const month=months[date.getUTCMonth()];
+    const row=cloneViewerAccountingRow(buildViewerAccountingDayRow(dayLabel));
+    const rules=byKey.get(accountingDateKey(date)) || [];
+    let fullDay=false;
+    rules.forEach(holiday=>{
+      const skipped=applyViewerHoliday(row,holiday);
+      holiday.gritSkipped+=skipped.grit; holiday.gretSkipped+=skipped.gret; holiday.totalSkipped+=skipped.total;
+      month.holidaySkipped+=skipped.total; totals.holidaySkipped+=skipped.total;
+      if(skipped.total>0) totals.activeHolidayCount+=1;
+      if(skipped.fullDay) fullDay=true;
+    });
+    month.grit+=row.gritTotal; month.gret+=row.gretTotal; month.total+=row.total;
+    totals.grit+=row.gritTotal; totals.gret+=row.gretTotal; totals.all+=row.total;
+    if(row.total>0){month.activeDays+=1; totals.activeDays+=1;}
+    if(!fullDay && row.lunch){month.lunchDays+=1; totals.lunchDays+=1;}
+  }
+  return {year,months,holidays,totals};
+}
+function formatAccountingHours(value){
+  const n=Number(value||0);
+  return (Math.round(n*10)/10).toLocaleString("de-CH",{maximumFractionDigits:1})+" h";
+}
+function renderAccountingSummaryCards(yearAccounting){
+  return `<div class="accounting-summary-grid">
+    <div class="accounting-summary-card"><span>Jahr ${esc(yearAccounting.year)} RIT</span><strong>${esc(formatAccountingHours(yearAccounting.totals.grit))}</strong></div>
+    <div class="accounting-summary-card"><span>Jahr ${esc(yearAccounting.year)} RET</span><strong>${esc(formatAccountingHours(yearAccounting.totals.gret))}</strong></div>
+    <div class="accounting-summary-card"><span>Jahr ${esc(yearAccounting.year)} Total</span><strong>${esc(formatAccountingHours(yearAccounting.totals.all))}</strong></div>
+    <div class="accounting-summary-card"><span>Frei/Feiertage</span><strong>${esc(formatAccountingHours(yearAccounting.totals.holidaySkipped))}</strong></div>
+  </div>`;
+}
+function renderViewerWeekAccountingTable(week=buildViewerWeekAccounting()){
+  const rows=week.rows.map(row=>`<tr><th>${esc(row.day)}</th><td>${esc(formatAccountingHours(row.gritMorning))}</td><td>${esc(formatAccountingHours(row.gritAfternoon))}</td><td><strong>${esc(formatAccountingHours(row.gritTotal))}</strong></td><td>${esc(formatAccountingHours(row.gretMorning))}</td><td>${esc(formatAccountingHours(row.gretAfternoon))}</td><td><strong>${esc(formatAccountingHours(row.gretTotal))}</strong></td><td>${row.lunch?"Ja":"–"}</td><td><strong>${esc(formatAccountingHours(row.total))}</strong></td></tr>`).join("");
+  return `<div class="accounting-wrap"><table class="accounting-table"><thead><tr><th>Tag</th><th>RIT Morgen</th><th>RIT Nachmittag</th><th>RIT Total</th><th>RET Morgen</th><th>RET Nachmittag</th><th>RET Total</th><th>Mittag</th><th>Total</th></tr></thead><tbody>${rows}<tr class="accounting-total-row"><th>Woche</th><td colspan="2"></td><td>${esc(formatAccountingHours(week.totals.grit))}</td><td colspan="2"></td><td>${esc(formatAccountingHours(week.totals.gret))}</td><td>${esc(String(week.totals.lunch))}</td><td>${esc(formatAccountingHours(week.totals.all))}</td></tr></tbody></table></div>`;
+}
+function renderViewerYearAccountingTable(yearAccounting){
+  const rows=yearAccounting.months.map(month=>`<tr><th>${esc(month.label)}</th><td>${esc(formatAccountingHours(month.grit))}</td><td>${esc(formatAccountingHours(month.gret))}</td><td><strong>${esc(formatAccountingHours(month.total))}</strong></td><td>${esc(String(month.activeDays))}</td><td>${esc(String(month.lunchDays))}</td><td>${esc(formatAccountingHours(month.holidaySkipped))}</td></tr>`).join("");
+  return `<div class="accounting-wrap"><table class="accounting-table"><thead><tr><th>Monat</th><th>RIT</th><th>RET</th><th>Total</th><th>verrechnete Tage</th><th>Mittagessen</th><th>Nicht verrechnet wegen Frei/Feiertag</th></tr></thead><tbody>${rows}<tr class="accounting-total-row"><th>Jahr ${esc(yearAccounting.year)}</th><td>${esc(formatAccountingHours(yearAccounting.totals.grit))}</td><td>${esc(formatAccountingHours(yearAccounting.totals.gret))}</td><td>${esc(formatAccountingHours(yearAccounting.totals.all))}</td><td>${esc(String(yearAccounting.totals.activeDays))}</td><td>${esc(String(yearAccounting.totals.lunchDays))}</td><td>${esc(formatAccountingHours(yearAccounting.totals.holidaySkipped))}</td></tr></tbody></table></div>`;
+}
+function renderViewerHolidayList(yearAccounting){
+  const pills=yearAccounting.holidays.map(h=>`<span class="accounting-holiday-pill${h.totalSkipped>0?" skipped":""}">${esc(accountingDisplayDate(h.date))} · ${esc(h.weekday)} · ${esc(h.label)}${h.totalSkipped>0?" · −"+esc(formatAccountingHours(h.totalSkipped)):""}</span>`).join("");
+  return `<div class="accounting-holiday-list">${pills}</div>`;
+}
+function renderAccountingSection(){
+  const week=buildViewerWeekAccounting();
+  const year=buildViewerYearAccounting();
+  return `<section class="generator-card" id="accountingSection"><div class="generator-head"><span class="badge">Buchhaltung</span><h2>Buchhaltung / Stundenübersicht</h2><div class="small">Automatisch aus den Grunddaten der Klientendatei berechnet. Die Berechnung ist fest im Viewer hinterlegt und nicht KI-basiert.</div></div><div class="section">${renderAccountingSummaryCards(year)}${renderDetails("Wochenstunden",renderViewerWeekAccountingTable(week),true)}${renderDetails("Jahresübersicht " + year.year,renderViewerYearAccountingTable(year),true)}${renderDetails("Frei-/Feiertagsregeln Basel-Stadt",`<ul class="accounting-rule-list"><li>Wochenenden werden nicht verrechnet.</li><li>Morgen 09:00–12:30 zählt 3.5 h.</li><li>Nachmittag 13:30–17:00 zählt 3.5 h.</li><li>Mittagessen zählt nicht als Arbeitszeit.</li><li>RIT und RET sind je Zeitfenster entweder/oder.</li><li>Basler Fasnacht: nur Fasnachtsmontag Nachmittag und Fasnachtsmittwoch Nachmittag.</li></ul>${renderViewerHolidayList(year)}`,true)}</div></section>`;
+}
 
 function renderCombinedWeekplanSection(){
   return `<section class="generator-card weekplan-view" id="weekplanSection"><div class="generator-head"><span class="badge">Wochenplan</span><h2>Wochenplan RIT und RET</h2><div class="small">RIT und RET werden hier gemeinsam angezeigt. Die fachlichen RIT- und RET-Inhalte bleiben in den eigenen Ansichten getrennt.</div></div><div class="section">${renderCombinedWeekplan()}</div></section>`;
@@ -1591,11 +1814,106 @@ function renderPrintKiForGenerator(gen){
 function renderPrintFullClientFile(){
   const parts=[];
   if(anyWeekplanHasContent()) parts.push(`<h2 class="print-section-title">Wochenplan</h2>${renderCombinedWeekplan()}`);
+  if(hasViewerAccounting()) parts.push(renderAccountingSection());
   if(generatorHasContent("grit")) parts.push(renderGenerator("grit"));
   if(generatorHasContent("gret")) parts.push(renderGenerator("gret"));
   return parts.length ? parts.join("") : `<div class="print-empty">Keine druckbaren Inhalte in dieser Klientendatei gefunden.</div>`;
 }
 
+</script>
+
+<style id="btEmbeddedViewerStyle">
+  html.bt-embedded-viewer .file-panel,
+  html.bt-embedded-viewer .footer-note,
+  html.bt-embedded-viewer #privacyNotice { display:none!important; }
+  html.bt-embedded-viewer .app{max-width:1180px!important;padding:14px!important;}
+  html.bt-embedded-viewer .hero{padding:16px!important;}
+  html.bt-embedded-viewer .hero-title h1{font-size:28px!important;}
+  html.bt-embedded-viewer .muted{font-size:14px!important;line-height:1.5!important;}
+  html.bt-embedded-viewer .tool-row.print-actions{margin-top:4px!important;}
+  html.bt-embedded-viewer .view-tabs,
+  html.bt-embedded-viewer .viewer-display-controls,
+  html.bt-embedded-viewer .viewer-quick-nav{box-shadow:none!important;}
+  @media(max-width:760px){
+    html.bt-embedded-viewer .app{padding:8px!important;}
+    html.bt-embedded-viewer .hero{padding:12px!important;}
+    html.bt-embedded-viewer .hero-title h1{font-size:23px!important;}
+    html.bt-embedded-viewer .tool-row.print-actions{display:grid!important;grid-template-columns:1fr!important;}
+    html.bt-embedded-viewer .tool-row.print-actions button{width:100%!important;}
+  }
+</style>
+<script id="btEmbeddedViewerBridge">
+(function(){
+  document.documentElement.classList.add("bt-embedded-viewer");
+  var pendingPayload = null;
+
+  function embeddedApplyChrome(){
+    try{
+      var intro=document.querySelector(".hero .muted");
+      if(intro){intro.textContent="Interner Viewer im BT-Navigator. Die Klientendatei wird direkt aus dem aktuellen Arbeitsstand übernommen; es ist kein Datei-Upload und kein Passwort nötig.";}
+      var filePanel=document.querySelector(".file-panel");
+      if(filePanel) filePanel.style.display="none";
+      var footer=document.querySelector(".footer-note");
+      if(footer) footer.style.display="none";
+      var privacy=document.getElementById("privacyNotice");
+      if(privacy) privacy.style.display="none";
+    }catch(error){console.warn(error);}
+  }
+
+  function embeddedNotifyHeight(){
+    try{
+      var doc=document.documentElement;
+      var body=document.body;
+      var height=Math.max(doc?doc.scrollHeight:0,body?body.scrollHeight:0,700);
+      parent.postMessage({type:"BT_NAVIGATOR_VIEWER_HEIGHT",height:height},"*");
+    }catch(error){}
+  }
+
+  function embeddedReady(){
+    embeddedApplyChrome();
+    embeddedNotifyHeight();
+    try{parent.postMessage({type:"BT_NAVIGATOR_VIEWER_READY"},"*");}catch(error){}
+    if(pendingPayload) embeddedLoadPayload(pendingPayload);
+  }
+
+  function embeddedLoadPayload(payload){
+    pendingPayload = payload || pendingPayload;
+    try{
+      embeddedApplyChrome();
+      if(typeof loadPayload!=="function") throw new Error("loadPayload fehlt im Viewer");
+      if(!payload || typeof payload!=="object") throw new Error("Payload fehlt");
+      loadPayload(payload);
+      if(typeof setStatus==="function") setStatus("Klientendatei direkt aus dem BT-Navigator geöffnet.","good");
+      setTimeout(embeddedNotifyHeight,80);
+      setTimeout(embeddedNotifyHeight,350);
+      setTimeout(embeddedNotifyHeight,900);
+      setTimeout(embeddedNotifyHeight,1600);
+    }catch(error){
+      console.warn(error);
+      if(typeof setStatus==="function") setStatus("Interner Viewer konnte die Klientendatei nicht anzeigen: "+(error&&error.message?error.message:"unbekannter Fehler"),"warn");
+      embeddedNotifyHeight();
+    }
+  }
+
+  window.addEventListener("message",function(event){
+    var msg=event.data||{};
+    if(msg&&msg.type==="BT_NAVIGATOR_VIEWER_PAYLOAD") embeddedLoadPayload(msg.payload);
+  });
+
+  window.addEventListener("DOMContentLoaded", embeddedApplyChrome);
+  window.addEventListener("load",function(){
+    embeddedReady();
+    try{
+      var observer=new ResizeObserver(function(){embeddedNotifyHeight();});
+      observer.observe(document.body);
+      observer.observe(document.documentElement);
+    }catch(error){setInterval(embeddedNotifyHeight,1200);}
+  });
+
+  // Falls srcdoc schneller geladen ist als das parent-onload zuverlässig auslöst.
+  setTimeout(embeddedReady,150);
+  setTimeout(embeddedReady,650);
+})();
 </script>
 </body>
 </html>
