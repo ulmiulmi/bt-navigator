@@ -4237,6 +4237,48 @@ body.bt-mobile-view .ep-final-output .ep-output {
   max-height: 360px;
 }
 
+
+/* EP_TARGET_STRUCTURE_V2: EP-Ausgabe wie EP-Eingabeseite gliedern – Ziel, Massnahme, Beobachtung getrennt */
+.ep-output .ep-output-line,
+.scodi-ep-output-box .ep-output-line {
+  margin: 0 0 9px 0;
+  line-height: 1.7;
+}
+.ep-output .ep-output-line:last-child,
+.scodi-ep-output-box .ep-output-line:last-child {
+  margin-bottom: 0;
+}
+.ep-output .ep-output-label,
+.scodi-ep-output-box .ep-output-label {
+  display: inline-block;
+  font-weight: 900;
+  color: var(--theme, var(--accent));
+  margin-right: 4px;
+}
+.ep-output .ep-output-bullet,
+.scodi-ep-output-box .ep-output-bullet {
+  position: relative;
+  padding-left: 18px;
+}
+.ep-output .ep-output-bullet::before,
+.scodi-ep-output-box .ep-output-bullet::before {
+  content: "•";
+  position: absolute;
+  left: 2px;
+  top: 0;
+  color: var(--theme, var(--accent));
+  font-weight: 900;
+}
+.ep-output .inline-output-section,
+.scodi-ep-output-box .inline-output-section {
+  overflow-wrap: anywhere;
+}
+body.bt-mobile-view .ep-output .ep-output-line,
+body.bt-mobile-view .scodi-ep-output-box .ep-output-line {
+  line-height: 1.62;
+  margin-bottom: 8px;
+}
+
 </style>
 
 </head>
@@ -19432,11 +19474,21 @@ function getEntwicklungsplanungOutputHeadingDefinitions() {
     "Fachlicher Förderfokus",
     "Fachliche Ausgangslage",
     "Hauptziel",
+    "Feinziel 1",
+    "Massnahme 1 – Ablauf und Begleitung",
+    "Beobachtung / Überprüfung zu Feinziel 1",
+    "Feinziel 2",
+    "Massnahme 2 – Ablauf und Begleitung",
+    "Beobachtung / Überprüfung zu Feinziel 2",
+    "Feinziel 3",
+    "Massnahme 3 – Ablauf und Begleitung",
+    "Beobachtung / Überprüfung zu Feinziel 3",
     "Feinziele",
     "Massnahmen und Begleitung",
     "Durchführung / Alltagssituationen",
     "Beobachtung und Wirkung",
     "Überprüfung / nächster Schritt",
+    "Gesamtauswertung / nächster Schritt",
     "Gesamtauswertung",
     "Auswertung",
   ];
@@ -19446,7 +19498,16 @@ function getEntwicklungsplanungOutputHeadingDefinitions() {
     "Fachlicher Förderfokus": ["FACHLICHER FÖRDERFOKUS", "Förderfokus", "Fachlicher Fokus"],
     "Fachliche Ausgangslage": ["FACHLICHE AUSGANGSLAGE", "Ausgangslage"],
     "Hauptziel": ["HAUPTZIEL", "Ziel", "Fernziel"],
-    "Feinziele": ["FEINZIELE", "Feinziele", "Feinziel", "Feinziel 1", "Feinziel 2", "Feinziel 3", "UNTERZIELE", "Unterziele", "Unterziel", "Unterziel 1", "Unterziel 2", "Unterziel 3"],
+    "Feinziel 1": ["FEINZIEL 1", "Feinziel 1", "Unterziel 1", "UZ 1", "1. Feinziel", "1. Unterziel"],
+    "Massnahme 1 – Ablauf und Begleitung": ["MASSNAHME 1 – ABLAUF UND BEGLEITUNG", "Massnahme 1 – Ablauf und Begleitung", "Massnahme 1 - Ablauf und Begleitung", "Massnahme 1", "Maßnahme 1", "Handlungsplan / Massnahme zu Feinziel 1", "Handlungsplan Massnahme zu Feinziel 1", "Massnahme zu Feinziel 1", "Ablauf und Begleitung zu Feinziel 1"],
+    "Beobachtung / Überprüfung zu Feinziel 1": ["BEOBACHTUNG / ÜBERPRÜFUNG ZU FEINZIEL 1", "Beobachtung / Überprüfung zu Feinziel 1", "Beobachtung und Überprüfung zu Feinziel 1", "Überprüfung zu Feinziel 1", "Beobachtung zu Feinziel 1", "Woran wird Feinziel 1 überprüft"],
+    "Feinziel 2": ["FEINZIEL 2", "Feinziel 2", "Unterziel 2", "UZ 2", "2. Feinziel", "2. Unterziel"],
+    "Massnahme 2 – Ablauf und Begleitung": ["MASSNAHME 2 – ABLAUF UND BEGLEITUNG", "Massnahme 2 – Ablauf und Begleitung", "Massnahme 2 - Ablauf und Begleitung", "Massnahme 2", "Maßnahme 2", "Handlungsplan / Massnahme zu Feinziel 2", "Handlungsplan Massnahme zu Feinziel 2", "Massnahme zu Feinziel 2", "Ablauf und Begleitung zu Feinziel 2"],
+    "Beobachtung / Überprüfung zu Feinziel 2": ["BEOBACHTUNG / ÜBERPRÜFUNG ZU FEINZIEL 2", "Beobachtung / Überprüfung zu Feinziel 2", "Beobachtung und Überprüfung zu Feinziel 2", "Überprüfung zu Feinziel 2", "Beobachtung zu Feinziel 2", "Woran wird Feinziel 2 überprüft"],
+    "Feinziel 3": ["FEINZIEL 3", "Feinziel 3", "Unterziel 3", "UZ 3", "3. Feinziel", "3. Unterziel"],
+    "Massnahme 3 – Ablauf und Begleitung": ["MASSNAHME 3 – ABLAUF UND BEGLEITUNG", "Massnahme 3 – Ablauf und Begleitung", "Massnahme 3 - Ablauf und Begleitung", "Massnahme 3", "Maßnahme 3", "Handlungsplan / Massnahme zu Feinziel 3", "Handlungsplan Massnahme zu Feinziel 3", "Massnahme zu Feinziel 3", "Ablauf und Begleitung zu Feinziel 3"],
+    "Beobachtung / Überprüfung zu Feinziel 3": ["BEOBACHTUNG / ÜBERPRÜFUNG ZU FEINZIEL 3", "Beobachtung / Überprüfung zu Feinziel 3", "Beobachtung und Überprüfung zu Feinziel 3", "Überprüfung zu Feinziel 3", "Beobachtung zu Feinziel 3", "Woran wird Feinziel 3 überprüft"],
+    "Feinziele": ["FEINZIELE", "Feinziele", "Feinziel", "UNTERZIELE", "Unterziele", "Unterziel"],
     "Massnahmen und Begleitung": [
       "MASSNAHMEN UND BEGLEITUNG",
       "Massnahmen und Begleitung",
@@ -19464,6 +19525,7 @@ function getEntwicklungsplanungOutputHeadingDefinitions() {
     "Durchführung / Alltagssituationen": ["DURCHFÜHRUNG", "ALLTAGSSITUATIONEN", "Durchführung", "Alltagssituationen"],
     "Beobachtung und Wirkung": ["BEOBACHTUNG UND WIRKUNG", "Beobachtung und Wirkung", "Beobachtung", "Wirkung"],
     "Überprüfung / nächster Schritt": ["ÜBERPRÜFUNG / NÄCHSTER SCHRITT", "ÜBERPRÜFUNG", "NÄCHSTER SCHRITT", "Überprüfung", "Nächster Schritt", "Überprüfung und nächster Schritt"],
+    "Gesamtauswertung / nächster Schritt": ["GESAMTAUSWERTUNG / NÄCHSTER SCHRITT", "Gesamtauswertung / nächster Schritt", "Gesamtauswertung und nächster Schritt", "Nächster Schritt / Gesamtauswertung"],
     "Gesamtauswertung": ["GESAMTAUSWERTUNG"],
     "Auswertung": ["AUSWERTUNG"],
   };
@@ -19493,6 +19555,18 @@ function getEntwicklungsplanungStrongHeadingAliases() {
     "Unterziel 1",
     "Unterziel 2",
     "Unterziel 3",
+    "Massnahme 1 – Ablauf und Begleitung",
+    "Massnahme 2 – Ablauf und Begleitung",
+    "Massnahme 3 – Ablauf und Begleitung",
+    "Massnahme 1 - Ablauf und Begleitung",
+    "Massnahme 2 - Ablauf und Begleitung",
+    "Massnahme 3 - Ablauf und Begleitung",
+    "Beobachtung / Überprüfung zu Feinziel 1",
+    "Beobachtung / Überprüfung zu Feinziel 2",
+    "Beobachtung / Überprüfung zu Feinziel 3",
+    "Beobachtung und Überprüfung zu Feinziel 1",
+    "Beobachtung und Überprüfung zu Feinziel 2",
+    "Beobachtung und Überprüfung zu Feinziel 3",
     "Massnahmen und Begleitung",
     "Maßnahmen und Begleitung",
     "Massnahmen",
@@ -19575,6 +19649,24 @@ function isMeaninglessEntwicklungsplanungOutputLine(line) {
   return false;
 }
 
+function shouldKeepEpHeadingLineAsText(current, headingMatch, line, nextLine) {
+  if (!current || !headingMatch || cleanInline(headingMatch.rest || "")) return false;
+  const heading = cleanInline(headingMatch.heading || "");
+  const rawLine = cleanInline(line || "").replace(/^\d+[a-z]?\.\s*/i, "");
+  if (!rawLine || normalizeEntwicklungsplanungHeadingLabel(rawLine) !== normalizeEntwicklungsplanungHeadingLabel(heading)) return false;
+
+  const previousText = cleanInline((current.lines || []).slice(-1)[0] || "");
+  const nextText = cleanInline(nextLine || "");
+  if (!previousText || !nextText) return false;
+
+  // Wenn die vorherige Zeile grammatikalisch offen endet und die nächste Zeile kleingeschrieben weiterläuft,
+  // war die erkannte Überschrift sehr wahrscheinlich kein Abschnittstitel, sondern Teil eines Satzes.
+  // Beispiel: "CR nimmt aktiv an" + "Durchführung / Alltagssituationen" + "teil ..."
+  const previousLooksOpen = /(?:\b(?:an|am|im|in|auf|bei|mit|für|von|zu|zur|zum|über|unter|durch|als|aus|nach|vor|zwischen|innerhalb|ausserhalb|der|die|das|den|dem|des|einer|einem|einen|eines|und|oder|sowie|bzw\.?)|\/)$/i.test(previousText);
+  const nextContinuesSentence = /^[a-zäöüß]/.test(nextText) || /^(?:teil|mit|und|sowie|oder|im|in|am|an|bei|auf|durch|für|zu|zur|zum)\b/i.test(nextText);
+  return previousLooksOpen && nextContinuesSentence;
+}
+
 function parseEntwicklungsplanungOutputSections(text) {
   const raw = forceEntwicklungsplanungHeadingBreaks(sanitizeEntwicklungsplanungOutputText(text || ""));
   if (!raw) return [];
@@ -19602,7 +19694,7 @@ function parseEntwicklungsplanungOutputSections(text) {
     }
   }
 
-  lines.forEach((line) => {
+  lines.forEach((line, index) => {
     const trimmed = line.trim();
     if (!trimmed) return;
     if (/^\d+[a-z]?\.$/i.test(trimmed)) {
@@ -19614,6 +19706,10 @@ function parseEntwicklungsplanungOutputSections(text) {
     const withoutDecor = candidateLine.replace(/[—–-]{2,}/g, "").trim();
     const headingMatch = findEntwicklungsplanungHeadingAtLineStart(withoutDecor);
     if (headingMatch) {
+      if (shouldKeepEpHeadingLineAsText(current, headingMatch, candidateLine, lines[index + 1] || "")) {
+        current.lines.push(cleanInline(candidateLine));
+        return;
+      }
       startSection(headingMatch.heading, headingMatch.rest);
       return;
     }
@@ -19669,6 +19765,34 @@ function isEntwicklungsplanungHeadingFragment(currentHeading, line) {
   return false;
 }
 
+
+function renderEpStructuredBodyHtml(text) {
+  const lines = String(text || "")
+    .split("\n")
+    .map((line) => cleanInline(line))
+    .filter((line) => !isMeaninglessEntwicklungsplanungOutputLine(line));
+
+  if (!lines.length) return "";
+
+  return lines
+    .map((line) => {
+      const bullet = line.match(/^[-•]\s*(.+)$/);
+      if (bullet) {
+        return '<div class="ep-output-line ep-output-bullet">' + escapeHtml(cleanInline(bullet[1] || "")) + '</div>';
+      }
+
+      const labelMatch = line.match(/^([^:]{2,70}:)\s*(.*)$/);
+      if (labelMatch && !/^https?:/i.test(line)) {
+        const label = cleanInline(labelMatch[1] || "");
+        const rest = cleanInline(labelMatch[2] || "");
+        return '<div class="ep-output-line"><span class="ep-output-label">' + escapeHtml(label) + '</span>' + (rest ? escapeHtml(rest) : '') + '</div>';
+      }
+
+      return '<div class="ep-output-line">' + escapeHtml(line) + '</div>';
+    })
+    .join("");
+}
+
 function renderEntwicklungsplanungOutputHtml(text, emptyText = "Noch keine Entwicklungsplanung erzeugt.") {
   const body = sanitizeEntwicklungsplanungOutputText(text || "");
   if (!cleanInline(body)) {
@@ -19689,7 +19813,7 @@ function renderEntwicklungsplanungOutputHtml(text, emptyText = "Noch keine Entwi
       return '<section class="inline-output-section ep-output-section"><h4 class="inline-output-heading">' +
         escapeHtml(section.heading) +
         '</h4><div class="inline-output-body">' +
-        escapeHtml(sectionText).replace(/\n/g, "<br>") +
+        renderEpStructuredBodyHtml(sectionText) +
         '</div></section>';
     }).filter(Boolean).join("") +
     '</div>';
@@ -19929,7 +20053,7 @@ function addEpLine(lines, label, value) {
 const DEFAULT_ENTWICKLUNGSPLANUNG_PROMPT = `Erstelle aus den folgenden Angaben eine professionelle Entwicklungsplanung in ruhiger, sachlicher und dokumentationstauglicher Fachsprache.
 
 Wichtigste Leitidee:
-Die Angaben sind Rohmaterial. Du darfst sie fachlich verdichten, ordnen und sprachlich sauber formulieren. Du darfst sie nicht als Rohdatenblock abschreiben.
+Die Entwicklungsplanung ist kein zweiter RIT-/RET-Fachtext. Sie ist eine Ziel- und Massnahmenplanung. Sie soll wie die EP-Eingabeseite aufgebaut sein: Hauptziel, danach Feinziel 1 mit dazugehöriger Massnahme und Beobachtung, danach Feinziel 2 mit dazugehöriger Massnahme und Beobachtung, danach Feinziel 3 mit dazugehöriger Massnahme und Beobachtung.
 
 Verbindliche Vorgaben:
 - Gib nur die fertige Entwicklungsplanung zurück.
@@ -19943,17 +20067,23 @@ Verbindliche Vorgaben:
 - Lasse leere, fehlende oder nicht ausgefüllte Punkte vollständig weg.
 - Verwende ausschliesslich Initialen oder neutrale Bezeichnungen. Keine ausgeschriebenen Namen verwenden.
 - Initialen sind kein Personenwort: Schreibe niemals „männliche betreute AU/CR“ oder „weibliche betreute AU/CR“. Korrekt sind Formulierungen wie „AU ist männlich“, „CR ist weiblich“ oder „die betreute Person“.
-- Das Fernziel aus Seite 9 ist der gemeinsame Zielrahmen. Es wird nicht verändert und nicht pro Baustein neu erfunden.
+- Das Fernziel aus Seite 9 ist der gemeinsame Zielrahmen. Es wird nicht verändert und nicht pro Feinziel neu erfunden.
 - Feinziele aus Seite 10 und aus gespeicherten Bausteinen werden als Feinziele in der Entwicklungsplanung verwendet; maximal drei Feinziele können berücksichtigt werden.
 - Der ausgewählte Kliententyp ist als fachlicher Leitmassstab / Förderfokus zu behandeln.
 - Der Kliententyp ist kein eigenes Ziel, sondern richtet Ausgangslage, Massnahmen, Durchführung und Beobachtung fachlich aus.
 - Wenn eine fertige RIT-/RET-Planung aus Seite 13 vorhanden ist, berücksichtige sie als fachliche Grundlage.
-- Die Entwicklungsplanung darf nicht einfach denselben Text wie die RIT-/RET-Planung wiederholen. Sie soll daraus Zielbezug, Feinziele, Massnahmen, Begleitung, Beobachtung und nächste Schritte ableiten.
+- Die Entwicklungsplanung darf nicht einfach denselben Text wie die RIT-/RET-Planung wiederholen. Sie soll daraus Zielbezug, Feinziele, Massnahmen, Ablauf, Beobachtung und nächste Schritte ableiten.
 - Formuliere den Kliententyp nicht plump als Etikett, sondern als roten Faden.
-- Bei aktivierender Begleitung: kleine Impulse, Motivation, Mitwirkung, positive Rückmeldung und überschaubare Beteiligung betonen, sofern passend.
-- Bei Strukturbedarf: klare Abläufe, Orientierung, Anfang/Ende, Übergänge und Vorhersehbarkeit betonen, sofern passend.
-- Bei Kommunikationsbedarf: kurze Sprache, nonverbale Signale, Blickkontakt, Zeit zum Reagieren und unterstützte Kommunikation betonen, sofern passend.
-- Bei Reizbedarf: Reizdosierung, Pausen, ruhige Begleitung und Überforderungsvorbeugung betonen, sofern passend.
+
+Zielstruktur zwingend:
+- Das Hauptziel wird zuerst als gemeinsamer Zielrahmen beschrieben.
+- Unter dem Hauptziel muss kurz erklärt werden, welche vorhandenen Feinziele zum Hauptziel beitragen und was dadurch erreicht werden soll.
+- Danach folgt jedes vorhandene Feinziel einzeln.
+- Zu jedem vorhandenen Feinziel gehört direkt danach eine eigene Massnahme.
+- Zu jedem vorhandenen Feinziel gehört direkt danach eine eigene Beobachtung / Überprüfung.
+- Massnahmen dürfen nie als ein einziger Sammeltext für alle Feinziele ausgegeben werden, wenn Feinziele vorhanden sind.
+- Beobachtungen dürfen nie als ein einziger Sammeltext für alle Feinziele ausgegeben werden, wenn Feinziele vorhanden sind.
+- Wenn nur ein oder zwei Feinziele vorhanden sind, gib nur diese aus. Kein leeres Feinziel 3 erfinden.
 
 Gewünschte Ausgabe-Struktur:
 Verwende diese Abschnittsüberschriften als eigene Zeilen. Keine technischen Überschriften, keine Rohdatenüberschriften und keine Navigator-Begriffe.
@@ -19968,30 +20098,73 @@ Fachliche Ausgangslage
 Verdichte Ressourcen, Unterstützungsbedarf, Kommunikation, Regulation, Diagnostik und relevante Beobachtungen in gut lesbare Absätze. Maximal so viel wie fachlich nötig.
 
 Hauptziel
-Übernimm den Zielrahmen aus Seite 9 sprachlich sauber. Nicht neu erfinden.
+Zielrahmen: Übernimm den Zielrahmen aus Seite 9 sprachlich sauber.
+Beitrag der Feinziele: Beschreibe kurz, wie Feinziel 1 bis maximal Feinziel 3 zum Hauptziel beitragen.
+Erwartete Entwicklung: Beschreibe knapp, was durch die Zielarbeit im Alltag erreicht oder stabilisiert werden soll.
 
-Feinziele
-Leite bis zu drei Feinziele aus den vorhandenen Feinzielen ab. Kurz, beobachtbar, alltagsnah.
+Feinziel 1
+Zielbeschreibung: Beschreibe das erste vorhandene Feinziel alltagsnah und beobachtbar.
+Bezug zum Hauptziel: Erkläre kurz, wie dieses Feinziel zum Hauptziel beiträgt.
 
-Massnahmen und Begleitung
-Beschreibe konkret, wie begleitet wird: Struktur, Anleitung, Kommunikation, Beziehung, Regulation, Aktivierung, Sicherheit und Anpassung.
+Massnahme 1 – Ablauf und Begleitung
+Was wird gebraucht: Beschreibe nur vorhandene oder fachlich direkt ableitbare Hilfen, Material, Rahmenbedingungen, Orientierung, Kommunikation oder Vorbereitung.
+Ablauf: Beschreibe Schritt für Schritt, wie die Situation oder Sequenz aufgebaut ist.
+Begleitung: Beschreibe, wie Mitarbeitende anleiten, unterstützen, regulieren, motivieren oder absichern.
+Anpassung: Beschreibe, wie auf Belastbarkeit, Reize, Tempo, Übergänge oder Tagesform reagiert wird, sofern dazu Angaben vorhanden sind.
 
-Durchführung / Alltagssituationen
-Beschreibe die konkreten Situationen und Bausteine, in denen die Umsetzung stattfindet. Keine endlosen Listen.
+Beobachtung / Überprüfung zu Feinziel 1
+Beobachtet wird: Beschreibe konkret, was beobachtet werden soll.
+Woran erkennbar: Beschreibe, woran Beteiligung, Wirkung, Fortschritt, Stabilität, Unterstützungsbedarf oder Anpassungsbedarf erkennbar wird.
+Dokumentation / nächster Schritt: Beschreibe nur, wenn dazu verwertbare Angaben vorhanden sind.
 
-Beobachtung und Wirkung
-Beschreibe, woran Wirkung erkennbar ist und was weiter beobachtet wird. Beobachtbar, nicht wertend.
+Feinziel 2
+Nur ausgeben, wenn ein zweites Feinziel vorhanden ist.
+Zielbeschreibung: Beschreibe das zweite vorhandene Feinziel alltagsnah und beobachtbar.
+Bezug zum Hauptziel: Erkläre kurz, wie dieses Feinziel zum Hauptziel beiträgt.
 
-Überprüfung / nächster Schritt
-Nur ausfüllen, wenn verwertbare Angaben vorhanden sind. Sonst weglassen.
+Massnahme 2 – Ablauf und Begleitung
+Nur ausgeben, wenn Feinziel 2 vorhanden ist.
+Was wird gebraucht: Passend zu Feinziel 2 formulieren.
+Ablauf: Passend zu Feinziel 2 formulieren.
+Begleitung: Passend zu Feinziel 2 formulieren.
+Anpassung: Nur mit vorhandenen oder direkt ableitbaren Angaben.
+
+Beobachtung / Überprüfung zu Feinziel 2
+Nur ausgeben, wenn Feinziel 2 vorhanden ist.
+Beobachtet wird: Passend zu Feinziel 2 formulieren.
+Woran erkennbar: Passend zu Feinziel 2 formulieren.
+Dokumentation / nächster Schritt: Nur wenn Angaben vorhanden sind.
+
+Feinziel 3
+Nur ausgeben, wenn ein drittes Feinziel vorhanden ist.
+Zielbeschreibung: Beschreibe das dritte vorhandene Feinziel alltagsnah und beobachtbar.
+Bezug zum Hauptziel: Erkläre kurz, wie dieses Feinziel zum Hauptziel beiträgt.
+
+Massnahme 3 – Ablauf und Begleitung
+Nur ausgeben, wenn Feinziel 3 vorhanden ist.
+Was wird gebraucht: Passend zu Feinziel 3 formulieren.
+Ablauf: Passend zu Feinziel 3 formulieren.
+Begleitung: Passend zu Feinziel 3 formulieren.
+Anpassung: Nur mit vorhandenen oder direkt ableitbaren Angaben.
+
+Beobachtung / Überprüfung zu Feinziel 3
+Nur ausgeben, wenn Feinziel 3 vorhanden ist.
+Beobachtet wird: Passend zu Feinziel 3 formulieren.
+Woran erkennbar: Passend zu Feinziel 3 formulieren.
+Dokumentation / nächster Schritt: Nur wenn Angaben vorhanden sind.
+
+Gesamtauswertung / nächster Schritt
+Nur ausfüllen, wenn verwertbare Angaben vorhanden sind. Beschreibe knapp, wie weitergearbeitet oder überprüft wird.
 
 Stilvorgabe:
 - Fachlich, klar, personenzentriert, respektvoll.
-- Fliesstext mit kurzen Absätzen.
+- Kurze Absätze und klare Unterpunkte mit Doppelpunkt verwenden.
 - Keine überlangen Sätze.
+- Keine Sammelkarte "Massnahmen und Begleitung", wenn einzelne Feinziele vorhanden sind.
+- Keine Sammelkarte "Beobachtung und Wirkung", wenn einzelne Feinziele vorhanden sind.
 - Keine Rohdatenabschrift.
 - Keine unnötige Wiederholung.
-- Keine Namen, nur Initialen.`
+- Keine Namen, nur Initialen.`;
 
 function getEffectiveEntwicklungsplanungInstruction(extraHint = "") {
   const extra = cleanInline(extraHint || "");
@@ -20740,6 +20913,8 @@ function buildEntwicklungsplanungSourceText() {
     bestehende_zielerfassung_redline: buildRedlinePayload(),
     redline_regel:
       "Vorhandene Zielerfassungen / Redline-Texte haben Vorrang. Sie dürfen sprachlich geglättet und fachlich eingeordnet, aber nicht inhaltlich ersetzt oder frei erweitert werden.",
+    zielstruktur_auftrag:
+      "Die Ausgabe muss wie die EP-Maske aufgebaut sein: Hauptziel; danach pro vorhandenem Feinziel immer die Dreierfolge Feinziel X, Massnahme X – Ablauf und Begleitung, Beobachtung / Überprüfung zu Feinziel X. Massnahmen und Beobachtungen dürfen nicht gesammelt werden, sondern müssen direkt dem jeweiligen Feinziel zugeordnet sein.",
     gemeinsames_fernziel_aus_seite_9: collectCurrentFernzielForGoalPlanning(),
     feinziele_aus_seite_10: zielsystem?.feinziele || null,
     zielrahmen_aus_generator: zielsystem?.uebergeordnete_ziele || null,
@@ -20866,7 +21041,11 @@ function buildEntwicklungsplanungSourceText() {
       "Kliententyp als roten Faden nutzen.",
       "Fertige Planung aus Seite 13 berücksichtigen, aber nicht vollständig wiederholen.",
       "Seite 9 als gemeinsames Fernziel behandeln.",
-      "Feinziele als Feinziele nutzen; maximal drei Feinziele berücksichtigen.",
+      "Feinziele als einzelne Abschnitte Feinziel 1 bis Feinziel 3 nutzen; maximal drei Feinziele berücksichtigen.",
+      "Zu jedem vorhandenen Feinziel eine eigene Massnahme mit Ablauf / Begleitung formulieren.",
+      "Zu jedem vorhandenen Feinziel beschreiben, was beobachtet und überprüft werden soll.",
+      "Nicht alle Massnahmen und Beobachtungen in einen einzigen Sammeltext zusammenziehen; pro Feinziel eine eigene Massnahme und eine eigene Beobachtung / Überprüfung ausgeben.",
+      "Keine Sammelabschnitte \"Massnahmen und Begleitung\" oder \"Beobachtung und Wirkung\" verwenden, wenn Feinziel 1/2/3 vorhanden sind.",
       "Beobachtung/Wirkung beobachtbar formulieren.",
     ],
   });
@@ -21987,7 +22166,7 @@ function renderInlineOutputHtml() {
         const bodyHtml = isGoals
           ? renderGoalSectionBody(sectionText)
           : '<div class="inline-output-body">' +
-            escapeHtml(sectionText).replace(/\n/g, "<br>") +
+            renderEpStructuredBodyHtml(sectionText) +
             "</div>";
         return (
           '<section class="inline-output-section' +
@@ -25821,7 +26000,7 @@ function scodiRenderStructuredPlanningOutputBox(text, generatorKey = "") {
       const isGoals = normalizeHeadingLabel(heading) === "ziele";
       const bodyHtml = isGoals
         ? renderGoalSectionBody(sectionText)
-        : '<div class="inline-output-body">' + escapeHtml(sectionText).replace(/\n/g, "<br>") + '</div>';
+        : '<div class="inline-output-body">' + renderEpStructuredBodyHtml(sectionText) + '</div>';
       return '<section class="inline-output-section planning-output-section' + (isGoals ? " goals" : "") + '"><h4 class="inline-output-heading">' +
         escapeHtml(heading) +
         '</h4>' + bodyHtml + '</section>';
@@ -25984,7 +26163,7 @@ function scodiBuildPrintHtml(title, bodyHtml, pageMode = "landscape") {
   const logo1 = typeof BT_PRINT_HEADER_IMAGE_DATA_URI !== "undefined" ? BT_PRINT_HEADER_IMAGE_DATA_URI : "";
   const logo2 = typeof LIV_PRINT_HEADER_IMAGE_DATA_URI !== "undefined" ? LIV_PRINT_HEADER_IMAGE_DATA_URI : "";
   return `<!DOCTYPE html><html lang="de"><head><meta charset="UTF-8"><title>${escapeHtml(title)}</title><style>
-    body{font-family:Arial,Helvetica,sans-serif;margin:0;color:#1f2937;background:#fff;line-height:1.55}.wrap{padding:28mm 9mm 14mm;display:grid;gap:16px}.print-header{position:fixed;top:0;left:0;right:0;height:22mm;border-bottom:1px solid #d8e1ee;background:#fff;display:flex;align-items:center;justify-content:space-between;padding:2mm 8mm;box-sizing:border-box}.logos{display:flex;align-items:center;gap:4mm}.logos img{height:16mm;max-width:48mm;object-fit:contain}.meta{text-align:right;color:#607086;font-size:9px}.footer{position:fixed;left:0;right:0;bottom:0;height:9mm;border-top:1px solid #d8e1ee;background:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 8mm;color:#607086;font-size:9px;box-sizing:border-box}h1{margin:0 0 4px;font-size:24px}.subtitle{color:#607086;font-size:12px}.scodi-summary-grid,.scodi-year-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}.scodi-grunddaten-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.scodi-grunddaten-item{border:1px solid #d8e1ee;border-radius:10px;padding:8px;background:#fff;display:grid;gap:3px}.scodi-grunddaten-item.wide{grid-column:span 2}.scodi-grunddaten-item.full{grid-column:1/-1}.scodi-grunddaten-item span{display:block;color:#607086;font-size:9px;font-weight:700}.scodi-grunddaten-item strong{display:block;font-size:11px;color:#1f2937;white-space:pre-wrap;overflow-wrap:anywhere}.scodi-grunddaten-item.empty strong{color:#607086;font-style:italic}.scodi-grunddaten-timeplan{border:1px solid #d8e1ee;border-radius:10px;background:#fff;overflow:hidden}.scodi-grunddaten-timeplan-title{padding:7px 8px;border-bottom:1px solid #d8e1ee;font-weight:700}.scodi-grunddaten-timeplan table{width:100%;border-collapse:collapse;table-layout:fixed}.scodi-grunddaten-timeplan th,.scodi-grunddaten-timeplan td{border:1px solid #d8e1ee;padding:5px;font-size:9px;text-align:left;vertical-align:top}.scodi-time-badges{display:flex;flex-wrap:wrap;gap:3px}.scodi-time-badge{display:inline-flex;border:1px solid #d8e1ee;border-radius:999px;padding:2px 5px;font-size:8px;font-weight:700}.scodi-time-badge.grit{border-color:#dacdf0;background:#f1ecf8;color:#5c3991}.scodi-time-badge.gret{border-color:#cfe7d9;background:#eaf7f1;color:#2f7d5a}.scodi-time-badge.meal{border-color:#f0dfad;background:#fff8ea;color:#8a6700}.scodi-time-empty{color:#607086}.scodi-summary-card,.scodi-year-card{border:1px solid #d8e1ee;border-radius:10px;padding:8px;background:#fff}.scodi-summary-card span,.scodi-year-card span{display:block;color:#607086;font-size:9px;font-weight:700}.scodi-summary-card strong,.scodi-year-card strong{display:block;font-size:13px;color:#1f2937}.scodi-check,.scodi-note{border:1px solid #f0dfad;border-radius:10px;background:#fff8ea;padding:8px;font-size:10px}.scodi-check-title{font-weight:700}.scodi-check ul{margin:6px 0 0;padding-left:16px}.scodi-rule-list{margin:6px 0 0;padding-left:16px}.scodi-holiday-list{display:flex;flex-wrap:wrap;gap:4px}.scodi-holiday-pill{border:1px solid #d8e1ee;border-radius:999px;padding:3px 6px;font-size:9px}.scodi-holiday-pill.skipped{border-color:#f0dfad;background:#fff8ea}.scodi-week-wrap,.scodi-accounting-wrap{box-shadow:none!important}.scodi-week-table,.scodi-accounting-table{font-size:10px;min-width:0!important;width:100%;border-collapse:collapse;table-layout:fixed}.scodi-week-table col.scodi-time-col{width:30mm}.scodi-week-table th,.scodi-week-table td,.scodi-accounting-table th,.scodi-accounting-table td{padding:6px!important;border:1px solid #d8e1ee}.scodi-day-mo{--scodi-day-main:#caa33a;--scodi-day-soft:#fff4c9;--scodi-day-line:#ead48b}.scodi-day-di{--scodi-day-main:#7aa842;--scodi-day-soft:#ebf8d7;--scodi-day-line:#c9e4a5}.scodi-day-mi{--scodi-day-main:#4e8fcf;--scodi-day-soft:#e4f1ff;--scodi-day-line:#b8d5f3}.scodi-day-do{--scodi-day-main:#c95072;--scodi-day-soft:#ffe1ea;--scodi-day-line:#f1b5c5}.scodi-day-fr{--scodi-day-main:#d6953c;--scodi-day-soft:#fff0de;--scodi-day-line:#efc48e}.scodi-week-table th.scodi-day-col-head{background:linear-gradient(180deg,#fff,var(--scodi-day-soft))!important;color:var(--scodi-day-main)!important;border-top:3px solid var(--scodi-day-main)!important;text-align:center}.scodi-week-table td.scodi-day-col-cell{background:linear-gradient(180deg,#fff,var(--scodi-day-soft));border-color:var(--scodi-day-line)}.scodi-slot-card.grit{border-color:#dacdf0;background:#fbf7ff}.scodi-slot-card.gret{border-color:#cfe7d9;background:#f5fff9}.scodi-slot-label.grit{color:#5c3991}.scodi-slot-label.gret{color:#2f7d5a}.scodi-slot-body{font-size:9px}.generator-card{border:1px solid #d8e1ee;border-radius:10px;padding:8px;background:#fff}.generator-card.grit{border-color:#dacdf0;background:linear-gradient(180deg,#fff,#fbf7ff);box-shadow:inset 4px 0 0 #5c3991}.generator-card.gret{border-color:#cfe7d9;background:linear-gradient(180deg,#fff,#f5fff9);box-shadow:inset 4px 0 0 #2f7d5a}.generator-head{display:flex;align-items:center;gap:8px;border-bottom:1px solid #d8e1ee;margin-bottom:8px;padding-bottom:6px}.generator-head h2{margin:0;font-size:15px}.badge{display:inline-flex;border:1px solid #d8e1ee;border-radius:999px;padding:3px 7px;font-size:9px;font-weight:700}.badge.grit{border-color:#dacdf0;background:#f1ecf8;color:#5c3991}.badge.gret{border-color:#cfe7d9;background:#eaf7f1;color:#2f7d5a}.section{display:grid;gap:8px}.scodi-output-box{white-space:pre-wrap;overflow-wrap:anywhere;border:1px solid #d8e1ee;border-radius:8px;background:#fffefc;padding:8px;font-size:11px;line-height:1.55}.scodi-ep-output-box,.scodi-planning-output-box{white-space:normal!important;background:#fff!important}.inline-output-doc{display:grid;gap:8px}.inline-output-section{break-inside:avoid;page-break-inside:avoid;border:1px solid #d8e1ee;border-radius:9px;background:#fff;padding:8px}.inline-output-heading{margin:0 0 6px 0;padding-bottom:5px;border-bottom:1px solid #d8e1ee;font-size:12px;color:#5c3991}.inline-output-body{font-size:10.5px;line-height:1.55}.generator-card.gret .inline-output-heading{color:#2f7d5a}.generator-card.grit .inline-output-heading{color:#5c3991}.scodi-output-empty{border:1px dashed #d8e1ee;border-radius:8px;background:#fbfdff;color:#607086;padding:8px;font-size:10px}.scodi-section,.generator-card,.scodi-summary-card,.scodi-year-card,.scodi-check{break-inside:avoid;page-break-inside:avoid}.scodi-section{border:1px solid #d8e1ee;border-radius:10px;padding:8px}.scodi-action-row,.scodi-viewer-nav{display:none!important}@page{size:A4 ${pageOrientation};margin:8mm}</style></head><body><div class="print-header"><div class="logos"><img src="${logo1}" alt="BT-Navigator"><img src="${logo2}" alt="L!V"></div><div><strong>${escapeHtml(title)}</strong><div class="subtitle">Einzelklient · BT-Navigator</div></div><div class="meta">gedruckt:<br>${escapeHtml(printedAt)}</div></div><div class="footer"><span>BT-Navigator · RIT / RET</span><span>L!V · Leben in Vielfalt</span></div><main class="wrap"><h1>${escapeHtml(title)}</h1>${bodyHtml}</main><!-- BT_NAVIGATOR_ACTIVE_TAB_CENTER_2026-04-30 -->
+    body{font-family:Arial,Helvetica,sans-serif;margin:0;color:#1f2937;background:#fff;line-height:1.55}.wrap{padding:28mm 9mm 14mm;display:grid;gap:16px}.print-header{position:fixed;top:0;left:0;right:0;height:22mm;border-bottom:1px solid #d8e1ee;background:#fff;display:flex;align-items:center;justify-content:space-between;padding:2mm 8mm;box-sizing:border-box}.logos{display:flex;align-items:center;gap:4mm}.logos img{height:16mm;max-width:48mm;object-fit:contain}.meta{text-align:right;color:#607086;font-size:9px}.footer{position:fixed;left:0;right:0;bottom:0;height:9mm;border-top:1px solid #d8e1ee;background:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 8mm;color:#607086;font-size:9px;box-sizing:border-box}h1{margin:0 0 4px;font-size:24px}.subtitle{color:#607086;font-size:12px}.scodi-summary-grid,.scodi-year-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}.scodi-grunddaten-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.scodi-grunddaten-item{border:1px solid #d8e1ee;border-radius:10px;padding:8px;background:#fff;display:grid;gap:3px}.scodi-grunddaten-item.wide{grid-column:span 2}.scodi-grunddaten-item.full{grid-column:1/-1}.scodi-grunddaten-item span{display:block;color:#607086;font-size:9px;font-weight:700}.scodi-grunddaten-item strong{display:block;font-size:11px;color:#1f2937;white-space:pre-wrap;overflow-wrap:anywhere}.scodi-grunddaten-item.empty strong{color:#607086;font-style:italic}.scodi-grunddaten-timeplan{border:1px solid #d8e1ee;border-radius:10px;background:#fff;overflow:hidden}.scodi-grunddaten-timeplan-title{padding:7px 8px;border-bottom:1px solid #d8e1ee;font-weight:700}.scodi-grunddaten-timeplan table{width:100%;border-collapse:collapse;table-layout:fixed}.scodi-grunddaten-timeplan th,.scodi-grunddaten-timeplan td{border:1px solid #d8e1ee;padding:5px;font-size:9px;text-align:left;vertical-align:top}.scodi-time-badges{display:flex;flex-wrap:wrap;gap:3px}.scodi-time-badge{display:inline-flex;border:1px solid #d8e1ee;border-radius:999px;padding:2px 5px;font-size:8px;font-weight:700}.scodi-time-badge.grit{border-color:#dacdf0;background:#f1ecf8;color:#5c3991}.scodi-time-badge.gret{border-color:#cfe7d9;background:#eaf7f1;color:#2f7d5a}.scodi-time-badge.meal{border-color:#f0dfad;background:#fff8ea;color:#8a6700}.scodi-time-empty{color:#607086}.scodi-summary-card,.scodi-year-card{border:1px solid #d8e1ee;border-radius:10px;padding:8px;background:#fff}.scodi-summary-card span,.scodi-year-card span{display:block;color:#607086;font-size:9px;font-weight:700}.scodi-summary-card strong,.scodi-year-card strong{display:block;font-size:13px;color:#1f2937}.scodi-check,.scodi-note{border:1px solid #f0dfad;border-radius:10px;background:#fff8ea;padding:8px;font-size:10px}.scodi-check-title{font-weight:700}.scodi-check ul{margin:6px 0 0;padding-left:16px}.scodi-rule-list{margin:6px 0 0;padding-left:16px}.scodi-holiday-list{display:flex;flex-wrap:wrap;gap:4px}.scodi-holiday-pill{border:1px solid #d8e1ee;border-radius:999px;padding:3px 6px;font-size:9px}.scodi-holiday-pill.skipped{border-color:#f0dfad;background:#fff8ea}.scodi-week-wrap,.scodi-accounting-wrap{box-shadow:none!important}.scodi-week-table,.scodi-accounting-table{font-size:10px;min-width:0!important;width:100%;border-collapse:collapse;table-layout:fixed}.scodi-week-table col.scodi-time-col{width:30mm}.scodi-week-table th,.scodi-week-table td,.scodi-accounting-table th,.scodi-accounting-table td{padding:6px!important;border:1px solid #d8e1ee}.scodi-day-mo{--scodi-day-main:#caa33a;--scodi-day-soft:#fff4c9;--scodi-day-line:#ead48b}.scodi-day-di{--scodi-day-main:#7aa842;--scodi-day-soft:#ebf8d7;--scodi-day-line:#c9e4a5}.scodi-day-mi{--scodi-day-main:#4e8fcf;--scodi-day-soft:#e4f1ff;--scodi-day-line:#b8d5f3}.scodi-day-do{--scodi-day-main:#c95072;--scodi-day-soft:#ffe1ea;--scodi-day-line:#f1b5c5}.scodi-day-fr{--scodi-day-main:#d6953c;--scodi-day-soft:#fff0de;--scodi-day-line:#efc48e}.scodi-week-table th.scodi-day-col-head{background:linear-gradient(180deg,#fff,var(--scodi-day-soft))!important;color:var(--scodi-day-main)!important;border-top:3px solid var(--scodi-day-main)!important;text-align:center}.scodi-week-table td.scodi-day-col-cell{background:linear-gradient(180deg,#fff,var(--scodi-day-soft));border-color:var(--scodi-day-line)}.scodi-slot-card.grit{border-color:#dacdf0;background:#fbf7ff}.scodi-slot-card.gret{border-color:#cfe7d9;background:#f5fff9}.scodi-slot-label.grit{color:#5c3991}.scodi-slot-label.gret{color:#2f7d5a}.scodi-slot-body{font-size:9px}.generator-card{border:1px solid #d8e1ee;border-radius:10px;padding:8px;background:#fff}.generator-card.grit{border-color:#dacdf0;background:linear-gradient(180deg,#fff,#fbf7ff);box-shadow:inset 4px 0 0 #5c3991}.generator-card.gret{border-color:#cfe7d9;background:linear-gradient(180deg,#fff,#f5fff9);box-shadow:inset 4px 0 0 #2f7d5a}.generator-head{display:flex;align-items:center;gap:8px;border-bottom:1px solid #d8e1ee;margin-bottom:8px;padding-bottom:6px}.generator-head h2{margin:0;font-size:15px}.badge{display:inline-flex;border:1px solid #d8e1ee;border-radius:999px;padding:3px 7px;font-size:9px;font-weight:700}.badge.grit{border-color:#dacdf0;background:#f1ecf8;color:#5c3991}.badge.gret{border-color:#cfe7d9;background:#eaf7f1;color:#2f7d5a}.section{display:grid;gap:8px}.scodi-output-box{white-space:pre-wrap;overflow-wrap:anywhere;border:1px solid #d8e1ee;border-radius:8px;background:#fffefc;padding:8px;font-size:11px;line-height:1.55}.scodi-ep-output-box,.scodi-planning-output-box{white-space:normal!important;background:#fff!important}.inline-output-doc{display:grid;gap:8px}.inline-output-section{break-inside:avoid;page-break-inside:avoid;border:1px solid #d8e1ee;border-radius:9px;background:#fff;padding:8px}.inline-output-heading{margin:0 0 6px 0;padding-bottom:5px;border-bottom:1px solid #d8e1ee;font-size:12px;color:#5c3991}.inline-output-body{font-size:10.5px;line-height:1.55}.ep-output-line{margin:0 0 5px 0;line-height:1.55}.ep-output-label{font-weight:700;color:inherit;margin-right:3px}.ep-output-bullet{position:relative;padding-left:12px}.ep-output-bullet:before{content:"•";position:absolute;left:0;font-weight:700;color:inherit}.generator-card.gret .inline-output-heading{color:#2f7d5a}.generator-card.grit .inline-output-heading{color:#5c3991}.scodi-output-empty{border:1px dashed #d8e1ee;border-radius:8px;background:#fbfdff;color:#607086;padding:8px;font-size:10px}.scodi-section,.generator-card,.scodi-summary-card,.scodi-year-card,.scodi-check{break-inside:avoid;page-break-inside:avoid}.scodi-section{border:1px solid #d8e1ee;border-radius:10px;padding:8px}.scodi-action-row,.scodi-viewer-nav{display:none!important}@page{size:A4 ${pageOrientation};margin:8mm}</style></head><body><div class="print-header"><div class="logos"><img src="${logo1}" alt="BT-Navigator"><img src="${logo2}" alt="L!V"></div><div><strong>${escapeHtml(title)}</strong><div class="subtitle">Einzelklient · BT-Navigator</div></div><div class="meta">gedruckt:<br>${escapeHtml(printedAt)}</div></div><div class="footer"><span>BT-Navigator · RIT / RET</span><span>L!V · Leben in Vielfalt</span></div><main class="wrap"><h1>${escapeHtml(title)}</h1>${bodyHtml}</main><!-- BT_NAVIGATOR_ACTIVE_TAB_CENTER_2026-04-30 -->
 </body></html>`;
 }
 function scodiOpenPrintHtml(html) {
@@ -26621,6 +26800,312 @@ renderClientContextNotice = (function(original){ return function(){
     }
   }, true);
 })();
+
+/* BT_EP_TRANSFER_ROBUST_V1: EP-Übernahme füllt Ziel-, Massnahmen- und Beobachtungsfelder zuverlässig */
+(function(){
+  function btClean(value){
+    try { return cleanInline(value || ""); } catch(error) { return String(value || "").replace(/\s+/g, " ").trim(); }
+  }
+  function btMulti(value){
+    try { return normalizeEpMultilineText(value || ""); } catch(error) {
+      return String(value || "").replace(/\r\n/g, "\n").replace(/[ \t]+\n/g, "\n").replace(/\n{3,}/g, "\n\n").trim();
+    }
+  }
+  function btTitle(value){
+    try { return buildShortEpTitle(value || ""); } catch(error) {
+      return btClean(value).replace(/[.:;!?]+$/g, "").split(/\s+/).slice(0, 8).join(" ");
+    }
+  }
+  function btSet(fields, key, value, force){
+    const cleanValue = btMulti(value || "");
+    if (!cleanValue) return false;
+    if (!force && btClean(fields[key] || "")) return false;
+    fields[key] = cleanValue;
+    return true;
+  }
+  function btAppend(fields, key, value, force){
+    const cleanValue = btMulti(value || "");
+    if (!cleanValue) return false;
+    const existing = btMulti(fields[key] || "");
+    if (!existing || force) {
+      fields[key] = cleanValue;
+      return true;
+    }
+    if (existing.includes(cleanValue.slice(0, Math.min(80, cleanValue.length)))) return false;
+    fields[key] = existing + "\n\n" + cleanValue;
+    return true;
+  }
+  function btKnownHeading(line){
+    const clean = btClean(String(line || "").replace(/^#{1,6}\s*/, "").replace(/^\d+[.)]\s*/, "").replace(/[:：]\s*$/, ""));
+    const low = clean.toLowerCase();
+    const pairs = [
+      ["stammdaten", "Stammdaten"],
+      ["fachlicher förderfokus", "Fachlicher Förderfokus"],
+      ["fachliche ausgangslage", "Fachliche Ausgangslage"],
+      ["hauptziel", "Hauptziel"],
+      ["feinziel 1", "Feinziel 1"], ["unterziel 1", "Feinziel 1"],
+      ["feinziel 2", "Feinziel 2"], ["unterziel 2", "Feinziel 2"],
+      ["feinziel 3", "Feinziel 3"], ["unterziel 3", "Feinziel 3"],
+      ["massnahme 1 – ablauf und begleitung", "Massnahme 1"], ["massnahme 1 - ablauf und begleitung", "Massnahme 1"], ["massnahme 1", "Massnahme 1"], ["maßnahme 1", "Massnahme 1"], ["handlungsplan / massnahme zu feinziel 1", "Massnahme 1"],
+      ["massnahme 2 – ablauf und begleitung", "Massnahme 2"], ["massnahme 2 - ablauf und begleitung", "Massnahme 2"], ["massnahme 2", "Massnahme 2"], ["maßnahme 2", "Massnahme 2"], ["handlungsplan / massnahme zu feinziel 2", "Massnahme 2"],
+      ["massnahme 3 – ablauf und begleitung", "Massnahme 3"], ["massnahme 3 - ablauf und begleitung", "Massnahme 3"], ["massnahme 3", "Massnahme 3"], ["maßnahme 3", "Massnahme 3"], ["handlungsplan / massnahme zu feinziel 3", "Massnahme 3"],
+      ["beobachtung / überprüfung zu feinziel 1", "Beobachtung 1"], ["beobachtung und überprüfung zu feinziel 1", "Beobachtung 1"], ["überprüfung zu feinziel 1", "Beobachtung 1"], ["beobachtung zu feinziel 1", "Beobachtung 1"],
+      ["beobachtung / überprüfung zu feinziel 2", "Beobachtung 2"], ["beobachtung und überprüfung zu feinziel 2", "Beobachtung 2"], ["überprüfung zu feinziel 2", "Beobachtung 2"], ["beobachtung zu feinziel 2", "Beobachtung 2"],
+      ["beobachtung / überprüfung zu feinziel 3", "Beobachtung 3"], ["beobachtung und überprüfung zu feinziel 3", "Beobachtung 3"], ["überprüfung zu feinziel 3", "Beobachtung 3"], ["beobachtung zu feinziel 3", "Beobachtung 3"],
+      ["gesamtauswertung / nächster schritt", "Gesamt"], ["gesamtauswertung", "Gesamt"], ["nächster schritt", "Gesamt"]
+    ];
+    for (const pair of pairs) {
+      if (low === pair[0]) return pair[1];
+    }
+    return "";
+  }
+  function btExtractSections(text){
+    const raw = btMulti(text || "");
+    const result = {};
+    if (!raw) return result;
+    let current = "";
+    const push = (heading, line) => {
+      if (!heading || !btClean(line)) return;
+      if (!result[heading]) result[heading] = [];
+      result[heading].push(String(line).trim());
+    };
+    raw.split(/\n+/).forEach((line) => {
+      const original = String(line || "").trim();
+      if (!original) return;
+      const headingOnly = btKnownHeading(original);
+      if (headingOnly) { current = headingOnly; return; }
+      const inlineMatch = original.match(/^(.{3,80}?):\s*(.+)$/);
+      if (inlineMatch) {
+        const heading = btKnownHeading(inlineMatch[1]);
+        if (heading) {
+          current = heading;
+          push(current, inlineMatch[2]);
+          return;
+        }
+      }
+      if (current) push(current, original);
+    });
+    Object.keys(result).forEach((key) => { result[key] = btMulti(result[key].join("\n")); });
+    return result;
+  }
+  function btSplitLabeledBody(body){
+    const result = {};
+    let current = "Allgemein";
+    String(body || "").split(/\n+/).forEach((line) => {
+      const clean = String(line || "").trim().replace(/^[•\-–]\s*/, "");
+      if (!clean) return;
+      const m = clean.match(/^([^:：]{3,60})[:：]\s*(.*)$/);
+      if (m) {
+        current = btClean(m[1]);
+        if (!result[current]) result[current] = [];
+        if (btClean(m[2])) result[current].push(m[2]);
+        return;
+      }
+      if (!result[current]) result[current] = [];
+      result[current].push(clean);
+    });
+    Object.keys(result).forEach((key) => { result[key] = btMulti(result[key].join("\n")); });
+    return result;
+  }
+  function btFindLabel(parts, pattern){
+    for (const key of Object.keys(parts || {})) {
+      if (pattern.test(key)) return parts[key];
+    }
+    return "";
+  }
+  function btAny(values){
+    for (const value of values || []) {
+      const clean = btMulti(value || "");
+      if (clean) return clean;
+    }
+    return "";
+  }
+  function btApplySectionsToEpFields(fields, sections, force){
+    let changed = 0;
+    const mark = (ok) => { if (ok) changed += 1; };
+    const applyFeinziel = (nr) => {
+      const body = sections["Feinziel " + nr] || "";
+      if (!body) return;
+      mark(btSet(fields, "epUnterziel" + nr + "Beschreibung", body, force));
+      mark(btSet(fields, "epUnterziel" + nr + "Titel", btTitle(body), force));
+      mark(btSet(fields, "epUnterziel" + nr + "Foerderinhalt", body, force));
+    };
+    const applyMassnahme = (nr) => {
+      const body = sections["Massnahme " + nr] || "";
+      if (!body) return;
+      const parts = btSplitLabeledBody(body);
+      const gebraucht = btAny([btFindLabel(parts, /gebraucht|material|hilfsmittel/i), parts.Material]);
+      const vorbereiten = btFindLabel(parts, /vorbereitung|vorbereiten/i);
+      const ablauf = btAny([btFindLabel(parts, /ablauf|durchführung|durchfuehrung/i), parts.Allgemein, body]);
+      const begleitung = btFindLabel(parts, /begleitung|rolle|unterstützung|unterstuetzung|hilfestellung/i);
+      const anpassung = btFindLabel(parts, /anpassung|orientierung|rahmen|setting|tempo|reiz/i);
+      const pruefung = btFindLabel(parts, /prüfung|pruefung|überprüfung|ueberpruefung|beobachtung/i);
+      mark(btSet(fields, "epMassnahme" + nr + "Titel", btTitle(body) || "Massnahme " + nr, force));
+      mark(btSet(fields, "epMassnahme" + nr + "Material", gebraucht, force));
+      mark(btSet(fields, "epMassnahme" + nr + "Vorbereitung", vorbereiten, force));
+      mark(btSet(fields, "epMassnahme" + nr + "Ablauf", ablauf, force));
+      mark(btSet(fields, "epMassnahme" + nr + "Rolle", begleitung, force));
+      mark(btSet(fields, "epMassnahme" + nr + "Orientierung", anpassung, force));
+      mark(btSet(fields, "epMassnahme" + nr + "Pruefung", pruefung, force));
+    };
+    const applyBeobachtung = (nr) => {
+      const body = sections["Beobachtung " + nr] || "";
+      if (!body) return;
+      const parts = btSplitLabeledBody(body);
+      const beobachtet = btAny([btFindLabel(parts, /beobachtet|beobachtung/i), parts.Allgemein, body]);
+      const erkennbar = btFindLabel(parts, /erkennbar|kriter|woran|überprüfung|ueberpruefung/i);
+      const schritt = btFindLabel(parts, /dokumentation|nächster|naechster|schritt|weiter/i);
+      mark(btSet(fields, "epUnterziel" + nr + "Beobachtung", beobachtet, force));
+      mark(btSet(fields, "epUnterziel" + nr + "Pruefkriterien", erkennbar || beobachtet, force));
+      mark(btSet(fields, "epUnterziel" + nr + "NaechsterSchritt", schritt, force));
+      mark(btAppend(fields, "epMassnahme" + nr + "Pruefung", btAny([erkennbar, beobachtet, schritt]), force));
+    };
+    if (sections.Hauptziel) {
+      mark(btSet(fields, "epHauptzielBeschreibung", sections.Hauptziel, force));
+      mark(btSet(fields, "epHauptzielTitel", btTitle(sections.Hauptziel), force));
+      mark(btSet(fields, "epHauptzielFormulierung", sections.Hauptziel, force));
+    }
+    if (sections["Fachliche Ausgangslage"]) {
+      mark(btSet(fields, "epHauptzielBegruendung", sections["Fachliche Ausgangslage"], force));
+    }
+    if (sections["Fachlicher Förderfokus"]) {
+      mark(btSet(fields, "epHauptzielFachbezug", sections["Fachlicher Förderfokus"], force));
+    }
+    [1,2,3].forEach((nr) => { applyFeinziel(nr); applyMassnahme(nr); applyBeobachtung(nr); });
+    if (sections.Gesamt) {
+      mark(btSet(fields, "epGesamtNaechsterSchritt", sections.Gesamt, force));
+    }
+    return changed;
+  }
+  function btBuildSectionsFromNavigatorPlanning(){
+    const text = (typeof getStoredPlanningTextForRedline === "function" ? getStoredPlanningTextForRedline(APP.currentGenerator) : "") || "";
+    const sections = btExtractSections(text);
+    if (Object.keys(sections).length) return sections;
+    return {};
+  }
+  function btApplyCurrentDomValuesToFields(fields){
+    try {
+      const pageHost = document.getElementById("pageHost");
+      if (!pageHost) return;
+      pageHost.querySelectorAll("input[id^='ep'], textarea[id^='ep'], select[id^='ep']").forEach((el) => {
+        if (!el.id) return;
+        const value = el.tagName === "SELECT" ? el.value : el.value;
+        if (btClean(value)) fields[el.id] = value;
+      });
+    } catch(error) {}
+  }
+
+  window.applyEpMassnahmenSuggestion = function(){
+    const suggestion = typeof getEpMassnahmenSuggestion === "function" ? getEpMassnahmenSuggestion() : "";
+    if (!btClean(suggestion)) {
+      if (typeof setEpActionStatus === "function") setEpActionStatus("Es ist noch kein Massnahmen-Vorschlag vorhanden.");
+      return;
+    }
+    const fields = { ...(typeof getEntwicklungsplanungFields === "function" ? getEntwicklungsplanungFields() : {}) };
+    btApplyCurrentDomValuesToFields(fields);
+    const sections = btExtractSections(suggestion);
+    const targetKeys = [];
+    Object.keys(sections).forEach((key) => {
+      if (/^Feinziel \d$/.test(key)) {
+        const nr = key.match(/\d/)[0];
+        targetKeys.push("epUnterziel" + nr + "Beschreibung", "epUnterziel" + nr + "Titel", "epUnterziel" + nr + "Foerderinhalt");
+      }
+      if (/^Massnahme \d$/.test(key)) {
+        const nr = key.match(/\d/)[0];
+        targetKeys.push("epMassnahme" + nr + "Ablauf", "epMassnahme" + nr + "Material", "epMassnahme" + nr + "Rolle", "epMassnahme" + nr + "Orientierung", "epMassnahme" + nr + "Pruefung");
+      }
+      if (/^Beobachtung \d$/.test(key)) {
+        const nr = key.match(/\d/)[0];
+        targetKeys.push("epUnterziel" + nr + "Beobachtung", "epUnterziel" + nr + "Pruefkriterien", "epUnterziel" + nr + "NaechsterSchritt");
+      }
+    });
+    const hasExisting = targetKeys.some((key) => btClean(fields[key] || ""));
+    let force = false;
+    if (hasExisting) {
+      force = window.confirm("Einige passende EP-Felder enthalten bereits Text. Soll der Vorschlag diese passenden Felder ersetzen?");
+      if (!force) return;
+    }
+    let changed = btApplySectionsToEpFields(fields, sections, force);
+    if (!changed) {
+      const target = "epMassnahme1Ablauf";
+      if (btClean(fields[target] || "")) {
+        force = window.confirm("Das Feld „Massnahme 1 – Ablauf“ enthält bereits Text. Soll der Vorschlag dieses Feld ersetzen?");
+        if (!force) return;
+      }
+      changed += btSet(fields, target, suggestion, true) ? 1 : 0;
+      changed += btSet(fields, "epMassnahme1Titel", btTitle(suggestion) || "Massnahme 1", false) ? 1 : 0;
+    }
+    if (changed) {
+      if (typeof setEntwicklungsplanungFields === "function") setEntwicklungsplanungFields(fields);
+      if (typeof setEpMassnahmenSuggestion === "function") setEpMassnahmenSuggestion("");
+      if (typeof renderEntwicklungsplanungPanel === "function") renderEntwicklungsplanungPanel();
+      if (typeof updatePreview === "function") updatePreview();
+      if (typeof setEpActionStatus === "function") setEpActionStatus("Der Vorschlag wurde in die passenden EP-Felder übernommen. Befüllte Felder wurden nur nach Bestätigung ersetzt.");
+    } else if (typeof setEpActionStatus === "function") {
+      setEpActionStatus("Der Vorschlag konnte keinem EP-Feld zugeordnet werden.");
+    }
+  };
+
+  window.applyNavigatorGoalsToEntwicklungsplanung = function(){
+    if (typeof mergeCurrentFormIntoState === "function") {
+      try { mergeCurrentFormIntoState(); } catch(error) {}
+    }
+    const fields = { ...(typeof getEntwicklungsplanungFields === "function" ? getEntwicklungsplanungFields() : {}) };
+    btApplyCurrentDomValuesToFields(fields);
+    let changed = 0;
+    const pool = typeof collectNavigatorGoalTransferData === "function" ? collectNavigatorGoalTransferData() : [];
+    const zielItems = pool.filter((item) => item.typ === "ziel").map((item) => item.text);
+    const feinItems = pool.filter((item) => item.typ === "feinziel").map((item) => item.text).slice(0, 3);
+    const hauptziel = zielItems[0] || "";
+    if (hauptziel) {
+      changed += btSet(fields, "epHauptzielBeschreibung", hauptziel, false) ? 1 : 0;
+      changed += btSet(fields, "epHauptzielTitel", btTitle(hauptziel), false) ? 1 : 0;
+      changed += btSet(fields, "epHauptzielFormulierung", hauptziel, false) ? 1 : 0;
+    }
+    [1,2,3].forEach((nr) => {
+      const value = feinItems[nr - 1] || "";
+      if (!value) return;
+      changed += btSet(fields, "epUnterziel" + nr + "Beschreibung", value, false) ? 1 : 0;
+      changed += btSet(fields, "epUnterziel" + nr + "Titel", btTitle(value), false) ? 1 : 0;
+      changed += btSet(fields, "epUnterziel" + nr + "Foerderinhalt", value, false) ? 1 : 0;
+    });
+    const sections = btBuildSectionsFromNavigatorPlanning();
+    changed += btApplySectionsToEpFields(fields, sections, false);
+    const ausgangslage = typeof collectEpPagesTextForTransfer === "function" ? collectEpPagesTextForTransfer(["2_Ausgangslage_A", "2b_Diagnostik", "3_Ausgangslage_B"], 14) : "";
+    const rahmen = typeof collectEpPagesTextForTransfer === "function" ? collectEpPagesTextForTransfer(["3_Ausgangslage_B"], 9) : "";
+    const durchfuehrung = typeof collectEpPagesTextForTransfer === "function" ? collectEpPagesTextForTransfer(["4_Durchfuehrung_A", "5_Durchfuehrung_B", "6_Musik_Basal"], 14) : "";
+    const hilfestellung = typeof collectEpPagesTextForTransfer === "function" ? collectEpPagesTextForTransfer(["7_Begleitansatz_A", "8_Begleitansatz_B"], 12) : "";
+    const beobachtung = typeof collectEpPagesTextForTransfer === "function" ? collectEpPagesTextForTransfer(["11_Beobachtung"], 10) : "";
+    const material = typeof collectEpMaterialTextForTransfer === "function" ? collectEpMaterialTextForTransfer() : "";
+    const gd = typeof collectGrunddatenForEntwicklungsplanung === "function" ? collectGrunddatenForEntwicklungsplanung() : {};
+    const foerderfokus = btClean(gd.kliententyp || "") ? "Fachlicher Förderfokus: " + btClean(gd.kliententyp) + "." : "";
+    changed += btSet(fields, "epHauptzielBegruendung", btAny([ausgangslage, foerderfokus]), false) ? 1 : 0;
+    changed += btSet(fields, "epHauptzielFachbezug", btAny([foerderfokus, gd.settingTyp]), false) ? 1 : 0;
+    [1,2,3].forEach((nr) => {
+      changed += btSet(fields, "epUnterziel" + nr + "Ausgangslage", ausgangslage, false) ? 1 : 0;
+      changed += btSet(fields, "epUnterziel" + nr + "Rahmenbedingungen", rahmen, false) ? 1 : 0;
+      changed += btSet(fields, "epUnterziel" + nr + "Hilfsmittel", material, false) ? 1 : 0;
+      changed += btSet(fields, "epUnterziel" + nr + "Hilfestellung", hilfestellung, false) ? 1 : 0;
+      changed += btSet(fields, "epUnterziel" + nr + "Pruefkriterien", beobachtung, false) ? 1 : 0;
+      changed += btSet(fields, "epUnterziel" + nr + "Beobachtung", beobachtung, false) ? 1 : 0;
+      changed += btSet(fields, "epMassnahme" + nr + "Material", material, false) ? 1 : 0;
+      changed += btSet(fields, "epMassnahme" + nr + "Ablauf", durchfuehrung, false) ? 1 : 0;
+      changed += btSet(fields, "epMassnahme" + nr + "Rolle", hilfestellung, false) ? 1 : 0;
+      changed += btSet(fields, "epMassnahme" + nr + "Pruefung", beobachtung, false) ? 1 : 0;
+      changed += btSet(fields, "epMassnahme" + nr + "Titel", "Massnahme " + nr, false) ? 1 : 0;
+    });
+    changed += btSet(fields, "epGesamtstand", btAny([ausgangslage, beobachtung]), false) ? 1 : 0;
+    changed += btSet(fields, "epGesamtbegruendung", btAny([foerderfokus, hilfestellung]), false) ? 1 : 0;
+    changed += btSet(fields, "epGesamtNaechsterSchritt", beobachtung ? "Beobachtung weiterführen und Begleitung anhand der sichtbaren Wirkung anpassen." : "", false) ? 1 : 0;
+    if (typeof setEntwicklungsplanungFields === "function") setEntwicklungsplanungFields(fields);
+    if (typeof renderEntwicklungsplanungPanel === "function") renderEntwicklungsplanungPanel();
+    if (typeof updatePreview === "function") updatePreview();
+    if (typeof setEpActionStatus === "function") {
+      setEpActionStatus(changed ? (changed + " EP-Feld(er) wurden übernommen. Bereits ausgefüllte Felder blieben erhalten.") : "Es wurden keine Felder geändert. Entweder sind die EP-Felder bereits gefüllt oder es sind noch keine verwertbaren Ziele / Feinziele vorhanden.");
+    }
+  };
+})();
+
 </script>
 
 </body>
