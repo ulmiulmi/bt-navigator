@@ -1,36 +1,38 @@
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+<!-- BT-NAVIGATOR-STAND: 2026-05-01_14-18 / sichtbare SCODI-Bezeichnungen in UI und Druck entfernt; interne technische Klassen bleiben unverändert -->
+<!-- SCODI-STAND: 2026-05-01_09-58 / Interner Viewer zeigt Namen aus Grunddaten statt nur Klient 1 -->
+<!-- SCODI-STAND: 2026-05-01_09-33 / Feld-KI sendet Personenbezug aus Grunddaten mit: Geschlecht steuert Pronomen, keine Namen an KI -->
+<!-- SCODI-STAND: 2026-05-01_09-18 / Mobile-Ansichten beruhigt: Auto-Grow ohne Dauerintervall, Textfelder auf Handy lesbar begrenzt -->
+<!-- SCODI-STAND: 2026-05-01_12-01 / Redline-Jahresablage: uebernommene fertige Ausgaben danach leeren -->
+<!-- SCODI-STAND: 2026-05-01_11-52 / Redline-Jahresablage: fertige EP und vorhandene Planung anhängen statt ersetzen -->
+<!-- BT-NAVIGATOR-STAND: 2026-05-01_14-24 / Viewer-Druck: RIT-RET-Planung wieder als Titelkarten wie EP -->
+<!-- SCODI-STAND: 2026-05-01_08-12 / Redline-Buttons repariert + Redline-Felder werden beim Weiter-Zurueck gespeichert -->
+<!-- SCODI-STAND: 2026-04-30_14-14 / Basis 11-02 / Fasnacht korrekt: nur Mo Nachmittag + Mi Nachmittag, je 3.5h -->
+<!-- SCODI-STAND: 2026-05-01_08-02 / Feld-KI Review-Modus: KI-Button erzeugt nur Vorschlag, Übernehmen-Verwerfen sichtbar, Felder wachsen -->
+<!-- SCODI-STAND: 2026-05-01_08-31 / stabil: Redline-Buttons OK + Feld-KI im Vorschau-Übernehmen-Modus + keine Autoübernahme -->
+<!-- SCODI-STAND: 2026-05-01_10-42 / Viewer oben aufgeraeumt: Grunddaten-Zeitplan, Tagesfarben, RIT/RET-Farben im Druck, keine Regelpruefung in Ausgabe -->
+<!-- SCODI-STAND: 2026-05-01_10-27 / Viewer-Druckausgabe mit Grunddatenblock oben -->
+<!-- SCODI-STAND: 2026-05-01_10-33 / Viewer-Druck: Regelwerk aus Ausgabe entfernt, Feiertage bleiben -->
+<!-- SCODI-STAND: 2026-05-01_13-58 / EP-Formatierung nochmals bereinigt: einzelne Slash-/Fragment-Zeilen entfernt -->
+<!-- SCODI-STAND: 2026-05-01_13-12 / EP-Formatierung repariert: Überschriften werden stabil in Karten getrennt -->
+<!-- SCODI-STAND: 2026-05-01_10-49 / EP-Viewer druckt nur fertige Entwicklungsplanung, keine EP-Vorschau oder Rohfelder -->
+<!-- SCODI-STAND: 2026-05-01_10-08 / Viewer-Druck beruhigt: KI/EP-Zeilenumbrueche erhalten + EP nicht doppelt -->
+<!-- SCODI-STAND: 2026-05-01_10-15 / Viewer-Ausgabe neutralisiert: KI-Ergebnis in Leseransicht zu Fachtext umbenannt -->
+<!-- SCODI-STAND: 2026-05-01_10-20 / Viewer-Titel fachlich: RIT/RET-Planung statt KI-Ergebnis + Buchhaltung am Schluss -->
+<!-- SCODI-STAND: 2026-05-01_12-08 / Seite 13 als RIT-RET-Planung mit deutlichen Aktionen + EP berücksichtigt fertige Planung ohne Dopplung -->
+<!-- SCODI-STAND: 2026-05-01_13-04 / Drucklogik: RIT+Wochenplan+EP, RET+Wochenplan+EP, Gesamtmappe mit gemeinsamem Wochenplan -->
+<!-- SCODI-STAND: 2026-05-01_09-05 / Feld-KI Eingabeaufforderungen je Seite präzisiert: exakte Feldüberschriften + parserfähige Antwortstruktur -->
+<!-- SCODI-STAND: 2026-05-01_09-26 / Feld-KI Seite 3 beruhigt: keine konkreten Zeiten aus Grunddaten/Wochenplan in Einzelseiten-Zusatzfeldern -->
 <!DOCTYPE html>
-
+<!-- SCODI-STAND: Buchhaltung Jahr OK + Grunddaten Zeitmatrix waagrecht + Basler Fasnacht nur Montag/Mittwoch Nachmittag + Tab-Mitte + automatische Regelprüfung ohne KI -->
 <html lang="de">
 <head>
-  
+  <!-- SCODI-STAND: 2026-04-30_10-16 Aktionen bereinigt: keine ganze Arbeitsdatei, keine Browser-Stände-Mehrfachbuttons sichtbar -->
 
-  
+  <!-- SCODI-STAND: basis-09-34 + autostart-immer-startseite | keine letzte-Seite-Autostart-Funktion -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>BT-Navigator – Einzelklient</title>
-
+<!-- SCODI-STAND: 2026-04-30_EP_Beschriftungen_ausserhalb_Felder_auf_Basis_09-23 -->
   <style>
 :root {
   --bg: #f4f7fb;
@@ -2529,7 +2531,8 @@ button.secondary {
 
 
 
-
+/* SCODI_EP_LABELS_OUTSIDE_FIELDS_2026_04_30
+   EP-Feldbeschriftungen stehen ausserhalb der Eingabefelder, damit ausgefüllte Felder ruhig lesbar bleiben. */
 .ep-field-wrap {
   display: flex;
   flex-direction: column;
@@ -3483,7 +3486,7 @@ body.bt-mobile-view .viewer-embed-frame{min-height:calc(100vh - 120px);}
 
 
 
-
+/* SCODI_GRUNDDATEN_VIEWER_V1: Grunddaten oben in Viewer und Druckausgabe */
 .scodi-grunddaten-section .scodi-section-body {
   gap: 16px;
 }
@@ -3535,7 +3538,7 @@ body.bt-mobile-view .viewer-embed-frame{min-height:calc(100vh - 120px);}
 }
 
 
-
+/* SCODI_VIEWER_CLEAN_PRINT_V2: Grunddaten-Zeitplan, Tagesfarben und RIT/RET-Farben im Viewer und Druck */
 .scodi-grunddaten-timeplan{border:1px solid var(--line);border-radius:16px;background:#fff;overflow:hidden;box-shadow:0 8px 18px rgba(31,57,90,.04)}
 .scodi-grunddaten-timeplan-title{padding:12px 14px;border-bottom:1px solid var(--line);background:linear-gradient(180deg,#fbfdff,#fff);font-weight:950;color:#243244}
 .scodi-grunddaten-timeplan table{width:100%;border-collapse:collapse;table-layout:fixed}
@@ -3548,7 +3551,7 @@ body.bt-mobile-view .viewer-embed-frame{min-height:calc(100vh - 120px);}
 .generator-card.grit{border-color:#dacdf0;background:linear-gradient(180deg,#fff 0%,#fbf7ff 100%);box-shadow:inset 5px 0 0 var(--grit)}.generator-card.gret{border-color:#cfe7d9;background:linear-gradient(180deg,#fff 0%,#f5fff9 100%);box-shadow:inset 5px 0 0 var(--gret)}.generator-card.grit .generator-head{border-bottom-color:#dacdf0;color:var(--grit)}.generator-card.gret .generator-head{border-bottom-color:#cfe7d9;color:var(--gret)}.generator-card.grit .scodi-output-box{border-color:#dacdf0}.generator-card.gret .scodi-output-box{border-color:#cfe7d9}
 @media(max-width:760px){.scodi-grunddaten-timeplan{overflow-x:auto}.scodi-grunddaten-timeplan table{min-width:640px}.scodi-week-table col.scodi-time-col{width:100px}}
 
-
+/* SCODI_EINZELKLIENT_V1: eigene Seiten 15–17 ohne Mehrklienten-Sammelplan */
 .scodi-panel{display:grid;gap:18px;}
 .scodi-topline{display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:space-between;}
 .scodi-pill-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
@@ -3597,12 +3600,34 @@ body.bt-mobile-view .viewer-embed-frame{min-height:calc(100vh - 120px);}
 .scodi-output-box{border:1px solid var(--line);border-radius:15px;background:#fffefc;padding:13px 14px;white-space:pre-wrap;line-height:1.65;overflow-wrap:anywhere;}
 .scodi-output-empty{border:1px dashed var(--line);border-radius:15px;background:#fbfdff;color:var(--muted);padding:13px 14px;}
 .scodi-action-row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;}
+
+/* SCODI_PRINT_PANEL_RESTORE_2026_05_01: klare Druckbuttons im Viewer */
+.scodi-print-panel {
+  border-color: var(--theme-line, var(--line));
+  background: linear-gradient(180deg, #ffffff 0%, var(--theme-soft, #fbfdff) 100%);
+}
+.scodi-print-panel .scodi-print-action-row {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+.scodi-print-panel .scodi-print-action-row button {
+  width: 100%;
+  min-height: 46px;
+  white-space: normal;
+}
+@media (max-width: 760px) {
+  .scodi-print-panel .scodi-print-action-row {
+    grid-template-columns: 1fr;
+  }
+}
+
 body.scodi-printing .toolbar,body.scodi-printing .tabs,body.scodi-printing .preview-panel,body.scodi-printing .footer-actions{display:none!important;}
 @media(max-width:980px){.scodi-summary-grid{grid-template-columns:repeat(2,minmax(0,1fr));}.scodi-week-table,.scodi-accounting-table{min-width:780px;}}
 @media(max-width:640px){.scodi-summary-grid{grid-template-columns:1fr;}.scodi-topline{align-items:flex-start;}.scodi-action-row button{width:100%;}}
 
 
-
+/* SCODI mobile Einzelklient + Buchhaltung Jahr */
 #generatorClientBanner,
 #activeClientBadge,
 #activeGeneratorBadge {
@@ -3814,7 +3839,7 @@ body.scodi-printing .toolbar,body.scodi-printing .tabs,body.scodi-printing .prev
 }
 
 
-
+/* SCODI_FIX_ZEITMATRIX_HORIZONTAL_AFTER_ACCOUNTING_V1: Grunddaten-Zeitmatrix bleibt auch nach Buchhaltungs-Patch echte Tabelle */
 .times-wrap .times-table.times-table-horizontal {
   display: table !important;
   width: 100% !important;
@@ -3891,7 +3916,7 @@ body.bt-mobile-view .times-wrap .times-table.times-table-horizontal .time-label 
 }
 
 
-
+/* SCODI: kein Autostart auf letzter Seite */
 #lastActiveStartToggleBtn,
 #lastActiveStartStatus,
 #weekplanLastActiveStartToggleBtn,
@@ -3900,7 +3925,7 @@ body.bt-mobile-view .times-wrap .times-table.times-table-horizontal .time-label 
 }
 
 
-
+/* SCODI: API-Schlüssel-Abfrage beim ersten Start */
 .first-run-api-overlay {
   position: fixed;
   inset: 0;
@@ -3961,11 +3986,10 @@ body.bt-mobile-view .times-wrap .times-table.times-table-horizontal .time-label 
   .first-run-api-actions button { width: 100%; }
 }
 
-
 </style>
 
 <style id="scodi-field-textarea-polish-v1">
-
+/* SCODI_FIELD_TEXTAREA_POLISH_V1: übernommene KI-Texte in Zusatzfeldern ruhig und einheitlich darstellen */
 #pageHost .extra-text-card {
   border-color: var(--theme-line, var(--line)) !important;
   background: linear-gradient(180deg, #ffffff 0%, #fbfdff 100%) !important;
@@ -4019,7 +4043,7 @@ body.bt-mobile-view #pageHost textarea[data-field="page_free_text"] {
 
 
 <style id="scodi-mobile-readable-fields-v1">
-
+/* SCODI_MOBILE_READABLE_FIELDS_V1: Handy-Ansichten beruhigen, lange Textfelder nicht endlos wachsen lassen */
 body.bt-mobile-view #pageHost textarea,
 body.bt-mobile-view #generatorView textarea {
   font-size: 16px !important;
@@ -4174,32 +4198,39 @@ body.bt-mobile-view .ep-final-output .ep-output {
 
 /* EP_STRUCTURED_TITLES_V1: fertige Entwicklungsplanung mit denselben ruhigen Titelkarten wie Seite 13 */
 .ep-output .inline-output-doc,
-.scodi-ep-output-box .inline-output-doc {
+.scodi-ep-output-box .inline-output-doc,
+.scodi-planning-output-box .inline-output-doc {
   display: grid;
   gap: 14px;
   padding: 14px;
 }
-.scodi-ep-output-box {
+.scodi-ep-output-box,
+.scodi-planning-output-box {
   white-space: normal !important;
   background: #fff !important;
 }
-.scodi-ep-output-box .inline-output-doc {
+.scodi-ep-output-box .inline-output-doc,
+.scodi-planning-output-box .inline-output-doc {
   padding: 0;
 }
 .ep-output .inline-output-section,
-.scodi-ep-output-box .inline-output-section {
+.scodi-ep-output-box .inline-output-section,
+.scodi-planning-output-box .inline-output-section {
   border-color: var(--theme-line, var(--line));
   box-shadow: 0 8px 18px var(--theme-glow, rgba(31,57,90,.04));
 }
 .ep-output .inline-output-heading,
-.scodi-ep-output-box .inline-output-heading {
+.scodi-ep-output-box .inline-output-heading,
+.scodi-planning-output-box .inline-output-heading {
   color: var(--theme, var(--accent));
 }
-body.bt-mobile-view .ep-output .inline-output-doc {
+body.bt-mobile-view .ep-output .inline-output-doc,
+body.bt-mobile-view .scodi-planning-output-box .inline-output-doc {
   gap: 10px;
   padding: 10px;
 }
-body.bt-mobile-view .ep-output .inline-output-section {
+body.bt-mobile-view .ep-output .inline-output-section,
+body.bt-mobile-view .scodi-planning-output-box .inline-output-section {
   padding: 14px;
 }
 body.bt-mobile-view .ep-final-output .ep-output {
@@ -4228,7 +4259,7 @@ body.bt-mobile-view .ep-final-output .ep-output {
       <div class="headline">
         <span class="green">Effiziente Planung</span>
         <span class="purple">für <strong>RIT</strong> <span class="amp">&amp;</span> <strong>RET</strong></span>
-        <div class="subtitle">BT-Navigator Einzelklient · RIT, RET und Entwicklungsplanung</div>
+        <div class="subtitle">BT-Navigator · RIT, RET und Entwicklungsplanung</div>
       </div>
 
       <div class="scene">
@@ -4304,7 +4335,7 @@ body.bt-mobile-view .ep-final-output .ep-output {
         <div class="info-stack">
           <div class="home-card">
             <div class="home-card-head">
-              <h3>BT-Navigator Einzelklient: GRIT und GRET</h3>
+              <h3>BT-Navigator: GRIT und GRET</h3>
             </div>
             <div class="home-card-body">
               <p>Hier kannst du wählen, ob du mit <strong>GRIT</strong> oder mit <strong>GRET</strong> arbeiten willst. Die Auswahl öffnet den passenden Generator für diesen einen Klienten.</p>
@@ -4327,7 +4358,7 @@ body.bt-mobile-view .ep-final-output .ep-output {
 
           <div class="card section">
             <span class="badge">Generatoren</span>
-            <div class="status-line" id="clientContextNotice" style="margin-top:14px;">Einzelklient: Klient 1</div>
+            <div class="status-line" id="clientContextNotice" style="margin-top:14px;">BT-Navigator: Klient 1</div>
             <div class="choice-grid" style="margin-top:18px;">
               <div class="choice grit">
                 <div class="badge grit">GRIT</div>
@@ -4453,6 +4484,10 @@ body.bt-mobile-view .ep-final-output .ep-output {
                     <div class="tool-row">
                       <button type="button" class="secondary" onclick="copyPreview()">Vorschau kopieren</button>
                       <button type="button" onclick="copyOutput()">Fachtext kopieren</button>
+                    </div>
+                    <div class="tool-row">
+                      <button type="button" class="ghost" onclick="openScodiViewerPrint('rit_complete')">RIT komplett drucken</button>
+                      <button type="button" class="ghost" onclick="openScodiViewerPrint('ret_complete')">RET komplett drucken</button>
                     </div>
                     <div class="tool-row">
                       <button type="button" class="ghost" onclick="openScodiViewerPrint('all')">Alles zusammen drucken</button>
@@ -7386,9 +7421,9 @@ const REDLINE_PAGE_ID = "redline_zielerfassung";
 const REDLINE_FIELDS = [
   { key: "rawText", label: "Originaltext / Redline komplett", full: true },
   { key: "hauptziel", label: "Bestehendes Hauptziel", full: true },
-  { key: "unterziel1", label: "Bestehendes Feinziel 1", full: true },
+  { key: "unterziel1", label: "Bestehendes Unterziel 1", full: true },
   { key: "massnahme1", label: "Bestehende Massnahme 1", full: true },
-  { key: "unterziel2", label: "Bestehendes Feinziel 2", full: true },
+  { key: "unterziel2", label: "Bestehendes Unterziel 2", full: true },
   { key: "massnahme2", label: "Bestehende Massnahme 2", full: true },
   { key: "beobachtung", label: "Bestehende Beobachtung / Auswertung", full: true },
   { key: "hinweis", label: "Wichtige Hinweise / offene Punkte", full: true },
@@ -10027,7 +10062,7 @@ body[data-weekplan-mode] .footer-note { color: #526075; }
 })();
 <\/script>
 
-
+<!-- SCODI_FIX_ACTIVE_TAB_CENTER_2026-04-30: ausgewählter Tab wird in der horizontalen Navigation automatisch mittig gehalten -->
 </body>
 </html>
 `;
@@ -12949,7 +12984,7 @@ function toggleStartOnLastActiveView() {
   };
   persistAllState();
   updateLastActiveStartUi();
-  alert("Start bei letzter Seite ist in dieser Version deaktiviert.");
+  alert("Start bei letzter Seite ist in dieser BT-Navigator-Version deaktiviert.");
 }
 
 function openLastActiveView() {
@@ -14385,7 +14420,7 @@ function buildLocalZieleSuggestion() {
       sourceText +
       ". " + focusLine,
     "Ziele – Bezug:\n" +
-      "Der Bezug zur Tagesstruktur entsteht nur aus den erfassten Angaben zu Ausgangslage, Unterstützungsbedarf, Durchführung und Begleitung. Die spätere Umsetzung soll daran anschliessen und auf Seite 10 in Feinzielen sowie auf Seite 11 in beobachtbaren Wirkungen konkretisiert werden.",
+      "Der Bezug zur Tagesstruktur entsteht nur aus den erfassten Angaben zu Ausgangslage, Unterstützungsbedarf, Durchführung und Begleitung. Die spätere Umsetzung soll daran anschliessen und auf Seite 10 in Unterzielen sowie auf Seite 11 in beobachtbaren Wirkungen konkretisiert werden.",
     "Ziele – Hinweis:\n" +
       "Keine neuen Diagnosen, Angebote, Massnahmen oder Beobachtungen ergänzen. Der vollständige Name wird nicht verwendet; es gelten nur Initialen oder neutrale Bezeichnungen. Bestehende Zielfelder werden erst nach manueller Übernahme verändert.",
   ].join("\n\n");
@@ -16027,12 +16062,12 @@ function renderEntwicklungsplanungPage(page) {
                       </div>
                       <div class="ep-section-nav" aria-label="Entwicklungsplanung Navigation">
                         <button type="button" class="ghost" onclick="jumpToEpSection('ep-section-hauptziel')">Hauptziel</button>
-                        <button type="button" class="ghost" onclick="jumpToEpSection('ep-section-unterziel1')">Feinziel 1</button>
-                        <button type="button" class="ghost" onclick="jumpToEpSection('ep-section-massnahme1')">Massnahme 1</button>
-                        <button type="button" class="ghost" onclick="jumpToEpSection('ep-section-unterziel2')">Feinziel 2</button>
-                        <button type="button" class="ghost" onclick="jumpToEpSection('ep-section-massnahme2')">Massnahme 2</button>
-                        <button type="button" class="ghost" onclick="jumpToEpSection('ep-section-unterziel3')">Feinziel 3</button>
-                        <button type="button" class="ghost" onclick="jumpToEpSection('ep-section-massnahme3')">Massnahme 3</button>
+                        <button type="button" class="ghost" onclick="jumpToEpSection('ep-section-unterziel1')">FZ 1</button>
+                        <button type="button" class="ghost" onclick="jumpToEpSection('ep-section-massnahme1')">M 1</button>
+                        <button type="button" class="ghost" onclick="jumpToEpSection('ep-section-unterziel2')">FZ 2</button>
+                        <button type="button" class="ghost" onclick="jumpToEpSection('ep-section-massnahme2')">M 2</button>
+                        <button type="button" class="ghost" onclick="jumpToEpSection('ep-section-unterziel3')">FZ 3</button>
+                        <button type="button" class="ghost" onclick="jumpToEpSection('ep-section-massnahme3')">M 3</button>
                         <button type="button" class="ghost" onclick="jumpToEpSection('ep-section-gesamt')">Gesamt</button>
                       </div>
                       <details class="ep-section" id="ep-section-hauptziel" open>
@@ -19341,15 +19376,6 @@ function setEntwicklungsplanungText(text) {
 }
 
 
-function normalizeEpVisibleTerm(value) {
-  return String(value || "")
-    .replace(/\bUnterziele\b/g, "Feinziele")
-    .replace(/\bUnterziel\s*1\b/g, "Feinziel 1")
-    .replace(/\bUnterziel\s*2\b/g, "Feinziel 2")
-    .replace(/\bUnterziel\s*3\b/g, "Feinziel 3")
-    .replace(/\bUnterziel\b/g, "Feinziel");
-}
-
 function normalizeEntwicklungsplanungHeadingLabel(value) {
   return cleanInline(
     String(value || "")
@@ -19507,7 +19533,8 @@ function isMeaninglessEntwicklungsplanungOutputLine(line) {
   const clean = cleanInline(String(line || "")).trim();
   if (!clean) return true;
   if (/^[\/\\|:;.,·•*\-–—_]+$/.test(clean)) return true;
-  if (/^(?:\/|und|oder|sowie)$/i.test(clean)) return true;
+  // Einzelne Überschriftenreste entfernen, die bei KI-Zeilenumbrüchen entstehen können.
+  if (/^(?:\/|und|oder|sowie|fachlicher|fachliche|fachliches|durchführung|beobachtung|überprüfung|nächster)$/i.test(clean)) return true;
   return false;
 }
 
@@ -19601,6 +19628,7 @@ function isEntwicklungsplanungHeadingFragment(currentHeading, line) {
   if (/^nächster\s+schritt$/i.test(clean) && currentHeading === "Überprüfung / nächster Schritt") return true;
   if (/^alltagssituationen$/i.test(clean) && currentHeading === "Durchführung / Alltagssituationen") return true;
   if (/^und\s+begleitung$/i.test(clean) && currentHeading === "Massnahmen und Begleitung") return true;
+  if (/^fachlicher$/i.test(clean) && currentHeading === "Stammdaten") return true;
   return false;
 }
 
@@ -19611,7 +19639,7 @@ function renderEntwicklungsplanungOutputHtml(text, emptyText = "Noch keine Entwi
   }
   const sections = parseEntwicklungsplanungOutputSections(body);
   if (!sections.length) {
-    return '<div class="inline-output-text-only">' + escapeHtml(normalizeEpVisibleTerm(body)).replace(/\n/g, "<br>") + '</div>';
+    return '<div class="inline-output-text-only">' + escapeHtml(body).replace(/\n/g, "<br>") + '</div>';
   }
   return '<div class="inline-output-doc ep-output-doc">' +
     sections.map((section) => {
@@ -19622,9 +19650,9 @@ function renderEntwicklungsplanungOutputHtml(text, emptyText = "Noch keine Entwi
         .join("\n");
       if (!cleanInline(sectionText)) return "";
       return '<section class="inline-output-section ep-output-section"><h4 class="inline-output-heading">' +
-        escapeHtml(normalizeEpVisibleTerm(section.heading)) +
+        escapeHtml(section.heading) +
         '</h4><div class="inline-output-body">' +
-        escapeHtml(normalizeEpVisibleTerm(sectionText)).replace(/\n/g, "<br>") +
+        escapeHtml(sectionText).replace(/\n/g, "<br>") +
         '</div></section>';
     }).filter(Boolean).join("") +
     '</div>';
@@ -24643,12 +24671,13 @@ body {
       ${outputHtml}
     </section>
   </div>
-
+<!-- SCODI_FIX_ACTIVE_TAB_CENTER_2026-04-30: ausgewählter Tab wird in der horizontalen Navigation automatisch mittig gehalten -->
 </body>
 </html>`;
 }
 
 function openPrintView() {
+  // SCODI: Die allgemeine Drucktaste darf nicht mehr die alte Generator-Druckansicht
   // mit strukturierter Vorschau verwenden. Sie nutzt die bereinigte Viewer-Ausgabe.
   if (typeof openScodiViewerPrint === "function") {
     openScodiViewerPrint("all");
@@ -25186,15 +25215,15 @@ window.addEventListener("message", function(event) {
 });
 
 
-
-const BT_DAY_DEFS = [
+/* SCODI_EINZELKLIENT_V1: Seiten 15–17 */
+const SCODI_DAY_DEFS = [
   { key: "mo", label: "Montag", short: "Mo" },
   { key: "di", label: "Dienstag", short: "Di" },
   { key: "mi", label: "Mittwoch", short: "Mi" },
   { key: "do", label: "Donnerstag", short: "Do" },
   { key: "fr", label: "Freitag", short: "Fr" },
 ];
-const BT_PERIOD_DEFS = [
+const SCODI_PERIOD_DEFS = [
   { key: "morning", label: "Morgen", time: "09:00–12:30", hours: 3.5 },
   { key: "afternoon", label: "Nachmittag", time: "13:30–17:00", hours: 3.5 },
 ];
@@ -25288,7 +25317,7 @@ function scodiRenderWeekCell(dayLabel, sequenceLabel, includeInactive = false, g
   const emptyText = filter === "all" ? "Nicht aktiv." : scodiGeneratorLabel(filter) + " nicht aktiv.";
   return `<div class="scodi-day-cell">${cards || `<div class="scodi-empty-slot">${escapeHtml(emptyText)}</div>`}</div>`;
 }
-const BT_MONTH_LABELS = [
+const SCODI_MONTH_LABELS = [
   "Januar",
   "Februar",
   "März",
@@ -25306,7 +25335,7 @@ const BT_MONTH_LABELS = [
 function scodiBuildAccounting() {
   const rows = [];
   const totals = { grit: 0, gret: 0, all: 0, conflicts: [] };
-  BT_DAY_DEFS.forEach((day) => {
+  SCODI_DAY_DEFS.forEach((day) => {
     const row = scodiBuildDayAccountingRow(day.label);
     totals.grit += row.gritTotal;
     totals.gret += row.gretTotal;
@@ -25318,7 +25347,7 @@ function scodiBuildAccounting() {
 
 function scodiBuildDayAccountingRow(dayLabel) {
   const row = { day: dayLabel, gritMorning: 0, gritAfternoon: 0, gretMorning: 0, gretAfternoon: 0, lunch: isMealSlotActive(dayLabel), conflict: [] };
-  BT_PERIOD_DEFS.forEach((period) => {
+  SCODI_PERIOD_DEFS.forEach((period) => {
     const ritActive = isGoalPlanSlotActiveInGrunddaten("grit", dayLabel, period.label);
     const retActive = isGoalPlanSlotActiveInGrunddaten("gret", dayLabel, period.label);
     if (ritActive) {
@@ -25406,7 +25435,7 @@ function scodiBaselStadtHolidays(year) {
 }
 
 function scodiRefreshAccountingRowTotals(row) {
-  const periodHours = BT_PERIOD_DEFS.reduce((map, period) => {
+  const periodHours = SCODI_PERIOD_DEFS.reduce((map, period) => {
     map[period.key] = Number(period.hours || 0);
     return map;
   }, {});
@@ -25479,7 +25508,7 @@ function scodiWeekdayNameUtc(date) {
 function scodiWeekdayDayLabel(date) {
   const weekday = date.getUTCDay();
   if (weekday < 1 || weekday > 5) return "";
-  return BT_DAY_DEFS[weekday - 1]?.label || "";
+  return SCODI_DAY_DEFS[weekday - 1]?.label || "";
 }
 
 function scodiBuildYearAccounting(year = scodiGetAccountingYear()) {
@@ -25497,7 +25526,7 @@ function scodiBuildYearAccounting(year = scodiGetAccountingYear()) {
     list.push(holiday);
     holidaysByKey.set(holiday.dateKey, list);
   });
-  const months = BT_MONTH_LABELS.map((label, index) => ({
+  const months = SCODI_MONTH_LABELS.map((label, index) => ({
     index,
     label,
     workdays: 0,
@@ -25565,9 +25594,9 @@ function scodiBuildYearAccounting(year = scodiGetAccountingYear()) {
 }
 
 function scodiRenderSummaryCards(accounting) {
-  const morningCount = BT_DAY_DEFS.reduce((sum, day) => sum + ["grit", "gret"].filter((gen) => isGoalPlanSlotActiveInGrunddaten(gen, day.label, "Morgen")).length, 0);
-  const afternoonCount = BT_DAY_DEFS.reduce((sum, day) => sum + ["grit", "gret"].filter((gen) => isGoalPlanSlotActiveInGrunddaten(gen, day.label, "Nachmittag")).length, 0);
-  const lunchCount = BT_DAY_DEFS.reduce((sum, day) => sum + (isMealSlotActive(day.label) ? 1 : 0), 0);
+  const morningCount = SCODI_DAY_DEFS.reduce((sum, day) => sum + ["grit", "gret"].filter((gen) => isGoalPlanSlotActiveInGrunddaten(gen, day.label, "Morgen")).length, 0);
+  const afternoonCount = SCODI_DAY_DEFS.reduce((sum, day) => sum + ["grit", "gret"].filter((gen) => isGoalPlanSlotActiveInGrunddaten(gen, day.label, "Nachmittag")).length, 0);
+  const lunchCount = SCODI_DAY_DEFS.reduce((sum, day) => sum + (isMealSlotActive(day.label) ? 1 : 0), 0);
   return `<div class="scodi-summary-grid">
     <div class="scodi-summary-card"><span>Woche RIT</span><strong>${escapeHtml(scodiFormatHours(accounting.totals.grit))}</strong></div>
     <div class="scodi-summary-card"><span>Woche RET</span><strong>${escapeHtml(scodiFormatHours(accounting.totals.gret))}</strong></div>
@@ -25593,11 +25622,11 @@ function scodiRenderLunchCell(dayLabel) {
 
 function scodiRenderWeekplanTable(includeInactive = false, generatorFilter = "all") {
   const filter = scodiNormalizeWeekplanFilter(generatorFilter);
-  const colgroup = `<colgroup><col class="scodi-time-col">${BT_DAY_DEFS.map((day) => `<col class="scodi-day-col scodi-day-${escapeHtml(day.key)}">`).join("")}</colgroup>`;
-  const header = BT_DAY_DEFS.map((day) => `<th class="scodi-day-col-head scodi-day-${escapeHtml(day.key)}">${escapeHtml(day.label)}</th>`).join("");
-  const morningCells = BT_DAY_DEFS.map((day) => `<td class="scodi-day-col-cell scodi-day-${escapeHtml(day.key)}">${scodiRenderWeekCell(day.label, "Morgen", includeInactive, filter)}</td>`).join("");
-  const lunchCells = BT_DAY_DEFS.map((day) => `<td class="scodi-day-col-cell scodi-day-${escapeHtml(day.key)}">${scodiRenderLunchCell(day.label)}</td>`).join("");
-  const afternoonCells = BT_DAY_DEFS.map((day) => `<td class="scodi-day-col-cell scodi-day-${escapeHtml(day.key)}">${scodiRenderWeekCell(day.label, "Nachmittag", includeInactive, filter)}</td>`).join("");
+  const colgroup = `<colgroup><col class="scodi-time-col">${SCODI_DAY_DEFS.map((day) => `<col class="scodi-day-col scodi-day-${escapeHtml(day.key)}">`).join("")}</colgroup>`;
+  const header = SCODI_DAY_DEFS.map((day) => `<th class="scodi-day-col-head scodi-day-${escapeHtml(day.key)}">${escapeHtml(day.label)}</th>`).join("");
+  const morningCells = SCODI_DAY_DEFS.map((day) => `<td class="scodi-day-col-cell scodi-day-${escapeHtml(day.key)}">${scodiRenderWeekCell(day.label, "Morgen", includeInactive, filter)}</td>`).join("");
+  const lunchCells = SCODI_DAY_DEFS.map((day) => `<td class="scodi-day-col-cell scodi-day-${escapeHtml(day.key)}">${scodiRenderLunchCell(day.label)}</td>`).join("");
+  const afternoonCells = SCODI_DAY_DEFS.map((day) => `<td class="scodi-day-col-cell scodi-day-${escapeHtml(day.key)}">${scodiRenderWeekCell(day.label, "Nachmittag", includeInactive, filter)}</td>`).join("");
   return `<div class="scodi-week-wrap"><table class="scodi-week-table">${colgroup}
     <thead><tr><th class="scodi-timehead">Zeit</th>${header}</tr></thead>
     <tbody>
@@ -25737,6 +25766,37 @@ function scodiRenderOutputBox(text) {
   return body ? `<div class="scodi-output-box">${escapeHtml(body)}</div>` : "";
 }
 
+function scodiRenderStructuredPlanningOutputBox(text, generatorKey = "") {
+  const body = tidyInlineOutputDisplayText(scodiCleanBlockText(text || ""));
+  if (!cleanInline(body)) return "";
+
+  const previousGenerator = APP.currentGenerator;
+  try {
+    if (generatorKey === "grit" || generatorKey === "gret") APP.currentGenerator = generatorKey;
+    const sections = parseInlineOutputSections(body);
+    if (!sections.length) return scodiRenderOutputBox(body);
+
+    const html = sections.map((section) => {
+      const heading = cleanInline(section.heading || "");
+      const sectionText = tidyInlineOutputDisplayText(section.text || "");
+      if (!heading || !cleanInline(sectionText)) return "";
+      const isGoals = normalizeHeadingLabel(heading) === "ziele";
+      const bodyHtml = isGoals
+        ? renderGoalSectionBody(sectionText)
+        : '<div class="inline-output-body">' + escapeHtml(sectionText).replace(/\n/g, "<br>") + '</div>';
+      return '<section class="inline-output-section planning-output-section' + (isGoals ? " goals" : "") + '"><h4 class="inline-output-heading">' +
+        escapeHtml(heading) +
+        '</h4>' + bodyHtml + '</section>';
+    }).filter(Boolean).join("");
+
+    return html
+      ? '<div class="scodi-output-box scodi-planning-output-box"><div class="inline-output-doc planning-output-doc">' + html + '</div></div>'
+      : scodiRenderOutputBox(body);
+  } finally {
+    APP.currentGenerator = previousGenerator;
+  }
+}
+
 function scodiPlanningDisplayTitle(generatorKey) {
   return generatorKey === "gret"
     ? "Räumlich externe Tagesstruktur (RET) – Planung"
@@ -25798,7 +25858,7 @@ function scodiRenderGrunddatenTimeBadges(dayLabel, sequenceLabel) {
   return badges.length ? `<div class="scodi-time-badges">${badges.join("")}</div>` : `<span class="scodi-time-empty">–</span>`;
 }
 function scodiRenderGrunddatenTimeplan() {
-  const rows = BT_DAY_DEFS.map((day) => `<tr class="scodi-day-${escapeHtml(day.key)}">
+  const rows = SCODI_DAY_DEFS.map((day) => `<tr class="scodi-day-${escapeHtml(day.key)}">
     <th class="scodi-dayname">${escapeHtml(day.label)}</th>
     <td>${scodiRenderGrunddatenTimeBadges(day.label, "Morgen")}</td>
     <td>${scodiRenderGrunddatenTimeBadges(day.label, "Mittag")}</td>
@@ -25837,7 +25897,7 @@ function scodiRenderKiSection(filterGen = "") {
   return scodiGeneratorListForOutput(filterGen).map((gen) => {
     const text = scodiCleanBlockText(scodiReadGeneratorMeta(gen, "correctedOutputByGenerator", "") || scodiReadGeneratorMeta(gen, "kiTextByGenerator", "") || "");
     const title = scodiPlanningDisplayTitle(gen);
-    return `<section class="generator-card ${scodiGeneratorClass(gen)}"><div class="generator-head"><span class="badge ${scodiGeneratorClass(gen)}">${escapeHtml(scodiGeneratorLabel(gen))}</span><h2>${escapeHtml(title)}</h2></div><div class="section">${text ? scodiRenderOutputBox(text) : `<div class="scodi-output-empty">Noch keine Planung gespeichert.</div>`}</div></section>`;
+    return `<section class="generator-card ${scodiGeneratorClass(gen)}"><div class="generator-head"><span class="badge ${scodiGeneratorClass(gen)}">${escapeHtml(scodiGeneratorLabel(gen))}</span><h2>${escapeHtml(title)}</h2></div><div class="section">${text ? scodiRenderStructuredPlanningOutputBox(text, gen) : `<div class="scodi-output-empty">Noch keine Planung gespeichert.</div>`}</div></section>`;
   }).join("");
 }
 function scodiRenderEpFieldLines(fields) {
@@ -25868,7 +25928,8 @@ function renderScodiDirectViewerPage(page) {
   const yearAccounting = scodiBuildYearAccounting();
   const stamped = new Date().toLocaleString("de-CH", { day:"2-digit", month:"2-digit", year:"numeric", hour:"2-digit", minute:"2-digit" });
   return `<div class="page-card"><div class="scodi-panel">
-    <div class="scodi-topline"><div><h3>${escapeHtml(page.title)}</h3><div class="page-hint">Direkte HTML-Ausgabe ohne iframe. Aktueller Stand: ${escapeHtml(stamped)}</div></div><div class="scodi-action-row scodi-print-action-row"><button type="button" onclick="updateView()">Viewer aktualisieren</button><button type="button" class="ghost" onclick="openScodiViewerPrint('rit_complete')">RIT komplett drucken</button><button type="button" class="ghost" onclick="openScodiViewerPrint('ret_complete')">RET komplett drucken</button><button type="button" class="ghost" onclick="openScodiViewerPrint('all')">Alles zusammen drucken</button><button type="button" class="ghost" onclick="downloadSingleClientSnapshot(0)">Klientendatei speichern</button></div></div>
+    <div class="scodi-topline"><div><h3>${escapeHtml(page.title)}</h3><div class="page-hint">Direkte HTML-Ausgabe ohne iframe. Aktueller Stand: ${escapeHtml(stamped)}</div></div><div class="scodi-action-row"><button type="button" onclick="updateView()">Viewer aktualisieren</button><button type="button" class="ghost" onclick="downloadSingleClientSnapshot(0)">Klientendatei speichern</button></div></div>
+    <details class="scodi-section scodi-print-panel" open><summary>Drucken / Ausgabe</summary><div class="scodi-section-body"><div class="scodi-action-row scodi-print-action-row"><button type="button" onclick="openScodiViewerPrint('rit_complete')">RIT: Wochenplan + Planung + EP drucken</button><button type="button" onclick="openScodiViewerPrint('ret_complete')">RET: Wochenplan + Planung + EP drucken</button><button type="button" class="secondary" onclick="openScodiViewerPrint('all')">Alles zusammen drucken</button></div><div class="inline-note">Einzeldruck enthält jeweils nur den passenden RIT- oder RET-Wochenplan. Die Gesamtausgabe enthält den gemeinsamen Wochenplan und die Buchhaltung am Schluss.</div></div></details>
     <div class="scodi-viewer-nav"><a href="#scodi-viewer-grunddaten">Grunddaten</a><a href="#scodi-viewer-weekplan">Wochenplan</a><a href="#scodi-viewer-rit-planung">RIT Planung</a><a href="#scodi-viewer-rit-ep">RIT EP</a><a href="#scodi-viewer-ret-planung">RET Planung</a><a href="#scodi-viewer-ret-ep">RET EP</a><a href="#scodi-viewer-hours">Buchhaltung</a></div>
     ${scodiRenderGrunddatenSection()}
     <details class="scodi-section" id="scodi-viewer-weekplan" open><summary>Wochenplan</summary><div class="scodi-section-body">${scodiRenderWeekplanTable(false)}</div></details>
@@ -25885,7 +25946,7 @@ function scodiBuildPrintHtml(title, bodyHtml, pageMode = "landscape") {
   const logo1 = typeof BT_PRINT_HEADER_IMAGE_DATA_URI !== "undefined" ? BT_PRINT_HEADER_IMAGE_DATA_URI : "";
   const logo2 = typeof LIV_PRINT_HEADER_IMAGE_DATA_URI !== "undefined" ? LIV_PRINT_HEADER_IMAGE_DATA_URI : "";
   return `<!DOCTYPE html><html lang="de"><head><meta charset="UTF-8"><title>${escapeHtml(title)}</title><style>
-    body{font-family:Arial,Helvetica,sans-serif;margin:0;color:#1f2937;background:#fff;line-height:1.55}.wrap{padding:8mm 8mm 8mm;display:grid;gap:14px}.print-header{position:static;border-bottom:1px solid #d8e1ee;background:#fff;display:flex;align-items:center;justify-content:space-between;gap:8mm;padding:4mm 8mm 3mm;box-sizing:border-box;break-inside:avoid;page-break-inside:avoid}.logos{display:flex;align-items:center;gap:4mm;flex:0 0 auto}.logos img{height:15mm;max-width:46mm;object-fit:contain}.meta{text-align:right;color:#607086;font-size:9px}.footer{position:static;border-top:1px solid #d8e1ee;background:#fff;display:flex;align-items:center;justify-content:space-between;margin-top:8mm;padding:3mm 8mm;color:#607086;font-size:9px;box-sizing:border-box}.print-header+main.wrap{padding-top:6mm}h1{margin:0 0 4px;font-size:24px}.subtitle{color:#607086;font-size:12px}.scodi-summary-grid,.scodi-year-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}.scodi-grunddaten-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.scodi-grunddaten-item{border:1px solid #d8e1ee;border-radius:10px;padding:8px;background:#fff;display:grid;gap:3px}.scodi-grunddaten-item.wide{grid-column:span 2}.scodi-grunddaten-item.full{grid-column:1/-1}.scodi-grunddaten-item span{display:block;color:#607086;font-size:9px;font-weight:700}.scodi-grunddaten-item strong{display:block;font-size:11px;color:#1f2937;white-space:pre-wrap;overflow-wrap:anywhere}.scodi-grunddaten-item.empty strong{color:#607086;font-style:italic}.scodi-grunddaten-timeplan{border:1px solid #d8e1ee;border-radius:10px;background:#fff;overflow:hidden}.scodi-grunddaten-timeplan-title{padding:7px 8px;border-bottom:1px solid #d8e1ee;font-weight:700}.scodi-grunddaten-timeplan table{width:100%;border-collapse:collapse;table-layout:fixed}.scodi-grunddaten-timeplan th,.scodi-grunddaten-timeplan td{border:1px solid #d8e1ee;padding:5px;font-size:9px;text-align:left;vertical-align:top}.scodi-time-badges{display:flex;flex-wrap:wrap;gap:3px}.scodi-time-badge{display:inline-flex;border:1px solid #d8e1ee;border-radius:999px;padding:2px 5px;font-size:8px;font-weight:700}.scodi-time-badge.grit{border-color:#dacdf0;background:#f1ecf8;color:#5c3991}.scodi-time-badge.gret{border-color:#cfe7d9;background:#eaf7f1;color:#2f7d5a}.scodi-time-badge.meal{border-color:#f0dfad;background:#fff8ea;color:#8a6700}.scodi-time-empty{color:#607086}.scodi-summary-card,.scodi-year-card{border:1px solid #d8e1ee;border-radius:10px;padding:8px;background:#fff}.scodi-summary-card span,.scodi-year-card span{display:block;color:#607086;font-size:9px;font-weight:700}.scodi-summary-card strong,.scodi-year-card strong{display:block;font-size:13px;color:#1f2937}.scodi-check,.scodi-note{border:1px solid #f0dfad;border-radius:10px;background:#fff8ea;padding:8px;font-size:10px}.scodi-check-title{font-weight:700}.scodi-check ul{margin:6px 0 0;padding-left:16px}.scodi-rule-list{margin:6px 0 0;padding-left:16px}.scodi-holiday-list{display:flex;flex-wrap:wrap;gap:4px}.scodi-holiday-pill{border:1px solid #d8e1ee;border-radius:999px;padding:3px 6px;font-size:9px}.scodi-holiday-pill.skipped{border-color:#f0dfad;background:#fff8ea}.scodi-week-wrap,.scodi-accounting-wrap{box-shadow:none!important}.scodi-week-table,.scodi-accounting-table{font-size:10px;min-width:0!important;width:100%;border-collapse:collapse;table-layout:fixed}.scodi-week-table col.scodi-time-col{width:30mm}.scodi-week-table th,.scodi-week-table td,.scodi-accounting-table th,.scodi-accounting-table td{padding:6px!important;border:1px solid #d8e1ee}.scodi-day-mo{--scodi-day-main:#caa33a;--scodi-day-soft:#fff4c9;--scodi-day-line:#ead48b}.scodi-day-di{--scodi-day-main:#7aa842;--scodi-day-soft:#ebf8d7;--scodi-day-line:#c9e4a5}.scodi-day-mi{--scodi-day-main:#4e8fcf;--scodi-day-soft:#e4f1ff;--scodi-day-line:#b8d5f3}.scodi-day-do{--scodi-day-main:#c95072;--scodi-day-soft:#ffe1ea;--scodi-day-line:#f1b5c5}.scodi-day-fr{--scodi-day-main:#d6953c;--scodi-day-soft:#fff0de;--scodi-day-line:#efc48e}.scodi-week-table th.scodi-day-col-head{background:linear-gradient(180deg,#fff,var(--scodi-day-soft))!important;color:var(--scodi-day-main)!important;border-top:3px solid var(--scodi-day-main)!important;text-align:center}.scodi-week-table td.scodi-day-col-cell{background:linear-gradient(180deg,#fff,var(--scodi-day-soft));border-color:var(--scodi-day-line)}.scodi-slot-card.grit{border-color:#dacdf0;background:#fbf7ff}.scodi-slot-card.gret{border-color:#cfe7d9;background:#f5fff9}.scodi-slot-label.grit{color:#5c3991}.scodi-slot-label.gret{color:#2f7d5a}.scodi-slot-body{font-size:9px}.generator-card{border:1px solid #d8e1ee;border-radius:10px;padding:8px;background:#fff}.generator-card.grit{border-color:#dacdf0;background:linear-gradient(180deg,#fff,#fbf7ff);box-shadow:inset 4px 0 0 #5c3991}.generator-card.gret{border-color:#cfe7d9;background:linear-gradient(180deg,#fff,#f5fff9);box-shadow:inset 4px 0 0 #2f7d5a}.generator-head{display:flex;align-items:center;gap:8px;border-bottom:1px solid #d8e1ee;margin-bottom:8px;padding-bottom:6px}.generator-head h2{margin:0;font-size:15px}.badge{display:inline-flex;border:1px solid #d8e1ee;border-radius:999px;padding:3px 7px;font-size:9px;font-weight:700}.badge.grit{border-color:#dacdf0;background:#f1ecf8;color:#5c3991}.badge.gret{border-color:#cfe7d9;background:#eaf7f1;color:#2f7d5a}.section{display:grid;gap:8px}.scodi-output-box{white-space:pre-wrap;overflow-wrap:anywhere;border:1px solid #d8e1ee;border-radius:8px;background:#fffefc;padding:8px;font-size:11px;line-height:1.55}.scodi-ep-output-box{white-space:normal!important;background:#fff!important}.inline-output-doc{display:grid;gap:8px}.inline-output-section{break-inside:auto!important;page-break-inside:auto!important;border:1px solid #d8e1ee;border-radius:9px;background:#fff;padding:8px;overflow:visible!important}.inline-output-heading{margin:0 0 6px 0;padding-bottom:5px;border-bottom:1px solid #d8e1ee;font-size:12px;color:#5c3991}.inline-output-body{font-size:10.5px;line-height:1.55}.generator-card.gret .inline-output-heading{color:#2f7d5a}.generator-card.grit .inline-output-heading{color:#5c3991}.scodi-output-empty{border:1px dashed #d8e1ee;border-radius:8px;background:#fbfdff;color:#607086;padding:8px;font-size:10px}.scodi-summary-card,.scodi-year-card,.scodi-check,.scodi-grunddaten-item,.scodi-holiday-pill{break-inside:avoid;page-break-inside:avoid}.scodi-section,.generator-card,.scodi-output-box,.inline-output-doc,.inline-output-section,.section{break-inside:auto!important;page-break-inside:auto!important;overflow:visible!important}.generator-head,.inline-output-heading{break-after:avoid;page-break-after:avoid}.scodi-section{border:1px solid #d8e1ee;border-radius:10px;padding:8px;overflow:visible!important}.scodi-action-row,.scodi-viewer-nav{display:none!important}@media print{.print-header,.footer{position:static!important}.wrap,.generator-card,.scodi-section,.scodi-output-box,.inline-output-doc,.inline-output-section{overflow:visible!important;max-height:none!important}.generator-card{margin-bottom:6mm}.inline-output-section{margin-bottom:4mm}.scodi-week-table,.scodi-accounting-table{page-break-inside:auto}.scodi-week-table tr,.scodi-accounting-table tr{page-break-inside:avoid;break-inside:avoid}}@page{size:A4 ${pageOrientation};margin:10mm}</style></head><body><div class="print-header"><div class="logos"><img src="${logo1}" alt="BT-Navigator"><img src="${logo2}" alt="L!V"></div><div><strong>${escapeHtml(title)}</strong><div class="subtitle">Einzelklient · BT-Navigator</div></div><div class="meta">gedruckt:<br>${escapeHtml(printedAt)}</div></div><main class="wrap"><h1>${escapeHtml(title)}</h1>${bodyHtml}</main><div class="footer"><span>BT-Navigator · RIT / RET</span><span>L!V · Leben in Vielfalt</span></div>
+    body{font-family:Arial,Helvetica,sans-serif;margin:0;color:#1f2937;background:#fff;line-height:1.55}.wrap{padding:28mm 9mm 14mm;display:grid;gap:16px}.print-header{position:fixed;top:0;left:0;right:0;height:22mm;border-bottom:1px solid #d8e1ee;background:#fff;display:flex;align-items:center;justify-content:space-between;padding:2mm 8mm;box-sizing:border-box}.logos{display:flex;align-items:center;gap:4mm}.logos img{height:16mm;max-width:48mm;object-fit:contain}.meta{text-align:right;color:#607086;font-size:9px}.footer{position:fixed;left:0;right:0;bottom:0;height:9mm;border-top:1px solid #d8e1ee;background:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 8mm;color:#607086;font-size:9px;box-sizing:border-box}h1{margin:0 0 4px;font-size:24px}.subtitle{color:#607086;font-size:12px}.scodi-summary-grid,.scodi-year-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}.scodi-grunddaten-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.scodi-grunddaten-item{border:1px solid #d8e1ee;border-radius:10px;padding:8px;background:#fff;display:grid;gap:3px}.scodi-grunddaten-item.wide{grid-column:span 2}.scodi-grunddaten-item.full{grid-column:1/-1}.scodi-grunddaten-item span{display:block;color:#607086;font-size:9px;font-weight:700}.scodi-grunddaten-item strong{display:block;font-size:11px;color:#1f2937;white-space:pre-wrap;overflow-wrap:anywhere}.scodi-grunddaten-item.empty strong{color:#607086;font-style:italic}.scodi-grunddaten-timeplan{border:1px solid #d8e1ee;border-radius:10px;background:#fff;overflow:hidden}.scodi-grunddaten-timeplan-title{padding:7px 8px;border-bottom:1px solid #d8e1ee;font-weight:700}.scodi-grunddaten-timeplan table{width:100%;border-collapse:collapse;table-layout:fixed}.scodi-grunddaten-timeplan th,.scodi-grunddaten-timeplan td{border:1px solid #d8e1ee;padding:5px;font-size:9px;text-align:left;vertical-align:top}.scodi-time-badges{display:flex;flex-wrap:wrap;gap:3px}.scodi-time-badge{display:inline-flex;border:1px solid #d8e1ee;border-radius:999px;padding:2px 5px;font-size:8px;font-weight:700}.scodi-time-badge.grit{border-color:#dacdf0;background:#f1ecf8;color:#5c3991}.scodi-time-badge.gret{border-color:#cfe7d9;background:#eaf7f1;color:#2f7d5a}.scodi-time-badge.meal{border-color:#f0dfad;background:#fff8ea;color:#8a6700}.scodi-time-empty{color:#607086}.scodi-summary-card,.scodi-year-card{border:1px solid #d8e1ee;border-radius:10px;padding:8px;background:#fff}.scodi-summary-card span,.scodi-year-card span{display:block;color:#607086;font-size:9px;font-weight:700}.scodi-summary-card strong,.scodi-year-card strong{display:block;font-size:13px;color:#1f2937}.scodi-check,.scodi-note{border:1px solid #f0dfad;border-radius:10px;background:#fff8ea;padding:8px;font-size:10px}.scodi-check-title{font-weight:700}.scodi-check ul{margin:6px 0 0;padding-left:16px}.scodi-rule-list{margin:6px 0 0;padding-left:16px}.scodi-holiday-list{display:flex;flex-wrap:wrap;gap:4px}.scodi-holiday-pill{border:1px solid #d8e1ee;border-radius:999px;padding:3px 6px;font-size:9px}.scodi-holiday-pill.skipped{border-color:#f0dfad;background:#fff8ea}.scodi-week-wrap,.scodi-accounting-wrap{box-shadow:none!important}.scodi-week-table,.scodi-accounting-table{font-size:10px;min-width:0!important;width:100%;border-collapse:collapse;table-layout:fixed}.scodi-week-table col.scodi-time-col{width:30mm}.scodi-week-table th,.scodi-week-table td,.scodi-accounting-table th,.scodi-accounting-table td{padding:6px!important;border:1px solid #d8e1ee}.scodi-day-mo{--scodi-day-main:#caa33a;--scodi-day-soft:#fff4c9;--scodi-day-line:#ead48b}.scodi-day-di{--scodi-day-main:#7aa842;--scodi-day-soft:#ebf8d7;--scodi-day-line:#c9e4a5}.scodi-day-mi{--scodi-day-main:#4e8fcf;--scodi-day-soft:#e4f1ff;--scodi-day-line:#b8d5f3}.scodi-day-do{--scodi-day-main:#c95072;--scodi-day-soft:#ffe1ea;--scodi-day-line:#f1b5c5}.scodi-day-fr{--scodi-day-main:#d6953c;--scodi-day-soft:#fff0de;--scodi-day-line:#efc48e}.scodi-week-table th.scodi-day-col-head{background:linear-gradient(180deg,#fff,var(--scodi-day-soft))!important;color:var(--scodi-day-main)!important;border-top:3px solid var(--scodi-day-main)!important;text-align:center}.scodi-week-table td.scodi-day-col-cell{background:linear-gradient(180deg,#fff,var(--scodi-day-soft));border-color:var(--scodi-day-line)}.scodi-slot-card.grit{border-color:#dacdf0;background:#fbf7ff}.scodi-slot-card.gret{border-color:#cfe7d9;background:#f5fff9}.scodi-slot-label.grit{color:#5c3991}.scodi-slot-label.gret{color:#2f7d5a}.scodi-slot-body{font-size:9px}.generator-card{border:1px solid #d8e1ee;border-radius:10px;padding:8px;background:#fff}.generator-card.grit{border-color:#dacdf0;background:linear-gradient(180deg,#fff,#fbf7ff);box-shadow:inset 4px 0 0 #5c3991}.generator-card.gret{border-color:#cfe7d9;background:linear-gradient(180deg,#fff,#f5fff9);box-shadow:inset 4px 0 0 #2f7d5a}.generator-head{display:flex;align-items:center;gap:8px;border-bottom:1px solid #d8e1ee;margin-bottom:8px;padding-bottom:6px}.generator-head h2{margin:0;font-size:15px}.badge{display:inline-flex;border:1px solid #d8e1ee;border-radius:999px;padding:3px 7px;font-size:9px;font-weight:700}.badge.grit{border-color:#dacdf0;background:#f1ecf8;color:#5c3991}.badge.gret{border-color:#cfe7d9;background:#eaf7f1;color:#2f7d5a}.section{display:grid;gap:8px}.scodi-output-box{white-space:pre-wrap;overflow-wrap:anywhere;border:1px solid #d8e1ee;border-radius:8px;background:#fffefc;padding:8px;font-size:11px;line-height:1.55}.scodi-ep-output-box,.scodi-planning-output-box{white-space:normal!important;background:#fff!important}.inline-output-doc{display:grid;gap:8px}.inline-output-section{break-inside:avoid;page-break-inside:avoid;border:1px solid #d8e1ee;border-radius:9px;background:#fff;padding:8px}.inline-output-heading{margin:0 0 6px 0;padding-bottom:5px;border-bottom:1px solid #d8e1ee;font-size:12px;color:#5c3991}.inline-output-body{font-size:10.5px;line-height:1.55}.generator-card.gret .inline-output-heading{color:#2f7d5a}.generator-card.grit .inline-output-heading{color:#5c3991}.scodi-output-empty{border:1px dashed #d8e1ee;border-radius:8px;background:#fbfdff;color:#607086;padding:8px;font-size:10px}.scodi-section,.generator-card,.scodi-summary-card,.scodi-year-card,.scodi-check{break-inside:avoid;page-break-inside:avoid}.scodi-section{border:1px solid #d8e1ee;border-radius:10px;padding:8px}.scodi-action-row,.scodi-viewer-nav{display:none!important}@page{size:A4 ${pageOrientation};margin:8mm}</style></head><body><div class="print-header"><div class="logos"><img src="${logo1}" alt="BT-Navigator"><img src="${logo2}" alt="L!V"></div><div><strong>${escapeHtml(title)}</strong><div class="subtitle">Einzelklient · BT-Navigator</div></div><div class="meta">gedruckt:<br>${escapeHtml(printedAt)}</div></div><div class="footer"><span>BT-Navigator · RIT / RET</span><span>L!V · Leben in Vielfalt</span></div><main class="wrap"><h1>${escapeHtml(title)}</h1>${bodyHtml}</main><!-- SCODI_FIX_ACTIVE_TAB_CENTER_2026-04-30: ausgewählter Tab wird in der horizontalen Navigation automatisch mittig gehalten -->
 </body></html>`;
 }
 function scodiOpenPrintHtml(html) {
@@ -25935,7 +25996,7 @@ function openScodiAccountingPrint() {
   scodiOpenPrintHtml(scodiBuildPrintHtml("Buchhaltung / Stundenübersicht – " + scodiClientName(), body));
 }
 
-
+/* SCODI_PRINT_BUTTONS_COMPACT_2026_05_01: alte Drucktaste nutzt dieselbe sortierte Gesamtmappe wie der Viewer */
 if (typeof openScodiViewerPrint === "function") {
   openPrintView = function () { openScodiViewerPrint("all"); };
 }
@@ -25967,7 +26028,7 @@ openApp = function(which) { openScodiGenerator(which); };
 triggerSingleClientImportAsNew = function() { triggerSingleClientImport(0); };
 renderClientContextNotice = (function(original){ return function(){
   const notice = document.getElementById("clientContextNotice");
-  if (notice) notice.textContent = "Einzelklient: " + scodiClientName();
+  if (notice) notice.textContent = "BT-Navigator: " + scodiClientName();
   if (typeof original === "function" && !notice) return original.apply(this, arguments);
 };})(renderClientContextNotice);
 </script>
@@ -25975,7 +26036,7 @@ renderClientContextNotice = (function(original){ return function(){
 
 
 <script>
-
+/* SCODI: robuster Speichern-Button ohne Passwort-/Snapshot-Blockade */
 (function () {
   function scodiSetSaveHint(text, isError) {
     try {
@@ -26034,7 +26095,7 @@ renderClientContextNotice = (function(original){ return function(){
       setTimeout(function () { scodiSetSaveHint("", false); }, 1800);
       return true;
     } catch (error) {
-      console.warn("BT-Navigator Speichern fehlgeschlagen.", error);
+      console.warn("SCODI Speichern fehlgeschlagen.", error);
       scodiSetSaveHint("Speichern fehlgeschlagen.", true);
       alert("Speichern fehlgeschlagen. Bitte die Seite nicht schliessen und nochmals versuchen.");
       return false;
@@ -26045,10 +26106,10 @@ renderClientContextNotice = (function(original){ return function(){
 })();
 </script>
 
-
+<!-- SCODI_FIX_ACTIVE_TAB_CENTER_2026-04-30: ausgewählter Tab wird in der horizontalen Navigation automatisch mittig gehalten -->
 
 <style id="scodi-field-ki-review-safe-css-2026-05-01">
-
+/* SCODI_FIELD_KI_REVIEW_SAFE: Vorschlag zuerst prüfen, dann bewusst übernehmen */
 .ki-collapsible .tool-row button[onclick^="applyAusgangslageSuggestion"],
 .ki-collapsible .tool-row button[onclick^="applyDurchfuehrungSuggestion"],
 .ki-collapsible .tool-row button[onclick^="applyZieleSuggestion"],
@@ -26066,8 +26127,8 @@ renderClientContextNotice = (function(original){ return function(){
 </style>
 <script id="scodi-field-ki-review-safe-2026-05-01">
 (function () {
-  if (window.__BT_FIELD_KI_REVIEW_SAFE_20260501__) return;
-  window.__BT_FIELD_KI_REVIEW_SAFE_20260501__ = true;
+  if (window.__SCODI_FIELD_KI_REVIEW_SAFE_20260501__) return;
+  window.__SCODI_FIELD_KI_REVIEW_SAFE_20260501__ = true;
 
   function cleanText(value) {
     try {
@@ -26123,7 +26184,7 @@ renderClientContextNotice = (function(original){ return function(){
         });
       }
     } catch (error) {
-      console.warn("BT-Navigator Feld-KI: markierte Angaben konnten nicht gelesen werden.", error);
+      console.warn("SCODI Feld-KI: markierte Angaben konnten nicht gelesen werden.", error);
     }
     const seen = {};
     return list.filter(function (line) {
@@ -26365,7 +26426,7 @@ renderClientContextNotice = (function(original){ return function(){
         draft = await callFieldAi(kind, id, config, lines, settings);
       }
     } catch (error) {
-      console.warn("BT-Navigator Feld-KI: Anfrage fehlgeschlagen; lokaler Fachtext wird verwendet.", error);
+      console.warn("SCODI Feld-KI: Anfrage fehlgeschlagen; lokaler Fachtext wird verwendet.", error);
       if (statusFn) statusFn("KI-Anfrage fehlgeschlagen; lokaler Fachtext wird verwendet: " + (error && error.message ? error.message : "unbekannter Fehler"));
     }
     if (!cleanText(draft)) draft = local;
@@ -26421,7 +26482,7 @@ renderClientContextNotice = (function(original){ return function(){
 
   window.createFeinzielSuggestion = function () {
     return createReviewSuggestion(
-      "Feinziele",
+      "Feinziele / Unterziele",
       "10_Feinziele",
       function () { return getFeinzielTargetConfig(); },
       function () { return buildLocalFeinzielSuggestion(); },
