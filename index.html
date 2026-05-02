@@ -1,3 +1,5 @@
+<!-- BT-NAVIGATOR-STAND: 2026-05-01_15-58 / vorsichtiger Feinschliff EP-Seiten: ruhigere Hinweise, Buttons und Abschnittsabstände ohne Logik-Umbau -->
+<!-- BT-NAVIGATOR-STAND: 2026-05-01_15-20 / Handy-Druckansicht: neues Fenster ohne blob, Fallback im gleichen Tab + Druckbutton -->
 <!-- BT-NAVIGATOR-STAND: 2026-05-01_14-18 / sichtbare SCODI-Bezeichnungen in UI und Druck entfernt; interne technische Klassen bleiben unverändert -->
 <!-- BT-NAVIGATOR-STAND: 2026-05-01_09-58 / Interner Viewer zeigt Namen aus Grunddaten statt nur Klient 1 -->
 <!-- BT-NAVIGATOR-STAND: 2026-05-01_09-33 / Feld-KI sendet Personenbezug aus Grunddaten mit: Geschlecht steuert Pronomen, keine Namen an KI -->
@@ -3839,6 +3841,99 @@ body.scodi-printing .toolbar,body.scodi-printing .tabs,body.scodi-printing .prev
 }
 
 
+/* BT_ACCOUNTING_SPECIAL_DAYS_V1: Sondertage/Nichtverrechnung in der Buchhaltung */
+.scodi-special-panel {
+  display: grid;
+  gap: 14px;
+}
+.scodi-special-form {
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: #fff;
+  padding: 14px;
+  display: grid;
+  gap: 12px;
+}
+.scodi-special-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+.scodi-special-grid label {
+  display: grid;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--muted);
+}
+.scodi-special-grid .full {
+  grid-column: 1 / -1;
+}
+.scodi-special-grid input,
+.scodi-special-grid select,
+.scodi-special-grid textarea {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: #fff;
+  padding: 10px 12px;
+  font: inherit;
+  line-height: 1.45;
+  color: var(--text);
+}
+.scodi-special-grid textarea {
+  min-height: 74px;
+  resize: vertical;
+}
+.scodi-special-list {
+  display: grid;
+  gap: 10px;
+}
+.scodi-special-item {
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: #fff;
+  padding: 12px;
+  display: grid;
+  gap: 8px;
+}
+.scodi-special-item-head {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+.scodi-special-item-title {
+  font-weight: 950;
+  color: #243244;
+}
+.scodi-special-item-meta {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.45;
+}
+.scodi-special-item-impact {
+  color: #8a6700;
+  font-size: 13px;
+  font-weight: 850;
+}
+.scodi-special-empty {
+  border: 1px dashed var(--line);
+  border-radius: 16px;
+  background: #fbfdff;
+  padding: 12px 14px;
+  color: var(--muted);
+  line-height: 1.45;
+}
+@media (max-width: 780px) {
+  .scodi-special-grid { grid-template-columns: 1fr; }
+  .scodi-special-grid .full { grid-column: auto; }
+  .scodi-special-item-head { display: grid; }
+  .scodi-special-item-head button { width: 100%; }
+}
+
+
 /* SCODI_FIX_ZEITMATRIX_HORIZONTAL_AFTER_ACCOUNTING_V1: Grunddaten-Zeitmatrix bleibt auch nach Buchhaltungs-Patch echte Tabelle */
 .times-wrap .times-table.times-table-horizontal {
   display: table !important;
@@ -4279,6 +4374,88 @@ body.bt-mobile-view .scodi-ep-output-box .ep-output-line {
   margin-bottom: 8px;
 }
 
+</style>
+
+
+<style id="ep-split-pages-v1">
+/* EP_SPLIT_PAGES_V1: EP logisch auf drei Seiten verteilt, ohne Datenfelder/Keys zu ändern */
+.ep-split-page .ep-step-label { display:inline-flex; align-items:center; gap:6px; padding:6px 10px; border-radius:999px; border:1px solid var(--theme-line, var(--line)); background:var(--theme-soft,#f8fbff); color:var(--theme,var(--accent)); font-size:12px; font-weight:900; width:fit-content; }
+.ep-split-page .ep-page-instruction { border:1px solid var(--theme-line,var(--line)); border-radius:14px; background:#fff; padding:12px 14px; color:var(--muted); line-height:1.5; }
+.ep-page-goals .ep-final-action-panel, .ep-page-goals .ep-suggestion-panel, .ep-page-goals #ep-section-massnahme1, .ep-page-goals #ep-section-massnahme2, .ep-page-goals #ep-section-massnahme3, .ep-page-goals #ep-section-gesamt, .ep-page-goals .ep-bottom-note, .ep-page-goals .ep-bottom-shortcuts, .ep-page-goals .ep-section-nav button[onclick*="massnahme"], .ep-page-goals .ep-section-nav button[onclick*="gesamt"] { display:none!important; }
+.ep-page-actions .ep-final-action-panel, .ep-page-actions #ep-section-hauptziel, .ep-page-actions #ep-section-bedeutung, .ep-page-actions #ep-section-unterziel1, .ep-page-actions #ep-section-unterziel2, .ep-page-actions #ep-section-unterziel3, .ep-page-actions #ep-section-gesamt, .ep-page-actions .ep-bottom-note, .ep-page-actions .ep-bottom-shortcuts, .ep-page-actions .ep-section-nav button[onclick*="hauptziel"], .ep-page-actions .ep-section-nav button[onclick*="bedeutung"], .ep-page-actions .ep-section-nav button[onclick*="unterziel"], .ep-page-actions .ep-section-nav button[onclick*="gesamt"] { display:none!important; }
+.ep-page-finish .ep-suggestion-panel, .ep-page-finish #ep-section-hauptziel, .ep-page-finish #ep-section-bedeutung, .ep-page-finish #ep-section-unterziel1, .ep-page-finish #ep-section-massnahme1, .ep-page-finish #ep-section-unterziel2, .ep-page-finish #ep-section-massnahme2, .ep-page-finish #ep-section-unterziel3, .ep-page-finish #ep-section-massnahme3, .ep-page-finish .ep-section-nav button[onclick*="hauptziel"], .ep-page-finish .ep-section-nav button[onclick*="bedeutung"], .ep-page-finish .ep-section-nav button[onclick*="unterziel"], .ep-page-finish .ep-section-nav button[onclick*="massnahme"] { display:none!important; }
+.ep-page-finish #ep-section-gesamt { display:block!important; }
+.ep-page-finish .ep-bottom-note, .ep-page-finish .ep-bottom-shortcuts { display:none!important; }
+body.bt-mobile-view .ep-split-page .ep-page-instruction { font-size:13px; padding:10px 11px; }
+</style>
+
+<style id="bt-feinschliff-ep-safe-v1">
+/* BT_FEINSCHLIFF_EP_SAFE_V1: nur optische Beruhigung der EP-Seiten, keine Logikänderung */
+.ep-split-page .ep-panel {
+  gap: 14px;
+}
+.ep-split-page .panel-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  line-height: 1.25;
+}
+.ep-split-page .ep-note {
+  border: 1px solid var(--theme-line, var(--line));
+  border-radius: 14px;
+  background: linear-gradient(180deg, #ffffff 0%, var(--theme-soft, #fbfdff) 100%);
+  padding: 11px 13px;
+  color: #4b5b70;
+}
+.ep-split-page .ep-step-label {
+  box-shadow: 0 6px 14px var(--theme-glow, rgba(31,57,90,.06));
+}
+.ep-split-page .ep-page-instruction {
+  border-left: 4px solid var(--theme, var(--accent));
+  color: #4b5b70;
+}
+.ep-split-page .ep-section {
+  margin-top: 14px;
+  border-color: var(--theme-line, var(--line));
+  box-shadow: 0 8px 18px rgba(31,57,90,.035);
+}
+.ep-split-page .ep-section summary {
+  line-height: 1.3;
+}
+.ep-split-page .ep-grid {
+  gap: 11px;
+}
+.ep-split-page .ep-grid input[type="text"],
+.ep-split-page .ep-grid input[type="date"],
+.ep-split-page .ep-grid textarea,
+.ep-split-page .ep-grid select {
+  border-color: var(--theme-line, var(--line));
+}
+.ep-split-page .ep-final-action-panel,
+.ep-split-page .ep-suggestion-panel {
+  border-color: var(--theme-line, var(--line));
+}
+.ep-split-page .ep-final-action-title {
+  color: var(--theme, var(--accent));
+}
+.ep-split-page .ep-section-nav {
+  padding: 8px;
+  border: 1px solid var(--theme-line, var(--line));
+  border-radius: 14px;
+  background: #fff;
+}
+.ep-split-page .ep-section-nav button {
+  box-shadow: none;
+}
+body.bt-mobile-view .ep-split-page .ep-panel {
+  gap: 12px;
+}
+body.bt-mobile-view .ep-split-page .ep-section summary {
+  font-size: 15px;
+}
+body.bt-mobile-view .ep-split-page .ep-section-nav {
+  max-width: calc(100vw - 18px);
+}
 </style>
 
 </head>
@@ -5945,16 +6122,32 @@ const MODELS = {
         itemCount: 0,
       },
       {
+        id: "ep_ziele",
+        title: "14. EP Ziele",
+        section: "EP Ziele",
+        hint: "Hier werden Hauptziel, Bedeutung des Hauptziels und die Feinziele 1–3 vorbereitet. Die fertige EP wird erst im EP-Abschluss erzeugt.",
+        type: "entwicklungsplanung",
+        itemCount: 0,
+      },
+      {
+        id: "ep_massnahmen",
+        title: "15. EP Massnahmen / Beobachtung",
+        section: "EP Massnahmen / Beobachtung",
+        hint: "Hier werden pro Feinziel die passende Massnahme, Ablauf, Begleitung, Material / Hilfsmittel und Beobachtung / Überprüfung erfasst.",
+        type: "entwicklungsplanung",
+        itemCount: 0,
+      },
+      {
         id: "entwicklungsplanung",
-        title: "14. Entwicklungsplanung",
-        section: "Entwicklungsplanung",
-        hint: "Hier ergänzt du die Planungsfelder, kannst Ziele aus GRIT / GRET sowie vorhandene Zielerfassung / Redline übernehmen und lässt die Entwicklungsplanung über einen getrennten KI-Zugang erstellen.",
+        title: "16. EP Abschluss",
+        section: "EP Abschluss",
+        hint: "Hier werden Gesamtauswertung und nächster Schritt ergänzt. Danach wird die fertige Entwicklungsplanung erzeugt und in Viewer sowie Druckausgabe verwendet.",
         type: "entwicklungsplanung",
         itemCount: 0,
       },
       {
         id: "scodi_weekplan",
-        title: "15. Wochenplan",
+        title: "17. Wochenplan",
         section: "Wochenplan",
         hint: "Einzelklienten-Wochenplan mit RIT-/RET-Zeiten, Morgen 09:00–12:30, Mittagstrennung und Nachmittag 13:30–17:00. Es werden nur aktive Zeiten dieses einen Klienten angezeigt.",
         type: "scodi_weekplan",
@@ -5962,7 +6155,7 @@ const MODELS = {
       },
       {
         id: "scodi_accounting",
-        title: "16. Buchhaltung / Stundenübersicht",
+        title: "18. Buchhaltung / Stundenübersicht",
         section: "Buchhaltung / Stundenübersicht",
         hint: "Wochen- und Jahresübersicht für diesen einen Klienten. Feiertage im Kanton Basel-Stadt werden im Jahreslauf automatisch nicht verrechnet.",
         type: "scodi_accounting",
@@ -5970,7 +6163,7 @@ const MODELS = {
       },
       {
         id: "viewer",
-        title: "17. Viewer / Ausgabe",
+        title: "19. Viewer / Ausgabe",
         section: "Viewer / Ausgabe",
         hint: "Direkte Ausgabe für diesen einen Klienten. Die Klientendatei-Struktur bleibt unverändert und entspricht dem Export für den externen Viewer.",
         type: "viewer",
@@ -7287,16 +7480,32 @@ const MODELS = {
         itemCount: 0,
       },
       {
+        id: "ep_ziele",
+        title: "14. EP Ziele",
+        section: "EP Ziele",
+        hint: "Hier werden Hauptziel, Bedeutung des Hauptziels und die Feinziele 1–3 vorbereitet. Die fertige EP wird erst im EP-Abschluss erzeugt.",
+        type: "entwicklungsplanung",
+        itemCount: 0,
+      },
+      {
+        id: "ep_massnahmen",
+        title: "15. EP Massnahmen / Beobachtung",
+        section: "EP Massnahmen / Beobachtung",
+        hint: "Hier werden pro Feinziel die passende Massnahme, Ablauf, Begleitung, Material / Hilfsmittel und Beobachtung / Überprüfung erfasst.",
+        type: "entwicklungsplanung",
+        itemCount: 0,
+      },
+      {
         id: "entwicklungsplanung",
-        title: "14. Entwicklungsplanung",
-        section: "Entwicklungsplanung",
-        hint: "Hier ergänzt du die Planungsfelder, kannst Ziele aus GRIT / GRET sowie vorhandene Zielerfassung / Redline übernehmen und lässt die Entwicklungsplanung über einen getrennten KI-Zugang erstellen.",
+        title: "16. EP Abschluss",
+        section: "EP Abschluss",
+        hint: "Hier werden Gesamtauswertung und nächster Schritt ergänzt. Danach wird die fertige Entwicklungsplanung erzeugt und in Viewer sowie Druckausgabe verwendet.",
         type: "entwicklungsplanung",
         itemCount: 0,
       },
       {
         id: "scodi_weekplan",
-        title: "15. Wochenplan",
+        title: "17. Wochenplan",
         section: "Wochenplan",
         hint: "Einzelklienten-Wochenplan mit RIT-/RET-Zeiten, Morgen 09:00–12:30, Mittagstrennung und Nachmittag 13:30–17:00. Es werden nur aktive Zeiten dieses einen Klienten angezeigt.",
         type: "scodi_weekplan",
@@ -7304,7 +7513,7 @@ const MODELS = {
       },
       {
         id: "scodi_accounting",
-        title: "16. Buchhaltung / Stundenübersicht",
+        title: "18. Buchhaltung / Stundenübersicht",
         section: "Buchhaltung / Stundenübersicht",
         hint: "Wochen- und Jahresübersicht für diesen einen Klienten. Feiertage im Kanton Basel-Stadt werden im Jahreslauf automatisch nicht verrechnet.",
         type: "scodi_accounting",
@@ -7312,7 +7521,7 @@ const MODELS = {
       },
       {
         id: "viewer",
-        title: "17. Viewer / Ausgabe",
+        title: "19. Viewer / Ausgabe",
         section: "Viewer / Ausgabe",
         hint: "Direkte Ausgabe für diesen einen Klienten. Die Klientendatei-Struktur bleibt unverändert und entspricht dem Export für den externen Viewer.",
         type: "viewer",
@@ -10104,6 +10313,8 @@ body[data-weekplan-mode] .footer-note { color: #526075; }
 })();
 <\/script>
 
+<!-- BT_PRINT_TEXT_SAFE_2026_05_01: Drucktext wird nicht mehr von fixem Header/Footer verdeckt; mobile Blob-Ansicht bricht Text sicher um. -->
+<!-- BT_ACCOUNTING_SPECIAL_DAYS_V1: Buchhaltung mit Sondertagen/Nichtverrechnung fuer Betriebsferien, Planungstage und Klientenferien. -->
 <!-- BT_NAVIGATOR_ACTIVE_TAB_CENTER_2026-04-30 -->
 </body>
 </html>
@@ -10347,51 +10558,13 @@ function filterArrayByDeletedClientIndices(items, blockedIndices) {
 }
 
 function applyDeletedClientProtectionToStoredData() {
-  const registry = readDeletedClientRegistry();
-  if (!registry.length) return 0;
-  const ritState = readWeekplanModeStateForProtection("rit");
-  const retState = readWeekplanModeStateForProtection("ret");
-  let appRaw = {};
-  try { const stored = localStorage.getItem(storageKey()); appRaw = stored ? JSON.parse(stored) : {}; } catch (error) { appRaw = {}; }
-  let workspaces = Array.isArray(appRaw.clientStates) ? appRaw.clientStates.map((workspace) => normalizeStoredClientWorkspace(workspace)) : [];
-  if (!workspaces.length && (appRaw.grit || appRaw.gret)) {
-    workspaces = [normalizeStoredClientWorkspace(appRaw)];
-  }
-  const currentCount = clampWorkspaceClientCount(localStorage.getItem(workspaceClientCountKey()) || appRaw.clientCount || workspaces.length || 5);
-  while (workspaces.length < currentCount) workspaces.push(defaultClientWorkspace());
-  workspaces = workspaces.slice(0, currentCount);
-  const blockedIndices = getProtectedDeletedClientIndices(workspaces, Array.isArray(ritState.clients) ? ritState.clients : [], Array.isArray(retState.clients) ? retState.clients : [], registry);
-  if (!blockedIndices.size) return 0;
-  const filteredWorkspaces = filterArrayByDeletedClientIndices(workspaces, blockedIndices).slice(0, 10);
-  const finalCount = clampWorkspaceClientCount(filteredWorkspaces.length || 5);
-  while (filteredWorkspaces.length < finalCount) filteredWorkspaces.push(defaultClientWorkspace());
-  appRaw = { ...(appRaw && typeof appRaw === "object" ? appRaw : {}), version: 2, clientCount: finalCount, clientStates: filteredWorkspaces.slice(0, finalCount) };
-  localStorage.setItem(storageKey(), JSON.stringify(appRaw));
-  localStorage.setItem(workspaceClientCountKey(), String(finalCount));
-  [["rit", ritState], ["ret", retState]].forEach(([mode, state]) => {
-    const nextState = state && typeof state === "object" ? { ...state } : {};
-    const filteredClients = filterArrayByDeletedClientIndices(Array.isArray(nextState.clients) ? nextState.clients : [], blockedIndices).slice(0, finalCount);
-    while (filteredClients.length < finalCount) filteredClients.push(createProtectedEmptyWeekplanClient(filteredClients.length));
-    nextState.clients = filteredClients;
-    nextState.count = String(finalCount);
-    writeWeekplanModeStateForProtection(mode, nextState);
-  });
-  try {
-    const rawMeta = localStorage.getItem(storageMetaKey());
-    const meta = rawMeta ? JSON.parse(rawMeta) : {};
-    const oldIndex = Number(meta?.lastWeekplanClient?.index);
-    const lastActiveClientIndex = Number(meta?.lastActiveView?.clientIndex);
-    if (!Number.isInteger(oldIndex) || oldIndex >= finalCount || blockedIndices.has(oldIndex)) {
-      meta.lastWeekplanClient = { index: 0, name: "Klient 1" };
-      meta.lastPageByGenerator = { ...(meta.lastPageByGenerator || {}), grit: 0, gret: 0 };
-    }
-    if (Number.isInteger(lastActiveClientIndex) && (lastActiveClientIndex >= finalCount || blockedIndices.has(lastActiveClientIndex))) {
-      meta.lastActiveView = null;
-      meta.rememberedView = null;
-    }
-    localStorage.setItem(storageMetaKey(), JSON.stringify(meta));
-  } catch (error) {}
-  return blockedIndices.size;
+  // Einzelklient-Speicherschutz:
+  // Die frühere Löschschutz-Routine konnte bei vorhandenen Alt-Einträgen
+  // im Browser versehentlich den einzigen Klienten als gelöscht einstufen und
+  // den gespeicherten Arbeitsstand durch einen leeren Standardstand ersetzen.
+  // Im Einzelklient-Navigator wird deshalb beim Start nichts aus dem
+  // Browserspeicher herausgefiltert oder überschrieben.
+  return 0;
 }
 
 function clampWorkspaceClientCount(value) {
@@ -13263,11 +13436,13 @@ function getCompactTabLabel(page, index) {
     "10_Feinziele": "10 · Feinziele",
     "11_Beobachtung": "11 · Beobachtung",
     "10b_Zielplanung_1_10": "12 · Bausteine",
-    fertig: "13 · Text",
-    entwicklungsplanung: "14 · EP",
-    scodi_weekplan: "15 · Wochenplan",
-    scodi_accounting: "16 · Stunden",
-    viewer: "17 · Viewer",
+    fertig: "13 · Planung",
+    ep_ziele: "14 · EP Ziele",
+    ep_massnahmen: "15 · EP Massnahmen",
+    entwicklungsplanung: "16 · EP Abschluss",
+    scodi_weekplan: "17 · Wochenplan",
+    scodi_accounting: "18 · Stunden",
+    viewer: "19 · Viewer",
   };
   return map[id] || (index + 1) + " · " + String(page?.section || page?.title || "Seite");
 }
@@ -13279,7 +13454,10 @@ function getTabContextLabel(page) {
   if (["4_Durchfuehrung_A", "5_Durchfuehrung_B", "6_Musik_Basal"].includes(id)) return "Durchführung";
   if (["7_Begleitansatz_A", "8_Begleitansatz_B"].includes(id)) return "Hilfestellung";
   if (["9_Ziele", "10_Feinziele", "11_Beobachtung", "10b_Zielplanung_1_10"].includes(id)) return "Ziele";
-  if (["fertig", "entwicklungsplanung"].includes(id)) return "Abschluss";
+  if (["fertig"].includes(id)) return "Planung";
+  if (["ep_ziele"].includes(id)) return "EP Ziele";
+  if (["ep_massnahmen"].includes(id)) return "EP Massnahmen";
+  if (["entwicklungsplanung"].includes(id)) return "EP Abschluss";
   if (["scodi_weekplan"].includes(id)) return "Wochenplan";
   if (["scodi_accounting"].includes(id)) return "Buchhaltung";
   if (["viewer"].includes(id)) return "Ausgabe";
@@ -13378,8 +13556,11 @@ function buildFooterNote(page, totalPages) {
     if (page.freeTextLabel) bits.push("mit Freitextfeld");
     return bits.join(" • ");
   }
-  if (page.type === "entwicklungsplanung")
-    return base + " • eigene Seite für die KI-gestützte Entwicklungsplanung";
+  if (page.type === "entwicklungsplanung") {
+    if (page.id === "ep_ziele") return base + " • EP-Ziele: Hauptziel, Bedeutung und Feinziele";
+    if (page.id === "ep_massnahmen") return base + " • EP-Massnahmen: Ablauf, Begleitung, Material und Beobachtung";
+    return base + " • EP-Abschluss: Gesamtauswertung und fertige Entwicklungsplanung";
+  }
   if (page.type === "scodi_weekplan")
     return base + " • Einzelklienten-Wochenplan mit gemeinsamer Mittagslinie";
   if (page.type === "scodi_accounting")
@@ -16060,14 +16241,40 @@ function skipRedlinePage() {
 }
 
 
+
+function getEntwicklungsplanungPagePart(page) {
+  const id = String(page?.id || "");
+  if (id === "ep_ziele") return "goals";
+  if (id === "ep_massnahmen") return "actions";
+  return "finish";
+}
+
+function getEntwicklungsplanungPageClass(page) {
+  const part = getEntwicklungsplanungPagePart(page);
+  if (part === "goals") return "ep-page-goals";
+  if (part === "actions") return "ep-page-actions";
+  return "ep-page-finish";
+}
+
+function getEntwicklungsplanungPageInstruction(page) {
+  const part = getEntwicklungsplanungPagePart(page);
+  if (part === "goals") return "Schritt 14: Hauptziel, Bedeutung des Hauptziels und Feinziele 1–3 vorbereiten. Die Massnahmen folgen auf der nächsten EP-Seite.";
+  if (part === "actions") return "Schritt 15: Zu jedem Feinziel die passende Massnahme mit Ablauf, Begleitung, Material / Hilfsmittel und Beobachtung / Überprüfung erfassen.";
+  return "Schritt 16: Gesamtauswertung, Überprüfung und nächster Schritt ergänzen. Danach wird hier die fertige Entwicklungsplanung erzeugt.";
+}
+
 function renderEntwicklungsplanungPage(page) {
+  const epPageClass = getEntwicklungsplanungPageClass(page);
+  const epPageInstruction = getEntwicklungsplanungPageInstruction(page);
   return `
-        <div class="page-card">
+        <div class="page-card ep-split-page ${epPageClass}">
           <h3>${escapeHtml(page.title)}</h3>
           <div class="page-hint">${escapeHtml(page.hint)}</div>
           <div class="ep-panel">
-                      <div class="panel-title">Entwicklungsplanung – kompakte Zusatzmaske</div>
-                      <div class="ep-note">Die Grunddaten der Entwicklungsplanung werden auf der Grunddatenseite erfasst. Hier ergänzt du die Ziel-, Massnahmen- und Auswertungsfelder. Ziele und Feinziele aus GRIT / GRET können zusätzlich in die Entwicklungsplanung übernommen werden. An die KI geht dafür nur ein kompakter Auftrag statt der ganzen Navigator-Vorschau.</div>
+                      <div class="panel-title">Entwicklungsplanung – Ziel, Massnahmen und Überprüfung</div>
+                      <div class="ep-note">Die EP ist jetzt wie die spätere Ausgabe aufgebaut: Hauptziel, Bedeutung, Feinziel 1–3, je eine passende Massnahme und die jeweilige Beobachtung / Überprüfung. Bestehende Daten bleiben technisch erhalten; sichtbar sind nur die Felder, die für die saubere EP gebraucht werden.</div>
+                      <div class="ep-step-label">${escapeHtml(page.section || "Entwicklungsplanung")}</div>
+                      <div class="ep-page-instruction">${escapeHtml(epPageInstruction)}</div>
                       <div class="tool-row">
                         <button type="button" class="ghost" onclick="applyNavigatorGoalsToEntwicklungsplanung()">Bausteine / Ziele / Feinziele aus GRIT / GRET übernehmen</button>
                       </div>
@@ -16090,8 +16297,7 @@ function renderEntwicklungsplanungPage(page) {
                         </details>
                       </div>
 
-
-                      <div class="ep-panel" style="margin-top:12px;">
+                      <div class="ep-panel ep-suggestion-panel" style="margin-top:12px;">
                         <div class="panel-title">Professionelle EP-Textvorschläge</div>
                         <div class="ep-note">Aus vorhandenen Generator-, Baustein- und EP-Daten wird zuerst nur ein Vorschlag für Massnahmen / Begleitung erstellt. Bestehende Felder werden nicht automatisch überschrieben.</div>
                         <div class="tool-row">
@@ -16102,171 +16308,174 @@ function renderEntwicklungsplanungPage(page) {
                         </div>
                         <div class="preview-box internal-ai-output compact-ai-output" id="epMassnahmenSuggestionField">Noch kein Massnahmen-Vorschlag vorhanden.</div>
                       </div>
+
                       <div class="ep-section-nav" aria-label="Entwicklungsplanung Navigation">
-                        <button type="button" class="ghost" onclick="jumpToEpSection('ep-section-hauptziel')">Hauptziel</button>
-                        <button type="button" class="ghost" onclick="jumpToEpSection('ep-section-unterziel1')">FZ 1</button>
-                        <button type="button" class="ghost" onclick="jumpToEpSection('ep-section-massnahme1')">M 1</button>
-                        <button type="button" class="ghost" onclick="jumpToEpSection('ep-section-unterziel2')">FZ 2</button>
-                        <button type="button" class="ghost" onclick="jumpToEpSection('ep-section-massnahme2')">M 2</button>
-                        <button type="button" class="ghost" onclick="jumpToEpSection('ep-section-unterziel3')">FZ 3</button>
-                        <button type="button" class="ghost" onclick="jumpToEpSection('ep-section-massnahme3')">M 3</button>
-                        <button type="button" class="ghost" onclick="jumpToEpSection('ep-section-gesamt')">Gesamt</button>
+                        <button type="button" class="ghost" onclick="jumpToEpSection('ep-section-hauptziel')">1 Hauptziel</button>
+                        <button type="button" class="ghost" onclick="jumpToEpSection('ep-section-bedeutung')">2 Bedeutung</button>
+                        <button type="button" class="ghost" onclick="jumpToEpSection('ep-section-unterziel1')">3 FZ 1</button>
+                        <button type="button" class="ghost" onclick="jumpToEpSection('ep-section-massnahme1')">4 M 1</button>
+                        <button type="button" class="ghost" onclick="jumpToEpSection('ep-section-unterziel2')">6 FZ 2</button>
+                        <button type="button" class="ghost" onclick="jumpToEpSection('ep-section-massnahme2')">7 M 2</button>
+                        <button type="button" class="ghost" onclick="jumpToEpSection('ep-section-unterziel3')">9 FZ 3</button>
+                        <button type="button" class="ghost" onclick="jumpToEpSection('ep-section-massnahme3')">10 M 3</button>
+                        <button type="button" class="ghost" onclick="jumpToEpSection('ep-section-gesamt')">12 Gesamt</button>
                       </div>
+
                       <details class="ep-section" id="ep-section-hauptziel" open>
-                        <summary>Hauptziel</summary>
+                        <summary>1. Hauptziel</summary>
                         <div class="ep-grid">
-                        <input type="text" id="epHauptzielTitel" class="full" placeholder="Hauptziel – Titel" />
-                        <input type="text" id="epHauptzielCode" placeholder="Hauptziel – Zielcode" />
-                        <input type="date" id="epHauptzielPruefung" placeholder="Überprüfung am" />
-                        <select id="epHauptzielStatus">
-                          <option value="">Status Hauptziel</option>
-                          <option value="Ja">Ja</option>
-                          <option value="Nein">Nein</option>
-                          <option value="pausiert">pausiert</option>
-                          <option value="sistiert">sistiert</option>
-                          <option value="abgesetzt">abgesetzt</option>
-                        </select>
-                        <input type="date" id="epHauptzielErreichtAm" placeholder="Ziel erreicht am" />
-                        <input type="text" id="epHauptzielFachbezug" class="full" placeholder="Hauptziel – fachlicher Bezug" />
-                        <textarea id="epHauptzielBeschreibung" class="full" placeholder="Hauptziel – Beschreibung"></textarea>
-                        <textarea id="epHauptzielFormulierung" class="full" placeholder='Hauptziel – Formulierung im Stil: "Frau / Herr ... kann ..."' ></textarea>
-                        <textarea id="epHauptzielStatusBemerkung" class="full" placeholder="Hauptziel – Bemerkung zum Status"></textarea>
-                        <textarea id="epHauptzielBegruendung" class="full" placeholder="Begründung des Ziels / Ressourcen / Förderbedarf"></textarea>
+                          <input type="text" id="epHauptzielTitel" class="full" placeholder="Hauptziel – Titel" />
+                          <textarea id="epHauptzielBeschreibung" class="full" placeholder="Hauptziel – was soll insgesamt erreicht, ermöglicht oder stabilisiert werden?"></textarea>
+                          <textarea id="epHauptzielFormulierung" class="full" placeholder="Hauptziel – Formulierung für die Entwicklungsplanung"></textarea>
+                          <input type="text" id="epHauptzielCode" placeholder="Zielcode optional" />
+                          <input type="date" id="epHauptzielPruefung" placeholder="Überprüfung am" />
+                          <select id="epHauptzielStatus">
+                            <option value="">Status Hauptziel</option>
+                            <option value="Ja">Ja</option>
+                            <option value="Nein">Nein</option>
+                            <option value="pausiert">pausiert</option>
+                            <option value="sistiert">sistiert</option>
+                            <option value="abgesetzt">abgesetzt</option>
+                          </select>
                         </div>
                       </details>
+
+                      <details class="ep-section" id="ep-section-bedeutung" open>
+                        <summary>2. Bedeutung des Hauptziels</summary>
+                        <div class="ep-grid">
+                          <textarea id="epHauptzielFachbezug" class="full" placeholder="Fachlicher Bezug / Förderfokus"></textarea>
+                          <textarea id="epHauptzielBegruendung" class="full" placeholder="Warum ist dieses Hauptziel wichtig? Was soll es im Alltag / in der Teilhabe bewirken?"></textarea>
+                          <textarea id="epHauptzielStatusBemerkung" class="full" placeholder="Ressourcen, Förderbedarf oder wichtige Hinweise zum Ziel"></textarea>
+                          <input type="date" id="epHauptzielErreichtAm" placeholder="Ziel erreicht am" />
+                        </div>
+                      </details>
+
                       <details class="ep-section" id="ep-section-unterziel1" open>
-                        <summary>Feinziel 1</summary>
+                        <summary>3. Feinziel 1</summary>
                         <div class="ep-grid">
-                        <input type="text" id="epUnterziel1Titel" class="full" placeholder="Feinziel 1 – Titel" />
-                        <input type="text" id="epUnterziel1Code" placeholder="Feinziel 1 – Zielcode" />
-                        <input type="date" id="epUnterziel1Start" placeholder="Startdatum" />
-                        <input type="date" id="epUnterziel1Ende" placeholder="Enddatum" />
-                        <input type="text" id="epUnterziel1Zeit" placeholder="Uhrzeit / Zeitfenster" />
-                        <input type="date" id="epUnterziel1PruefungAm" placeholder="Überprüfung am" />
-                        <select id="epUnterziel1Status">
-                          <option value="">Status Feinziel 1</option>
-                          <option value="Ja">Ja</option>
-                          <option value="Nein">Nein</option>
-                        </select>
-                        <input type="date" id="epUnterziel1ErreichtAm" placeholder="Ziel erreicht am" />
-                        <textarea id="epUnterziel1Beschreibung" class="full" placeholder="Feinziel 1 – Beschreibung"></textarea>
-                        <textarea id="epUnterziel1Ausgangslage" class="full" placeholder="Feinziel 1 – Ausgangslage"></textarea>
-                        <textarea id="epUnterziel1Foerderinhalt" class="full" placeholder="Feinziel 1 – Förderinhalt"></textarea>
-                        <textarea id="epUnterziel1Rahmenbedingungen" class="full" placeholder="Feinziel 1 – Rahmenbedingungen / Setting"></textarea>
-                        <textarea id="epUnterziel1Hilfsmittel" class="full" placeholder="Feinziel 1 – Hilfsmittel / Material"></textarea>
-                        <textarea id="epUnterziel1Hilfestellung" class="full" placeholder="Feinziel 1 – Hilfestellung"></textarea>
-                        <textarea id="epUnterziel1Pruefkriterien" class="full" placeholder="Feinziel 1 – Überprüfungskriterien"></textarea>
-                        <textarea id="epUnterziel1Beobachtung" class="full" placeholder="Feinziel 1 – Beobachtungen / Auswertung"></textarea>
-                        <textarea id="epUnterziel1NaechsterSchritt" class="full" placeholder="Feinziel 1 – Nächster Schritt"></textarea>
+                          <input type="text" id="epUnterziel1Titel" class="full" placeholder="Feinziel 1 – Titel" />
+                          <textarea id="epUnterziel1Beschreibung" class="full" placeholder="Feinziel 1 – was soll konkret erreicht werden?"></textarea>
+                          <textarea id="epUnterziel1Foerderinhalt" class="full" placeholder="Feinziel 1 – Bezug zum Hauptziel / Förderinhalt"></textarea>
+                          <textarea id="epUnterziel1Rahmenbedingungen" class="full" placeholder="Feinziel 1 – geeignete Situation / Setting / Rahmen"></textarea>
+                          <input type="date" id="epUnterziel1Start" placeholder="Startdatum" />
+                          <input type="date" id="epUnterziel1Ende" placeholder="Enddatum" />
+                          <input type="text" id="epUnterziel1Zeit" placeholder="Zeitfenster optional" />
+                          <input type="date" id="epUnterziel1PruefungAm" placeholder="Überprüfung am" />
+                          <select id="epUnterziel1Status">
+                            <option value="">Status Feinziel 1</option>
+                            <option value="Ja">Ja</option>
+                            <option value="Nein">Nein</option>
+                            <option value="pausiert">pausiert</option>
+                            <option value="sistiert">sistiert</option>
+                          </select>
+                          <input type="date" id="epUnterziel1ErreichtAm" placeholder="Ziel erreicht am" />
                         </div>
                       </details>
+
                       <details class="ep-section" id="ep-section-massnahme1" open>
-                        <summary>Massnahme 1</summary>
+                        <summary>4./5. Massnahme zu Feinziel 1 · Beobachtung / Überprüfung</summary>
                         <div class="ep-grid">
-                        <input type="text" id="epMassnahme1Titel" class="full" placeholder="Handlungsplan / Massnahme 1 – Titel" />
-                        <input type="text" id="epMassnahme1Code" placeholder="Massnahme 1 – Zielcode" />
-                        <textarea id="epMassnahme1Material" class="full" placeholder="Massnahme 1 – Material"></textarea>
-                        <textarea id="epMassnahme1Vorbereitung" class="full" placeholder="Massnahme 1 – Vorbereitung"></textarea>
-                        <textarea id="epMassnahme1Ablauf" class="full" placeholder="Massnahme 1 – Ablauf"></textarea>
-                        <textarea id="epMassnahme1Phasen" class="full" placeholder="Massnahme 1 – Phasen"></textarea>
-                        <textarea id="epMassnahme1Orientierung" class="full" placeholder="Massnahme 1 – Orientierung"></textarea>
-                        <textarea id="epMassnahme1Rolle" class="full" placeholder="Massnahme 1 – Rolle der Betreuungsperson"></textarea>
-                        <textarea id="epMassnahme1Selbststaendigkeit" class="full" placeholder="Massnahme 1 – Selbstständigkeitsgrad"></textarea>
-                        <textarea id="epMassnahme1Pruefung" class="full" placeholder="Massnahme 1 – Überprüfung"></textarea>
+                          <input type="text" id="epMassnahme1Titel" class="full" placeholder="Massnahme zu Feinziel 1 – Titel" />
+                          <textarea id="epMassnahme1Ablauf" class="full" placeholder="Ablauf – was geschieht Schritt für Schritt?"></textarea>
+                          <textarea id="epMassnahme1Rolle" class="full" placeholder="Begleitung – wie unterstützen Mitarbeitende?"></textarea>
+                          <textarea id="epMassnahme1Material" class="full" placeholder="Material / Hilfsmittel – was wird gebraucht?"></textarea>
+                          <textarea id="epUnterziel1Beobachtung" class="full" placeholder="Beobachtung / Überprüfung – was wird beobachtet, woran erkennt man Wirkung oder Anpassungsbedarf?"></textarea>
+                          <textarea id="epUnterziel1NaechsterSchritt" class="full" placeholder="Dokumentation / nächster Schritt zu Feinziel 1"></textarea>
+                          <textarea id="epMassnahme1Pruefung" class="full" placeholder="Überprüfung der Massnahme 1"></textarea>
+                          <textarea id="epUnterziel1Ausgangslage" class="full" placeholder="Ausgangslage zu Feinziel 1 optional"></textarea>
+                          <textarea id="epUnterziel1Hilfestellung" class="full" placeholder="Hilfestellung zu Feinziel 1 optional"></textarea>
+                          <textarea id="epUnterziel1Pruefkriterien" class="full" placeholder="Überprüfungskriterien zu Feinziel 1 optional"></textarea>
+                          <input type="text" id="epUnterziel1Code" placeholder="Zielcode optional" />
+                          <input type="text" id="epMassnahme1Code" placeholder="Massnahmencode optional" />
                         </div>
                       </details>
+
                       <details class="ep-section" id="ep-section-unterziel2">
-                        <summary>Feinziel 2</summary>
+                        <summary>6. Feinziel 2</summary>
                         <div class="ep-grid">
-                        <input type="text" id="epUnterziel2Titel" class="full" placeholder="Feinziel 2 – Titel" />
-                        <input type="text" id="epUnterziel2Code" placeholder="Feinziel 2 – Zielcode" />
-                        <input type="date" id="epUnterziel2Start" placeholder="Startdatum" />
-                        <input type="date" id="epUnterziel2Ende" placeholder="Enddatum" />
-                        <input type="text" id="epUnterziel2Zeit" placeholder="Uhrzeit / Zeitfenster" />
-                        <input type="date" id="epUnterziel2PruefungAm" placeholder="Überprüfung am" />
-                        <select id="epUnterziel2Status">
-                          <option value="">Status Feinziel 2</option>
-                          <option value="Ja">Ja</option>
-                          <option value="Nein">Nein</option>
-                          <option value="pausiert">pausiert</option>
-                          <option value="sistiert">sistiert</option>
-                        </select>
-                        <input type="date" id="epUnterziel2ErreichtAm" placeholder="Ziel erreicht am" />
-                        <textarea id="epUnterziel2Beschreibung" class="full" placeholder="Feinziel 2 – Beschreibung"></textarea>
-                        <textarea id="epUnterziel2Ausgangslage" class="full" placeholder="Feinziel 2 – Ausgangslage"></textarea>
-                        <textarea id="epUnterziel2Foerderinhalt" class="full" placeholder="Feinziel 2 – Förderinhalt"></textarea>
-                        <textarea id="epUnterziel2Rahmenbedingungen" class="full" placeholder="Feinziel 2 – Rahmenbedingungen / Setting"></textarea>
-                        <textarea id="epUnterziel2Hilfsmittel" class="full" placeholder="Feinziel 2 – Hilfsmittel / Material"></textarea>
-                        <textarea id="epUnterziel2Hilfestellung" class="full" placeholder="Feinziel 2 – Hilfestellung"></textarea>
-                        <textarea id="epUnterziel2Pruefkriterien" class="full" placeholder="Feinziel 2 – Überprüfungskriterien"></textarea>
-                        <textarea id="epUnterziel2Beobachtung" class="full" placeholder="Feinziel 2 – Beobachtungen / Auswertung"></textarea>
-                        <textarea id="epUnterziel2NaechsterSchritt" class="full" placeholder="Feinziel 2 – Nächster Schritt"></textarea>
+                          <input type="text" id="epUnterziel2Titel" class="full" placeholder="Feinziel 2 – Titel" />
+                          <textarea id="epUnterziel2Beschreibung" class="full" placeholder="Feinziel 2 – was soll konkret erreicht werden?"></textarea>
+                          <textarea id="epUnterziel2Foerderinhalt" class="full" placeholder="Feinziel 2 – Bezug zum Hauptziel / Förderinhalt"></textarea>
+                          <textarea id="epUnterziel2Rahmenbedingungen" class="full" placeholder="Feinziel 2 – geeignete Situation / Setting / Rahmen"></textarea>
+                          <input type="date" id="epUnterziel2Start" placeholder="Startdatum" />
+                          <input type="date" id="epUnterziel2Ende" placeholder="Enddatum" />
+                          <input type="text" id="epUnterziel2Zeit" placeholder="Zeitfenster optional" />
+                          <input type="date" id="epUnterziel2PruefungAm" placeholder="Überprüfung am" />
+                          <select id="epUnterziel2Status">
+                            <option value="">Status Feinziel 2</option>
+                            <option value="Ja">Ja</option>
+                            <option value="Nein">Nein</option>
+                            <option value="pausiert">pausiert</option>
+                            <option value="sistiert">sistiert</option>
+                          </select>
+                          <input type="date" id="epUnterziel2ErreichtAm" placeholder="Ziel erreicht am" />
                         </div>
                       </details>
+
                       <details class="ep-section" id="ep-section-massnahme2">
-                        <summary>Massnahme 2</summary>
+                        <summary>7./8. Massnahme zu Feinziel 2 · Beobachtung / Überprüfung</summary>
                         <div class="ep-grid">
-                        <input type="text" id="epMassnahme2Titel" class="full" placeholder="Handlungsplan / Massnahme 2 – Titel" />
-                        <input type="text" id="epMassnahme2Code" placeholder="Massnahme 2 – Zielcode" />
-                        <textarea id="epMassnahme2Material" class="full" placeholder="Massnahme 2 – Material"></textarea>
-                        <textarea id="epMassnahme2Vorbereitung" class="full" placeholder="Massnahme 2 – Vorbereitung"></textarea>
-                        <textarea id="epMassnahme2Ablauf" class="full" placeholder="Massnahme 2 – Ablauf"></textarea>
-                        <textarea id="epMassnahme2Phasen" class="full" placeholder="Massnahme 2 – Phasen"></textarea>
-                        <textarea id="epMassnahme2Orientierung" class="full" placeholder="Massnahme 2 – Orientierung"></textarea>
-                        <textarea id="epMassnahme2Rolle" class="full" placeholder="Massnahme 2 – Rolle der Betreuungsperson"></textarea>
-                        <textarea id="epMassnahme2Selbststaendigkeit" class="full" placeholder="Massnahme 2 – Selbstständigkeitsgrad"></textarea>
-                        <textarea id="epMassnahme2Pruefung" class="full" placeholder="Massnahme 2 – Überprüfung"></textarea>
+                          <input type="text" id="epMassnahme2Titel" class="full" placeholder="Massnahme zu Feinziel 2 – Titel" />
+                          <textarea id="epMassnahme2Ablauf" class="full" placeholder="Ablauf – was geschieht Schritt für Schritt?"></textarea>
+                          <textarea id="epMassnahme2Rolle" class="full" placeholder="Begleitung – wie unterstützen Mitarbeitende?"></textarea>
+                          <textarea id="epMassnahme2Material" class="full" placeholder="Material / Hilfsmittel – was wird gebraucht?"></textarea>
+                          <textarea id="epUnterziel2Beobachtung" class="full" placeholder="Beobachtung / Überprüfung – was wird beobachtet, woran erkennt man Wirkung oder Anpassungsbedarf?"></textarea>
+                          <textarea id="epUnterziel2NaechsterSchritt" class="full" placeholder="Dokumentation / nächster Schritt zu Feinziel 2"></textarea>
+                          <textarea id="epMassnahme2Pruefung" class="full" placeholder="Überprüfung der Massnahme 2"></textarea>
+                          <textarea id="epUnterziel2Ausgangslage" class="full" placeholder="Ausgangslage zu Feinziel 2 optional"></textarea>
+                          <textarea id="epUnterziel2Hilfestellung" class="full" placeholder="Hilfestellung zu Feinziel 2 optional"></textarea>
+                          <textarea id="epUnterziel2Pruefkriterien" class="full" placeholder="Überprüfungskriterien zu Feinziel 2 optional"></textarea>
+                          <input type="text" id="epUnterziel2Code" placeholder="Zielcode optional" />
+                          <input type="text" id="epMassnahme2Code" placeholder="Massnahmencode optional" />
                         </div>
                       </details>
+
                       <details class="ep-section" id="ep-section-unterziel3">
-                        <summary>Feinziel 3</summary>
+                        <summary>9. Feinziel 3</summary>
                         <div class="ep-grid">
-                        <input type="text" id="epUnterziel3Titel" class="full" placeholder="Feinziel 3 – Titel" />
-                        <input type="text" id="epUnterziel3Code" placeholder="Feinziel 3 – Zielcode" />
-                        <input type="date" id="epUnterziel3Start" placeholder="Startdatum" />
-                        <input type="date" id="epUnterziel3Ende" placeholder="Enddatum" />
-                        <input type="text" id="epUnterziel3Zeit" placeholder="Uhrzeit / Zeitfenster" />
-                        <input type="date" id="epUnterziel3PruefungAm" placeholder="Überprüfung am" />
-                        <select id="epUnterziel3Status">
-                          <option value="">Status Feinziel 3</option>
-                          <option value="Ja">Ja</option>
-                          <option value="Nein">Nein</option>
-                          <option value="pausiert">pausiert</option>
-                          <option value="sistiert">sistiert</option>
-                        </select>
-                        <input type="date" id="epUnterziel3ErreichtAm" placeholder="Ziel erreicht am" />
-                        <textarea id="epUnterziel3Beschreibung" class="full" placeholder="Feinziel 3 – Beschreibung"></textarea>
-                        <textarea id="epUnterziel3Ausgangslage" class="full" placeholder="Feinziel 3 – Ausgangslage"></textarea>
-                        <textarea id="epUnterziel3Foerderinhalt" class="full" placeholder="Feinziel 3 – Förderinhalt"></textarea>
-                        <textarea id="epUnterziel3Rahmenbedingungen" class="full" placeholder="Feinziel 3 – Rahmenbedingungen / Setting"></textarea>
-                        <textarea id="epUnterziel3Hilfsmittel" class="full" placeholder="Feinziel 3 – Hilfsmittel / Material"></textarea>
-                        <textarea id="epUnterziel3Hilfestellung" class="full" placeholder="Feinziel 3 – Hilfestellung"></textarea>
-                        <textarea id="epUnterziel3Pruefkriterien" class="full" placeholder="Feinziel 3 – Überprüfungskriterien"></textarea>
-                        <textarea id="epUnterziel3Beobachtung" class="full" placeholder="Feinziel 3 – Beobachtungen / Auswertung"></textarea>
-                        <textarea id="epUnterziel3NaechsterSchritt" class="full" placeholder="Feinziel 3 – Nächster Schritt"></textarea>
+                          <input type="text" id="epUnterziel3Titel" class="full" placeholder="Feinziel 3 – Titel" />
+                          <textarea id="epUnterziel3Beschreibung" class="full" placeholder="Feinziel 3 – was soll konkret erreicht werden?"></textarea>
+                          <textarea id="epUnterziel3Foerderinhalt" class="full" placeholder="Feinziel 3 – Bezug zum Hauptziel / Förderinhalt"></textarea>
+                          <textarea id="epUnterziel3Rahmenbedingungen" class="full" placeholder="Feinziel 3 – geeignete Situation / Setting / Rahmen"></textarea>
+                          <input type="date" id="epUnterziel3Start" placeholder="Startdatum" />
+                          <input type="date" id="epUnterziel3Ende" placeholder="Enddatum" />
+                          <input type="text" id="epUnterziel3Zeit" placeholder="Zeitfenster optional" />
+                          <input type="date" id="epUnterziel3PruefungAm" placeholder="Überprüfung am" />
+                          <select id="epUnterziel3Status">
+                            <option value="">Status Feinziel 3</option>
+                            <option value="Ja">Ja</option>
+                            <option value="Nein">Nein</option>
+                            <option value="pausiert">pausiert</option>
+                            <option value="sistiert">sistiert</option>
+                          </select>
+                          <input type="date" id="epUnterziel3ErreichtAm" placeholder="Ziel erreicht am" />
                         </div>
                       </details>
+
                       <details class="ep-section" id="ep-section-massnahme3">
-                        <summary>Massnahme 3</summary>
+                        <summary>10./11. Massnahme zu Feinziel 3 · Beobachtung / Überprüfung</summary>
                         <div class="ep-grid">
-                        <input type="text" id="epMassnahme3Titel" class="full" placeholder="Handlungsplan / Massnahme 3 – Titel" />
-                        <input type="text" id="epMassnahme3Code" placeholder="Massnahme 3 – Zielcode" />
-                        <textarea id="epMassnahme3Material" class="full" placeholder="Massnahme 3 – Material"></textarea>
-                        <textarea id="epMassnahme3Vorbereitung" class="full" placeholder="Massnahme 3 – Vorbereitung"></textarea>
-                        <textarea id="epMassnahme3Ablauf" class="full" placeholder="Massnahme 3 – Ablauf"></textarea>
-                        <textarea id="epMassnahme3Phasen" class="full" placeholder="Massnahme 3 – Phasen"></textarea>
-                        <textarea id="epMassnahme3Orientierung" class="full" placeholder="Massnahme 3 – Orientierung"></textarea>
-                        <textarea id="epMassnahme3Rolle" class="full" placeholder="Massnahme 3 – Rolle der Betreuungsperson"></textarea>
-                        <textarea id="epMassnahme3Selbststaendigkeit" class="full" placeholder="Massnahme 3 – Selbstständigkeitsgrad"></textarea>
-                        <textarea id="epMassnahme3Pruefung" class="full" placeholder="Massnahme 3 – Überprüfung"></textarea>
+                          <input type="text" id="epMassnahme3Titel" class="full" placeholder="Massnahme zu Feinziel 3 – Titel" />
+                          <textarea id="epMassnahme3Ablauf" class="full" placeholder="Ablauf – was geschieht Schritt für Schritt?"></textarea>
+                          <textarea id="epMassnahme3Rolle" class="full" placeholder="Begleitung – wie unterstützen Mitarbeitende?"></textarea>
+                          <textarea id="epMassnahme3Material" class="full" placeholder="Material / Hilfsmittel – was wird gebraucht?"></textarea>
+                          <textarea id="epUnterziel3Beobachtung" class="full" placeholder="Beobachtung / Überprüfung – was wird beobachtet, woran erkennt man Wirkung oder Anpassungsbedarf?"></textarea>
+                          <textarea id="epUnterziel3NaechsterSchritt" class="full" placeholder="Dokumentation / nächster Schritt zu Feinziel 3"></textarea>
+                          <textarea id="epMassnahme3Pruefung" class="full" placeholder="Überprüfung der Massnahme 3"></textarea>
+                          <textarea id="epUnterziel3Ausgangslage" class="full" placeholder="Ausgangslage zu Feinziel 3 optional"></textarea>
+                          <textarea id="epUnterziel3Hilfestellung" class="full" placeholder="Hilfestellung zu Feinziel 3 optional"></textarea>
+                          <textarea id="epUnterziel3Pruefkriterien" class="full" placeholder="Überprüfungskriterien zu Feinziel 3 optional"></textarea>
+                          <input type="text" id="epUnterziel3Code" placeholder="Zielcode optional" />
+                          <input type="text" id="epMassnahme3Code" placeholder="Massnahmencode optional" />
                         </div>
                       </details>
+
                       <details class="ep-section" id="ep-section-gesamt">
-                        <summary>Gesamtauswertung</summary>
+                        <summary>12. Gesamtauswertung / nächster Schritt</summary>
                         <div class="ep-grid">
-                        <textarea id="epGesamtstand" class="full" placeholder="Gesamtauswertung – aktueller Stand"></textarea>
-                        <textarea id="epGesamtbegruendung" class="full" placeholder="Gesamtauswertung – Begründung"></textarea>
-                        <textarea id="epGesamtNaechsterSchritt" class="full" placeholder="Gesamtauswertung – empfohlener nächster Entwicklungsschritt"></textarea>
+                          <textarea id="epGesamtstand" class="full" placeholder="Was soll am Ende beurteilt werden?"></textarea>
+                          <textarea id="epGesamtbegruendung" class="full" placeholder="Wann soll überprüft werden? / fachliche Begründung"></textarea>
+                          <textarea id="epGesamtNaechsterSchritt" class="full" placeholder="Was wäre der nächste Schritt?"></textarea>
                         </div>
                       </details>
                       <div class="ki-generator-note ep-bottom-note">Die fertige Entwicklungsplanung wird oben im auffälligen Bereich „Fertige Entwicklungsplanung erstellen“ erzeugt und verwaltet.</div>
@@ -16340,10 +16549,14 @@ function renderOutputPage(page) {
 function saveEntwicklungsplanungFieldsFromPage() {
   if (!APP.currentGenerator) return;
   const pageHost = document.getElementById("pageHost");
-  if (!pageHost || !pageHost.querySelector("#epHauptzielTitel")) return;
-  setEntwicklungsplanungFields(readEntwicklungsplanungFieldsFromDom());
+  if (!pageHost || !pageHost.querySelector("[id^='ep']")) return;
+  setEntwicklungsplanungFields({
+    ...getEntwicklungsplanungFields(),
+    ...readEntwicklungsplanungFieldsFromDom(),
+  });
   storeEntwicklungsplanungAiSettingsFromPage();
 }
+
 
 function bindEvents() {
   const page = currentPageModel();
@@ -19468,149 +19681,78 @@ function normalizeEntwicklungsplanungHeadingLabel(value) {
 }
 
 function getEntwicklungsplanungOutputHeadingDefinitions() {
+  // EP-Ausgabe bewusst streng halten: Nur echte EP-Abschnitte dürfen Karten erzeugen.
+  // Allgemeine Planungstitel wie "Durchführung", "Alltagssituationen", "Beobachtung und Wirkung"
+  // werden hier absichtlich NICHT erkannt, damit laufende Sätze nicht zerschnitten werden.
   const labels = [
     "Entwicklungsplanung",
     "Stammdaten",
     "Fachlicher Förderfokus",
     "Fachliche Ausgangslage",
     "Hauptziel",
+    "Bedeutung des Hauptziels",
     "Feinziel 1",
-    "Massnahme 1 – Ablauf und Begleitung",
+    "Massnahme zu Feinziel 1",
     "Beobachtung / Überprüfung zu Feinziel 1",
     "Feinziel 2",
-    "Massnahme 2 – Ablauf und Begleitung",
+    "Massnahme zu Feinziel 2",
     "Beobachtung / Überprüfung zu Feinziel 2",
     "Feinziel 3",
-    "Massnahme 3 – Ablauf und Begleitung",
+    "Massnahme zu Feinziel 3",
     "Beobachtung / Überprüfung zu Feinziel 3",
-    "Feinziele",
-    "Massnahmen und Begleitung",
-    "Durchführung / Alltagssituationen",
-    "Beobachtung und Wirkung",
-    "Überprüfung / nächster Schritt",
     "Gesamtauswertung / nächster Schritt",
-    "Gesamtauswertung",
-    "Auswertung",
   ];
   const extraAliases = {
     "Entwicklungsplanung": ["ENTWICKLUNGSPLANUNG"],
     "Stammdaten": ["STAMMDATEN", "Grunddaten"],
     "Fachlicher Förderfokus": ["FACHLICHER FÖRDERFOKUS", "Förderfokus", "Fachlicher Fokus"],
     "Fachliche Ausgangslage": ["FACHLICHE AUSGANGSLAGE", "Ausgangslage"],
-    "Hauptziel": ["HAUPTZIEL", "Ziel", "Fernziel"],
-    "Feinziel 1": ["FEINZIEL 1", "Feinziel 1", "Unterziel 1", "UZ 1", "1. Feinziel", "1. Unterziel"],
-    "Massnahme 1 – Ablauf und Begleitung": ["MASSNAHME 1 – ABLAUF UND BEGLEITUNG", "Massnahme 1 – Ablauf und Begleitung", "Massnahme 1 - Ablauf und Begleitung", "Massnahme 1", "Maßnahme 1", "Handlungsplan / Massnahme zu Feinziel 1", "Handlungsplan Massnahme zu Feinziel 1", "Massnahme zu Feinziel 1", "Ablauf und Begleitung zu Feinziel 1"],
-    "Beobachtung / Überprüfung zu Feinziel 1": ["BEOBACHTUNG / ÜBERPRÜFUNG ZU FEINZIEL 1", "Beobachtung / Überprüfung zu Feinziel 1", "Beobachtung und Überprüfung zu Feinziel 1", "Überprüfung zu Feinziel 1", "Beobachtung zu Feinziel 1", "Woran wird Feinziel 1 überprüft"],
-    "Feinziel 2": ["FEINZIEL 2", "Feinziel 2", "Unterziel 2", "UZ 2", "2. Feinziel", "2. Unterziel"],
-    "Massnahme 2 – Ablauf und Begleitung": ["MASSNAHME 2 – ABLAUF UND BEGLEITUNG", "Massnahme 2 – Ablauf und Begleitung", "Massnahme 2 - Ablauf und Begleitung", "Massnahme 2", "Maßnahme 2", "Handlungsplan / Massnahme zu Feinziel 2", "Handlungsplan Massnahme zu Feinziel 2", "Massnahme zu Feinziel 2", "Ablauf und Begleitung zu Feinziel 2"],
-    "Beobachtung / Überprüfung zu Feinziel 2": ["BEOBACHTUNG / ÜBERPRÜFUNG ZU FEINZIEL 2", "Beobachtung / Überprüfung zu Feinziel 2", "Beobachtung und Überprüfung zu Feinziel 2", "Überprüfung zu Feinziel 2", "Beobachtung zu Feinziel 2", "Woran wird Feinziel 2 überprüft"],
-    "Feinziel 3": ["FEINZIEL 3", "Feinziel 3", "Unterziel 3", "UZ 3", "3. Feinziel", "3. Unterziel"],
-    "Massnahme 3 – Ablauf und Begleitung": ["MASSNAHME 3 – ABLAUF UND BEGLEITUNG", "Massnahme 3 – Ablauf und Begleitung", "Massnahme 3 - Ablauf und Begleitung", "Massnahme 3", "Maßnahme 3", "Handlungsplan / Massnahme zu Feinziel 3", "Handlungsplan Massnahme zu Feinziel 3", "Massnahme zu Feinziel 3", "Ablauf und Begleitung zu Feinziel 3"],
-    "Beobachtung / Überprüfung zu Feinziel 3": ["BEOBACHTUNG / ÜBERPRÜFUNG ZU FEINZIEL 3", "Beobachtung / Überprüfung zu Feinziel 3", "Beobachtung und Überprüfung zu Feinziel 3", "Überprüfung zu Feinziel 3", "Beobachtung zu Feinziel 3", "Woran wird Feinziel 3 überprüft"],
-    "Feinziele": ["FEINZIELE", "Feinziele", "Feinziel", "UNTERZIELE", "Unterziele", "Unterziel"],
-    "Massnahmen und Begleitung": [
-      "MASSNAHMEN UND BEGLEITUNG",
-      "Massnahmen und Begleitung",
-      "Maßnahmen und Begleitung",
-      "Massnahmen",
-      "Maßnahmen",
-      "Begleitung",
-      "Massnahme 1",
-      "Massnahme 2",
-      "Massnahme 3",
-      "Maßnahme 1",
-      "Maßnahme 2",
-      "Maßnahme 3",
-    ],
-    "Durchführung / Alltagssituationen": ["DURCHFÜHRUNG", "ALLTAGSSITUATIONEN", "Durchführung", "Alltagssituationen"],
-    "Beobachtung und Wirkung": ["BEOBACHTUNG UND WIRKUNG", "Beobachtung und Wirkung", "Beobachtung", "Wirkung"],
-    "Überprüfung / nächster Schritt": ["ÜBERPRÜFUNG / NÄCHSTER SCHRITT", "ÜBERPRÜFUNG", "NÄCHSTER SCHRITT", "Überprüfung", "Nächster Schritt", "Überprüfung und nächster Schritt"],
-    "Gesamtauswertung / nächster Schritt": ["GESAMTAUSWERTUNG / NÄCHSTER SCHRITT", "Gesamtauswertung / nächster Schritt", "Gesamtauswertung und nächster Schritt", "Nächster Schritt / Gesamtauswertung"],
-    "Gesamtauswertung": ["GESAMTAUSWERTUNG"],
-    "Auswertung": ["AUSWERTUNG"],
+    "Hauptziel": ["HAUPTZIEL", "Fernziel"],
+    "Bedeutung des Hauptziels": ["BEDEUTUNG DES HAUPTZIELS", "Bedeutung Hauptziel", "Fachliche Bedeutung des Hauptziels", "Warum dieses Hauptziel"],
+    "Feinziel 1": ["FEINZIEL 1", "Unterziel 1", "UZ 1", "1. Feinziel", "1. Unterziel"],
+    "Massnahme zu Feinziel 1": ["MASSNAHME ZU FEINZIEL 1", "Massnahme 1", "Maßnahme 1", "Massnahme zu Feinziel 1", "Massnahme 1 - Ablauf und Begleitung", "Ablauf und Begleitung zu Feinziel 1", "Handlungsplan / Massnahme zu Feinziel 1", "Handlungsplan Massnahme zu Feinziel 1"],
+    "Beobachtung / Überprüfung zu Feinziel 1": ["BEOBACHTUNG / ÜBERPRÜFUNG ZU FEINZIEL 1", "Beobachtung und Überprüfung zu Feinziel 1", "Überprüfung zu Feinziel 1", "Beobachtung zu Feinziel 1", "Woran wird Feinziel 1 überprüft"],
+    "Feinziel 2": ["FEINZIEL 2", "Unterziel 2", "UZ 2", "2. Feinziel", "2. Unterziel"],
+    "Massnahme zu Feinziel 2": ["MASSNAHME ZU FEINZIEL 2", "Massnahme 2", "Maßnahme 2", "Massnahme zu Feinziel 2", "Massnahme 2 - Ablauf und Begleitung", "Ablauf und Begleitung zu Feinziel 2", "Handlungsplan / Massnahme zu Feinziel 2", "Handlungsplan Massnahme zu Feinziel 2"],
+    "Beobachtung / Überprüfung zu Feinziel 2": ["BEOBACHTUNG / ÜBERPRÜFUNG ZU FEINZIEL 2", "Beobachtung und Überprüfung zu Feinziel 2", "Überprüfung zu Feinziel 2", "Beobachtung zu Feinziel 2", "Woran wird Feinziel 2 überprüft"],
+    "Feinziel 3": ["FEINZIEL 3", "Unterziel 3", "UZ 3", "3. Feinziel", "3. Unterziel"],
+    "Massnahme zu Feinziel 3": ["MASSNAHME ZU FEINZIEL 3", "Massnahme 3", "Maßnahme 3", "Massnahme zu Feinziel 3", "Massnahme 3 - Ablauf und Begleitung", "Ablauf und Begleitung zu Feinziel 3", "Handlungsplan / Massnahme zu Feinziel 3", "Handlungsplan Massnahme zu Feinziel 3"],
+    "Beobachtung / Überprüfung zu Feinziel 3": ["BEOBACHTUNG / ÜBERPRÜFUNG ZU FEINZIEL 3", "Beobachtung und Überprüfung zu Feinziel 3", "Überprüfung zu Feinziel 3", "Beobachtung zu Feinziel 3", "Woran wird Feinziel 3 überprüft"],
+    "Gesamtauswertung / nächster Schritt": ["GESAMTAUSWERTUNG / NÄCHSTER SCHRITT", "Gesamtauswertung und nächster Schritt", "Gesamtauswertung", "Nächster Schritt / Gesamtauswertung", "Überprüfung / nächster Schritt", "Überprüfung und nächster Schritt"],
   };
   return labels.map((label) => {
     const simplified = cleanInline(String(label || "").replace(/^[0-9]+[a-z]?\.\s*/i, ""));
-    const beforeSlash = cleanInline(simplified.split(/\s+\/\s+/)[0] || "");
-    const beforeDash = cleanInline(simplified.split(/\s+[–—-]\s+/)[0] || "");
-    const aliases = Array.from(new Set([label, simplified, beforeSlash, beforeDash, ...(extraAliases[label] || [])].filter(Boolean)));
+    const aliases = Array.from(new Set([label, simplified, ...(extraAliases[label] || [])].filter(Boolean)));
     return { heading: label, aliases };
   });
 }
 
 function getEntwicklungsplanungStrongHeadingAliases() {
-  return [
-    "Entwicklungsplanung",
-    "Stammdaten",
-    "Grunddaten",
-    "Fachlicher Förderfokus",
-    "Förderfokus",
-    "Fachliche Ausgangslage",
-    "Hauptziel",
-    "Feinziele",
-    "Feinziel 1",
-    "Feinziel 2",
-    "Feinziel 3",
-    "Unterziele",
-    "Unterziel 1",
-    "Unterziel 2",
-    "Unterziel 3",
-    "Massnahme 1 – Ablauf und Begleitung",
-    "Massnahme 2 – Ablauf und Begleitung",
-    "Massnahme 3 – Ablauf und Begleitung",
-    "Massnahme 1 - Ablauf und Begleitung",
-    "Massnahme 2 - Ablauf und Begleitung",
-    "Massnahme 3 - Ablauf und Begleitung",
-    "Beobachtung / Überprüfung zu Feinziel 1",
-    "Beobachtung / Überprüfung zu Feinziel 2",
-    "Beobachtung / Überprüfung zu Feinziel 3",
-    "Beobachtung und Überprüfung zu Feinziel 1",
-    "Beobachtung und Überprüfung zu Feinziel 2",
-    "Beobachtung und Überprüfung zu Feinziel 3",
-    "Massnahmen und Begleitung",
-    "Maßnahmen und Begleitung",
-    "Massnahmen",
-    "Maßnahmen",
-    "Massnahme 1",
-    "Massnahme 2",
-    "Massnahme 3",
-    "Maßnahme 1",
-    "Maßnahme 2",
-    "Maßnahme 3",
-    "Durchführung / Alltagssituationen",
-    "Durchführung",
-    "Alltagssituationen",
-    "Beobachtung und Wirkung",
-    "Überprüfung / nächster Schritt",
-    "Überprüfung und nächster Schritt",
-    "Gesamtauswertung",
-    "Auswertung",
-  ];
+  // Nur EP-Pflichttitel. Keine allgemeinen Planungstitel, damit keine Sätze zerschnitten werden.
+  return getEntwicklungsplanungOutputHeadingDefinitions()
+    .flatMap((def) => def.aliases || [])
+    .filter(Boolean);
 }
 
 function forceEntwicklungsplanungHeadingBreaks(value) {
   let prepared = String(value || "").replace(/\r\n/g, "\n").trim();
   if (!prepared) return "";
 
-  // Häufige KI-Ausgabe bereinigen: getrennte Überschriften wieder zusammenführen.
+  // Nur echte EP-Überschriften zusammenführen. Allgemeine Planungstitel bleiben Text.
   prepared = prepared
-    .replace(/\bBeobachtung\s*\n+\s*und\s+Wirkung\b/gi, "Beobachtung und Wirkung")
-    .replace(/\bÜberprüfung\s*\n+\s*(?:\/|und)?\s*nächster\s+Schritt\b/gi, "Überprüfung / nächster Schritt")
-    .replace(/\bDurchführung\s*\n+\s*(?:\/|und)?\s*Alltagssituationen\b/gi, "Durchführung / Alltagssituationen")
-    .replace(/\bMassnahmen\s*\n+\s*und\s+Begleitung\b/gi, "Massnahmen und Begleitung")
-    .replace(/\bMaßnahmen\s*\n+\s*und\s+Begleitung\b/gi, "Massnahmen und Begleitung");
+    .replace(/\bBeobachtung\s*\n+\s*(?:\/|und)?\s*Überprüfung\s+zu\s+Feinziel\s+(\d)\b/gi, "Beobachtung / Überprüfung zu Feinziel $1")
+    .replace(/\bMassnahme\s*\n+\s*zu\s+Feinziel\s+(\d)\b/gi, "Massnahme zu Feinziel $1")
+    .replace(/\bBedeutung\s*\n+\s*des\s+Hauptziels\b/gi, "Bedeutung des Hauptziels")
+    .replace(/\bGesamtauswertung\s*\n+\s*(?:\/|und)?\s*nächster\s+Schritt\b/gi, "Gesamtauswertung / nächster Schritt");
 
-  // Abschnittstitel, die die KI mitten im Fliesstext weiterführt, auf eine neue Karte zwingen.
+  // Keine blinde Trennung mitten im Satz. Es werden nur Überschriften erkannt,
+  // die am Zeilenanfang stehen oder von der KI bereits klar mit Doppelpunkt geliefert wurden.
   const aliases = getEntwicklungsplanungStrongHeadingAliases()
     .slice()
     .sort((a, b) => b.length - a.length);
   aliases.forEach((alias) => {
     const escaped = escapeRegExp(alias);
     const headingToken = "(?:\\d+[a-z]?\\.\\s*)?" + escaped;
-    prepared = prepared.replace(
-      new RegExp("([^\\n])\\s+(" + headingToken + ")(?:\\s*:\\s*|\\s+)(?=[A-ZÄÖÜ0-9-])", "gi"),
-      "$1\n\n$2\n",
-    );
     prepared = prepared.replace(
       new RegExp("(^|\\n)\\s*(" + headingToken + ")\\s*:\\s*", "gi"),
       "$1$2\n",
@@ -19645,7 +19787,7 @@ function isMeaninglessEntwicklungsplanungOutputLine(line) {
   if (!clean) return true;
   if (/^[\/\\|:;.,·•*\-–—_]+$/.test(clean)) return true;
   // Einzelne Überschriftenreste entfernen, die bei KI-Zeilenumbrüchen entstehen können.
-  if (/^(?:\/|und|oder|sowie|fachlicher|fachliche|fachliches|durchführung|beobachtung|überprüfung|nächster)$/i.test(clean)) return true;
+  if (/^(?:\/|und|oder|sowie|fachlicher|fachliche|fachliches|durchführung|beobachtung|überprüfung|nächster|bezug\s+zum|massnahme\s+zu|maßnahme\s+zu)$/i.test(clean)) return true;
   return false;
 }
 
@@ -19760,8 +19902,9 @@ function isEntwicklungsplanungHeadingFragment(currentHeading, line) {
   if (/^und\s+wirkung$/i.test(clean) && currentHeading === "Beobachtung und Wirkung") return true;
   if (/^nächster\s+schritt$/i.test(clean) && currentHeading === "Überprüfung / nächster Schritt") return true;
   if (/^alltagssituationen$/i.test(clean) && currentHeading === "Durchführung / Alltagssituationen") return true;
-  if (/^und\s+begleitung$/i.test(clean) && currentHeading === "Massnahmen und Begleitung") return true;
+  if (/^und\s+begleitung$/i.test(clean) && /Massnahme/i.test(currentHeading)) return true;
   if (/^fachlicher$/i.test(clean) && currentHeading === "Stammdaten") return true;
+  if (/^(?:bezug\s+zum|massnahme\s+zu|maßnahme\s+zu)$/i.test(clean)) return true;
   return false;
 }
 
@@ -20053,7 +20196,7 @@ function addEpLine(lines, label, value) {
 const DEFAULT_ENTWICKLUNGSPLANUNG_PROMPT = `Erstelle aus den folgenden Angaben eine professionelle Entwicklungsplanung in ruhiger, sachlicher und dokumentationstauglicher Fachsprache.
 
 Wichtigste Leitidee:
-Die Entwicklungsplanung ist kein zweiter RIT-/RET-Fachtext. Sie ist eine Ziel- und Massnahmenplanung. Sie soll wie die EP-Eingabeseite aufgebaut sein: Hauptziel, danach Feinziel 1 mit dazugehöriger Massnahme und Beobachtung, danach Feinziel 2 mit dazugehöriger Massnahme und Beobachtung, danach Feinziel 3 mit dazugehöriger Massnahme und Beobachtung.
+Die Entwicklungsplanung ist kein zweiter RIT-/RET-Fachtext. Sie ist eine Ziel-, Massnahmen- und Überprüfungsplanung. Sie soll der EP-Eingabeseite folgen: Hauptziel und Bedeutung des Hauptziels, danach pro Feinziel eine eigene Massnahme mit Ablauf, Begleitung, Material / Hilfsmittel sowie Beobachtung / Überprüfung. Keine Sammelblöcke für alle Feinziele.
 
 Verbindliche Vorgaben:
 - Gib nur die fertige Entwicklungsplanung zurück.
@@ -20061,8 +20204,6 @@ Verbindliche Vorgaben:
 - Schreibe keine Überschriften wie "FACHLICHE GRUNDLAGE AUS DEM NAVIGATOR", "Strukturierte Vorschau", "Fachlicher Ausgangstext", "Rohdaten" oder "JSON".
 - Wörter wie "Generator:", "aktuelle_arbeitsseiten", "gespeicherte_bausteine", "vorhandene_ep_felder" oder technische Feldnamen dürfen in der Antwort nicht vorkommen.
 - Wiederhole keine komplette Navigator-Vorschau und keine langen Checkbox-Listen.
-- Verwende keine Formulierungen wie "Im Bereich ... zeigt sich zusätzlich ..." als Serienmuster.
-- Formuliere nicht: "zeigt sich, dass ... zeigt sich" oder ähnliche Dopplungen.
 - Nutze nur vorhandene Angaben. Erfinde keine Diagnosen, Angebote, Ziele, Beobachtungen, Materialien oder Massnahmen.
 - Lasse leere, fehlende oder nicht ausgefüllte Punkte vollständig weg.
 - Verwende ausschliesslich Initialen oder neutrale Bezeichnungen. Keine ausgeschriebenen Namen verwenden.
@@ -20073,14 +20214,13 @@ Verbindliche Vorgaben:
 - Der Kliententyp ist kein eigenes Ziel, sondern richtet Ausgangslage, Massnahmen, Durchführung und Beobachtung fachlich aus.
 - Wenn eine fertige RIT-/RET-Planung aus Seite 13 vorhanden ist, berücksichtige sie als fachliche Grundlage.
 - Die Entwicklungsplanung darf nicht einfach denselben Text wie die RIT-/RET-Planung wiederholen. Sie soll daraus Zielbezug, Feinziele, Massnahmen, Ablauf, Beobachtung und nächste Schritte ableiten.
-- Formuliere den Kliententyp nicht plump als Etikett, sondern als roten Faden.
 
 Zielstruktur zwingend:
 - Das Hauptziel wird zuerst als gemeinsamer Zielrahmen beschrieben.
-- Unter dem Hauptziel muss kurz erklärt werden, welche vorhandenen Feinziele zum Hauptziel beitragen und was dadurch erreicht werden soll.
+- Direkt darunter steht die Bedeutung des Hauptziels: Warum ist dieses Ziel wichtig, was soll dadurch im Alltag / in der Teilhabe verbessert oder stabilisiert werden?
 - Danach folgt jedes vorhandene Feinziel einzeln.
-- Zu jedem vorhandenen Feinziel gehört direkt danach eine eigene Massnahme.
-- Zu jedem vorhandenen Feinziel gehört direkt danach eine eigene Beobachtung / Überprüfung.
+- Zu jedem vorhandenen Feinziel gehört direkt danach eine eigene Massnahme zu diesem Feinziel.
+- Zu jeder Massnahme gehören die Unterpunkte: Ablauf, Begleitung, Material / Hilfsmittel und Beobachtung / Überprüfung.
 - Massnahmen dürfen nie als ein einziger Sammeltext für alle Feinziele ausgegeben werden, wenn Feinziele vorhanden sind.
 - Beobachtungen dürfen nie als ein einziger Sammeltext für alle Feinziele ausgegeben werden, wenn Feinziele vorhanden sind.
 - Wenn nur ein oder zwei Feinziele vorhanden sind, gib nur diese aus. Kein leeres Feinziel 3 erfinden.
@@ -20099,62 +20239,53 @@ Verdichte Ressourcen, Unterstützungsbedarf, Kommunikation, Regulation, Diagnost
 
 Hauptziel
 Zielrahmen: Übernimm den Zielrahmen aus Seite 9 sprachlich sauber.
-Beitrag der Feinziele: Beschreibe kurz, wie Feinziel 1 bis maximal Feinziel 3 zum Hauptziel beitragen.
-Erwartete Entwicklung: Beschreibe knapp, was durch die Zielarbeit im Alltag erreicht oder stabilisiert werden soll.
+Was soll erreicht werden: Beschreibe, was mit den vorhandenen Feinzielen insgesamt ermöglicht, verbessert oder stabilisiert werden soll.
+
+Bedeutung des Hauptziels
+Warum dieses Ziel wichtig ist: Beschreibe die fachliche Begründung, die Teilhabebedeutung und den Bezug zum Förderfokus.
+Woran es anknüpft: Beschreibe kurz vorhandene Ressourcen und Unterstützungsbedarf, soweit vorhanden.
 
 Feinziel 1
 Zielbeschreibung: Beschreibe das erste vorhandene Feinziel alltagsnah und beobachtbar.
 Bezug zum Hauptziel: Erkläre kurz, wie dieses Feinziel zum Hauptziel beiträgt.
 
-Massnahme 1 – Ablauf und Begleitung
-Was wird gebraucht: Beschreibe nur vorhandene oder fachlich direkt ableitbare Hilfen, Material, Rahmenbedingungen, Orientierung, Kommunikation oder Vorbereitung.
+Massnahme zu Feinziel 1
+Was wird gebraucht: Beschreibe vorhandene oder fachlich direkt ableitbare Hilfen, Material, Rahmenbedingungen, Orientierung, Kommunikation oder Vorbereitung.
 Ablauf: Beschreibe Schritt für Schritt, wie die Situation oder Sequenz aufgebaut ist.
 Begleitung: Beschreibe, wie Mitarbeitende anleiten, unterstützen, regulieren, motivieren oder absichern.
-Anpassung: Beschreibe, wie auf Belastbarkeit, Reize, Tempo, Übergänge oder Tagesform reagiert wird, sofern dazu Angaben vorhanden sind.
-
-Beobachtung / Überprüfung zu Feinziel 1
-Beobachtet wird: Beschreibe konkret, was beobachtet werden soll.
-Woran erkennbar: Beschreibe, woran Beteiligung, Wirkung, Fortschritt, Stabilität, Unterstützungsbedarf oder Anpassungsbedarf erkennbar wird.
-Dokumentation / nächster Schritt: Beschreibe nur, wenn dazu verwertbare Angaben vorhanden sind.
+Material / Hilfsmittel: Nenne nur vorhandene oder direkt ableitbare Materialien / Hilfsmittel. Wenn keine Angaben vorhanden sind, diesen Unterpunkt weglassen.
+Beobachtung / Überprüfung: Beschreibe konkret, was beobachtet wird, woran Fortschritt / Wirkung / Anpassungsbedarf erkennbar ist und wie weitergearbeitet wird.
 
 Feinziel 2
 Nur ausgeben, wenn ein zweites Feinziel vorhanden ist.
 Zielbeschreibung: Beschreibe das zweite vorhandene Feinziel alltagsnah und beobachtbar.
 Bezug zum Hauptziel: Erkläre kurz, wie dieses Feinziel zum Hauptziel beiträgt.
 
-Massnahme 2 – Ablauf und Begleitung
+Massnahme zu Feinziel 2
 Nur ausgeben, wenn Feinziel 2 vorhanden ist.
 Was wird gebraucht: Passend zu Feinziel 2 formulieren.
 Ablauf: Passend zu Feinziel 2 formulieren.
 Begleitung: Passend zu Feinziel 2 formulieren.
-Anpassung: Nur mit vorhandenen oder direkt ableitbaren Angaben.
-
-Beobachtung / Überprüfung zu Feinziel 2
-Nur ausgeben, wenn Feinziel 2 vorhanden ist.
-Beobachtet wird: Passend zu Feinziel 2 formulieren.
-Woran erkennbar: Passend zu Feinziel 2 formulieren.
-Dokumentation / nächster Schritt: Nur wenn Angaben vorhanden sind.
+Material / Hilfsmittel: Nur mit vorhandenen oder direkt ableitbaren Angaben.
+Beobachtung / Überprüfung: Passend zu Feinziel 2 formulieren.
 
 Feinziel 3
 Nur ausgeben, wenn ein drittes Feinziel vorhanden ist.
 Zielbeschreibung: Beschreibe das dritte vorhandene Feinziel alltagsnah und beobachtbar.
 Bezug zum Hauptziel: Erkläre kurz, wie dieses Feinziel zum Hauptziel beiträgt.
 
-Massnahme 3 – Ablauf und Begleitung
+Massnahme zu Feinziel 3
 Nur ausgeben, wenn Feinziel 3 vorhanden ist.
 Was wird gebraucht: Passend zu Feinziel 3 formulieren.
 Ablauf: Passend zu Feinziel 3 formulieren.
 Begleitung: Passend zu Feinziel 3 formulieren.
-Anpassung: Nur mit vorhandenen oder direkt ableitbaren Angaben.
-
-Beobachtung / Überprüfung zu Feinziel 3
-Nur ausgeben, wenn Feinziel 3 vorhanden ist.
-Beobachtet wird: Passend zu Feinziel 3 formulieren.
-Woran erkennbar: Passend zu Feinziel 3 formulieren.
-Dokumentation / nächster Schritt: Nur wenn Angaben vorhanden sind.
+Material / Hilfsmittel: Nur mit vorhandenen oder direkt ableitbaren Angaben.
+Beobachtung / Überprüfung: Passend zu Feinziel 3 formulieren.
 
 Gesamtauswertung / nächster Schritt
-Nur ausfüllen, wenn verwertbare Angaben vorhanden sind. Beschreibe knapp, wie weitergearbeitet oder überprüft wird.
+Was soll am Ende beurteilt werden: Beschreibe knapp, was fachlich überprüft wird.
+Wann soll überprüft werden: Nur nennen, wenn dazu Angaben vorhanden sind.
+Was wäre der nächste Schritt: Beschreibe knapp, wie weitergearbeitet oder angepasst wird.
 
 Stilvorgabe:
 - Fachlich, klar, personenzentriert, respektvoll.
@@ -20165,6 +20296,7 @@ Stilvorgabe:
 - Keine Rohdatenabschrift.
 - Keine unnötige Wiederholung.
 - Keine Namen, nur Initialen.`;
+
 
 function getEffectiveEntwicklungsplanungInstruction(extraHint = "") {
   const extra = cleanInline(extraHint || "");
@@ -20914,7 +21046,7 @@ function buildEntwicklungsplanungSourceText() {
     redline_regel:
       "Vorhandene Zielerfassungen / Redline-Texte haben Vorrang. Sie dürfen sprachlich geglättet und fachlich eingeordnet, aber nicht inhaltlich ersetzt oder frei erweitert werden.",
     zielstruktur_auftrag:
-      "Die Ausgabe muss wie die EP-Maske aufgebaut sein: Hauptziel; danach pro vorhandenem Feinziel immer die Dreierfolge Feinziel X, Massnahme X – Ablauf und Begleitung, Beobachtung / Überprüfung zu Feinziel X. Massnahmen und Beobachtungen dürfen nicht gesammelt werden, sondern müssen direkt dem jeweiligen Feinziel zugeordnet sein.",
+      "Die Ausgabe muss wie die EP-Maske aufgebaut sein: Hauptziel; danach pro vorhandenem Feinziel immer die Dreierfolge Feinziel X, Massnahme zu Feinziel X, Beobachtung / Überprüfung zu Feinziel X. Massnahmen und Beobachtungen dürfen nicht gesammelt werden, sondern müssen direkt dem jeweiligen Feinziel zugeordnet sein.",
     gemeinsames_fernziel_aus_seite_9: collectCurrentFernzielForGoalPlanning(),
     feinziele_aus_seite_10: zielsystem?.feinziele || null,
     zielrahmen_aus_generator: zielsystem?.uebergeordnete_ziele || null,
@@ -21042,7 +21174,7 @@ function buildEntwicklungsplanungSourceText() {
       "Fertige Planung aus Seite 13 berücksichtigen, aber nicht vollständig wiederholen.",
       "Seite 9 als gemeinsames Fernziel behandeln.",
       "Feinziele als einzelne Abschnitte Feinziel 1 bis Feinziel 3 nutzen; maximal drei Feinziele berücksichtigen.",
-      "Zu jedem vorhandenen Feinziel eine eigene Massnahme mit Ablauf / Begleitung formulieren.",
+      "Zu jedem vorhandenen Feinziel eine eigene Massnahme mit Ablauf, Begleitung, Material / Hilfsmittel und Beobachtung / Überprüfung formulieren.",
       "Zu jedem vorhandenen Feinziel beschreiben, was beobachtet und überprüft werden soll.",
       "Nicht alle Massnahmen und Beobachtungen in einen einzigen Sammeltext zusammenziehen; pro Feinziel eine eigene Massnahme und eine eigene Beobachtung / Überprüfung ausgeben.",
       "Keine Sammelabschnitte \"Massnahmen und Begleitung\" oder \"Beobachtung und Wirkung\" verwenden, wenn Feinziel 1/2/3 vorhanden sind.",
@@ -25753,6 +25885,7 @@ function scodiBuildYearAccounting(year = scodiGetAccountingYear()) {
     gret: 0,
     total: 0,
     holidaySkipped: 0,
+    specialSkipped: 0,
   }));
   const totals = {
     year,
@@ -25763,9 +25896,28 @@ function scodiBuildYearAccounting(year = scodiGetAccountingYear()) {
     gret: 0,
     all: 0,
     holidaySkipped: 0,
+    specialSkipped: 0,
     activeHolidayCount: 0,
+    activeSpecialDayCount: 0,
     holidaysOnWeekdays: 0,
   };
+
+  const specialDays = scodiReadSpecialDays().map((entry) => ({
+    ...entry,
+    gritSkipped: 0,
+    gretSkipped: 0,
+    totalSkipped: 0,
+    affectedDates: 0,
+  }));
+  const specialDaysByKey = new Map();
+  specialDays.forEach((entry) => {
+    scodiSpecialDayRangeDates(entry, year).forEach((date) => {
+      const key = scodiDateKey(date);
+      const list = specialDaysByKey.get(key) || [];
+      list.push(entry);
+      specialDaysByKey.set(key, list);
+    });
+  });
 
   for (let date = scodiDateUtc(year, 0, 1); date.getUTCFullYear() === year; date = scodiAddDays(date, 1)) {
     const dayLabel = scodiWeekdayDayLabel(date);
@@ -25787,6 +25939,18 @@ function scodiBuildYearAccounting(year = scodiGetAccountingYear()) {
       if (skipped.fullDay) isFullHoliday = true;
     });
 
+    const specialRules = specialDaysByKey.get(scodiDateKey(date)) || [];
+    specialRules.forEach((entry) => {
+      const skipped = scodiApplySpecialDayToAccountingRow(row, entry);
+      entry.gritSkipped += skipped.grit;
+      entry.gretSkipped += skipped.gret;
+      entry.totalSkipped += skipped.total;
+      if (skipped.total > 0) entry.affectedDates += 1;
+      month.specialSkipped += skipped.total;
+      totals.specialSkipped += skipped.total;
+      if (skipped.total > 0) totals.activeSpecialDayCount += 1;
+    });
+
     if (!isFullHoliday) {
       month.workdays += 1;
       totals.workdays += 1;
@@ -25801,13 +25965,13 @@ function scodiBuildYearAccounting(year = scodiGetAccountingYear()) {
       month.activeDays += 1;
       totals.activeDays += 1;
     }
-    if (!isFullHoliday && row.lunch) {
+    if (!isFullHoliday && row.lunch && Number(row.total || 0) > 0) {
       month.lunchDays += 1;
       totals.lunchDays += 1;
     }
   }
 
-  return { year, months, holidays, totals };
+  return { year, months, holidays, specialDays, totals };
 }
 
 function scodiRenderSummaryCards(accounting) {
@@ -25828,6 +25992,7 @@ function scodiRenderYearSummaryCards(yearAccounting) {
     <div class="scodi-year-card"><span>Jahr ${escapeHtml(String(yearAccounting.year))} RET</span><strong>${escapeHtml(scodiFormatHours(yearAccounting.totals.gret))}</strong></div>
     <div class="scodi-year-card"><span>Jahr ${escapeHtml(String(yearAccounting.year))} Total</span><strong>${escapeHtml(scodiFormatHours(yearAccounting.totals.all))}</strong></div>
     <div class="scodi-year-card"><span>Feiertage abgezogen</span><strong>${escapeHtml(scodiFormatHours(yearAccounting.totals.holidaySkipped))}</strong><small>Tagesstrukturzeit</small></div>
+    <div class="scodi-year-card"><span>Sondertage abgezogen</span><strong>${escapeHtml(scodiFormatHours(yearAccounting.totals.specialSkipped || 0))}</strong><small>Nichtverrechnung</small></div>
   </div>`;
 }
 
@@ -25891,15 +26056,223 @@ function scodiRenderYearAccountingTable(yearAccounting = scodiBuildYearAccountin
     <td>${escapeHtml(String(month.activeDays))}</td>
     <td>${escapeHtml(String(month.lunchDays))}</td>
     <td>${escapeHtml(scodiFormatHours(month.holidaySkipped))}</td>
+    <td>${escapeHtml(scodiFormatHours(month.specialSkipped || 0))}</td>
   </tr>`).join("");
   return `<div class="scodi-accounting-wrap"><table class="scodi-accounting-table">
-    <thead><tr><th>Monat</th><th>RIT</th><th>RET</th><th>Total</th><th>verrechnete Tage</th><th>Mittagessen</th><th>Feiertage abgezogen</th></tr></thead>
-    <tbody>${rows}<tr class="scodi-month-total-row"><th>Jahr ${escapeHtml(String(yearAccounting.year))}</th><td><strong>${escapeHtml(scodiFormatHours(yearAccounting.totals.grit))}</strong></td><td><strong>${escapeHtml(scodiFormatHours(yearAccounting.totals.gret))}</strong></td><td><strong>${escapeHtml(scodiFormatHours(yearAccounting.totals.all))}</strong></td><td><strong>${escapeHtml(String(yearAccounting.totals.activeDays))}</strong></td><td><strong>${escapeHtml(String(yearAccounting.totals.lunchDays))}</strong></td><td><strong>${escapeHtml(scodiFormatHours(yearAccounting.totals.holidaySkipped))}</strong></td></tr></tbody>
+    <thead><tr><th>Monat</th><th>RIT</th><th>RET</th><th>Total</th><th>verrechnete Tage</th><th>Mittagessen</th><th>Feiertage abgezogen</th><th>Sondertage abgezogen</th></tr></thead>
+    <tbody>${rows}<tr class="scodi-month-total-row"><th>Jahr ${escapeHtml(String(yearAccounting.year))}</th><td><strong>${escapeHtml(scodiFormatHours(yearAccounting.totals.grit))}</strong></td><td><strong>${escapeHtml(scodiFormatHours(yearAccounting.totals.gret))}</strong></td><td><strong>${escapeHtml(scodiFormatHours(yearAccounting.totals.all))}</strong></td><td><strong>${escapeHtml(String(yearAccounting.totals.activeDays))}</strong></td><td><strong>${escapeHtml(String(yearAccounting.totals.lunchDays))}</strong></td><td><strong>${escapeHtml(scodiFormatHours(yearAccounting.totals.holidaySkipped))}</strong></td><td><strong>${escapeHtml(scodiFormatHours(yearAccounting.totals.specialSkipped || 0))}</strong></td></tr></tbody>
   </table></div>`;
 }
 
 function scodiRenderAccountingRuleBook() {
-  return `<details class="scodi-section" open><summary>Fest hinterlegtes Regelwerk</summary><div class="scodi-section-body"><div class="inline-note"><strong>Nicht KI-basiert:</strong> Die Buchhaltung rechnet mit fest im BT-Navigator hinterlegten Regeln. Die automatische Prüfung kontrolliert nur die Plausibilität der Berechnung.</div><ul class="scodi-rule-list"><li>Wochenenden werden nicht verrechnet.</li><li>Morgen 09:00–12:30 zählt 3.5 h.</li><li>Nachmittag 13:30–17:00 zählt 3.5 h.</li><li>Mittagessen wird gespeichert und angezeigt, zählt aber nicht als Arbeitszeit.</li><li>RIT und RET sind je Zeitfenster entweder/oder.</li><li>Feiertage Kanton Basel-Stadt zählen als Freizeit.</li><li>Basler Fasnacht zählt nur am Fasnachtsmontag Nachmittag und am Fasnachtsmittwoch Nachmittag als Freizeit ohne RIT-/RET-Verrechnung.</li></ul></div></details>`;
+  return `<details class="scodi-section" open><summary>Fest hinterlegtes Regelwerk</summary><div class="scodi-section-body"><div class="inline-note"><strong>Nicht KI-basiert:</strong> Die Buchhaltung rechnet mit fest im BT-Navigator hinterlegten Regeln. Die automatische Prüfung kontrolliert nur die Plausibilität der Berechnung.</div><ul class="scodi-rule-list"><li>Wochenenden werden nicht verrechnet.</li><li>Morgen 09:00–12:30 zählt 3.5 h.</li><li>Nachmittag 13:30–17:00 zählt 3.5 h.</li><li>Mittagessen wird gespeichert und angezeigt, zählt aber nicht als Arbeitszeit.</li><li>RIT und RET sind je Zeitfenster entweder/oder.</li><li>Feiertage Kanton Basel-Stadt zählen als Freizeit.</li><li>Basler Fasnacht zählt nur am Fasnachtsmontag Nachmittag und am Fasnachtsmittwoch Nachmittag als Freizeit ohne RIT-/RET-Verrechnung.</li><li>Sondertage / Nichtverrechnungen werden zusätzlich gemäss Buchhaltungseintrag abgezogen.</li></ul></div></details>`;
+}
+
+
+function scodiSpecialDayTypeLabel(type) {
+  const key = String(type || "").trim();
+  const map = {
+    betriebsferien: "Betriebsferien Tageszentrum",
+    planungstag: "Planungstag / Schliessung",
+    klientenferien: "Klientenferien",
+    abwesenheit: "individuelle Abwesenheit",
+    weiterbildung: "Teamtag / Weiterbildung",
+    sonstiges: "sonstige Nichtverrechnung",
+  };
+  return map[key] || map.sonstiges;
+}
+
+function scodiSpecialDayScopeLabel(scope) {
+  const key = String(scope || "").trim();
+  if (key === "morning") return "nur Morgen";
+  if (key === "afternoon") return "nur Nachmittag";
+  return "ganzer Tag";
+}
+
+function scodiSpecialDayTargetLabel(target) {
+  const key = String(target || "").trim();
+  if (key === "grit") return "RIT";
+  if (key === "gret") return "RET";
+  return "RIT und RET";
+}
+
+function scodiParseIsoDate(value) {
+  const text = String(value || "").trim();
+  const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(text);
+  if (!match) return null;
+  const year = Number(match[1]);
+  const month = Number(match[2]);
+  const day = Number(match[3]);
+  const date = scodiDateUtc(year, month - 1, day);
+  if (date.getUTCFullYear() !== year || date.getUTCMonth() !== month - 1 || date.getUTCDate() !== day) return null;
+  return date;
+}
+
+function scodiIsoFromDate(date) {
+  return date.getUTCFullYear() + "-" + scodiPad2(date.getUTCMonth() + 1) + "-" + scodiPad2(date.getUTCDate());
+}
+
+function scodiNormalizeSpecialDayEntry(entry) {
+  const source = entry && typeof entry === "object" ? entry : {};
+  const fromDate = scodiParseIsoDate(source.from || source.date);
+  const toDate = scodiParseIsoDate(source.to || source.from || source.date);
+  if (!fromDate && !toDate) return null;
+  let from = fromDate || toDate;
+  let to = toDate || fromDate;
+  if (from > to) {
+    const tmp = from;
+    from = to;
+    to = tmp;
+  }
+  const scope = ["full_day", "morning", "afternoon"].includes(String(source.scope || "")) ? String(source.scope) : "full_day";
+  const target = ["all", "grit", "gret"].includes(String(source.target || "")) ? String(source.target) : "all";
+  const type = ["betriebsferien", "planungstag", "klientenferien", "abwesenheit", "weiterbildung", "sonstiges"].includes(String(source.type || "")) ? String(source.type) : "sonstiges";
+  return {
+    id: cleanInline(source.id || ("sd_" + Date.now() + "_" + Math.random().toString(36).slice(2, 8))),
+    type,
+    from: scodiIsoFromDate(from),
+    to: scodiIsoFromDate(to),
+    scope,
+    target,
+    note: cleanInline(source.note || ""),
+  };
+}
+
+function scodiReadSpecialDays() {
+  const candidates = [
+    APP.state?.grit?.grunddaten?.scodiSpecialDays,
+    APP.state?.gret?.grunddaten?.scodiSpecialDays,
+  ];
+  const raw = candidates.find((value) => Array.isArray(value)) || [];
+  const seen = new Set();
+  return raw.map(scodiNormalizeSpecialDayEntry).filter((entry) => {
+    if (!entry || seen.has(entry.id)) return false;
+    seen.add(entry.id);
+    return true;
+  });
+}
+
+function scodiWriteSpecialDays(entries) {
+  const cleanEntries = (Array.isArray(entries) ? entries : []).map(scodiNormalizeSpecialDayEntry).filter(Boolean);
+  ["grit", "gret"].forEach((generatorKey) => {
+    const state = ensureGeneratorState(generatorKey);
+    state.grunddaten.scodiSpecialDays = cleanEntries.map((entry) => ({ ...entry }));
+  });
+  setDirtyState(true);
+  APP.clientStates[APP.currentClientIndex] = cloneClientWorkspace(APP.state);
+}
+
+function scodiSpecialDayRangeDates(entry, year) {
+  const from = scodiParseIsoDate(entry?.from);
+  const to = scodiParseIsoDate(entry?.to || entry?.from);
+  if (!from || !to) return [];
+  const start = from > to ? to : from;
+  const end = from > to ? from : to;
+  const dates = [];
+  for (let date = new Date(start.getTime()); date <= end; date = scodiAddDays(date, 1)) {
+    if (date.getUTCFullYear() === Number(year)) dates.push(new Date(date.getTime()));
+  }
+  return dates;
+}
+
+function scodiApplySpecialDayToAccountingRow(row, entry) {
+  scodiRefreshAccountingRowTotals(row);
+  const beforeTotal = Number(row.total || 0);
+  const beforeGrit = Number(row.gritTotal || 0);
+  const beforeGret = Number(row.gretTotal || 0);
+  const target = entry?.target || "all";
+  const scope = entry?.scope || "full_day";
+  const touchesGrit = target === "all" || target === "grit";
+  const touchesGret = target === "all" || target === "gret";
+
+  if (scope === "full_day" || scope === "morning") {
+    if (touchesGrit) row.gritMorning = 0;
+    if (touchesGret) row.gretMorning = 0;
+  }
+  if (scope === "full_day" || scope === "afternoon") {
+    if (touchesGrit) row.gritAfternoon = 0;
+    if (touchesGret) row.gretAfternoon = 0;
+  }
+
+  scodiRefreshAccountingRowTotals(row);
+  return {
+    grit: Math.max(0, beforeGrit - Number(row.gritTotal || 0)),
+    gret: Math.max(0, beforeGret - Number(row.gretTotal || 0)),
+    total: Math.max(0, beforeTotal - Number(row.total || 0)),
+  };
+}
+
+function scodiSpecialDayDisplayRange(entry) {
+  const from = scodiParseIsoDate(entry?.from);
+  const to = scodiParseIsoDate(entry?.to || entry?.from);
+  if (!from && !to) return "";
+  const fromText = from ? scodiDisplayDate(from) : "";
+  const toText = to ? scodiDisplayDate(to) : "";
+  return fromText && toText && fromText !== toText ? fromText + "–" + toText : (fromText || toText);
+}
+
+function scodiRenderSpecialDayList(yearAccounting = scodiBuildYearAccounting(), withActions = false) {
+  const entries = Array.isArray(yearAccounting.specialDays) ? yearAccounting.specialDays : [];
+  if (!entries.length) return `<div class="scodi-special-empty">Noch keine Sondertage oder Nichtverrechnungen erfasst.</div>`;
+  const rows = entries.map((entry) => {
+    const skipped = Number(entry.totalSkipped || 0) > 0;
+    const impact = skipped
+      ? "Abgezogen: " + scodiFormatHours(entry.totalSkipped) + " (RIT " + scodiFormatHours(entry.gritSkipped || 0) + ", RET " + scodiFormatHours(entry.gretSkipped || 0) + ")"
+      : "Keine aktive RIT-/RET-Zeit im gewählten Zeitraum betroffen.";
+    return `<div class="scodi-special-item"><div class="scodi-special-item-head"><div><div class="scodi-special-item-title">${escapeHtml(scodiSpecialDayTypeLabel(entry.type))}</div><div class="scodi-special-item-meta">${escapeHtml(scodiSpecialDayDisplayRange(entry))} · ${escapeHtml(scodiSpecialDayScopeLabel(entry.scope))} · ${escapeHtml(scodiSpecialDayTargetLabel(entry.target))}</div></div>${withActions && entry.id ? `<button type="button" class="ghost" onclick="scodiDeleteSpecialDay('${escapeHtml(entry.id)}')">Löschen</button>` : ""}</div><div class="scodi-special-item-impact">${escapeHtml(impact)}</div>${entry.note ? `<div class="scodi-special-item-meta">${escapeHtml(entry.note)}</div>` : ""}</div>`;
+  }).join("");
+  return `<div class="scodi-special-list">${rows}</div>`;
+}
+
+function scodiRenderSpecialDayManager(yearAccounting = scodiBuildYearAccounting()) {
+  return `<details class="scodi-section" open><summary>Sondertage / Nichtverrechnung</summary><div class="scodi-section-body scodi-special-panel">
+    <div class="inline-note">Hier werden zusätzliche Schliesszeiten und Abwesenheiten erfasst. Sie verändern nur die Buchhaltung/Jahresrechnung, nicht den Wochenplan.</div>
+    <div class="scodi-special-form">
+      <div class="scodi-special-grid">
+        <label>Typ<select id="scodiSpecialType"><option value="betriebsferien">Betriebsferien Tageszentrum</option><option value="planungstag">Planungstag / Schliessung</option><option value="klientenferien">Klientenferien</option><option value="abwesenheit">individuelle Abwesenheit</option><option value="weiterbildung">Teamtag / Weiterbildung</option><option value="sonstiges">sonstige Nichtverrechnung</option></select></label>
+        <label>Von<input type="date" id="scodiSpecialFrom" /></label>
+        <label>Bis<input type="date" id="scodiSpecialTo" /></label>
+        <label>Zeit<select id="scodiSpecialScope"><option value="full_day">ganzer Tag</option><option value="morning">nur Morgen</option><option value="afternoon">nur Nachmittag</option></select></label>
+        <label>Gilt für<select id="scodiSpecialTarget"><option value="all">RIT und RET</option><option value="grit">nur RIT</option><option value="gret">nur RET</option></select></label>
+        <label>Wirkung<select disabled><option>nicht verrechnen</option></select></label>
+        <label class="full">Notiz<textarea id="scodiSpecialNote" placeholder="Optional, z. B. Weihnachtsferien, interner Planungstag oder Klientenferien"></textarea></label>
+      </div>
+      <div class="scodi-action-row"><button type="button" onclick="scodiAddSpecialDay()">Sondertag hinzufügen</button></div>
+    </div>
+    ${scodiRenderSpecialDayList(yearAccounting, true)}
+  </div></details>`;
+}
+
+function scodiRenderSpecialDayPrintList(yearAccounting = scodiBuildYearAccounting()) {
+  const entries = Array.isArray(yearAccounting.specialDays) ? yearAccounting.specialDays : [];
+  if (!entries.length) return "";
+  return `<details class="scodi-section" open><summary>Sondertage / Nichtverrechnung</summary><div class="scodi-section-body">${scodiRenderSpecialDayList(yearAccounting)}</div></details>`;
+}
+
+function scodiAddSpecialDay() {
+  const type = document.getElementById("scodiSpecialType")?.value || "sonstiges";
+  const from = document.getElementById("scodiSpecialFrom")?.value || "";
+  const to = document.getElementById("scodiSpecialTo")?.value || from;
+  const scope = document.getElementById("scodiSpecialScope")?.value || "full_day";
+  const target = document.getElementById("scodiSpecialTarget")?.value || "all";
+  const note = document.getElementById("scodiSpecialNote")?.value || "";
+  const entry = scodiNormalizeSpecialDayEntry({ id: "sd_" + Date.now() + "_" + Math.random().toString(36).slice(2, 8), type, from, to, scope, target, note });
+  if (!entry) {
+    alert("Bitte mindestens ein gültiges Von-Datum erfassen.");
+    return;
+  }
+  const entries = scodiReadSpecialDays();
+  entries.push(entry);
+  scodiWriteSpecialDays(entries);
+  updateView();
+}
+
+function scodiDeleteSpecialDay(id) {
+  const key = cleanInline(id || "");
+  if (!key) return;
+  const entries = scodiReadSpecialDays().filter((entry) => entry.id !== key);
+  scodiWriteSpecialDays(entries);
+  updateView();
 }
 
 function scodiRenderHolidayList(yearAccounting = scodiBuildYearAccounting()) {
@@ -25927,6 +26300,9 @@ function scodiBuildAccountingAutoCheck(weeklyAccounting = scodiBuildAccounting()
   } else {
     messages.push("Fest hinterlegte Feiertage und Basler Fasnacht wurden geprüft; es fällt kein aktives Zeitfenster auf eine Abzugsregel.");
   }
+  if (Number(yearAccounting.totals.specialSkipped || 0) > 0) {
+    messages.push("Zusätzliche Sondertage/Nichtverrechnungen sind erfasst. " + scodiFormatHours(yearAccounting.totals.specialSkipped || 0) + " wurden zusätzlich nicht verrechnet.");
+  }
   messages.push("Basler Fasnacht: nur Fasnachtsmontag Nachmittag und Fasnachtsmittwoch Nachmittag sind im Kalender fest als Freizeit hinterlegt.");
   messages.push("Mittagessen wird mitgezählt als Information, aber nicht als Arbeitszeit verrechnet.");
   messages.push("RIT und RET werden als Entweder-oder-Zeitfenster gerechnet; ein Zeitfenster gehört entweder zu RIT oder zu RET.");
@@ -25938,9 +26314,10 @@ function scodiRenderAccountingAutoCheck(weeklyAccounting = scodiBuildAccounting(
   return `<div class="scodi-check ${check.level}"><div class="scodi-check-title"><span>Automatische Regelprüfung</span><span class="scodi-check-badge">${escapeHtml(check.label)}</span></div><ul>${check.messages.map((message) => `<li>${escapeHtml(message)}</li>`).join("")}</ul></div>`;
 }
 
-function scodiRenderYearAccountingBlock(yearAccounting = scodiBuildYearAccounting()) {
+function scodiRenderYearAccountingBlock(yearAccounting = scodiBuildYearAccounting(), includeSpecialList = true) {
   return `${scodiRenderYearSummaryCards(yearAccounting)}
     ${scodiRenderYearAccountingTable(yearAccounting)}
+    ${includeSpecialList ? scodiRenderSpecialDayPrintList(yearAccounting) : ""}
     <details class="scodi-section" open><summary>Feiertage Kanton Basel-Stadt ${escapeHtml(String(yearAccounting.year))}</summary>${scodiRenderHolidayList(yearAccounting)}</details>`;
 }
 
@@ -25959,10 +26336,11 @@ function renderScodiAccountingPage(page) {
   const accounting = scodiBuildAccounting();
   const yearAccounting = scodiBuildYearAccounting();
   return `<div class="page-card"><div class="scodi-panel">
-    <div class="scodi-topline"><div><h3>${escapeHtml(page.title)}</h3><div class="page-hint">${escapeHtml(page.hint)}<div class="inline-note">Abrechnungsjahr: ${escapeHtml(String(yearAccounting.year))} · Kanton Basel-Stadt · läuft automatisch mit fest hinterlegten Regeln, ohne separaten Prüfbutton.</div></div></div><div class="scodi-action-row"><button type="button" class="ghost" onclick="openScodiAccountingPrint()">Stundenübersicht drucken</button></div></div>
+    <div class="scodi-topline"><div><h3>${escapeHtml(page.title)}</h3><div class="page-hint">${escapeHtml(page.hint)}<div class="inline-note">Abrechnungsjahr: ${escapeHtml(String(yearAccounting.year))} · Kanton Basel-Stadt · Feiertage/Fasnacht plus erfasste Sondertage werden automatisch nicht verrechnet.</div></div></div><div class="scodi-action-row"><button type="button" class="ghost" onclick="openScodiAccountingPrint()">Stundenübersicht drucken</button></div></div>
     ${scodiRenderAccountingAutoCheck(accounting, yearAccounting)}
     ${scodiRenderAccountingRuleBook()}
-    ${scodiRenderYearAccountingBlock(yearAccounting)}
+    ${scodiRenderSpecialDayManager(yearAccounting)}
+    ${scodiRenderYearAccountingBlock(yearAccounting, false)}
     <details class="scodi-section" open><summary>Wochenmuster</summary><div class="scodi-section-body">${scodiRenderSummaryCards(accounting)}${scodiRenderAccountingTable()}</div></details>
     <div class="scodi-note">Rechenregel: Morgen 09:00–12:30 = 3.5 h, Nachmittag 13:30–17:00 = 3.5 h, ganzer aktiver Tag = 7 h. Mittagessen wird gespeichert, aber nicht als Arbeitszeit gezählt.</div>
   </div></div>`;
@@ -26163,16 +26541,104 @@ function scodiBuildPrintHtml(title, bodyHtml, pageMode = "landscape") {
   const logo1 = typeof BT_PRINT_HEADER_IMAGE_DATA_URI !== "undefined" ? BT_PRINT_HEADER_IMAGE_DATA_URI : "";
   const logo2 = typeof LIV_PRINT_HEADER_IMAGE_DATA_URI !== "undefined" ? LIV_PRINT_HEADER_IMAGE_DATA_URI : "";
   return `<!DOCTYPE html><html lang="de"><head><meta charset="UTF-8"><title>${escapeHtml(title)}</title><style>
-    body{font-family:Arial,Helvetica,sans-serif;margin:0;color:#1f2937;background:#fff;line-height:1.55}.wrap{padding:28mm 9mm 14mm;display:grid;gap:16px}.print-header{position:fixed;top:0;left:0;right:0;height:22mm;border-bottom:1px solid #d8e1ee;background:#fff;display:flex;align-items:center;justify-content:space-between;padding:2mm 8mm;box-sizing:border-box}.logos{display:flex;align-items:center;gap:4mm}.logos img{height:16mm;max-width:48mm;object-fit:contain}.meta{text-align:right;color:#607086;font-size:9px}.footer{position:fixed;left:0;right:0;bottom:0;height:9mm;border-top:1px solid #d8e1ee;background:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 8mm;color:#607086;font-size:9px;box-sizing:border-box}h1{margin:0 0 4px;font-size:24px}.subtitle{color:#607086;font-size:12px}.scodi-summary-grid,.scodi-year-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}.scodi-grunddaten-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.scodi-grunddaten-item{border:1px solid #d8e1ee;border-radius:10px;padding:8px;background:#fff;display:grid;gap:3px}.scodi-grunddaten-item.wide{grid-column:span 2}.scodi-grunddaten-item.full{grid-column:1/-1}.scodi-grunddaten-item span{display:block;color:#607086;font-size:9px;font-weight:700}.scodi-grunddaten-item strong{display:block;font-size:11px;color:#1f2937;white-space:pre-wrap;overflow-wrap:anywhere}.scodi-grunddaten-item.empty strong{color:#607086;font-style:italic}.scodi-grunddaten-timeplan{border:1px solid #d8e1ee;border-radius:10px;background:#fff;overflow:hidden}.scodi-grunddaten-timeplan-title{padding:7px 8px;border-bottom:1px solid #d8e1ee;font-weight:700}.scodi-grunddaten-timeplan table{width:100%;border-collapse:collapse;table-layout:fixed}.scodi-grunddaten-timeplan th,.scodi-grunddaten-timeplan td{border:1px solid #d8e1ee;padding:5px;font-size:9px;text-align:left;vertical-align:top}.scodi-time-badges{display:flex;flex-wrap:wrap;gap:3px}.scodi-time-badge{display:inline-flex;border:1px solid #d8e1ee;border-radius:999px;padding:2px 5px;font-size:8px;font-weight:700}.scodi-time-badge.grit{border-color:#dacdf0;background:#f1ecf8;color:#5c3991}.scodi-time-badge.gret{border-color:#cfe7d9;background:#eaf7f1;color:#2f7d5a}.scodi-time-badge.meal{border-color:#f0dfad;background:#fff8ea;color:#8a6700}.scodi-time-empty{color:#607086}.scodi-summary-card,.scodi-year-card{border:1px solid #d8e1ee;border-radius:10px;padding:8px;background:#fff}.scodi-summary-card span,.scodi-year-card span{display:block;color:#607086;font-size:9px;font-weight:700}.scodi-summary-card strong,.scodi-year-card strong{display:block;font-size:13px;color:#1f2937}.scodi-check,.scodi-note{border:1px solid #f0dfad;border-radius:10px;background:#fff8ea;padding:8px;font-size:10px}.scodi-check-title{font-weight:700}.scodi-check ul{margin:6px 0 0;padding-left:16px}.scodi-rule-list{margin:6px 0 0;padding-left:16px}.scodi-holiday-list{display:flex;flex-wrap:wrap;gap:4px}.scodi-holiday-pill{border:1px solid #d8e1ee;border-radius:999px;padding:3px 6px;font-size:9px}.scodi-holiday-pill.skipped{border-color:#f0dfad;background:#fff8ea}.scodi-week-wrap,.scodi-accounting-wrap{box-shadow:none!important}.scodi-week-table,.scodi-accounting-table{font-size:10px;min-width:0!important;width:100%;border-collapse:collapse;table-layout:fixed}.scodi-week-table col.scodi-time-col{width:30mm}.scodi-week-table th,.scodi-week-table td,.scodi-accounting-table th,.scodi-accounting-table td{padding:6px!important;border:1px solid #d8e1ee}.scodi-day-mo{--scodi-day-main:#caa33a;--scodi-day-soft:#fff4c9;--scodi-day-line:#ead48b}.scodi-day-di{--scodi-day-main:#7aa842;--scodi-day-soft:#ebf8d7;--scodi-day-line:#c9e4a5}.scodi-day-mi{--scodi-day-main:#4e8fcf;--scodi-day-soft:#e4f1ff;--scodi-day-line:#b8d5f3}.scodi-day-do{--scodi-day-main:#c95072;--scodi-day-soft:#ffe1ea;--scodi-day-line:#f1b5c5}.scodi-day-fr{--scodi-day-main:#d6953c;--scodi-day-soft:#fff0de;--scodi-day-line:#efc48e}.scodi-week-table th.scodi-day-col-head{background:linear-gradient(180deg,#fff,var(--scodi-day-soft))!important;color:var(--scodi-day-main)!important;border-top:3px solid var(--scodi-day-main)!important;text-align:center}.scodi-week-table td.scodi-day-col-cell{background:linear-gradient(180deg,#fff,var(--scodi-day-soft));border-color:var(--scodi-day-line)}.scodi-slot-card.grit{border-color:#dacdf0;background:#fbf7ff}.scodi-slot-card.gret{border-color:#cfe7d9;background:#f5fff9}.scodi-slot-label.grit{color:#5c3991}.scodi-slot-label.gret{color:#2f7d5a}.scodi-slot-body{font-size:9px}.generator-card{border:1px solid #d8e1ee;border-radius:10px;padding:8px;background:#fff}.generator-card.grit{border-color:#dacdf0;background:linear-gradient(180deg,#fff,#fbf7ff);box-shadow:inset 4px 0 0 #5c3991}.generator-card.gret{border-color:#cfe7d9;background:linear-gradient(180deg,#fff,#f5fff9);box-shadow:inset 4px 0 0 #2f7d5a}.generator-head{display:flex;align-items:center;gap:8px;border-bottom:1px solid #d8e1ee;margin-bottom:8px;padding-bottom:6px}.generator-head h2{margin:0;font-size:15px}.badge{display:inline-flex;border:1px solid #d8e1ee;border-radius:999px;padding:3px 7px;font-size:9px;font-weight:700}.badge.grit{border-color:#dacdf0;background:#f1ecf8;color:#5c3991}.badge.gret{border-color:#cfe7d9;background:#eaf7f1;color:#2f7d5a}.section{display:grid;gap:8px}.scodi-output-box{white-space:pre-wrap;overflow-wrap:anywhere;border:1px solid #d8e1ee;border-radius:8px;background:#fffefc;padding:8px;font-size:11px;line-height:1.55}.scodi-ep-output-box,.scodi-planning-output-box{white-space:normal!important;background:#fff!important}.inline-output-doc{display:grid;gap:8px}.inline-output-section{break-inside:avoid;page-break-inside:avoid;border:1px solid #d8e1ee;border-radius:9px;background:#fff;padding:8px}.inline-output-heading{margin:0 0 6px 0;padding-bottom:5px;border-bottom:1px solid #d8e1ee;font-size:12px;color:#5c3991}.inline-output-body{font-size:10.5px;line-height:1.55}.ep-output-line{margin:0 0 5px 0;line-height:1.55}.ep-output-label{font-weight:700;color:inherit;margin-right:3px}.ep-output-bullet{position:relative;padding-left:12px}.ep-output-bullet:before{content:"•";position:absolute;left:0;font-weight:700;color:inherit}.generator-card.gret .inline-output-heading{color:#2f7d5a}.generator-card.grit .inline-output-heading{color:#5c3991}.scodi-output-empty{border:1px dashed #d8e1ee;border-radius:8px;background:#fbfdff;color:#607086;padding:8px;font-size:10px}.scodi-section,.generator-card,.scodi-summary-card,.scodi-year-card,.scodi-check{break-inside:avoid;page-break-inside:avoid}.scodi-section{border:1px solid #d8e1ee;border-radius:10px;padding:8px}.scodi-action-row,.scodi-viewer-nav{display:none!important}@page{size:A4 ${pageOrientation};margin:8mm}</style></head><body><div class="print-header"><div class="logos"><img src="${logo1}" alt="BT-Navigator"><img src="${logo2}" alt="L!V"></div><div><strong>${escapeHtml(title)}</strong><div class="subtitle">Einzelklient · BT-Navigator</div></div><div class="meta">gedruckt:<br>${escapeHtml(printedAt)}</div></div><div class="footer"><span>BT-Navigator · RIT / RET</span><span>L!V · Leben in Vielfalt</span></div><main class="wrap"><h1>${escapeHtml(title)}</h1>${bodyHtml}</main><!-- BT_NAVIGATOR_ACTIVE_TAB_CENTER_2026-04-30 -->
+    body{font-family:Arial,Helvetica,sans-serif;margin:0;color:#1f2937;background:#fff;line-height:1.55}.wrap{padding:28mm 9mm 14mm;display:grid;gap:16px}.print-header{position:fixed;top:0;left:0;right:0;height:22mm;border-bottom:1px solid #d8e1ee;background:#fff;display:flex;align-items:center;justify-content:space-between;padding:2mm 8mm;box-sizing:border-box}.logos{display:flex;align-items:center;gap:4mm}.logos img{height:16mm;max-width:48mm;object-fit:contain}.meta{text-align:right;color:#607086;font-size:9px}.footer{position:fixed;left:0;right:0;bottom:0;height:9mm;border-top:1px solid #d8e1ee;background:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 8mm;color:#607086;font-size:9px;box-sizing:border-box}h1{margin:0 0 4px;font-size:24px}.subtitle{color:#607086;font-size:12px}.scodi-summary-grid,.scodi-year-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}.scodi-grunddaten-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.scodi-grunddaten-item{border:1px solid #d8e1ee;border-radius:10px;padding:8px;background:#fff;display:grid;gap:3px}.scodi-grunddaten-item.wide{grid-column:span 2}.scodi-grunddaten-item.full{grid-column:1/-1}.scodi-grunddaten-item span{display:block;color:#607086;font-size:9px;font-weight:700}.scodi-grunddaten-item strong{display:block;font-size:11px;color:#1f2937;white-space:pre-wrap;overflow-wrap:anywhere}.scodi-grunddaten-item.empty strong{color:#607086;font-style:italic}.scodi-grunddaten-timeplan{border:1px solid #d8e1ee;border-radius:10px;background:#fff;overflow:hidden}.scodi-grunddaten-timeplan-title{padding:7px 8px;border-bottom:1px solid #d8e1ee;font-weight:700}.scodi-grunddaten-timeplan table{width:100%;border-collapse:collapse;table-layout:fixed}.scodi-grunddaten-timeplan th,.scodi-grunddaten-timeplan td{border:1px solid #d8e1ee;padding:5px;font-size:9px;text-align:left;vertical-align:top}.scodi-time-badges{display:flex;flex-wrap:wrap;gap:3px}.scodi-time-badge{display:inline-flex;border:1px solid #d8e1ee;border-radius:999px;padding:2px 5px;font-size:8px;font-weight:700}.scodi-time-badge.grit{border-color:#dacdf0;background:#f1ecf8;color:#5c3991}.scodi-time-badge.gret{border-color:#cfe7d9;background:#eaf7f1;color:#2f7d5a}.scodi-time-badge.meal{border-color:#f0dfad;background:#fff8ea;color:#8a6700}.scodi-time-empty{color:#607086}.scodi-summary-card,.scodi-year-card{border:1px solid #d8e1ee;border-radius:10px;padding:8px;background:#fff}.scodi-summary-card span,.scodi-year-card span{display:block;color:#607086;font-size:9px;font-weight:700}.scodi-summary-card strong,.scodi-year-card strong{display:block;font-size:13px;color:#1f2937}.scodi-check,.scodi-note{border:1px solid #f0dfad;border-radius:10px;background:#fff8ea;padding:8px;font-size:10px}.scodi-check-title{font-weight:700}.scodi-check ul{margin:6px 0 0;padding-left:16px}.scodi-rule-list{margin:6px 0 0;padding-left:16px}.scodi-holiday-list{display:flex;flex-wrap:wrap;gap:4px}.scodi-holiday-pill{border:1px solid #d8e1ee;border-radius:999px;padding:3px 6px;font-size:9px}.scodi-holiday-pill.skipped{border-color:#f0dfad;background:#fff8ea}.scodi-special-list{display:grid;gap:6px}.scodi-special-item{border:1px solid #d8e1ee;border-radius:8px;background:#fff;padding:7px}.scodi-special-item-head{display:flex;justify-content:space-between;gap:6px}.scodi-special-item-title{font-weight:700}.scodi-special-item-meta,.scodi-special-item-impact{font-size:9px;color:#607086}.scodi-special-item-impact{color:#8a6700;font-weight:700}.scodi-special-empty{border:1px dashed #d8e1ee;border-radius:8px;background:#fbfdff;padding:7px;color:#607086;font-size:9px}.scodi-week-wrap,.scodi-accounting-wrap{box-shadow:none!important}.scodi-week-table,.scodi-accounting-table{font-size:10px;min-width:0!important;width:100%;border-collapse:collapse;table-layout:fixed}.scodi-week-table col.scodi-time-col{width:30mm}.scodi-week-table th,.scodi-week-table td,.scodi-accounting-table th,.scodi-accounting-table td{padding:6px!important;border:1px solid #d8e1ee}.scodi-day-mo{--scodi-day-main:#caa33a;--scodi-day-soft:#fff4c9;--scodi-day-line:#ead48b}.scodi-day-di{--scodi-day-main:#7aa842;--scodi-day-soft:#ebf8d7;--scodi-day-line:#c9e4a5}.scodi-day-mi{--scodi-day-main:#4e8fcf;--scodi-day-soft:#e4f1ff;--scodi-day-line:#b8d5f3}.scodi-day-do{--scodi-day-main:#c95072;--scodi-day-soft:#ffe1ea;--scodi-day-line:#f1b5c5}.scodi-day-fr{--scodi-day-main:#d6953c;--scodi-day-soft:#fff0de;--scodi-day-line:#efc48e}.scodi-week-table th.scodi-day-col-head{background:linear-gradient(180deg,#fff,var(--scodi-day-soft))!important;color:var(--scodi-day-main)!important;border-top:3px solid var(--scodi-day-main)!important;text-align:center}.scodi-week-table td.scodi-day-col-cell{background:linear-gradient(180deg,#fff,var(--scodi-day-soft));border-color:var(--scodi-day-line)}.scodi-slot-card.grit{border-color:#dacdf0;background:#fbf7ff}.scodi-slot-card.gret{border-color:#cfe7d9;background:#f5fff9}.scodi-slot-label.grit{color:#5c3991}.scodi-slot-label.gret{color:#2f7d5a}.scodi-slot-body{font-size:9px}.generator-card{border:1px solid #d8e1ee;border-radius:10px;padding:8px;background:#fff}.generator-card.grit{border-color:#dacdf0;background:linear-gradient(180deg,#fff,#fbf7ff);box-shadow:inset 4px 0 0 #5c3991}.generator-card.gret{border-color:#cfe7d9;background:linear-gradient(180deg,#fff,#f5fff9);box-shadow:inset 4px 0 0 #2f7d5a}.generator-head{display:flex;align-items:center;gap:8px;border-bottom:1px solid #d8e1ee;margin-bottom:8px;padding-bottom:6px}.generator-head h2{margin:0;font-size:15px}.badge{display:inline-flex;border:1px solid #d8e1ee;border-radius:999px;padding:3px 7px;font-size:9px;font-weight:700}.badge.grit{border-color:#dacdf0;background:#f1ecf8;color:#5c3991}.badge.gret{border-color:#cfe7d9;background:#eaf7f1;color:#2f7d5a}.section{display:grid;gap:8px}.scodi-output-box{white-space:pre-wrap;overflow-wrap:anywhere;border:1px solid #d8e1ee;border-radius:8px;background:#fffefc;padding:8px;font-size:11px;line-height:1.55}.scodi-ep-output-box,.scodi-planning-output-box{white-space:normal!important;background:#fff!important}.inline-output-doc{display:grid;gap:8px}.inline-output-section{break-inside:avoid;page-break-inside:avoid;border:1px solid #d8e1ee;border-radius:9px;background:#fff;padding:8px}.inline-output-heading{margin:0 0 6px 0;padding-bottom:5px;border-bottom:1px solid #d8e1ee;font-size:12px;color:#5c3991}.inline-output-body{font-size:10.5px;line-height:1.55}.ep-output-line{margin:0 0 5px 0;line-height:1.55}.ep-output-label{font-weight:700;color:inherit;margin-right:3px}.ep-output-bullet{position:relative;padding-left:12px}.ep-output-bullet:before{content:"•";position:absolute;left:0;font-weight:700;color:inherit}.generator-card.gret .inline-output-heading{color:#2f7d5a}.generator-card.grit .inline-output-heading{color:#5c3991}.scodi-output-empty{border:1px dashed #d8e1ee;border-radius:8px;background:#fbfdff;color:#607086;padding:8px;font-size:10px}.scodi-section,.generator-card,.scodi-summary-card,.scodi-year-card,.scodi-check{break-inside:avoid;page-break-inside:avoid}.scodi-section{border:1px solid #d8e1ee;border-radius:10px;padding:8px}.scodi-action-row,.scodi-viewer-nav{display:none!important}
+.print-mode-compact .generator-card{border:0!important;border-radius:0!important;padding:0!important;background:#fff!important;box-shadow:none!important;break-inside:auto!important;page-break-inside:auto!important}
+.print-mode-compact .generator-head{border-bottom:2px solid #d8e1ee!important;margin:0 0 5mm 0!important;padding:0 0 2mm 0!important;break-after:avoid!important;page-break-after:avoid!important}
+.print-mode-compact .generator-head h2{font-size:16px!important;line-height:1.25!important}
+.print-mode-compact .section{gap:3mm!important}
+.print-mode-compact .inline-output-doc{display:block!important}
+.print-mode-compact .inline-output-section{border:0!important;border-radius:0!important;background:#fff!important;padding:0 0 4mm 0!important;margin:0 0 4mm 0!important;box-shadow:none!important;break-inside:auto!important;page-break-inside:auto!important}
+.print-mode-compact .inline-output-section + .inline-output-section{border-top:1px solid #e5edf5!important;padding-top:3mm!important}
+.print-mode-compact .inline-output-heading{font-size:13px!important;line-height:1.25!important;margin:0 0 2mm 0!important;padding:0 0 1mm 0!important;border-bottom:1px solid #d8e1ee!important;color:#5c3991!important;break-after:avoid!important;page-break-after:avoid!important}
+.print-mode-compact .generator-card.gret .inline-output-heading{color:#2f7d5a!important}
+.print-mode-compact .inline-output-body{font-size:10.5px!important;line-height:1.48!important}
+.print-mode-compact .ep-output-line{margin:0 0 2mm 0!important}
+.print-mode-compact .scodi-output-box{border:0!important;border-radius:0!important;padding:0!important;background:#fff!important}
+.print-mode-compact .scodi-section{border:0!important;border-radius:0!important;padding:0!important;break-inside:auto!important;page-break-inside:auto!important}
+.print-mode-compact .scodi-section>summary{display:block!important;font-weight:800!important;font-size:15px!important;border-bottom:2px solid #d8e1ee!important;padding:0 0 2mm 0!important;margin:0 0 3mm 0!important;color:#1f2937!important}
+.print-mode-compact .scodi-section-body{padding:0!important}
+
+/* BT_PRINT_TEXT_SAFE_2026_05_01:
+   Schutz gegen verdeckten oder abgeschnittenen Text in der Druck-/Blob-Ansicht.
+   Header/Footer liegen nicht mehr über dem Inhalt; Text darf umbrechen. */
+html,body{max-width:100%;overflow-x:hidden}
+*{box-sizing:border-box}
+.wrap,.generator-card,.scodi-section,.inline-output-doc,.inline-output-section,.inline-output-body,.scodi-output-box{max-width:100%;min-width:0}
+.inline-output-body,.ep-output-line,.scodi-output-box{white-space:normal!important;overflow-wrap:break-word!important;word-break:normal!important;hyphens:auto}
+.print-header,.footer{z-index:1}
+@media screen{
+  .print-header{position:static!important;height:auto!important;margin:0 0 10px 0!important}
+  .footer{position:static!important;height:auto!important;margin:14px 0 0 0!important}
+  .wrap{padding:12px!important;gap:12px!important}
+  .scodi-week-wrap,.scodi-accounting-wrap,.scodi-grunddaten-timeplan{overflow-x:auto!important;max-width:100%!important}
+}
+@media print{
+  /* BT_PRINT_HEADER_FOOTER_TABLE_REPEAT_2026_05_01:
+     Kopf- und Fusszeile werden über Tabellenkopf/-fuss wiederholt.
+     Das ist stabiler als fixed-Positionen und verdeckt keinen Text. */
+  .print-frame{width:100%!important;border-collapse:collapse!important;table-layout:auto!important}
+  .print-frame thead{display:table-header-group!important}
+  .print-frame tfoot{display:table-footer-group!important}
+  .print-frame tbody{display:table-row-group!important}
+  .print-frame tr,.print-frame td{border:0!important;padding:0!important;vertical-align:top!important}
+  .print-header{position:static!important;height:auto!important;min-height:16mm!important;margin:0!important;z-index:auto!important;padding:0 0 2mm 0!important}
+  .footer{position:static!important;height:auto!important;min-height:7mm!important;margin:0!important;z-index:auto!important;padding:2mm 0 0 0!important}
+  .logos img{height:12mm!important;max-width:42mm!important}
+  .wrap{padding:5mm 0 5mm 0!important;display:block!important}
+  h1{margin:0 0 5mm 0!important}
+  .inline-output-section{overflow:visible!important}
+  .inline-output-body{overflow:visible!important}
+}
+
+@page{size:A4 ${pageOrientation};margin:8mm}</style></head><body class="print-mode-compact"><table class="print-frame"><thead><tr><td><div class="print-header"><div class="logos"><img src="${logo1}" alt="BT-Navigator"><img src="${logo2}" alt="L!V"></div><div><strong>${escapeHtml(title)}</strong><div class="subtitle">Einzelklient · BT-Navigator</div></div><div class="meta">gedruckt:<br>${escapeHtml(printedAt)}</div></div></td></tr></thead><tbody><tr><td><main class="wrap"><h1>${escapeHtml(title)}</h1>${bodyHtml}</main></td></tr></tbody><tfoot><tr><td><div class="footer"><span>BT-Navigator · RIT / RET</span><span>L!V · Leben in Vielfalt</span></div></td></tr></tfoot></table><!-- BT_NAVIGATOR_ACTIVE_TAB_CENTER_2026-04-30 -->
 </body></html>`;
 }
+function scodiPrepareMobileSafePrintHtml(html) {
+  const toolbar = `<div class="bt-print-mobile-toolbar"><button type="button" onclick="window.print()">Drucken / PDF öffnen</button><button type="button" onclick="history.length > 1 ? history.back() : window.close()">Zurück</button></div>`;
+  const css = `<style id="bt-print-mobile-toolbar-style">
+    .bt-print-mobile-toolbar{position:sticky;top:0;z-index:9999;display:flex;gap:8px;padding:8px;background:#ffffff;border-bottom:1px solid #d8e1ee;box-shadow:0 4px 14px rgba(31,57,90,.08)}
+    .bt-print-mobile-toolbar button{flex:1 1 0;border:1px solid #2f6fed;border-radius:10px;background:#2f6fed;color:#fff;font:700 14px Arial,sans-serif;padding:10px 12px}
+    .bt-print-mobile-toolbar button+button{background:#fff;color:#2f6fed}
+    @media print{.bt-print-mobile-toolbar{display:none!important}}
+  </style>`;
+  const script = `<script>
+    window.addEventListener('load', function(){
+      setTimeout(function(){ try { window.focus(); window.print(); } catch (error) {} }, 600);
+    });
+  <\/script>`;
+  let safeHtml = String(html || '');
+  safeHtml = safeHtml.replace('</head>', css + '</head>');
+  safeHtml = safeHtml.replace(/<body([^>]*)>/i, function(match){ return match + toolbar; });
+  safeHtml = safeHtml.replace('</body>', script + '</body>');
+  return safeHtml;
+}
 function scodiOpenPrintHtml(html) {
-  const blob = new Blob([html], { type: "text/html;charset=utf-8" });
-  const url = URL.createObjectURL(blob);
-  const printWindow = window.open(url, "_blank");
-  if (printWindow) {
-    printWindow.addEventListener("load", () => setTimeout(() => { try { printWindow.focus(); printWindow.print(); } catch (error) {} }, 250), { once: true });
-    setTimeout(() => { try { printWindow.focus(); printWindow.print(); } catch (error) {} }, 900);
+  const printableHtml = scodiPrepareMobileSafePrintHtml(html);
+  let printWindow = null;
+  try {
+    printWindow = window.open('', '_blank');
+  } catch (error) {
+    printWindow = null;
+  }
+  if (printWindow && printWindow.document) {
+    try {
+      printWindow.document.open();
+      printWindow.document.write(printableHtml);
+      printWindow.document.close();
+      return;
+    } catch (error) {}
+  }
+
+  // Fallback für Handy-Browser, die neue Tabs oder blob:-Fenster blockieren:
+  // Die Druckansicht wird im gleichen Tab geöffnet. Zurück führt wieder zur App.
+  try {
+    const blob = new Blob([printableHtml], { type: 'text/html;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    window.location.href = url;
+  } catch (error) {
+    const fallbackDoc = document.open('text/html', 'replace');
+    fallbackDoc.write(printableHtml);
+    fallbackDoc.close();
   }
 }
 function openScodiViewerPrint(kind = "all") {
@@ -26846,9 +27312,9 @@ renderClientContextNotice = (function(original){ return function(){
       ["feinziel 1", "Feinziel 1"], ["unterziel 1", "Feinziel 1"],
       ["feinziel 2", "Feinziel 2"], ["unterziel 2", "Feinziel 2"],
       ["feinziel 3", "Feinziel 3"], ["unterziel 3", "Feinziel 3"],
-      ["massnahme 1 – ablauf und begleitung", "Massnahme 1"], ["massnahme 1 - ablauf und begleitung", "Massnahme 1"], ["massnahme 1", "Massnahme 1"], ["maßnahme 1", "Massnahme 1"], ["handlungsplan / massnahme zu feinziel 1", "Massnahme 1"],
-      ["massnahme 2 – ablauf und begleitung", "Massnahme 2"], ["massnahme 2 - ablauf und begleitung", "Massnahme 2"], ["massnahme 2", "Massnahme 2"], ["maßnahme 2", "Massnahme 2"], ["handlungsplan / massnahme zu feinziel 2", "Massnahme 2"],
-      ["massnahme 3 – ablauf und begleitung", "Massnahme 3"], ["massnahme 3 - ablauf und begleitung", "Massnahme 3"], ["massnahme 3", "Massnahme 3"], ["maßnahme 3", "Massnahme 3"], ["handlungsplan / massnahme zu feinziel 3", "Massnahme 3"],
+      ["massnahme 1 – ablauf und begleitung", "Massnahme 1"], ["massnahme 1 - ablauf und begleitung", "Massnahme 1"], ["massnahme 1", "Massnahme 1"], ["massnahme zu feinziel 1", "Massnahme 1"], ["maßnahme 1", "Massnahme 1"], ["handlungsplan / massnahme zu feinziel 1", "Massnahme 1"],
+      ["massnahme 2 – ablauf und begleitung", "Massnahme 2"], ["massnahme 2 - ablauf und begleitung", "Massnahme 2"], ["massnahme 2", "Massnahme 2"], ["massnahme zu feinziel 2", "Massnahme 2"], ["maßnahme 2", "Massnahme 2"], ["handlungsplan / massnahme zu feinziel 2", "Massnahme 2"],
+      ["massnahme 3 – ablauf und begleitung", "Massnahme 3"], ["massnahme 3 - ablauf und begleitung", "Massnahme 3"], ["massnahme 3", "Massnahme 3"], ["massnahme zu feinziel 3", "Massnahme 3"], ["maßnahme 3", "Massnahme 3"], ["handlungsplan / massnahme zu feinziel 3", "Massnahme 3"],
       ["beobachtung / überprüfung zu feinziel 1", "Beobachtung 1"], ["beobachtung und überprüfung zu feinziel 1", "Beobachtung 1"], ["überprüfung zu feinziel 1", "Beobachtung 1"], ["beobachtung zu feinziel 1", "Beobachtung 1"],
       ["beobachtung / überprüfung zu feinziel 2", "Beobachtung 2"], ["beobachtung und überprüfung zu feinziel 2", "Beobachtung 2"], ["überprüfung zu feinziel 2", "Beobachtung 2"], ["beobachtung zu feinziel 2", "Beobachtung 2"],
       ["beobachtung / überprüfung zu feinziel 3", "Beobachtung 3"], ["beobachtung und überprüfung zu feinziel 3", "Beobachtung 3"], ["überprüfung zu feinziel 3", "Beobachtung 3"], ["beobachtung zu feinziel 3", "Beobachtung 3"],
