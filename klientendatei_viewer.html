@@ -472,15 +472,505 @@ body.viewer-mobile-view .viewer-display-controls-head{
 @media(max-width:760px){.scodi-print-action-row{grid-template-columns:1fr}.scodi-grunddaten-timeplan{overflow-x:auto}.scodi-grunddaten-timeplan table{min-width:640px}.scodi-week-table col.scodi-time-col{width:100px}}
 @media(max-width:640px){.scodi-summary-grid,.scodi-year-grid,.scodi-grunddaten-grid{grid-template-columns:1fr}.scodi-grunddaten-item.wide,.scodi-grunddaten-item.full{grid-column:auto}.scodi-topline{align-items:flex-start}.scodi-action-row button{width:100%;}}
 
+
+    /* BRAND_LOGOS_TOP_VIEWER_V1 */
+    .hero-brand-row{display:flex;align-items:flex-start;justify-content:flex-start;gap:18px;flex-wrap:wrap}
+    .hero-brand-main{display:grid;gap:8px;min-width:260px}
+    .hero-brand-logos{display:flex;align-items:center;justify-content:flex-start;gap:14px;flex-wrap:wrap;flex:0 0 auto}
+    .hero-brand-logos img{display:block;height:58px;max-width:230px;object-fit:contain}
+    .hero-brand-logos img.viewer-liv-logo{height:52px}
+    .hero-brand-sub{font-size:12px;color:var(--muted);font-weight:900;letter-spacing:.04em;text-transform:uppercase}
+    @media(max-width:760px){.hero-brand-row{display:grid;gap:14px}.hero-brand-logos{justify-content:flex-start}.hero-brand-logos img{height:44px;max-width:180px}.hero-brand-logos img.viewer-liv-logo{height:40px}}
+
+
+
+/* BT_NAVIGATOR_DESIGN_SYNC_VIEWER_V1 */
+@media screen {
+  :root {
+    --shadow-soft: 0 10px 28px rgba(31, 57, 90, 0.06);
+    --shadow-card: 0 16px 40px rgba(31, 57, 90, 0.08);
+    --radius-card: 22px;
+    --radius-box: 16px;
+    --soft: #f8fbff;
+  }
+
+  html,
+  body {
+    background:
+      radial-gradient(circle at 12% 0%, rgba(47, 111, 237, 0.08), transparent 28%),
+      radial-gradient(circle at 88% 6%, rgba(92, 57, 145, 0.07), transparent 30%),
+      var(--bg) !important;
+  }
+
+  .app {
+    max-width: 1320px !important;
+    padding: 24px !important;
+  }
+
+  .card,
+  .generator-card,
+  .viewer-display-controls,
+  .viewer-quick-nav,
+  .file-box,
+  .weekplan-meta-card,
+  .viewer-day-card,
+  .viewer-seq-card,
+  .viewer-check-grid,
+  .scodi-section,
+  .scodi-grunddaten-item,
+  .scodi-summary-card,
+  .scodi-year-card,
+  .inline-output-section {
+    border-radius: var(--radius-card) !important;
+    box-shadow: var(--shadow-soft) !important;
+  }
+
+  .card,
+  .file-box,
+  .viewer-display-controls,
+  .viewer-quick-nav,
+  .view-tabs,
+  .viewer-check-grid {
+    border-color: var(--line) !important;
+    background: linear-gradient(180deg, #ffffff 0%, #fbfdff 100%) !important;
+  }
+
+  .hero {
+    padding: 24px 26px !important;
+    gap: 18px !important;
+    background:
+      linear-gradient(180deg, #ffffff 0%, #fbfdff 68%, var(--accent-soft) 100%) !important;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .hero-brand-row {
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 18px !important;
+  }
+
+  .hero-brand-main {
+    gap: 8px !important;
+    min-width: min(100%, 360px) !important;
+  }
+
+  .hero-brand-logos {
+    padding: 8px 10px !important;
+    border: 1px solid var(--line) !important;
+    border-radius: 18px !important;
+    background: rgba(255, 255, 255, 0.86) !important;
+    box-shadow: 0 8px 20px rgba(31, 57, 90, 0.05) !important;
+  }
+
+  .hero-brand-logos img {
+    height: 48px !important;
+    max-width: 190px !important;
+  }
+
+  .hero-brand-logos img.viewer-liv-logo {
+    height: 43px !important;
+  }
+
+  .hero-title {
+    gap: 12px !important;
+  }
+
+  .hero-title h1,
+  .generator-head h2 {
+    color: var(--theme, var(--accent)) !important;
+    letter-spacing: 0.01em !important;
+  }
+
+  .hero-title h1 {
+    font-size: clamp(28px, 3vw, 40px) !important;
+    line-height: 1.08 !important;
+  }
+
+  .hero .muted {
+    max-width: 980px !important;
+    color: #435266 !important;
+  }
+
+  .badge {
+    border: 1px solid #cfe0ff !important;
+    border-radius: 999px !important;
+    background: var(--accent-soft) !important;
+    color: var(--accent) !important;
+    font-weight: 900 !important;
+  }
+
+  .badge.grit {
+    border-color: #dacdf0 !important;
+    background: var(--grit-soft) !important;
+    color: var(--grit) !important;
+  }
+
+  .badge.gret {
+    border-color: #cfe7d9 !important;
+    background: var(--gret-soft) !important;
+    color: var(--gret) !important;
+  }
+
+  .file-panel {
+    padding: 18px !important;
+    background: #fbfdff !important;
+  }
+
+  .file-box {
+    gap: 12px !important;
+    border-style: solid !important;
+    padding: 18px !important;
+  }
+
+  .file-box strong,
+  .viewer-check-title,
+  .viewer-display-controls-title,
+  .weekplan-meta-title,
+  .scodi-grunddaten-timeplan-title {
+    color: #243244 !important;
+    font-weight: 950 !important;
+  }
+
+  .file-box input[type="file"],
+  .file-box input[type="password"],
+  input[type="text"],
+  input[type="password"] {
+    min-height: 46px !important;
+    border-radius: 14px !important;
+    border: 1px solid #d8e2ea !important;
+    background: #fff !important;
+    transition: border-color 0.12s ease, box-shadow 0.12s ease !important;
+  }
+
+  .file-box input[type="file"]:focus,
+  .file-box input[type="password"]:focus,
+  input[type="text"]:focus,
+  input[type="password"]:focus {
+    outline: none !important;
+    border-color: #9eb7ff !important;
+    box-shadow: 0 0 0 3px rgba(73, 115, 224, 0.10) !important;
+  }
+
+  button {
+    min-height: 42px !important;
+    border-radius: 14px !important;
+    padding: 10px 15px !important;
+    font-weight: 850 !important;
+    transition: transform 0.12s ease, box-shadow 0.12s ease, opacity 0.12s ease !important;
+    box-shadow: 0 6px 16px rgba(31, 57, 90, 0.08) !important;
+  }
+
+  button:hover {
+    transform: translateY(-1px) !important;
+  }
+
+  button.secondary,
+  button.ghost {
+    background: #fff !important;
+    box-shadow: none !important;
+  }
+
+  button.secondary {
+    color: var(--accent) !important;
+    border-color: #bfd0ff !important;
+  }
+
+  button.ghost {
+    color: #243244 !important;
+    border-color: var(--line) !important;
+  }
+
+  button.grit {
+    background: var(--grit) !important;
+    border-color: var(--grit) !important;
+    color: #fff !important;
+  }
+
+  button.gret {
+    background: var(--gret) !important;
+    border-color: var(--gret) !important;
+    color: #fff !important;
+  }
+
+  .tool-row.print-actions {
+    padding-top: 2px !important;
+  }
+
+  .tool-row.print-actions button {
+    min-height: 40px !important;
+    font-size: 13px !important;
+  }
+
+  .status,
+  .privacy-note,
+  .empty,
+  .scodi-note,
+  .print-note,
+  .viewer-check-item,
+  .viewer-display-controls-option,
+  .summary-box,
+  .pill-item,
+  .scodi-output-empty,
+  .scodi-special-empty {
+    border-radius: var(--radius-box) !important;
+  }
+
+  .privacy-note {
+    border-color: #cfe7d9 !important;
+    background: linear-gradient(180deg, #ffffff 0%, #f2fffa 100%) !important;
+  }
+
+  .view-tabs {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    gap: 10px !important;
+    padding: 14px !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    scrollbar-width: thin !important;
+    border-radius: 20px !important;
+  }
+
+  .view-tabs button {
+    flex: 0 0 auto !important;
+    min-width: max-content !important;
+    white-space: nowrap !important;
+  }
+
+  .viewer-quick-nav {
+    top: 10px !important;
+    border-radius: 20px !important;
+    background: rgba(255, 255, 255, 0.94) !important;
+    backdrop-filter: blur(8px) !important;
+  }
+
+  .viewer-quick-nav button {
+    min-height: 36px !important;
+    padding: 8px 11px !important;
+    font-size: 13px !important;
+  }
+
+  .generator-card {
+    border-color: var(--theme-line, var(--line)) !important;
+    overflow: hidden !important;
+    background: #fff !important;
+    box-shadow: var(--shadow-card) !important;
+  }
+
+  .generator-card.grit,
+  .generator-card.gret,
+  .generator-card.weekplan-view {
+    border-color: var(--theme-line, var(--line)) !important;
+  }
+
+  .generator-head {
+    padding: 18px 20px !important;
+    border-bottom-color: var(--theme-line, var(--line)) !important;
+    background: linear-gradient(180deg, var(--theme-soft, var(--accent-soft)) 0%, #ffffff 72%) !important;
+  }
+
+  details.viewer-section,
+  .scodi-section {
+    border-color: var(--theme-line, var(--line)) !important;
+    border-radius: 18px !important;
+    overflow: hidden !important;
+  }
+
+  details.viewer-section > summary,
+  .scodi-section > summary {
+    padding: 14px 16px !important;
+    line-height: 1.3 !important;
+    color: var(--theme, var(--accent)) !important;
+    background: linear-gradient(180deg, var(--theme-soft, #f8fbff), #ffffff) !important;
+  }
+
+  .section-body {
+    padding: 16px !important;
+  }
+
+  .structured-box,
+  .scodi-output-box,
+  .kv-grid,
+  .scodi-grunddaten-timeplan,
+  .scodi-week-wrap,
+  .scodi-accounting-wrap {
+    border-radius: var(--radius-box) !important;
+    border-color: var(--theme-line, var(--line)) !important;
+    box-shadow: 0 8px 18px rgba(31, 57, 90, 0.04) !important;
+  }
+
+  .structured-box,
+  .scodi-output-box {
+    background: #fffefc !important;
+    line-height: 1.72 !important;
+  }
+
+  .kv-label {
+    background: linear-gradient(180deg, var(--theme-soft, #f7faff), #fbfdff) !important;
+    color: var(--theme, var(--muted)) !important;
+    font-weight: 850 !important;
+  }
+
+  .summary-grid,
+  .scodi-summary-grid,
+  .scodi-year-grid,
+  .scodi-grunddaten-grid {
+    gap: 12px !important;
+  }
+
+  .summary-box,
+  .scodi-grunddaten-item,
+  .scodi-summary-card,
+  .scodi-year-card,
+  .weekplan-meta-card,
+  .viewer-plan-entry,
+  .viewer-lunch-value,
+  .scodi-slot-card,
+  .scodi-special-item {
+    border-color: var(--theme-line, var(--line)) !important;
+    background: linear-gradient(180deg, #ffffff 0%, var(--theme-soft, #fbfdff) 100%) !important;
+  }
+
+  .viewer-day-card {
+    border-radius: 20px !important;
+    overflow: hidden !important;
+  }
+
+  .viewer-day-head {
+    border-bottom-color: var(--line) !important;
+    background: linear-gradient(180deg, #ffffff 0%, var(--day-soft, #f8fbff) 100%) !important;
+    border-top: 5px solid var(--day, var(--accent)) !important;
+  }
+
+  .viewer-day-body {
+    background: #fbfdff !important;
+  }
+
+  .viewer-seq-card {
+    border-radius: 16px !important;
+    box-shadow: 0 8px 18px rgba(31, 57, 90, 0.035) !important;
+  }
+
+  .viewer-seq-title {
+    color: #243244 !important;
+    background: linear-gradient(180deg, #ffffff 0%, #fbfdff 100%) !important;
+  }
+
+  .viewer-plan-entry {
+    border-radius: 14px !important;
+  }
+
+  .viewer-display-controls {
+    gap: 12px !important;
+    border-radius: 20px !important;
+  }
+
+  .viewer-display-controls-option {
+    border-color: var(--line) !important;
+    background: #fff !important;
+    transition: transform 0.12s ease, box-shadow 0.12s ease !important;
+  }
+
+  .viewer-display-controls-option:hover {
+    transform: translateY(-1px) !important;
+    box-shadow: 0 8px 18px rgba(31, 57, 90, 0.06) !important;
+  }
+
+  .viewer-read-printlike .generator-card,
+  .viewer-read-printlike details.viewer-section,
+  .viewer-read-printlike .scodi-section {
+    box-shadow: var(--shadow-soft) !important;
+  }
+
+  .footer-note {
+    margin-top: 2px !important;
+    border: 1px solid var(--line) !important;
+    border-radius: 999px !important;
+    background: rgba(255, 255, 255, 0.86) !important;
+    box-shadow: 0 8px 20px rgba(31, 57, 90, 0.04) !important;
+  }
+
+  @media (max-width: 920px) {
+    .app {
+      padding: 14px !important;
+    }
+
+    .hero {
+      padding: 18px !important;
+    }
+
+    .hero-brand-row {
+      align-items: flex-start !important;
+      display: grid !important;
+      justify-content: stretch !important;
+    }
+
+    .hero-brand-logos {
+      width: fit-content !important;
+      max-width: 100% !important;
+    }
+
+    .summary-grid,
+    .weekplan-meta-grid {
+      grid-template-columns: 1fr !important;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .app {
+      padding: 8px !important;
+    }
+
+    .hero {
+      padding: 14px !important;
+    }
+
+    .hero-title h1 {
+      font-size: 28px !important;
+    }
+
+    .hero-brand-logos img {
+      height: 38px !important;
+      max-width: 156px !important;
+    }
+
+    .hero-brand-logos img.viewer-liv-logo {
+      height: 34px !important;
+    }
+
+    .tool-row.print-actions,
+    .file-box .tool-row {
+      display: grid !important;
+      grid-template-columns: 1fr !important;
+      width: 100% !important;
+    }
+
+    .tool-row.print-actions button,
+    .file-box .tool-row button {
+      width: 100% !important;
+      white-space: normal !important;
+    }
+  }
+}
+
 </style>
 </head>
 <body>
   <div class="app stack">
     <section class="card">
       <div class="hero">
-        <div class="hero-title">
-          <span class="badge">BT-Navigator</span>
-          <h1>Klientendatei-Viewer</h1>
+        <div class="hero-brand-row">
+          <div class="hero-brand-logos" aria-label="Logos">
+            <img id="viewerBtLogo" class="viewer-bt-logo" src="" alt="BT-Navigator" />
+            <img id="viewerLivLogo" class="viewer-liv-logo" src="" alt="L!V Leben in Vielfalt" />
+          </div>
+          <div class="hero-brand-main">
+            <div class="hero-title">
+              <span class="badge">BT-Navigator</span>
+              <h1>Klientendatei-Viewer</h1>
+            </div>
+            <div class="hero-brand-sub">BT-Navigator · L!V Leben in Vielfalt</div>
+          </div>
         </div>
         <div class="muted">Lädt eine gespeicherte Klientendatei, entschlüsselt sie lokal im Browser und zeigt RIT und RET getrennt an. Der Wochenplan kann RIT und RET gemeinsam nebeneinander anzeigen. Der Viewer verändert keine Arbeitsmappe und speichert keine Browser-Stände.</div>
         <div class="tool-row print-actions">
@@ -1731,6 +2221,14 @@ function renderGenerators(){const host=document.getElementById("generatorsHost")
 function scodiBuildPrintHtml(title,bodyHtml,pageMode="landscape"){const pageOrientation=pageMode==="portrait"?"portrait":"landscape"; const printedAt=new Date().toLocaleString("de-CH",{day:"2-digit",month:"2-digit",year:"numeric",hour:"2-digit",minute:"2-digit"}); const logo1=typeof PRINT_HEADER_IMAGE_DATA_URI!=="undefined"?PRINT_HEADER_IMAGE_DATA_URI:""; const logo2=typeof PRINT_PARTNER_IMAGE_DATA_URI!=="undefined"?PRINT_PARTNER_IMAGE_DATA_URI:""; return `<!DOCTYPE html><html lang="de"><head><meta charset="UTF-8"><title>${esc(title)}</title><style>body{font-family:Arial,Helvetica,sans-serif;margin:0;color:#1f2937;background:#fff;line-height:1.55}.wrap{padding:16mm 9mm 12mm;display:grid;gap:12px}.print-header{border-bottom:1px solid #d8e1ee;background:#fff;display:flex;align-items:center;justify-content:space-between;padding:2mm 0 3mm;margin-bottom:6mm;box-sizing:border-box}.logos{display:flex;align-items:center;gap:4mm}.logos img{height:14mm;max-width:42mm;object-fit:contain}.meta{text-align:right;color:#607086;font-size:9px}.footer{border-top:1px solid #d8e1ee;background:#fff;display:flex;align-items:center;justify-content:space-between;padding:3mm 0 0;color:#607086;font-size:9px;box-sizing:border-box}h1{margin:0 0 4px;font-size:24px}.subtitle{color:#607086;font-size:12px}.generator-card{border:1px solid #d8e1ee;border-radius:10px;padding:8px;background:#fff;margin-bottom:8px}.generator-card.grit{border-color:#dacdf0;background:linear-gradient(180deg,#fff,#fbf7ff);box-shadow:inset 4px 0 0 #5c3991}.generator-card.gret{border-color:#cfe7d9;background:linear-gradient(180deg,#fff,#f5fff9);box-shadow:inset 4px 0 0 #2f7d5a}.generator-head{display:flex;align-items:center;gap:8px;border-bottom:1px solid #d8e1ee;margin-bottom:8px;padding-bottom:6px}.generator-head h2{margin:0;font-size:15px}.badge{display:inline-flex;border:1px solid #d8e1ee;border-radius:999px;padding:3px 7px;font-size:9px;font-weight:700}.badge.grit{border-color:#dacdf0;background:#f1ecf8;color:#5c3991}.badge.gret{border-color:#cfe7d9;background:#eaf7f1;color:#2f7d5a}.section{display:grid;gap:8px}.scodi-section{border:1px solid #d8e1ee;border-radius:10px;padding:8px;break-inside:avoid;page-break-inside:avoid}.scodi-section>summary{display:block!important;font-weight:800!important;font-size:15px!important;border-bottom:2px solid #d8e1ee!important;padding:0 0 2mm 0!important;margin:0 0 3mm 0!important;color:#1f2937!important}.scodi-section-body{padding:0!important;display:grid;gap:8px}.scodi-grunddaten-grid,.scodi-summary-grid,.scodi-year-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}.scodi-grunddaten-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.scodi-grunddaten-item,.scodi-summary-card,.scodi-year-card{border:1px solid #d8e1ee;border-radius:10px;padding:8px;background:#fff}.scodi-grunddaten-item.wide{grid-column:span 2}.scodi-grunddaten-item.full{grid-column:1/-1}.scodi-grunddaten-item span,.scodi-summary-card span,.scodi-year-card span{display:block;color:#607086;font-size:9px;font-weight:700}.scodi-grunddaten-item strong,.scodi-summary-card strong,.scodi-year-card strong{display:block;font-size:11px;color:#1f2937;white-space:pre-wrap;overflow-wrap:anywhere}.scodi-summary-card strong,.scodi-year-card strong{font-size:13px}.scodi-grunddaten-timeplan,.scodi-week-wrap,.scodi-accounting-wrap{border:1px solid #d8e1ee;border-radius:10px;background:#fff;overflow:hidden}.scodi-grunddaten-timeplan-title{padding:7px 8px;border-bottom:1px solid #d8e1ee;font-weight:700}.scodi-grunddaten-timeplan table,.scodi-week-table,.scodi-accounting-table{width:100%;border-collapse:collapse;table-layout:fixed;font-size:9px}.scodi-week-table{font-size:10px}.scodi-week-table col.scodi-time-col{width:30mm}.scodi-grunddaten-timeplan th,.scodi-grunddaten-timeplan td,.scodi-week-table th,.scodi-week-table td,.scodi-accounting-table th,.scodi-accounting-table td{border:1px solid #d8e1ee;padding:5px;text-align:left;vertical-align:top}.scodi-day-mo{--scodi-day-main:#caa33a;--scodi-day-soft:#fff4c9;--scodi-day-line:#ead48b}.scodi-day-di{--scodi-day-main:#7aa842;--scodi-day-soft:#ebf8d7;--scodi-day-line:#c9e4a5}.scodi-day-mi{--scodi-day-main:#4e8fcf;--scodi-day-soft:#e4f1ff;--scodi-day-line:#b8d5f3}.scodi-day-do{--scodi-day-main:#c95072;--scodi-day-soft:#ffe1ea;--scodi-day-line:#f1b5c5}.scodi-day-fr{--scodi-day-main:#d6953c;--scodi-day-soft:#fff0de;--scodi-day-line:#efc48e}.scodi-week-table th.scodi-day-col-head{background:linear-gradient(180deg,#fff,var(--scodi-day-soft))!important;color:var(--scodi-day-main)!important;border-top:3px solid var(--scodi-day-main)!important;text-align:center}.scodi-week-table td.scodi-day-col-cell{background:linear-gradient(180deg,#fff,var(--scodi-day-soft));border-color:var(--scodi-day-line)}.scodi-time-badges{display:flex;flex-wrap:wrap;gap:3px}.scodi-time-badge{display:inline-flex;border:1px solid #d8e1ee;border-radius:999px;padding:2px 5px;font-size:8px;font-weight:700}.scodi-time-badge.grit{border-color:#dacdf0;background:#f1ecf8;color:#5c3991}.scodi-time-badge.gret{border-color:#cfe7d9;background:#eaf7f1;color:#2f7d5a}.scodi-time-badge.meal{border-color:#f0dfad;background:#fff8ea;color:#8a6700}.scodi-day-cell{display:grid;gap:5px}.scodi-slot-card{border:1px solid #d8e1ee;border-radius:8px;background:#fbfdff;padding:6px;display:grid;gap:4px}.scodi-slot-card.grit{border-color:#dacdf0;background:#fbf7ff}.scodi-slot-card.gret{border-color:#cfe7d9;background:#f5fff9}.scodi-slot-card.missing{border-color:#f0dfad;background:#fff8ea}.scodi-slot-label{font-size:9px;font-weight:700}.scodi-slot-label.grit{color:#5c3991}.scodi-slot-label.gret{color:#2f7d5a}.scodi-slot-status{font-size:8px;color:#607086}.scodi-slot-body{font-size:8.8px;line-height:1.28;white-space:pre-wrap;overflow-wrap:anywhere}.scodi-empty-slot{border:1px dashed #d8e1ee;border-radius:8px;background:#fbfdff;color:#607086;padding:5px;font-size:8.8px}.scodi-lunch-cell{font-size:9px;color:#8a6700}.scodi-output-box{white-space:pre-wrap;overflow-wrap:anywhere;border:1px solid #d8e1ee;border-radius:8px;background:#fffefc;padding:8px;font-size:10.5px;line-height:1.55}.scodi-ep-output-box,.scodi-planning-output-box{white-space:normal!important;background:#fff!important}.inline-output-doc{display:grid;gap:8px}.inline-output-section{break-inside:avoid;page-break-inside:avoid;border:1px solid #d8e1ee;border-radius:9px;background:#fff;padding:8px}.inline-output-heading{margin:0 0 6px 0;padding-bottom:5px;border-bottom:1px solid #d8e1ee;font-size:12px;color:#5c3991}.generator-card.gret .inline-output-heading{color:#2f7d5a}.inline-output-body{font-size:10.5px;line-height:1.55}.ep-output-line{margin:0 0 5px 0;line-height:1.55}.ep-output-label{font-weight:700;color:inherit;margin-right:3px}.ep-output-bullet{position:relative;padding-left:12px}.ep-output-bullet:before{content:"•";position:absolute;left:0;font-weight:700;color:inherit}.scodi-output-empty,.scodi-special-empty{border:1px dashed #d8e1ee;border-radius:8px;background:#fbfdff;color:#607086;padding:8px;font-size:10px}.scodi-holiday-list{display:flex;flex-wrap:wrap;gap:4px}.scodi-holiday-pill{border:1px solid #d8e1ee;border-radius:999px;padding:3px 6px;font-size:9px}.scodi-holiday-pill.skipped{border-color:#f0dfad;background:#fff8ea}@media print{.bt-print-mobile-toolbar{display:none!important}.print-frame{width:100%;border-collapse:collapse}.generator-card,.inline-output-section{break-inside:avoid;page-break-inside:avoid}}@page{size:A4 ${pageOrientation};margin:8mm}</style></head><body><div class="bt-print-mobile-toolbar" style="position:sticky;top:0;z-index:9999;display:flex;gap:8px;padding:8px;background:#fff;border-bottom:1px solid #d8e1ee"><button type="button" onclick="window.print()" style="flex:1;border:1px solid #2f6fed;border-radius:10px;background:#2f6fed;color:#fff;font:700 14px Arial;padding:10px">Drucken / PDF öffnen</button><button type="button" onclick="window.close()" style="flex:1;border:1px solid #2f6fed;border-radius:10px;background:#fff;color:#2f6fed;font:700 14px Arial;padding:10px">Schliessen</button></div><table class="print-frame"><thead><tr><td><div class="print-header"><div class="logos"><img src="${logo1}" alt="BT-Navigator"><img src="${logo2}" alt="L!V"></div><div><strong>${esc(title)}</strong><div class="subtitle">Einzelklient · BT-Navigator</div></div><div class="meta">gedruckt:<br>${esc(printedAt)}</div></div></td></tr></thead><tbody><tr><td><main class="wrap"><h1>${esc(title)}</h1>${bodyHtml}</main></td></tr></tbody><tfoot><tr><td><div class="footer"><span>BT-Navigator · RIT / RET</span><span>L!V · Leben in Vielfalt</span></div></td></tr></tfoot></table><script>window.addEventListener('load',function(){setTimeout(function(){try{window.focus();window.print();}catch(e){}},600);});<\/script></body></html>`;}
 function scodiOpenPrintHtml(html){let printWindow=null; try{printWindow=window.open("","_blank");}catch(error){printWindow=null;} if(printWindow&&printWindow.document){printWindow.document.open(); printWindow.document.write(html); printWindow.document.close(); return;} try{const blob=new Blob([html],{type:"text/html;charset=utf-8"}); const url=URL.createObjectURL(blob); window.location.href=url;}catch(error){const doc=document.open("text/html","replace"); doc.write(html); doc.close();}}
 function printViewer(kind="all"){if(!currentPayload){setStatus("Bitte zuerst eine Klientendatei laden.","warn"); return;} const mode=clean(kind||"all").toLowerCase(); const yearAccounting=scodiBuildYearAccounting(); let title="Gesamtausgabe – "+scodiClientName(); let body=""; let pageMode="landscape"; if(["rit_complete","rit","grit_complete","grit","weekplan"].includes(mode)){title="RIT – Wochenplan, Planung und Entwicklungsplanung – "+scodiClientName(); body=`${scodiRenderGrunddatenSection()}${scodiRenderWeekplanPrintSection("grit")}${scodiRenderKiSection("grit")}${scodiRenderEpSection("grit")}`;} else if(["ret_complete","ret","gret_complete","gret","ki"].includes(mode)){title="RET – Wochenplan, Planung und Entwicklungsplanung – "+scodiClientName(); body=`${scodiRenderGrunddatenSection()}${scodiRenderWeekplanPrintSection("gret")}${scodiRenderKiSection("gret")}${scodiRenderEpSection("gret")}`;} else {title="Gesamtausgabe – "+scodiClientName(); body=`${scodiRenderGrunddatenSection()}${scodiRenderWeekplanPrintSection("all")}${scodiRenderKiSection("grit")}${scodiRenderEpSection("grit")}${scodiRenderKiSection("gret")}${scodiRenderEpSection("gret")}<section class="generator-card"><div class="generator-head"><h2>Buchhaltung / Stundenübersicht</h2></div><div class="section"><div class="scodi-summary-grid"><div class="scodi-summary-card"><span>Klient</span><strong>${esc(scodiClientName())}</strong></div><div class="scodi-summary-card"><span>Jahr ${esc(String(yearAccounting.year))} RIT</span><strong>${esc(scodiFormatHours(yearAccounting.totals.grit))}</strong></div><div class="scodi-summary-card"><span>Jahr ${esc(String(yearAccounting.year))} RET</span><strong>${esc(scodiFormatHours(yearAccounting.totals.gret))}</strong></div><div class="scodi-summary-card"><span>Jahr total</span><strong>${esc(scodiFormatHours(yearAccounting.totals.all))}</strong></div></div>${scodiRenderYearAccountingBlock(yearAccounting)}${scodiRenderAccountingTable()}</div></section>`;} scodiOpenPrintHtml(scodiBuildPrintHtml(title,body,pageMode));}
+
+function applyViewerBrandLogos(){
+  const btLogo = document.getElementById("viewerBtLogo");
+  const livLogo = document.getElementById("viewerLivLogo");
+  if(btLogo && typeof PRINT_HEADER_IMAGE_DATA_URI !== "undefined") btLogo.src = PRINT_HEADER_IMAGE_DATA_URI;
+  if(livLogo && typeof PRINT_PARTNER_IMAGE_DATA_URI !== "undefined") livLogo.src = PRINT_PARTNER_IMAGE_DATA_URI;
+}
+applyViewerBrandLogos();
 
 </script>
 </body>
