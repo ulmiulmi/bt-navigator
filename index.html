@@ -4590,6 +4590,225 @@ body.bt-mobile-view .ep-split-page .ep-section-nav {
 }
 </style>
 
+
+
+<style id="bt-generator-logo-frame-right-v1">
+/* BT_GENERATOR_LOGO_FRAME_RIGHT_V1: nur die sichtbare Logo-Gruppe im Arbeitskopf rahmen und rechts ausrichten; Druckansicht unverändert */
+@media screen {
+  #generatorView .bt-generator-logo-strip {
+    justify-self: end !important;
+    justify-content: flex-end !important;
+    align-items: center !important;
+    gap: 14px !important;
+    padding: 8px 10px !important;
+    border: 1px solid var(--theme-line, var(--line)) !important;
+    border-radius: 18px !important;
+    background: rgba(255, 255, 255, 0.88) !important;
+    box-shadow: 0 8px 20px rgba(31, 57, 90, 0.05) !important;
+    min-width: max-content !important;
+  }
+  #generatorView .bt-generator-logo-strip img {
+    height: 48px !important;
+    max-width: 190px !important;
+  }
+  #generatorView .bt-generator-logo-strip img.bt-generator-logo-liv {
+    height: 43px !important;
+    max-width: 185px !important;
+  }
+}
+@media screen and (max-width: 900px) {
+  #generatorView .bt-generator-logo-strip {
+    justify-self: end !important;
+    gap: 10px !important;
+    padding: 7px 9px !important;
+    border-radius: 16px !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+  }
+  #generatorView .bt-generator-logo-strip img {
+    height: 38px !important;
+    max-width: 150px !important;
+  }
+  #generatorView .bt-generator-logo-strip img.bt-generator-logo-liv {
+    height: 34px !important;
+    max-width: 145px !important;
+  }
+}
+@media print {
+  #generatorView .bt-generator-logo-strip {
+    display: none !important;
+  }
+}
+</style>
+
+
+<style id="bt-generator-logo-frame-left-override-v1">
+/* BT_GENERATOR_LOGO_FRAME_LEFT_OVERRIDE_V1: nur Logo-Gruppe im Arbeitskopf von rechts nach links setzen; Titelbild und Druckansicht unverändert */
+@media screen {
+  #generatorView .generator-title {
+    grid-template-columns: auto auto minmax(0, 1fr) !important;
+    grid-template-areas: "logos badge title" !important;
+    justify-items: start !important;
+  }
+  #generatorView .bt-generator-logo-strip {
+    grid-area: logos !important;
+    justify-self: start !important;
+    justify-content: flex-start !important;
+  }
+}
+@media screen and (max-width: 900px) {
+  #generatorView .generator-title {
+    grid-template-columns: minmax(0, 1fr) !important;
+    grid-template-areas:
+      "logos"
+      "badge"
+      "title" !important;
+    justify-items: start !important;
+  }
+  #generatorView .bt-generator-logo-strip {
+    justify-self: start !important;
+    justify-content: flex-start !important;
+  }
+}
+@media print {
+  #generatorView .bt-generator-logo-strip {
+    display: none !important;
+  }
+}
+</style>
+
+
+
+<style id="bt-redundant-ui-text-calm-v1">
+/* BT_REDUNDANT_UI_TEXT_CALM_V1: nur sichtbare, doppelte Hinweise im Arbeitsbereich ausblenden; Titelbild, Druckansicht und Logik bleiben unverändert */
+@media screen {
+  #generatorSubtitle,
+  #generatorView .generator-context-row,
+  #generatorView .print-note,
+  #workspaceMetaNote:empty,
+  #pageFooterNote:empty {
+    display: none !important;
+  }
+
+  #generatorView .generator-header {
+    gap: 8px !important;
+  }
+
+  #generatorView .generator-title {
+    margin-bottom: 0 !important;
+  }
+
+  #generatorView .preview-head .small,
+  #generatorView .text-collapsible .small {
+    display: none !important;
+  }
+}
+
+
+/* BT_ADMIN_PANEL_V1: Vorschau/Aktionen/KI/Browser-Stände in einem geschützten Admin-Klappfenster */
+.admin-collapsible {
+  border: 1px solid var(--theme-line, var(--line));
+  border-radius: 20px;
+  background: #fff;
+  overflow: hidden;
+  box-shadow: 0 10px 24px var(--theme-glow, rgba(31,57,90,.06));
+}
+.admin-collapsible > summary {
+  list-style: none;
+  cursor: pointer;
+  padding: 14px 16px;
+  font-weight: 950;
+  color: var(--theme, var(--accent));
+  background: linear-gradient(180deg, var(--theme-soft, #f8fbff), #ffffff);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  user-select: none;
+}
+.admin-collapsible > summary::-webkit-details-marker { display: none; }
+.admin-collapsible > summary::after {
+  content: "▾";
+  color: var(--muted);
+  transition: transform 0.14s ease;
+}
+.admin-collapsible[open] > summary::after { transform: rotate(180deg); }
+.admin-summary-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.admin-summary-title::before { content: "🔒"; }
+.admin-collapsible.unlocked .admin-summary-title::before { content: "🔓"; }
+.admin-summary-sub {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid var(--theme-line, var(--line));
+  border-radius: 999px;
+  background: #fff;
+  padding: 5px 9px;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 900;
+}
+.admin-collapsible.unlocked .admin-summary-sub {
+  color: var(--theme, var(--accent));
+  background: var(--theme-soft, #f8fbff);
+}
+.admin-lock-body,
+.admin-content {
+  border-top: 1px solid var(--theme-line, var(--line));
+  padding: 14px;
+  display: grid;
+  gap: 12px;
+}
+.admin-content {
+  background: #fff;
+}
+.admin-lock-title {
+  font-weight: 950;
+  color: var(--theme, var(--accent));
+}
+.admin-lock-note,
+.admin-lock-status {
+  color: var(--muted);
+  line-height: 1.45;
+  font-size: 13px;
+}
+.admin-lock-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 10px;
+  align-items: center;
+}
+.admin-lock-row input {
+  width: 100%;
+  border: 1px solid var(--theme-line, var(--line));
+  border-radius: 12px;
+  background: #fff;
+  color: var(--text);
+  padding: 11px 12px;
+  font: inherit;
+  min-height: 44px;
+}
+.admin-lock-row input:focus {
+  outline: none;
+  border-color: var(--theme, var(--accent));
+  box-shadow: 0 0 0 3px var(--theme-soft, #eaf1ff);
+}
+.admin-lock-status.error { color: #b42318; font-weight: 800; }
+.admin-lock-status.ok { color: #0f766e; font-weight: 800; }
+.admin-content > details { margin: 0; }
+.admin-content > details + details,
+.admin-content > .meta-note,
+.admin-content > .print-note { margin-top: 10px; }
+body.bt-mobile-view .admin-collapsible { border-radius: 16px; }
+body.bt-mobile-view .admin-collapsible > summary { padding: 12px 13px; }
+body.bt-mobile-view .admin-lock-row { grid-template-columns: 1fr; }
+body.bt-mobile-view .admin-lock-row button { width: 100%; }
+</style>
+
 </head>
 <body>
   <div class="app">
@@ -4815,6 +5034,21 @@ body.bt-mobile-view .ep-split-page .ep-section-nav {
             </div>
 
             <div class="preview-body">
+              <details class="admin-collapsible bt-admin-locked" id="btAdminPanel">
+                <summary>
+                  <span class="admin-summary-title">Admin</span>
+                  <span class="admin-summary-sub" id="btAdminSummaryState">gesperrt</span>
+                </summary>
+                <div class="admin-lock-body" id="btAdminGate">
+                  <div class="admin-lock-title">Adminbereich</div>
+                  <div class="admin-lock-note">Strukturierte Vorschauen, Aktionen, KI und Browser-Stände sind hier zusammengefasst.</div>
+                  <div class="admin-lock-row">
+                    <input type="password" id="btAdminPasswordInput" inputmode="numeric" autocomplete="off" placeholder="Passwort" />
+                    <button type="button" class="ghost" onclick="unlockBtAdminPanel()">Entsperren</button>
+                  </div>
+                  <div class="admin-lock-status" id="btAdminLockStatus">Passwort erforderlich.</div>
+                </div>
+                <div class="admin-content hidden" id="btAdminContent">
               <details class="text-collapsible">
                 <summary>Strukturierte Vorschau</summary>
                 <div class="text-collapsible-body">
@@ -4973,6 +5207,8 @@ body.bt-mobile-view .ep-split-page .ep-section-nav {
               </details>
 <div class="meta-note" id="workspaceMetaNote"></div>
                 <div class="print-note">Die Druckansicht enthält die strukturierte Vorschau und – falls vorhanden – den Fachtext.</div>
+                </div>
+              </details>
               </div>
               <input type="file" id="workspaceImportInput" accept="application/json,.json" class="hidden" />
               <input type="file" id="singleClientImportInput" accept="application/json,.json" class="hidden" />
@@ -4985,6 +5221,61 @@ body.bt-mobile-view .ep-split-page .ep-section-nav {
   </div>
 
   <script>
+
+function initBtAdminPanel(){
+  const panel = document.getElementById("btAdminPanel");
+  const input = document.getElementById("btAdminPasswordInput");
+  if(!panel) return;
+  if(sessionStorage.getItem("BT_NAVIGATOR_ADMIN_UNLOCKED") === "1"){
+    setBtAdminUnlocked(true);
+    panel.open = true;
+  }
+  if(input){
+    input.addEventListener("keydown", function(ev){
+      if(ev.key === "Enter") unlockBtAdminPanel();
+    });
+  }
+}
+
+function setBtAdminUnlocked(isUnlocked){
+  const panel = document.getElementById("btAdminPanel");
+  const gate = document.getElementById("btAdminGate");
+  const content = document.getElementById("btAdminContent");
+  const state = document.getElementById("btAdminSummaryState");
+  const status = document.getElementById("btAdminLockStatus");
+  if(!panel || !gate || !content) return;
+  panel.classList.toggle("unlocked", !!isUnlocked);
+  panel.classList.toggle("bt-admin-locked", !isUnlocked);
+  gate.classList.toggle("hidden", !!isUnlocked);
+  content.classList.toggle("hidden", !isUnlocked);
+  if(state) state.textContent = isUnlocked ? "entsperrt" : "gesperrt";
+  if(status){
+    status.classList.remove("error", "ok");
+    status.textContent = isUnlocked ? "Adminbereich entsperrt." : "Passwort erforderlich.";
+    if(isUnlocked) status.classList.add("ok");
+  }
+}
+
+function unlockBtAdminPanel(){
+  const input = document.getElementById("btAdminPasswordInput");
+  const status = document.getElementById("btAdminLockStatus");
+  const value = input ? String(input.value || "") : "";
+  if(value === "0000"){
+    sessionStorage.setItem("BT_NAVIGATOR_ADMIN_UNLOCKED", "1");
+    setBtAdminUnlocked(true);
+    if(input) input.value = "";
+    return;
+  }
+  if(status){
+    status.textContent = "Passwort nicht korrekt.";
+    status.classList.remove("ok");
+    status.classList.add("error");
+  }
+  if(input) input.select();
+}
+
+document.addEventListener("DOMContentLoaded", initBtAdminPanel);
+
 const MODELS = {
   grit: {
     key: "grit",
