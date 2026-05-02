@@ -1,3 +1,5 @@
+<!-- BT-NAVIGATOR-STAND: 2026-05-02 / Tagesplaner: Zuweisungsfelder mobil gegen Ueberlappung abgesichert -->
+<!-- BT-NAVIGATOR-STAND: 2026-05-02 / Tagesplaner: Viewer-Design mit gerahmten Logos links und ruhigerem Kopfbereich -->
 <!-- BT-NAVIGATOR-STAND: 2026-05-02 / Tagesplaner: Server-Modus-Vorbereitung mit API-Schnittstelle und Sync-Status -->
 <!-- BT-NAVIGATOR-STAND: 2026-05-02 / Tagesplaner: Mitarbeiter- und Raumstammdaten mit sortierter Zuweisung -->
 <!-- BT-NAVIGATOR-STAND: 2026-05-02 / Tagesplaner: Mittagswagen-Mittagessen als eigene gelbe Karte zwischen Morgen und Nachmittag -->
@@ -125,6 +127,245 @@
       .table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}.table-wrap table{min-width:980px}
     }
     @media print{body{background:#fff}.app{max-width:none;padding:0}.print-header{display:block!important}.file-panel,.tools,.plan-toolbar,.print-note,.cancel-line,.check-panel,.resource-panel{display:none!important}.assignment-edit{display:none!important}.assignment-print{display:flex!important}.assignment-overview{break-inside:avoid;page-break-inside:avoid}.card{box-shadow:none!important;border-color:#d8e1ee}.section{padding:8mm}.table-wrap{overflow:visible;border-radius:0}table{min-width:0;font-size:9pt}th{position:static;font-size:8pt;padding:5px}td{padding:5px}.goal-item{font-size:7.5pt;padding:5px}.file-name{display:none}.summary-grid{grid-template-columns:repeat(4,1fr)}@page{size:A4 landscape;margin:8mm}}
+  
+
+    /* TZ_VIEWER_DESIGN_V1: sichtbarer Tagesplaner an Viewer-/BT-Navigator-Stil angepasst, ohne Drucklogik zu verändern */
+    .hero {
+      padding: 24px 26px !important;
+      gap: 18px !important;
+      background:
+        linear-gradient(180deg, #ffffff 0%, #fbfdff 68%, var(--accent-soft) 100%) !important;
+      border-bottom: 1px solid var(--line) !important;
+    }
+    .hero-brand-row {
+      display: flex !important;
+      align-items: flex-start !important;
+      justify-content: flex-start !important;
+      gap: 18px !important;
+      flex-wrap: wrap !important;
+    }
+    .hero-brand-main {
+      display: grid !important;
+      gap: 8px !important;
+      min-width: min(100%, 360px) !important;
+      flex: 1 1 560px !important;
+    }
+    .hero-title {
+      display: flex !important;
+      align-items: center !important;
+      gap: 12px !important;
+      flex-wrap: wrap !important;
+    }
+    .hero-title h1 {
+      color: var(--ret) !important;
+      font-size: clamp(28px, 3vw, 40px) !important;
+      line-height: 1.08 !important;
+      letter-spacing: 0.01em !important;
+    }
+    .hero .muted {
+      max-width: 980px !important;
+      color: #435266 !important;
+    }
+    .hero-brand-logos {
+      display: flex !important;
+      align-items: center !important;
+      justify-content: flex-start !important;
+      gap: 14px !important;
+      flex: 0 0 auto !important;
+      padding: 8px 10px !important;
+      border: 1px solid var(--line) !important;
+      border-radius: 18px !important;
+      background: rgba(255,255,255,0.88) !important;
+      box-shadow: 0 8px 20px rgba(31,57,90,0.05) !important;
+      max-width: 100% !important;
+    }
+    .hero-brand-logos img {
+      display: block !important;
+      height: 48px !important;
+      max-width: 190px !important;
+      object-fit: contain !important;
+    }
+    .hero-brand-logos img.tagesplaner-liv-logo {
+      height: 43px !important;
+    }
+    .hero-brand-sub {
+      color: var(--muted) !important;
+    }
+    .badge {
+      border: 1px solid #cfe7d9 !important;
+      background: var(--ret-soft) !important;
+      color: var(--ret) !important;
+      border-radius: 999px !important;
+      font-weight: 900 !important;
+    }
+    .card,
+    .drop,
+    .status,
+    .summary-box,
+    .day-card,
+    .day-client,
+    .resource-panel,
+    .sync-panel,
+    .check-panel {
+      border-radius: 20px !important;
+      box-shadow: 0 12px 28px rgba(31,57,90,0.06) !important;
+    }
+    .file-panel {
+      padding: 18px !important;
+      background: #fbfdff !important;
+    }
+    .drop {
+      border-style: solid !important;
+      background: linear-gradient(180deg, #ffffff 0%, #fbfdff 100%) !important;
+      gap: 12px !important;
+    }
+    .drop strong,
+    .resource-title,
+    .check-title,
+    .assignment-title {
+      color: #243244 !important;
+      font-weight: 950 !important;
+    }
+    button {
+      min-height: 40px !important;
+      border-radius: 14px !important;
+      padding: 9px 13px !important;
+      font-weight: 850 !important;
+      transition: transform 0.12s ease, box-shadow 0.12s ease, opacity 0.12s ease !important;
+    }
+    button:hover {
+      transform: translateY(-1px) !important;
+    }
+    button.secondary,
+    button.ghost {
+      background: #fff !important;
+      box-shadow: none !important;
+    }
+    button.secondary {
+      color: var(--accent) !important;
+      border-color: #bfd0ff !important;
+    }
+    button.ghost {
+      color: #243244 !important;
+      border-color: var(--line) !important;
+    }
+    .file-panel .tools button,
+    .sync-actions button,
+    .resource-actions button,
+    .plan-toolbar button {
+      min-height: 38px !important;
+      font-size: 13px !important;
+      padding: 8px 11px !important;
+      box-shadow: none !important;
+    }
+    input[type=file],
+    input[type=password],
+    input[type=number],
+    input[type=text],
+    input[type=url],
+    select {
+      min-height: 42px !important;
+      border-radius: 14px !important;
+      border-color: #d8e2ea !important;
+      background: #fff !important;
+    }
+    input:focus,
+    select:focus {
+      outline: none !important;
+      border-color: #9eb7ff !important;
+      box-shadow: 0 0 0 3px rgba(73,115,224,0.10) !important;
+    }
+    .sync-api-note {
+      background: #fbfdff !important;
+      border-radius: 14px !important;
+    }
+    .summary-grid {
+      gap: 14px !important;
+    }
+    .summary-box {
+      background: linear-gradient(180deg, #ffffff 0%, #fbfdff 100%) !important;
+    }
+    .table-wrap,
+    .day-card {
+      border-radius: 20px !important;
+      box-shadow: 0 12px 28px rgba(31,57,90,0.05) !important;
+    }
+    @media(max-width:900px){
+      .hero { padding: 18px !important; }
+      .hero-brand-row { display: grid !important; gap: 14px !important; }
+      .hero-brand-logos { width: fit-content !important; justify-content: flex-start !important; gap: 12px !important; padding: 7px 9px !important; }
+      .hero-brand-logos img { height: 42px !important; max-width: 165px !important; }
+      .hero-brand-logos img.tagesplaner-liv-logo { height: 38px !important; }
+      .hero-title h1 { font-size: 26px !important; }
+      .file-panel .tools { display: grid !important; grid-template-columns: 1fr !important; width: 100% !important; }
+    }
+
+
+    /* TZ_ASSIGNMENT_MOBILE_SAFE_V1: Zuweisungsfelder dürfen in schmalen Tageskarten nie nebeneinander quetschen. */
+    .day-client,
+    .day-cell,
+    .assignment-box {
+      min-width: 0 !important;
+      max-width: 100% !important;
+      overflow: hidden !important;
+    }
+    .assignment-box {
+      width: 100% !important;
+      padding: 10px !important;
+      gap: 8px !important;
+    }
+    .assignment-title {
+      line-height: 1.25 !important;
+      overflow-wrap: anywhere !important;
+    }
+    .assignment-edit {
+      display: grid !important;
+      grid-template-columns: minmax(0, 1fr) !important;
+      gap: 8px !important;
+      width: 100% !important;
+      max-width: 100% !important;
+      min-width: 0 !important;
+    }
+    .assignment-edit label {
+      display: grid !important;
+      grid-template-columns: minmax(0, 1fr) !important;
+      width: 100% !important;
+      max-width: 100% !important;
+      min-width: 0 !important;
+      gap: 4px !important;
+      line-height: 1.2 !important;
+      white-space: normal !important;
+      overflow-wrap: anywhere !important;
+      letter-spacing: .01em !important;
+    }
+    .assignment-edit input {
+      display: block !important;
+      width: 100% !important;
+      max-width: 100% !important;
+      min-width: 0 !important;
+      box-sizing: border-box !important;
+      font-size: 13px !important;
+      line-height: 1.25 !important;
+      white-space: nowrap !important;
+    }
+    @media(max-width:900px){
+      .day-overview {
+        grid-template-columns: repeat(5, minmax(280px, 1fr)) !important;
+        min-width: 1440px !important;
+        width: 1440px !important;
+      }
+      .day-card-body {
+        overflow: hidden !important;
+      }
+      .assignment-box {
+        border-left-width: 5px !important;
+      }
+      .assignment-edit input {
+        min-height: 40px !important;
+        padding: 9px 10px !important;
+      }
+    }
+
   </style>
 </head>
 <body>
@@ -132,17 +373,19 @@
     <section class="card">
       <div class="hero">
         <div class="hero-brand-row">
-          <div class="hero-brand-meta">
-            <span class="badge">RET / TZ Sammelplan</span>
-            <div class="hero-brand-sub">BT-Navigator · L!V Leben in Vielfalt</div>
+          <div class="hero-brand-logos" aria-label="Logos">
+            <img src="" id="heroBtLogo" class="tagesplaner-bt-logo" alt="BT-Navigator" />
+            <img src="" id="heroLivLogo" class="tagesplaner-liv-logo" alt="L!V Leben in Vielfalt" />
           </div>
-          <div class="hero-brand-logos">
-            <img src="" id="heroBtLogo" alt="BT-Navigator" />
-            <img src="" id="heroLivLogo" alt="L!V Leben in Vielfalt" />
+          <div class="hero-brand-main">
+            <div class="hero-title">
+              <span class="badge">RET / TZ Sammelplan</span>
+              <h1>Klientendateien lesen und gemeinsamen TZ-Plan anzeigen</h1>
+            </div>
+            <div class="hero-brand-sub">BT-Navigator · L!V Leben in Vielfalt</div>
+            <div class="muted">Bis zu 100 BT-Navigator-Klientendateien lokal im Browser laden oder später weitere Dateien hinzufügen. Alle Klienten werden gemeinsam in einem Wochenplan angezeigt. Pro Kalenderwoche kann markiert werden, wenn ein Klient abgesagt hat.</div>
           </div>
         </div>
-        <h1>Klientendateien lesen und gemeinsamen TZ-Plan anzeigen</h1>
-        <div class="muted">Bis zu 100 BT-Navigator-Klientendateien lokal im Browser laden oder später weitere Dateien hinzufügen. Alle Klienten werden gemeinsam in einem Wochenplan angezeigt. Pro Kalenderwoche kann markiert werden, wenn ein Klient abgesagt hat.</div>
       </div>
       <div class="file-panel">
         <div class="drop" id="dropZone">
