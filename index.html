@@ -4458,6 +4458,138 @@ body.bt-mobile-view .ep-split-page .ep-section-nav {
 }
 </style>
 
+
+
+<style id="bt-generator-logos-right-calm-v1">
+/* BT_GENERATOR_LOGOS_RIGHT_CALM_V1: Logos rechts im Arbeitskopf; Titelbild und Druckansicht bleiben unverändert */
+#generatorView .generator-header {
+  padding-top: 14px !important;
+}
+#generatorView .generator-title {
+  display: grid !important;
+  grid-template-columns: auto minmax(0, 1fr) auto !important;
+  grid-template-areas: "badge title logos" !important;
+  align-items: center !important;
+  justify-content: stretch !important;
+  justify-items: start !important;
+  column-gap: 12px !important;
+  row-gap: 8px !important;
+  width: 100% !important;
+}
+#generatorView .bt-generator-logo-strip {
+  grid-area: logos !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: flex-end !important;
+  justify-self: end !important;
+  gap: 8px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  width: auto !important;
+  max-width: none !important;
+  overflow: visible !important;
+  order: 0 !important;
+}
+#generatorView .generator-title .badge {
+  grid-area: badge !important;
+  order: 0 !important;
+  margin: 0 !important;
+}
+#generatorView .generator-title h2 {
+  grid-area: title !important;
+  order: 0 !important;
+  min-width: 0 !important;
+  width: auto !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+}
+#generatorView .bt-generator-logo-strip img {
+  display: block !important;
+  height: 28px !important;
+  max-width: 126px !important;
+  object-fit: contain !important;
+  flex: 0 0 auto !important;
+}
+#generatorView .bt-generator-logo-strip img.bt-generator-logo-liv {
+  height: 26px !important;
+  max-width: 116px !important;
+}
+#generatorView > .toolbar.scodi-compact-toolbar {
+  padding: 6px 8px !important;
+  min-height: 0 !important;
+  margin-bottom: 8px !important;
+  border-color: #e4ebf4 !important;
+  background: rgba(255,255,255,.72) !important;
+  box-shadow: 0 4px 12px rgba(31,57,90,.035) !important;
+}
+#generatorView > .toolbar.scodi-compact-toolbar .toolbar-actions {
+  gap: 6px !important;
+}
+#generatorView > .toolbar.scodi-compact-toolbar button,
+#generatorView > .toolbar.scodi-compact-toolbar #switchBtn,
+#generatorView > .toolbar.scodi-compact-toolbar #switchBtn.switch-to-grit,
+#generatorView > .toolbar.scodi-compact-toolbar #switchBtn.switch-to-gret {
+  min-height: 30px !important;
+  padding: 5px 10px !important;
+  border-radius: 9px !important;
+  font-size: 12px !important;
+  line-height: 1.15 !important;
+  font-weight: 800 !important;
+  background: #fff !important;
+  color: var(--theme, var(--accent)) !important;
+  border-color: var(--theme-line, var(--line)) !important;
+  box-shadow: none !important;
+}
+#generatorView .browser-snapshot-tools.scodi-simple-save-note {
+  border-color: var(--theme-line, var(--line));
+  background: linear-gradient(180deg,#ffffff 0%,#fbfdff 100%);
+}
+#generatorView .browser-snapshot-row.browser-snapshot-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+#generatorView .browser-snapshot-row.browser-snapshot-actions button {
+  flex: 1 1 135px;
+  min-height: 32px;
+  padding: 7px 9px;
+  border-radius: 10px;
+  font-size: 12px;
+  line-height: 1.15;
+  box-shadow: none;
+}
+@media (max-width: 900px) {
+  #generatorView .generator-title {
+    grid-template-columns: minmax(0,1fr) !important;
+    grid-template-areas:
+      "badge"
+      "title"
+      "logos" !important;
+    justify-items: start !important;
+  }
+  #generatorView .bt-generator-logo-strip {
+    justify-self: end !important;
+    justify-content: flex-end !important;
+  }
+  #generatorView .bt-generator-logo-strip img {
+    height: 25px !important;
+    max-width: 112px !important;
+  }
+  #generatorView .bt-generator-logo-strip img.bt-generator-logo-liv {
+    height: 23px !important;
+    max-width: 104px !important;
+  }
+  #generatorView > .toolbar.scodi-compact-toolbar {
+    padding: 5px 7px !important;
+  }
+}
+@media print {
+  #generatorView .bt-generator-logo-strip {
+    display: none !important;
+  }
+}
+</style>
+
 </head>
 <body>
   <div class="app">
@@ -4641,6 +4773,10 @@ body.bt-mobile-view .ep-split-page .ep-section-nav {
           <div class="card">
             <div class="generator-header">
               <div class="generator-title">
+                <div class="bt-generator-logo-strip" aria-label="BT-Navigator und L!V Logos">
+                  <img id="btGeneratorLogoNavigator" alt="BT-Navigator" />
+                  <img id="btGeneratorLogoLiv" class="bt-generator-logo-liv" alt="L!V Leben in Vielfalt" />
+                </div>
                 <span class="badge" id="generatorBadge">Generator</span>
                 <h2 id="generatorTitle">Generator</h2>
               </div>
@@ -4713,8 +4849,17 @@ body.bt-mobile-view .ep-split-page .ep-section-nav {
                       <button type="button" class="ghost" onclick="resetCurrentGenerator()">Generator zurücksetzen</button>
                     </div>
                     <div class="browser-snapshot-tools scodi-simple-save-note">
-                      <div class="browser-snapshot-title">Speichern</div>
-                      <div class="browser-snapshot-status" id="browserSnapshotStatus">Der Arbeitsstand wird lokal gespeichert. Die Klientendatei wird im Viewer gespeichert/exportiert.</div>
+                      <div class="browser-snapshot-title">Verschlüsselte Browser-Stände</div>
+                      <div class="browser-snapshot-status" id="browserSnapshotStatus">Der Arbeitsstand wird lokal gespeichert. Datei-Exporte und Browser-Stände können verschlüsselt gesichert werden.</div>
+                      <div class="browser-snapshot-row browser-snapshot-actions">
+                        <button type="button" class="ghost" onclick="unlockBrowserSnapshotsFromUi()">Stände entsperren</button>
+                        <button type="button" class="ghost" onclick="saveEncryptedBrowserSnapshotFromUi()">Stand sichern</button>
+                        <button type="button" class="ghost" onclick="restoreBrowserSnapshot('current')">Aktuell laden</button>
+                        <button type="button" class="ghost" onclick="restoreBrowserSnapshot('previous')">Vorherig laden</button>
+                        <button type="button" class="ghost" onclick="restoreBrowserSnapshot('emergency')">Notfall laden</button>
+                        <button type="button" class="ghost" onclick="changeBrowserSnapshotsPasswordFromUi()">Passwort ändern</button>
+                        <button type="button" class="ghost" onclick="clearBrowserSnapshotsFromUi()">Stände löschen</button>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -27571,6 +27716,39 @@ renderClientContextNotice = (function(original){ return function(){
     }
   };
 })();
+
+
+
+/* BT_GENERATOR_LOGOS_LEFT_CALM_V5 */
+function applyBtGeneratorLogos() {
+  try {
+    const btLogo = document.getElementById("btGeneratorLogoNavigator");
+    const livLogo = document.getElementById("btGeneratorLogoLiv");
+    if (btLogo && typeof BT_PRINT_HEADER_IMAGE_DATA_URI !== "undefined") btLogo.src = BT_PRINT_HEADER_IMAGE_DATA_URI;
+    if (livLogo && typeof LIV_PRINT_HEADER_IMAGE_DATA_URI !== "undefined") livLogo.src = LIV_PRINT_HEADER_IMAGE_DATA_URI;
+  } catch (error) {
+    console.warn("Generator-Logos konnten nicht gesetzt werden.", error);
+  }
+}
+
+async function saveEncryptedBrowserSnapshotFromUi() {
+  try {
+    if (typeof mergeCurrentFormIntoState === "function") mergeCurrentFormIntoState();
+    else if (typeof persistAllState === "function") persistAllState();
+    try { if (typeof saveWeekplanFrameState === "function") saveWeekplanFrameState(); } catch (error) {}
+    if (typeof recordBrowserSnapshotAsync === "function") {
+      await recordBrowserSnapshotAsync("manual", { emergency: true, promptForPassword: true });
+    }
+    if (typeof setDirtyState === "function") setDirtyState(false);
+    if (typeof renderWorkspaceMeta === "function") renderWorkspaceMeta();
+    alert("Verschlüsselter Browser-Stand wurde gesichert.");
+  } catch (error) {
+    console.warn("Verschlüsselter Browser-Stand konnte nicht gesichert werden.", error);
+    alert("Verschlüsselter Browser-Stand konnte nicht gesichert werden. Passwort prüfen oder nochmals versuchen.");
+  }
+}
+
+document.addEventListener("DOMContentLoaded", applyBtGeneratorLogos);
 
 </script>
 
