@@ -14,7 +14,7 @@
     *{box-sizing:border-box} html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:Arial,Helvetica,sans-serif;overflow-x:hidden} body{min-height:100vh}
     button,input{font:inherit}.app{max-width:1180px;margin:0 auto;padding:24px}.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}.section{padding:22px}.stack{display:grid;gap:18px}.muted{color:var(--muted);line-height:1.6}.small{font-size:13px;color:var(--muted);line-height:1.5}.badge{display:inline-flex;align-items:center;gap:8px;padding:6px 10px;border-radius:999px;background:var(--accent-soft);color:var(--accent);font-size:13px;font-weight:800}.badge.grit{background:var(--grit-soft);color:var(--grit)}.badge.gret{background:var(--gret-soft);color:var(--gret)}
     h1,h2,h3{margin:0} h1{font-size:34px;line-height:1.1} h2{font-size:24px} h3{font-size:19px}.hero{display:grid;gap:16px;background:linear-gradient(180deg,#fff 0%,#fbfdff 100%);padding:24px}.hero-title{display:flex;align-items:center;gap:12px;flex-wrap:wrap}.tool-row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}button{border:1px solid var(--accent);background:var(--accent);color:#fff;border-radius:12px;padding:11px 16px;font-weight:800;cursor:pointer;min-height:42px;box-shadow:0 6px 16px rgba(31,57,90,.08)}button.secondary{background:#fff;color:var(--accent)}button.ghost{background:#fff;color:var(--text);border-color:var(--line);box-shadow:none}button.grit{background:var(--grit);border-color:var(--grit)}button.gret{background:var(--gret);border-color:var(--gret)}button.active{outline:3px solid rgba(47,111,237,.14)}
-    .file-panel{display:grid;gap:14px;padding:18px;border-top:1px solid var(--line);background:#fbfdff}.file-box{display:grid;gap:10px;border:1px dashed var(--line);border-radius:16px;background:#fff;padding:16px}.file-box input[type=file],.file-box input[type=password]{width:100%;border:1px solid var(--line);border-radius:12px;background:#fff;padding:11px 12px}.file-box input.viewer-file-input-native{position:absolute!important;left:-9999px!important;width:1px!important;height:1px!important;opacity:0!important;padding:0!important;border:0!important}.viewer-upload-control{display:inline-flex;align-items:center;justify-content:center;gap:8px;width:100%;min-height:46px;border:0;border-radius:14px;background:linear-gradient(135deg,var(--accent),#2c70df);color:#fff;font-weight:900;padding:12px 16px;box-shadow:0 8px 18px rgba(43,108,217,.18);cursor:pointer}.viewer-upload-control:focus{outline:3px solid rgba(43,108,217,.22);outline-offset:2px}.viewer-upload-name{font-size:13px;color:var(--muted);line-height:1.45}.status{border:1px solid var(--line);border-radius:14px;background:#fff;padding:12px 14px;line-height:1.5;color:var(--muted)}.status.good{border-color:#b7eadb;background:#f2fffa;color:var(--ok)}.status.warn{border-color:var(--warn-line);background:var(--warn-bg);color:#8a6700}.hidden{display:none!important}
+    .file-panel{display:grid;gap:14px;padding:18px;border-top:1px solid var(--line);background:#fbfdff}.file-box{display:grid;gap:10px;border:1px dashed var(--line);border-radius:16px;background:#fff;padding:16px}.file-box input[type=file],.file-box input[type=password]{width:100%;border:1px solid var(--line);border-radius:12px;background:#fff;padding:11px 12px}.status{border:1px solid var(--line);border-radius:14px;background:#fff;padding:12px 14px;line-height:1.5;color:var(--muted)}.status.good{border-color:#b7eadb;background:#f2fffa;color:var(--ok)}.status.warn{border-color:var(--warn-line);background:var(--warn-bg);color:#8a6700}.hidden{display:none!important}
     .summary-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.summary-box{border:1px solid var(--line);border-radius:16px;background:#fff;padding:14px}.summary-box strong{display:block;margin-bottom:6px;color:var(--text)}
     .viewer-check-grid{margin-top:14px;border:1px solid var(--line);border-radius:18px;background:linear-gradient(180deg,#fff,#fbfdff);padding:14px;display:grid;gap:12px}
     .viewer-check-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap}
@@ -162,26 +162,6 @@
   .viewer-lunch-value{font-size:7.5pt!important;line-height:1.22!important;min-height:0!important;max-height:none!important;overflow:visible!important;}
 }
 
-
-/* VIEWER_ACCOUNTING_SCODI_V1 */
-.accounting-summary-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:12px}
-.accounting-summary-card{border:1px solid var(--line);border-radius:16px;background:#fff;padding:12px;box-shadow:0 8px 18px rgba(31,57,90,.04)}
-.accounting-summary-card span{display:block;color:var(--muted);font-size:12px;font-weight:900;text-transform:uppercase;letter-spacing:.02em}
-.accounting-summary-card strong{display:block;margin-top:4px;font-size:24px;color:var(--text);line-height:1.1}
-.accounting-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid var(--line);border-radius:18px;background:#fff;margin:10px 0 14px;box-shadow:0 8px 18px rgba(31,57,90,.04)}
-.accounting-table{width:100%;min-width:860px;border-collapse:collapse;font-size:14px}
-.accounting-table th,.accounting-table td{border-bottom:1px solid var(--line);border-right:1px solid var(--line);padding:10px 12px;text-align:left;vertical-align:top;background:#fff}
-.accounting-table th{font-weight:950;color:var(--text);background:#f8fbff}
-.accounting-table td strong,.accounting-table th strong{font-weight:950}
-.accounting-table tr:last-child th,.accounting-table tr:last-child td{border-bottom:0}
-.accounting-table th:last-child,.accounting-table td:last-child{border-right:0}
-.accounting-total-row th,.accounting-total-row td{background:#fbfdff;font-weight:950}
-.accounting-rule-list{margin:0;padding-left:18px;line-height:1.55;color:var(--text)}
-.accounting-holiday-list{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
-.accounting-holiday-pill{border:1px solid var(--line);border-radius:999px;padding:8px 10px;background:#fff;color:var(--text);font-size:13px;font-weight:800;line-height:1.25}
-.accounting-holiday-pill.skipped{background:#fff8ea;border-color:#f0dfad;color:#6b5200}
-@media(max-width:760px){.accounting-summary-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.accounting-summary-card strong{font-size:20px}.accounting-table{font-size:13px;min-width:760px}.accounting-table th,.accounting-table td{padding:9px}}
-@media print{.accounting-summary-grid{grid-template-columns:repeat(4,minmax(0,1fr))!important}.accounting-wrap{overflow:visible!important;box-shadow:none!important}.accounting-table{min-width:0!important;font-size:9px!important}.accounting-table th,.accounting-table td{padding:5px!important}.accounting-holiday-pill{font-size:8px!important;padding:3px 5px!important}}
 
 /* QUICK_NAV_VIEWER_V1 */
 .viewer-quick-nav{
@@ -451,8 +431,48 @@ body.viewer-mobile-view .viewer-display-controls-head{
   }
 }
 
+
+
+/* EXT_VIEWER_SYNC_INTERNAL_2026_05_02: externe Ausgabe an internen Viewer angepasst */
+.scodi-panel{display:grid;gap:18px;}
+.scodi-topline{display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:space-between;}
+.scodi-pill-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
+.scodi-pill{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);border-radius:999px;background:#fff;padding:7px 10px;font-size:12px;font-weight:850;color:var(--muted);}
+.scodi-pill.grit{border-color:#dacdf0;background:#f7f1ff;color:var(--grit);}
+.scodi-pill.gret{border-color:#cfe7d9;background:#eefaf3;color:var(--gret);}
+.scodi-section{border:1px solid var(--line);border-radius:18px;background:#fff;overflow:hidden;}
+.scodi-section>summary{list-style:none;cursor:pointer;padding:14px 16px;font-weight:950;color:#243244;background:linear-gradient(180deg,#fbfdff,#fff);display:flex;justify-content:space-between;gap:10px;border-bottom:1px solid var(--line);}
+.scodi-section>summary::-webkit-details-marker{display:none;}
+.scodi-section>summary:after{content:"▾";color:var(--muted);}
+.scodi-section:not([open])>summary{border-bottom:0;}
+.scodi-section[open]>summary:after{transform:rotate(180deg);}
+.scodi-section-body{padding:16px;display:grid;gap:14px;}
+.scodi-print-panel{border-color:var(--theme-line,var(--line));background:linear-gradient(180deg,#ffffff 0%,var(--theme-soft,#fbfdff) 100%);}
+.scodi-print-action-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;}
+.scodi-print-action-row button{width:100%;min-height:46px;white-space:normal;}
+.scodi-viewer-nav{display:flex;gap:10px;flex-wrap:wrap;}
+.scodi-viewer-nav a{display:inline-flex;align-items:center;min-height:38px;padding:8px 12px;border:1px solid var(--line);border-radius:999px;background:#fff;text-decoration:none;color:#243244;font-size:13px;font-weight:900;}
+.scodi-grunddaten-section .scodi-section-body{gap:16px;}
+.scodi-grunddaten-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;}
+.scodi-grunddaten-item{border:1px solid var(--line);border-radius:16px;background:#fff;padding:12px 14px;display:grid;gap:5px;min-width:0;box-shadow:0 8px 18px rgba(31,57,90,.04);}
+.scodi-grunddaten-item.wide{grid-column:span 2;}.scodi-grunddaten-item.full{grid-column:1/-1;}
+.scodi-grunddaten-item span{color:var(--muted);font-size:12px;font-weight:850;}.scodi-grunddaten-item strong{color:#243244;font-size:16px;line-height:1.35;white-space:pre-wrap;overflow-wrap:anywhere;}.scodi-grunddaten-item.empty strong{color:var(--muted);font-style:italic;font-weight:650;}
+.scodi-grunddaten-timeplan{border:1px solid var(--line);border-radius:16px;background:#fff;overflow:hidden;box-shadow:0 8px 18px rgba(31,57,90,.04)}
+.scodi-grunddaten-timeplan-title{padding:12px 14px;border-bottom:1px solid var(--line);background:linear-gradient(180deg,#fbfdff,#fff);font-weight:950;color:#243244}
+.scodi-grunddaten-timeplan table{width:100%;border-collapse:collapse;table-layout:fixed}.scodi-grunddaten-timeplan th,.scodi-grunddaten-timeplan td{border-right:1px solid var(--line);border-bottom:1px solid var(--line);padding:10px 11px;vertical-align:top;text-align:left}.scodi-grunddaten-timeplan th:last-child,.scodi-grunddaten-timeplan td:last-child{border-right:0}.scodi-grunddaten-timeplan tr:last-child th,.scodi-grunddaten-timeplan tr:last-child td{border-bottom:0}.scodi-grunddaten-timeplan thead th{color:#243244;font-weight:950;background:#fbfdff}.scodi-grunddaten-timeplan .scodi-dayname{font-weight:950}
+.scodi-time-badges{display:flex;flex-wrap:wrap;gap:6px;align-items:center}.scodi-time-badge{display:inline-flex;align-items:center;border-radius:999px;padding:5px 8px;font-size:12px;font-weight:950;border:1px solid var(--line);background:#fff;color:#243244;line-height:1.1}.scodi-time-badge.grit{border-color:#dacdf0;background:#f1ecf8;color:var(--grit)}.scodi-time-badge.gret{border-color:#cfe7d9;background:#eaf7f1;color:var(--gret)}.scodi-time-badge.meal{border-color:#f0dfad;background:#fff8ea;color:#8a6700}.scodi-time-empty{color:var(--muted);font-weight:750}
+.scodi-day-mo{--scodi-day-main:#caa33a;--scodi-day-soft:#fff4c9;--scodi-day-line:#ead48b}.scodi-day-di{--scodi-day-main:#7aa842;--scodi-day-soft:#ebf8d7;--scodi-day-line:#c9e4a5}.scodi-day-mi{--scodi-day-main:#4e8fcf;--scodi-day-soft:#e4f1ff;--scodi-day-line:#b8d5f3}.scodi-day-do{--scodi-day-main:#c95072;--scodi-day-soft:#ffe1ea;--scodi-day-line:#f1b5c5}.scodi-day-fr{--scodi-day-main:#d6953c;--scodi-day-soft:#fff0de;--scodi-day-line:#efc48e}
+.scodi-week-wrap,.scodi-accounting-wrap{border:1px solid var(--line);border-radius:18px;background:#fff;overflow-x:auto;box-shadow:0 10px 24px rgba(31,57,90,.05)}
+.scodi-week-table,.scodi-accounting-table{width:100%;border-collapse:separate;border-spacing:0;min-width:920px;table-layout:fixed}.scodi-week-table col.scodi-time-col{width:132px}.scodi-week-table col.scodi-day-col{width:20%}.scodi-week-table th,.scodi-week-table td,.scodi-accounting-table th,.scodi-accounting-table td{border-right:1px solid var(--line);border-bottom:1px solid var(--line);vertical-align:top;padding:12px}.scodi-week-table th:last-child,.scodi-week-table td:last-child,.scodi-accounting-table th:last-child,.scodi-accounting-table td:last-child{border-right:0}.scodi-week-table tbody tr:last-child td,.scodi-week-table tbody tr:last-child th,.scodi-accounting-table tbody tr:last-child td,.scodi-accounting-table tbody tr:last-child th{border-bottom:0}.scodi-week-table thead th,.scodi-accounting-table thead th{background:linear-gradient(180deg,#fbfdff,#f6f9fc);font-weight:950;color:#243244;text-align:left}.scodi-timehead{width:130px;background:#fbfdff!important;color:var(--muted)!important}.scodi-period-title{font-weight:950;color:#243244}.scodi-period-time{display:block;margin-top:4px;color:var(--muted);font-size:12px;font-weight:800}
+.scodi-week-table thead th.scodi-day-col-head{background:linear-gradient(180deg,#fff 0%,var(--scodi-day-soft) 100%)!important;color:var(--scodi-day-main)!important;border-top:5px solid var(--scodi-day-main)!important;border-bottom-color:var(--scodi-day-line)!important;text-align:center}.scodi-week-table td.scodi-day-col-cell{background:linear-gradient(180deg,rgba(255,255,255,.96),var(--scodi-day-soft));border-bottom-color:var(--scodi-day-line)}
+.scodi-day-cell{min-height:180px;display:grid;align-content:start;gap:10px}.scodi-slot-card{border:1px solid var(--line);border-radius:15px;background:#fbfdff;padding:10px 11px;display:grid;gap:8px}.scodi-slot-card.grit{border-color:#dacdf0;background:#fbf7ff}.scodi-slot-card.gret{border-color:#cfe7d9;background:#f5fff9}.scodi-slot-card.missing{border-color:#f0dfad;background:#fff8ea}.scodi-slot-card.inactive{border-color:#d8e1ee;background:#f8fafc;color:var(--muted)}.scodi-slot-head{display:flex;gap:8px;align-items:center;justify-content:space-between;flex-wrap:wrap}.scodi-slot-label{font-size:12px;font-weight:950;letter-spacing:.02em}.scodi-slot-label.grit{color:var(--grit)}.scodi-slot-label.gret{color:var(--gret)}.scodi-slot-status{font-size:11px;font-weight:850;color:var(--muted)}.scodi-slot-status.missing{color:#8a6700}.scodi-slot-body{font-size:13px;line-height:1.5;color:#243244;white-space:pre-wrap;overflow-wrap:anywhere}.scodi-empty-slot{border:1px dashed var(--line);border-radius:14px;background:#fbfdff;color:var(--muted);font-size:13px;line-height:1.45;padding:11px;min-height:54px;display:grid;place-items:center}.scodi-lunch-row td{padding:0!important;background:#fff;border-right:0!important}.scodi-lunch-line{display:flex;align-items:center;gap:12px;padding:12px 14px;color:#8a6700;font-weight:950;letter-spacing:.02em}.scodi-lunch-line:before,.scodi-lunch-line:after{content:"";height:2px;background:#f0dfad;flex:1;border-radius:999px}.scodi-lunch-cell{min-height:54px;display:flex;align-items:center;justify-content:center;text-align:center;color:#8a6700;font-size:13px;font-weight:900}.scodi-lunch-cell.inactive{color:var(--muted);font-weight:750}
+.scodi-summary-grid,.scodi-year-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}.scodi-summary-card,.scodi-year-card{border:1px solid var(--line);border-radius:16px;background:#fff;padding:13px 14px;box-shadow:0 8px 18px rgba(31,57,90,.04)}.scodi-summary-card strong,.scodi-year-card strong{display:block;color:#243244;font-size:18px;line-height:1.2;margin-top:4px}.scodi-summary-card span,.scodi-year-card span{color:var(--muted);font-size:12px;font-weight:850}.scodi-note{border:1px solid #f0dfad;border-radius:15px;background:#fff8ea;color:#7c5b00;padding:12px 14px;line-height:1.45;font-size:13px}.scodi-output-box{border:1px solid var(--line);border-radius:15px;background:#fffefc;padding:13px 14px;white-space:pre-wrap;line-height:1.65;overflow-wrap:anywhere}.scodi-output-empty{border:1px dashed var(--line);border-radius:15px;background:#fbfdff;color:var(--muted);padding:13px 14px;}.scodi-ep-output-box,.scodi-planning-output-box{white-space:normal!important;background:#fff!important}.inline-output-doc{display:grid;gap:14px}.inline-output-section{border:1px solid var(--line);border-radius:18px;background:#fff;padding:18px 20px;box-shadow:0 8px 20px rgba(31,57,90,.05);overflow-wrap:anywhere}.inline-output-heading{margin:0 0 12px 0;font-size:19px;line-height:1.25;font-weight:800;color:var(--theme,var(--accent));padding-bottom:10px;border-bottom:1px solid var(--line);letter-spacing:.01em}.inline-output-body{white-space:pre-wrap;line-height:1.78;color:var(--text);font-size:16px}.ep-output-line{margin:0 0 9px 0;line-height:1.7}.ep-output-label{display:inline-block;font-weight:900;color:var(--theme,var(--accent));margin-right:4px}.ep-output-bullet{position:relative;padding-left:18px}.ep-output-bullet:before{content:"•";position:absolute;left:2px;top:0;color:var(--theme,var(--accent));font-weight:900}.generator-card.grit .inline-output-heading{color:var(--grit)}.generator-card.gret .inline-output-heading{color:var(--gret)}
+.scodi-special-list{display:grid;gap:10px}.scodi-special-item{border:1px solid var(--line);border-radius:16px;background:#fff;padding:12px;display:grid;gap:8px}.scodi-special-item-head{display:flex;gap:8px;align-items:flex-start;justify-content:space-between;flex-wrap:wrap}.scodi-special-item-title{font-weight:950;color:#243244}.scodi-special-item-meta{color:var(--muted);font-size:13px;line-height:1.45}.scodi-special-item-impact{color:#8a6700;font-size:13px;font-weight:850}.scodi-special-empty{border:1px dashed var(--line);border-radius:16px;background:#fbfdff;padding:12px 14px;color:var(--muted);line-height:1.45}.scodi-holiday-list{display:flex;flex-wrap:wrap;gap:8px}.scodi-holiday-pill{border:1px solid var(--line);border-radius:999px;background:#fff;padding:6px 9px;font-size:12px;font-weight:850;color:#243244}.scodi-holiday-pill.skipped{border-color:#f0dfad;background:#fff8ea;color:#7c5b00}.scodi-month-total-row th,.scodi-month-total-row td{background:#fbfdff}
+@media(max-width:980px){.scodi-summary-grid,.scodi-year-grid{grid-template-columns:repeat(2,minmax(0,1fr));}.scodi-week-table,.scodi-accounting-table{min-width:780px}.scodi-grunddaten-grid{grid-template-columns:repeat(2,minmax(0,1fr));}}
+@media(max-width:760px){.scodi-print-action-row{grid-template-columns:1fr}.scodi-grunddaten-timeplan{overflow-x:auto}.scodi-grunddaten-timeplan table{min-width:640px}.scodi-week-table col.scodi-time-col{width:100px}}
+@media(max-width:640px){.scodi-summary-grid,.scodi-year-grid,.scodi-grunddaten-grid{grid-template-columns:1fr}.scodi-grunddaten-item.wide,.scodi-grunddaten-item.full{grid-column:auto}.scodi-topline{align-items:flex-start}.scodi-action-row button{width:100%;}}
+
 </style>
-  <!-- EXTERNER_VIEWER_UPLOAD_FIX_2026-04-30_16-52 -->
 </head>
 <body>
   <div class="app stack">
@@ -464,18 +484,16 @@ body.viewer-mobile-view .viewer-display-controls-head{
         </div>
         <div class="muted">Lädt eine gespeicherte Klientendatei, entschlüsselt sie lokal im Browser und zeigt RIT und RET getrennt an. Der Wochenplan kann RIT und RET gemeinsam nebeneinander anzeigen. Der Viewer verändert keine Arbeitsmappe und speichert keine Browser-Stände.</div>
         <div class="tool-row print-actions">
-          <button type="button" class="secondary" onclick="printViewer('weekplan')">Nur Wochenplan drucken</button>
-          <button type="button" class="secondary" onclick="printViewer('ki')">Nur KI-Ergebnis drucken</button>
-          <button type="button" class="secondary" onclick="printViewer('all')">Ganze Klientendatei drucken</button>
+          <button type="button" class="secondary" onclick="printViewer('rit_complete')">RIT: Wochenplan + Planung + EP drucken</button>
+          <button type="button" class="secondary" onclick="printViewer('ret_complete')">RET: Wochenplan + Planung + EP drucken</button>
+          <button type="button" class="secondary" onclick="printViewer('all')">Alles zusammen drucken</button>
           <button type="button" class="ghost" onclick="resetViewer()">Viewer leeren</button>
         </div>
       </div>
       <div class="file-panel">
         <div class="file-box">
           <strong>Klientendatei laden</strong>
-          <button type="button" class="viewer-upload-control" onclick="document.getElementById('fileInput').click()">Klientendatei auswählen</button>
-          <input id="fileInput" class="viewer-file-input-native" type="file" />
-          <div id="selectedFileName" class="viewer-upload-name">Noch keine Datei ausgewählt.</div>
+          <input id="fileInput" type="file" accept="application/json,.json" />
           <form id="passwordRow" class="hidden" autocomplete="on" onsubmit="openEncryptedFile(); return false;">
             <input type="text" name="username" value="BT-Navigator Klientendatei Viewer" autocomplete="username" tabindex="-1" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0;" />
             <input id="passwordInput" name="bt-navigator-klientendatei-passwort" type="password" placeholder="Passwort der Klientendatei" autocomplete="current-password" autocapitalize="off" spellcheck="false" />
@@ -564,12 +582,10 @@ function isEncrypted(parsed){return !!(parsed && parsed.btNavigatorEncrypted===t
 async function decryptFile(parsed,password){const salt=b64ToBytes(parsed?.kdf?.salt); const iv=b64ToBytes(parsed?.cipher?.iv); const cipher=b64ToBytes(parsed.payload); const key=await deriveKey(password,salt); const kind=parsed.kind || "single-client"; const plain=await crypto.subtle.decrypt({name:"AES-GCM",iv,additionalData:new TextEncoder().encode(MARKER+":"+kind),tagLength:128},key,cipher); return JSON.parse(new TextDecoder().decode(plain));}
 function setStatus(text,type=""){const el=document.getElementById("status"); el.textContent=text; el.className="status"+(type?" "+type:"");}
 
-function resetViewer(){pendingEncrypted=null; currentPayload=null; activeMode="all"; weekplanViewMode="standard"; viewerReadMode="normal"; viewerDeviceMode="desktop"; applyViewerDisplayModes(); document.getElementById("fileInput").value=""; const selectedFileName=document.getElementById("selectedFileName"); if(selectedFileName) selectedFileName.textContent="Noch keine Datei ausgewählt."; document.getElementById("passwordInput").value=""; document.getElementById("passwordRow").classList.add("hidden"); document.getElementById("content").classList.add("hidden"); setStatus("Noch keine Klientendatei geladen.");}
+function resetViewer(){pendingEncrypted=null; currentPayload=null; activeMode="all"; weekplanViewMode="standard"; viewerReadMode="normal"; viewerDeviceMode="desktop"; applyViewerDisplayModes(); document.getElementById("fileInput").value=""; document.getElementById("passwordInput").value=""; document.getElementById("passwordRow").classList.add("hidden"); document.getElementById("content").classList.add("hidden"); setStatus("Noch keine Klientendatei geladen.");}
 
 document.getElementById("fileInput").addEventListener("change", async (event)=>{
   const file=event.target.files && event.target.files[0];
-  const selectedFileName=document.getElementById("selectedFileName");
-  if(selectedFileName) selectedFileName.textContent=file ? ("Ausgewählt: " + file.name) : "Noch keine Datei ausgewählt.";
   document.getElementById("passwordRow").classList.add("hidden");
   document.getElementById("content").classList.add("hidden");
   pendingEncrypted=null;
@@ -671,7 +687,6 @@ function getAvailableViews(){
   if(generatorHasContent("grit")) views.push("grit");
   if(generatorHasContent("gret")) views.push("gret");
   if(anyWeekplanHasContent()) views.push("weekplan");
-  if(hasViewerAccounting()) views.push("accounting");
   return views;
 }
 function pickDefaultMode(){
@@ -696,7 +711,6 @@ function renderQuickNav(){
   const buttons=[];
   buttons.push(`<button type="button" class="ghost" onclick="jumpViewerSection('overview')">Übersicht</button>`);
   if(anyWeekplanHasContent()) buttons.push(`<button type="button" class="secondary" onclick="jumpViewerSection('weekplan')">Wochenplan</button>`);
-  if(hasViewerAccounting()) buttons.push(`<button type="button" class="secondary" onclick="jumpViewerSection('accounting')">Buchhaltung</button>`);
   if(generatorHasContent("grit")) buttons.push(`<button type="button" class="grit" onclick="jumpViewerSection('grit')">RIT</button>`);
   if(generatorHasContent("gret")) buttons.push(`<button type="button" class="gret" onclick="jumpViewerSection('gret')">RET</button>`);
   if(hasViewerKiResult()) buttons.push(`<button type="button" class="secondary" onclick="jumpViewerSection('ki')">KI-Ergebnis</button>`);
@@ -762,7 +776,6 @@ function jumpViewerSection(section){
   if(section==="overview"){scrollViewerTarget("#overviewSection"); return;}
   if(section==="print"){scrollViewerTarget(".print-actions"); return;}
   if(section==="weekplan"){activeMode="weekplan"; renderAll(); scrollViewerTarget("#weekplanSection"); return;}
-  if(section==="accounting"){activeMode="accounting"; renderAll(); scrollViewerTarget("#accountingSection"); return;}
   if(section==="grit" || section==="gret"){activeMode=section; renderAll(); scrollViewerTarget(`#viewer-${section}-section`); return;}
   if(section==="ki"){const mode=firstGeneratorWithKi(); activeMode=mode; renderAll(); scrollViewerTarget('[data-viewer-anchor="ki"]',true); return;}
   if(section==="ep"){const mode=firstGeneratorWithEp(); activeMode=mode; renderAll(); scrollViewerTarget('[data-viewer-anchor="ep"]',true); return;}
@@ -774,7 +787,6 @@ function renderTabs(){
   if(generatorHasContent("grit")) buttons.push(`<button class="grit ${activeMode==='grit'?'active':''}" onclick="setMode('grit')">RIT</button>`);
   if(generatorHasContent("gret")) buttons.push(`<button class="gret ${activeMode==='gret'?'active':''}" onclick="setMode('gret')">RET</button>`);
   if(anyWeekplanHasContent()) buttons.push(`<button class="secondary ${activeMode==='weekplan'?'active':''}" onclick="setMode('weekplan')">Wochenplan RIT und RET</button>`);
-  if(hasViewerAccounting()) buttons.push(`<button class="secondary ${activeMode==='accounting'?'active':''}" onclick="setMode('accounting')">Buchhaltung / Stunden</button>`);
   host.innerHTML=buttons.join("") || `<span class="muted">Keine RIT-/RET-Inhalte erkannt.</span>`;
 }
 function setMode(mode){activeMode=mode; renderAll();}
@@ -814,7 +826,7 @@ function renderSummary(){
   const name=clean(currentPayload.clientName)||clean(gdGrit.name)||clean(gdGret.name)||"–";
   const creator=formatCreatorSummary(gdGrit,gdGret);
   const modeLabel=areas.length===2?"RIT und RET":areas[0]==="grit"?"RIT":areas[0]==="gret"?"RET":"–";
-  const currentView=activeMode==="weekplan"?"Wochenplan":activeMode==="accounting"?"Buchhaltung":activeMode==="grit"?"RIT":activeMode==="gret"?"RET":"–";
+  const currentView=activeMode==="weekplan"?"Wochenplan":activeMode==="grit"?"RIT":activeMode==="gret"?"RET":"–";
   document.getElementById("summaryGrid").innerHTML=`
     <div class="summary-box"><strong>Ersteller</strong>${esc(creator)}</div>
     <div class="summary-box"><strong>Initialen</strong>${esc(initials)}</div>
@@ -830,7 +842,6 @@ function renderFileChecks(){
     {label:"RIT", ok:generatorHasContent("grit"), detail:"RIT-Daten vorhanden"},
     {label:"RET", ok:generatorHasContent("gret"), detail:"RET-Daten vorhanden"},
     {label:"Wochenplan", ok:anyWeekplanHasContent(), detail:"Wochenplan gespeichert"},
-    {label:"Buchhaltung", ok:hasViewerAccounting(), detail:"Stundenübersicht aus Grunddaten berechenbar"},
     {label:"KI-Ergebnis", ok:hasViewerKiResult(), detail:"KI-Text aus RIT oder RET vorhanden"},
     {label:"Entwicklungsplanung", ok:hasViewerEntwicklungsplanung(), detail:"Felder oder KI-Text vorhanden"}
   ];
@@ -855,10 +866,6 @@ function renderGenerators(){
   if(activeMode==="weekplan"){
     host.innerHTML=renderCombinedWeekplanSection();
     requestAnimationFrame(syncViewerWeekplanHeights);
-    return;
-  }
-  if(activeMode==="accounting"){
-    host.innerHTML=renderAccountingSection();
     return;
   }
   if(activeMode==="grit" || activeMode==="gret"){
@@ -886,200 +893,6 @@ function syncViewerWeekplanHeights(){
 window.addEventListener("resize", ()=>{
   if(activeMode==="weekplan") requestAnimationFrame(syncViewerWeekplanHeights);
 });
-
-// VIEWER_ACCOUNTING_SCODI_V1
-const ACCOUNTING_DAY_DEFS = [
-  {key:"mo",label:"Montag"},
-  {key:"di",label:"Dienstag"},
-  {key:"mi",label:"Mittwoch"},
-  {key:"do",label:"Donnerstag"},
-  {key:"fr",label:"Freitag"},
-];
-const ACCOUNTING_PERIOD_DEFS = [
-  {key:"morning",label:"Morgen",time:"09:00–12:30",hours:3.5},
-  {key:"afternoon",label:"Nachmittag",time:"13:30–17:00",hours:3.5},
-];
-const ACCOUNTING_MONTH_LABELS = ["Januar","Februar","März","April","Mai","Juni","Juli","August","September","Oktober","November","Dezember"];
-function normalizeAccountingText(value){return clean(value).toLowerCase().replace(/[–—]/g,"-").replace(/\s+/g," ");}
-function normalizeAccountingDayLabel(value){
-  const raw=normalizeAccountingText(value);
-  const map={mo:"Montag",montag:"Montag",di:"Dienstag",dienstag:"Dienstag",mi:"Mittwoch",mittwoch:"Mittwoch",do:"Donnerstag",donnerstag:"Donnerstag",fr:"Freitag",freitag:"Freitag"};
-  return map[raw] || "";
-}
-function normalizeAccountingPeriodLabel(value){
-  const raw=normalizeAccountingText(value);
-  if(raw.includes("mittag") && !raw.includes("nachmittag")) return "Mittagessen";
-  if(raw.includes("nachmittag") || raw.includes("13:30") || raw.includes("17:00") || raw.includes("14:00")) return "Nachmittag";
-  if(raw.includes("morgen") || raw.includes("09:00") || raw.includes("12:30") || raw.includes("12:00")) return "Morgen";
-  return "";
-}
-function collectAccountingSlots(gen, fieldName){
-  const gd=getGenState(gen).grunddaten || {};
-  const raw=gd?.[fieldName];
-  if(Array.isArray(raw)) return raw.slice();
-  if(hasText(raw)) return String(raw).split(/[,;]+/).map(s=>s.trim()).filter(Boolean);
-  return [];
-}
-function accountingSlotMatches(rawSlot, dayLabel, periodLabel){
-  const raw=String(rawSlot||"").trim();
-  if(!raw) return false;
-  let day="", period="";
-  if(raw.includes("|")){
-    const parts=raw.split("|");
-    day=normalizeAccountingDayLabel(parts[0]);
-    period=normalizeAccountingPeriodLabel(parts.slice(1).join("|"));
-  } else {
-    const m=raw.match(/^(Montag|Dienstag|Mittwoch|Donnerstag|Freitag|Mo|Di|Mi|Do|Fr)\s+(.+)$/i);
-    if(m){ day=normalizeAccountingDayLabel(m[1]); period=normalizeAccountingPeriodLabel(m[2]); }
-  }
-  return day===dayLabel && period===periodLabel;
-}
-function isViewerAccountingSlotActive(gen, dayLabel, periodLabel){
-  return collectAccountingSlots(gen,"timeSlots").some(slot=>accountingSlotMatches(slot,dayLabel,periodLabel));
-}
-function isViewerAccountingMealActive(dayLabel){
-  return ["grit","gret"].some(gen=>collectAccountingSlots(gen,"mittagSlots").some(slot=>accountingSlotMatches(slot,dayLabel,"Mittagessen")));
-}
-function hasViewerAccounting(){
-  return ["grit","gret"].some(gen=>collectAccountingSlots(gen,"timeSlots").length>0 || collectAccountingSlots(gen,"mittagSlots").length>0);
-}
-function viewerAccountingDateRaw(){
-  const gdGrit=getGenState("grit").grunddaten || {};
-  const gdGret=getGenState("gret").grunddaten || {};
-  return firstText(gdGrit.datum, gdGret.datum, currentPayload?.exportedAt);
-}
-function viewerAccountingYear(){
-  const raw=viewerAccountingDateRaw();
-  let m=String(raw||"").match(/^(\d{4})/);
-  if(!m) m=String(raw||"").match(/(\d{4})/);
-  const year=m ? Number(m[1]) : new Date().getFullYear();
-  return Number.isFinite(year) && year>=2000 && year<=2200 ? year : new Date().getFullYear();
-}
-function accountingPad2(v){return String(v).padStart(2,"0");}
-function accountingDateUtc(year,monthIndex,day){return new Date(Date.UTC(year,monthIndex,day));}
-function accountingDateKey(date){return date.getUTCFullYear()+"-"+accountingPad2(date.getUTCMonth()+1)+"-"+accountingPad2(date.getUTCDate());}
-function accountingDisplayDate(date){return accountingPad2(date.getUTCDate())+"."+accountingPad2(date.getUTCMonth()+1)+"."+date.getUTCFullYear();}
-function accountingAddDays(date,days){const next=new Date(date.getTime()); next.setUTCDate(next.getUTCDate()+Number(days||0)); return next;}
-function accountingEasterSunday(year){
-  const a=year%19,b=Math.floor(year/100),c=year%100,d=Math.floor(b/4),e=b%4,f=Math.floor((b+8)/25),g=Math.floor((b-f+1)/3),h=(19*a+b-d-g+15)%30,i=Math.floor(c/4),k=c%4,l=(32+2*e+2*i-h-k)%7,m=Math.floor((a+11*h+22*l)/451),month=Math.floor((h+l-7*m+114)/31),day=((h+l-7*m+114)%31)+1;
-  return accountingDateUtc(year,month-1,day);
-}
-function viewerBaselStadtHolidays(year){
-  const easter=accountingEasterSunday(year);
-  return [
-    {key:"neujahr",label:"Neujahr",date:accountingDateUtc(year,0,1),scope:"full_day"},
-    {key:"fasnachtsmontag_nachmittag",label:"Basler Fasnacht · Fasnachtsmontag Nachmittag · Freizeit",date:accountingAddDays(easter,-41),scope:"afternoon"},
-    {key:"fasnachtsmittwoch_nachmittag",label:"Basler Fasnacht · Fasnachtsmittwoch Nachmittag · Freizeit",date:accountingAddDays(easter,-39),scope:"afternoon"},
-    {key:"karfreitag",label:"Karfreitag",date:accountingAddDays(easter,-2),scope:"full_day"},
-    {key:"ostermontag",label:"Ostermontag",date:accountingAddDays(easter,1),scope:"full_day"},
-    {key:"tag_der_arbeit",label:"Tag der Arbeit",date:accountingDateUtc(year,4,1),scope:"full_day"},
-    {key:"auffahrt",label:"Auffahrt",date:accountingAddDays(easter,39),scope:"full_day"},
-    {key:"pfingstmontag",label:"Pfingstmontag",date:accountingAddDays(easter,50),scope:"full_day"},
-    {key:"bundesfeiertag",label:"Bundesfeiertag",date:accountingDateUtc(year,7,1),scope:"full_day"},
-    {key:"weihnachten",label:"Weihnachten",date:accountingDateUtc(year,11,25),scope:"full_day"},
-    {key:"stephanstag",label:"Stephanstag",date:accountingDateUtc(year,11,26),scope:"full_day"},
-  ].sort((a,b)=>a.date-b.date);
-}
-function accountingWeekdayNameUtc(date){return ["Sonntag","Montag","Dienstag","Mittwoch","Donnerstag","Freitag","Samstag"][date.getUTCDay()] || "";}
-function accountingDayLabelFromDate(date){const w=date.getUTCDay(); return w>=1 && w<=5 ? ACCOUNTING_DAY_DEFS[w-1].label : "";}
-function refreshViewerAccountingRow(row){
-  row.gritTotal=Number(row.gritMorning||0)+Number(row.gritAfternoon||0);
-  row.gretTotal=Number(row.gretMorning||0)+Number(row.gretAfternoon||0);
-  row.actualMorning=(Number(row.gritMorning||0)>0 || Number(row.gretMorning||0)>0) ? 3.5 : 0;
-  row.actualAfternoon=(Number(row.gritAfternoon||0)>0 || Number(row.gretAfternoon||0)>0) ? 3.5 : 0;
-  row.total=row.actualMorning+row.actualAfternoon;
-  return row;
-}
-function buildViewerAccountingDayRow(dayLabel){
-  const row={day:dayLabel,gritMorning:0,gritAfternoon:0,gretMorning:0,gretAfternoon:0,lunch:isViewerAccountingMealActive(dayLabel)};
-  ACCOUNTING_PERIOD_DEFS.forEach(period=>{
-    const rit=isViewerAccountingSlotActive("grit",dayLabel,period.label);
-    const ret=isViewerAccountingSlotActive("gret",dayLabel,period.label);
-    if(rit){ if(period.key==="morning") row.gritMorning=period.hours; else row.gritAfternoon=period.hours; }
-    else if(ret){ if(period.key==="morning") row.gretMorning=period.hours; else row.gretAfternoon=period.hours; }
-  });
-  return refreshViewerAccountingRow(row);
-}
-function cloneViewerAccountingRow(row){return refreshViewerAccountingRow({...row});}
-function applyViewerHoliday(row,holiday){
-  refreshViewerAccountingRow(row);
-  const skipped={grit:0,gret:0,total:0,fullDay:false};
-  if(holiday.scope==="full_day"){
-    skipped.grit=row.gritTotal; skipped.gret=row.gretTotal; skipped.total=row.total; skipped.fullDay=true;
-    row.gritMorning=0; row.gritAfternoon=0; row.gretMorning=0; row.gretAfternoon=0;
-    refreshViewerAccountingRow(row); return skipped;
-  }
-  if(holiday.scope==="afternoon"){
-    const before=Number(row.total||0);
-    const grit=Number(row.gritAfternoon||0), gret=Number(row.gretAfternoon||0);
-    row.gritAfternoon=0; row.gretAfternoon=0;
-    refreshViewerAccountingRow(row);
-    skipped.grit=grit; skipped.gret=gret; skipped.total=Math.max(0,before-Number(row.total||0));
-    return skipped;
-  }
-  return skipped;
-}
-function buildViewerWeekAccounting(){
-  const rows=ACCOUNTING_DAY_DEFS.map(day=>buildViewerAccountingDayRow(day.label));
-  const totals=rows.reduce((sum,row)=>{sum.grit+=row.gritTotal; sum.gret+=row.gretTotal; sum.all+=row.total; sum.lunch+=row.lunch?1:0; return sum;},{grit:0,gret:0,all:0,lunch:0});
-  return {rows,totals};
-}
-function buildViewerYearAccounting(year=viewerAccountingYear()){
-  const holidays=viewerBaselStadtHolidays(year).map(h=>({...h,dateKey:accountingDateKey(h.date),weekday:accountingWeekdayNameUtc(h.date),gritSkipped:0,gretSkipped:0,totalSkipped:0}));
-  const byKey=new Map();
-  holidays.forEach(h=>{const list=byKey.get(h.dateKey)||[]; list.push(h); byKey.set(h.dateKey,list);});
-  const months=ACCOUNTING_MONTH_LABELS.map((label,index)=>({index,label,activeDays:0,lunchDays:0,grit:0,gret:0,total:0,holidaySkipped:0}));
-  const totals={grit:0,gret:0,all:0,activeDays:0,lunchDays:0,holidaySkipped:0,activeHolidayCount:0};
-  for(let date=accountingDateUtc(year,0,1); date.getUTCFullYear()===year; date=accountingAddDays(date,1)){
-    const dayLabel=accountingDayLabelFromDate(date);
-    if(!dayLabel) continue;
-    const month=months[date.getUTCMonth()];
-    const row=cloneViewerAccountingRow(buildViewerAccountingDayRow(dayLabel));
-    const rules=byKey.get(accountingDateKey(date)) || [];
-    let fullDay=false;
-    rules.forEach(holiday=>{
-      const skipped=applyViewerHoliday(row,holiday);
-      holiday.gritSkipped+=skipped.grit; holiday.gretSkipped+=skipped.gret; holiday.totalSkipped+=skipped.total;
-      month.holidaySkipped+=skipped.total; totals.holidaySkipped+=skipped.total;
-      if(skipped.total>0) totals.activeHolidayCount+=1;
-      if(skipped.fullDay) fullDay=true;
-    });
-    month.grit+=row.gritTotal; month.gret+=row.gretTotal; month.total+=row.total;
-    totals.grit+=row.gritTotal; totals.gret+=row.gretTotal; totals.all+=row.total;
-    if(row.total>0){month.activeDays+=1; totals.activeDays+=1;}
-    if(!fullDay && row.lunch){month.lunchDays+=1; totals.lunchDays+=1;}
-  }
-  return {year,months,holidays,totals};
-}
-function formatAccountingHours(value){
-  const n=Number(value||0);
-  return (Math.round(n*10)/10).toLocaleString("de-CH",{maximumFractionDigits:1})+" h";
-}
-function renderAccountingSummaryCards(yearAccounting){
-  return `<div class="accounting-summary-grid">
-    <div class="accounting-summary-card"><span>Jahr ${esc(yearAccounting.year)} RIT</span><strong>${esc(formatAccountingHours(yearAccounting.totals.grit))}</strong></div>
-    <div class="accounting-summary-card"><span>Jahr ${esc(yearAccounting.year)} RET</span><strong>${esc(formatAccountingHours(yearAccounting.totals.gret))}</strong></div>
-    <div class="accounting-summary-card"><span>Jahr ${esc(yearAccounting.year)} Total</span><strong>${esc(formatAccountingHours(yearAccounting.totals.all))}</strong></div>
-    <div class="accounting-summary-card"><span>Frei/Feiertage</span><strong>${esc(formatAccountingHours(yearAccounting.totals.holidaySkipped))}</strong></div>
-  </div>`;
-}
-function renderViewerWeekAccountingTable(week=buildViewerWeekAccounting()){
-  const rows=week.rows.map(row=>`<tr><th>${esc(row.day)}</th><td>${esc(formatAccountingHours(row.gritMorning))}</td><td>${esc(formatAccountingHours(row.gritAfternoon))}</td><td><strong>${esc(formatAccountingHours(row.gritTotal))}</strong></td><td>${esc(formatAccountingHours(row.gretMorning))}</td><td>${esc(formatAccountingHours(row.gretAfternoon))}</td><td><strong>${esc(formatAccountingHours(row.gretTotal))}</strong></td><td>${row.lunch?"Ja":"–"}</td><td><strong>${esc(formatAccountingHours(row.total))}</strong></td></tr>`).join("");
-  return `<div class="accounting-wrap"><table class="accounting-table"><thead><tr><th>Tag</th><th>RIT Morgen</th><th>RIT Nachmittag</th><th>RIT Total</th><th>RET Morgen</th><th>RET Nachmittag</th><th>RET Total</th><th>Mittag</th><th>Total</th></tr></thead><tbody>${rows}<tr class="accounting-total-row"><th>Woche</th><td colspan="2"></td><td>${esc(formatAccountingHours(week.totals.grit))}</td><td colspan="2"></td><td>${esc(formatAccountingHours(week.totals.gret))}</td><td>${esc(String(week.totals.lunch))}</td><td>${esc(formatAccountingHours(week.totals.all))}</td></tr></tbody></table></div>`;
-}
-function renderViewerYearAccountingTable(yearAccounting){
-  const rows=yearAccounting.months.map(month=>`<tr><th>${esc(month.label)}</th><td>${esc(formatAccountingHours(month.grit))}</td><td>${esc(formatAccountingHours(month.gret))}</td><td><strong>${esc(formatAccountingHours(month.total))}</strong></td><td>${esc(String(month.activeDays))}</td><td>${esc(String(month.lunchDays))}</td><td>${esc(formatAccountingHours(month.holidaySkipped))}</td></tr>`).join("");
-  return `<div class="accounting-wrap"><table class="accounting-table"><thead><tr><th>Monat</th><th>RIT</th><th>RET</th><th>Total</th><th>verrechnete Tage</th><th>Mittagessen</th><th>Nicht verrechnet wegen Frei/Feiertag</th></tr></thead><tbody>${rows}<tr class="accounting-total-row"><th>Jahr ${esc(yearAccounting.year)}</th><td>${esc(formatAccountingHours(yearAccounting.totals.grit))}</td><td>${esc(formatAccountingHours(yearAccounting.totals.gret))}</td><td>${esc(formatAccountingHours(yearAccounting.totals.all))}</td><td>${esc(String(yearAccounting.totals.activeDays))}</td><td>${esc(String(yearAccounting.totals.lunchDays))}</td><td>${esc(formatAccountingHours(yearAccounting.totals.holidaySkipped))}</td></tr></tbody></table></div>`;
-}
-function renderViewerHolidayList(yearAccounting){
-  const pills=yearAccounting.holidays.map(h=>`<span class="accounting-holiday-pill${h.totalSkipped>0?" skipped":""}">${esc(accountingDisplayDate(h.date))} · ${esc(h.weekday)} · ${esc(h.label)}${h.totalSkipped>0?" · −"+esc(formatAccountingHours(h.totalSkipped)):""}</span>`).join("");
-  return `<div class="accounting-holiday-list">${pills}</div>`;
-}
-function renderAccountingSection(){
-  const week=buildViewerWeekAccounting();
-  const year=buildViewerYearAccounting();
-  return `<section class="generator-card" id="accountingSection"><div class="generator-head"><span class="badge">Buchhaltung</span><h2>Buchhaltung / Stundenübersicht</h2><div class="small">Automatisch aus den Grunddaten der Klientendatei berechnet. Die Berechnung ist fest im Viewer hinterlegt und nicht KI-basiert.</div></div><div class="section">${renderAccountingSummaryCards(year)}${renderDetails("Wochenstunden",renderViewerWeekAccountingTable(week),true)}${renderDetails("Jahresübersicht " + year.year,renderViewerYearAccountingTable(year),true)}${renderDetails("Frei-/Feiertagsregeln Basel-Stadt",`<ul class="accounting-rule-list"><li>Wochenenden werden nicht verrechnet.</li><li>Morgen 09:00–12:30 zählt 3.5 h.</li><li>Nachmittag 13:30–17:00 zählt 3.5 h.</li><li>Mittagessen zählt nicht als Arbeitszeit.</li><li>RIT und RET sind je Zeitfenster entweder/oder.</li><li>Basler Fasnacht: nur Fasnachtsmontag Nachmittag und Fasnachtsmittwoch Nachmittag.</li></ul>${renderViewerHolidayList(year)}`,true)}</div></section>`;
-}
 
 function renderCombinedWeekplanSection(){
   return `<section class="generator-card weekplan-view" id="weekplanSection"><div class="generator-head"><span class="badge">Wochenplan</span><h2>Wochenplan RIT und RET</h2><div class="small">RIT und RET werden hier gemeinsam angezeigt. Die fachlichen RIT- und RET-Inhalte bleiben in den eigenen Ansichten getrennt.</div></div><div class="section">${renderCombinedWeekplan()}</div></section>`;
@@ -1819,120 +1632,106 @@ function renderPrintKiForGenerator(gen){
 function renderPrintFullClientFile(){
   const parts=[];
   if(anyWeekplanHasContent()) parts.push(`<h2 class="print-section-title">Wochenplan</h2>${renderCombinedWeekplan()}`);
-  if(hasViewerAccounting()) parts.push(renderAccountingSection());
   if(generatorHasContent("grit")) parts.push(renderGenerator("grit"));
   if(generatorHasContent("gret")) parts.push(renderGenerator("gret"));
   return parts.length ? parts.join("") : `<div class="print-empty">Keine druckbaren Inhalte in dieser Klientendatei gefunden.</div>`;
 }
 
-</script>
 
-<style id="btEmbeddedViewerStyle">
-  html.bt-embedded-viewer .file-panel,
-  html.bt-embedded-viewer .footer-note,
-  html.bt-embedded-viewer #privacyNotice { display:none!important; }
-  html.bt-embedded-viewer .app{max-width:1180px!important;padding:14px!important;}
-  html.bt-embedded-viewer .hero{padding:16px!important;}
-  html.bt-embedded-viewer .hero-title h1{font-size:28px!important;}
-  html.bt-embedded-viewer .muted{font-size:14px!important;line-height:1.5!important;}
-  html.bt-embedded-viewer .tool-row.print-actions{margin-top:4px!important;}
-  html.bt-embedded-viewer .view-tabs,
-  html.bt-embedded-viewer .viewer-display-controls,
-  html.bt-embedded-viewer .viewer-quick-nav{box-shadow:none!important;}
-  @media(max-width:760px){
-    html.bt-embedded-viewer .app{padding:8px!important;}
-    html.bt-embedded-viewer .hero{padding:12px!important;}
-    html.bt-embedded-viewer .hero-title h1{font-size:23px!important;}
-    html.bt-embedded-viewer .tool-row.print-actions{display:grid!important;grid-template-columns:1fr!important;}
-    html.bt-embedded-viewer .tool-row.print-actions button{width:100%!important;}
-  }
-</style>
-<script id="btEmbeddedViewerBridge">
-(function(){
-  var pendingPayload = null;
-  var isEmbeddedViewer = false;
-  try{
-    isEmbeddedViewer = !!(window.parent && window.parent !== window);
-  }catch(error){
-    isEmbeddedViewer = false;
-  }
-  if(isEmbeddedViewer){
-    document.documentElement.classList.add("bt-embedded-viewer");
-  }
 
-  function embeddedApplyChrome(){
-    if(!isEmbeddedViewer) return;
-    try{
-      document.documentElement.classList.add("bt-embedded-viewer");
-      var intro=document.querySelector(".hero .muted");
-      if(intro){intro.textContent="Interner Viewer im BT-Navigator. Die Klientendatei wird direkt aus dem aktuellen Arbeitsstand übernommen; es ist kein Datei-Upload und kein Passwort nötig.";}
-      var filePanel=document.querySelector(".file-panel");
-      if(filePanel) filePanel.style.display="none";
-      var footer=document.querySelector(".footer-note");
-      if(footer) footer.style.display="none";
-      var privacy=document.getElementById("privacyNotice");
-      if(privacy) privacy.style.display="none";
-    }catch(error){console.warn(error);}
-  }
+/* EXT_VIEWER_SYNC_INTERNAL_2026_05_02: Ausgabe-Logik wie interner Viewer */
+const SCODI_DAY_DEFS = [
+  { key: "mo", label: "Montag", short: "Mo" },
+  { key: "di", label: "Dienstag", short: "Di" },
+  { key: "mi", label: "Mittwoch", short: "Mi" },
+  { key: "do", label: "Donnerstag", short: "Do" },
+  { key: "fr", label: "Freitag", short: "Fr" },
+];
+const SCODI_PERIOD_DEFS = [
+  { key: "morning", label: "Morgen", time: "09:00–12:30", hours: 3.5 },
+  { key: "afternoon", label: "Nachmittag", time: "13:30–17:00", hours: 3.5 },
+];
+const SCODI_MONTH_LABELS = ["Januar","Februar","März","April","Mai","Juni","Juli","August","September","Oktober","November","Dezember"];
+function scodiExtCleanBlockText(value){return String(value||"").replace(/\r\n/g,"\n").replace(/\r/g,"\n").split("\n").map(line=>String(line||"").replace(/[ \t]+/g," ").trim()).join("\n").replace(/\n{3,}/g,"\n\n").trim();}
+function scodiExtNormalizeInline(value){return String(value||"").replace(/\s+/g," ").trim();}
+function scodiGeneratorLabel(generatorKey){return generatorKey==="gret"?"RET":"RIT";}
+function scodiGeneratorClass(generatorKey){return generatorKey==="gret"?"gret":"grit";}
+function scodiPlanningDisplayTitle(generatorKey){return generatorKey==="gret"?"Räumlich externe Tagesstruktur (RET) – Planung":"Räumlich integrierte Tagesstruktur (RIT) – Planung";}
+function scodiClientName(){const gd=scodiGetMergedGrunddaten(); return clean(currentPayload?.clientName)||clean(gd.name)||clean(currentPayload?.clientInitials)||clean(gd.initialen)||"Klient";}
+function scodiFirstFilledValue(values){for(const v of values||[]){const c=clean(v); if(c) return c;} return "";}
+function scodiGetMergedGrunddaten(){const grit=getGenState("grit")?.grunddaten||{}; const gret=getGenState("gret")?.grunddaten||{}; return {datum:scodiFirstFilledValue([grit.datum,gret.datum]),name:scodiFirstFilledValue([grit.name,gret.name,currentPayload?.clientName]),initialen:scodiFirstFilledValue([grit.initialen,gret.initialen,currentPayload?.clientInitials]),geburtsdatum:scodiFirstFilledValue([grit.geburtsdatum,gret.geburtsdatum]),geschlecht:scodiFirstFilledValue([grit.geschlecht,gret.geschlecht]),modus:scodiFirstFilledValue([grit.modus,gret.modus]),kliententyp:scodiFirstFilledValue([grit.kliententyp,gret.kliententyp]),epBereich:scodiFirstFilledValue([grit.epBereich,gret.epBereich]),epErsteller:scodiFirstFilledValue([grit.epErsteller,gret.epErsteller]),epErstellerKuerzel:scodiFirstFilledValue([grit.epErstellerKuerzel,gret.epErstellerKuerzel]),kontext:scodiFirstFilledValue([grit.kontext,gret.kontext])};}
+function scodiExtFormatDateLong(value){const raw=String(value||"").trim(); const m=/^(\d{4})-(\d{2})-(\d{2})/.exec(raw); if(!m) return raw; return `${m[3]}.${m[2]}.${m[1]}`;}
+function scodiRenderGrunddatenItem(label,value,extraClass=""){const text=scodiExtCleanBlockText(value||""); return `<div class="scodi-grunddaten-item ${extraClass||""} ${text?"":"empty"}"><span>${esc(label)}</span><strong>${esc(text||"–")}</strong></div>`;}
+function scodiExtNormalizeTimeLabelText(value){return String(value||"").toLowerCase().replace(/[–—]/g,"-").replace(/\s+/g," ").replace(/\s*-\s*/g,"-").trim();}
+function scodiExtNormalizeDayLabel(label){const cleanLabel=scodiExtNormalizeInline(label).toLowerCase(); return ["Montag","Dienstag","Mittwoch","Donnerstag","Freitag"].find(d=>d.toLowerCase()===cleanLabel)||"";}
+function scodiExtNormalizeSequenceLabel(label){const cleanLabel=scodiExtNormalizeInline(label).toLowerCase(); if(cleanLabel.includes("nachmittag")||cleanLabel.includes("13")||cleanLabel.includes("17")) return "Nachmittag"; if(cleanLabel.includes("morgen")||cleanLabel.includes("09")||cleanLabel.includes("12")) return "Morgen"; return "";}
+function scodiExtSequenceToTime(sequenceLabel){return scodiExtNormalizeSequenceLabel(sequenceLabel)==="Nachmittag"?"13:30–17:00":scodiExtNormalizeSequenceLabel(sequenceLabel)==="Morgen"?"09:00–12:30":"";}
+function scodiExtSlotKey(dayLabel,sequenceLabel){const day=scodiExtNormalizeDayLabel(dayLabel); const seq=scodiExtNormalizeSequenceLabel(sequenceLabel); return day&&seq?day+"|"+seq:"";}
+function scodiExtTimeSlotKey(dayLabel,sequenceLabel){const day=scodiExtNormalizeDayLabel(dayLabel); const time=scodiExtSequenceToTime(sequenceLabel); return day&&time?day+"|"+time:"";}
+function scodiExtNormalizeTimeSlotValue(value){const raw=String(value||"").trim(); if(!raw) return ""; const parts=raw.split("|"); let day="", time=""; if(parts.length>=2){day=scodiExtNormalizeDayLabel(parts[0]); time=parts.slice(1).join("|");} else {const m=raw.match(/^(Montag|Dienstag|Mittwoch|Donnerstag|Freitag)\s+(.+)$/i); if(m){day=scodiExtNormalizeDayLabel(m[1]); time=m[2];}} if(!day||!time) return ""; const normalized=scodiExtNormalizeTimeLabelText(time); if(normalized.includes("09")||normalized.includes("12:30")||normalized.includes("morgen")) return day+"|09:00-12:30"; if(normalized.includes("13")||normalized.includes("17")||normalized.includes("nachmittag")) return day+"|13:30-17:00"; return day+"|"+normalized;}
+function scodiExtNormalizeTimeSlotArray(slots, gd){const out=[]; const push=v=>{const n=scodiExtNormalizeTimeSlotValue(v); if(n&&!out.includes(n)) out.push(n);}; if(Array.isArray(slots)) slots.forEach(push); else if(hasText(slots)) String(slots).split(/[;,]+/).forEach(push); if(!out.length && hasText(gd?.zeiten)) String(gd.zeiten).split(/[;\n]+/).forEach(part=>{const m=part.trim().match(/^(Montag|Dienstag|Mittwoch|Donnerstag|Freitag)[:\s]+(.+)$/i); if(m){m[2].split(/,/).forEach(time=>push(m[1]+"|"+time));}}); return out;}
+function isGoalPlanSlotActiveInGrunddaten(generatorKey,dayLabel,sequenceLabel){const gd=getGenState(generatorKey)?.grunddaten||{}; const key=scodiExtNormalizeTimeSlotValue(scodiExtTimeSlotKey(dayLabel,sequenceLabel)); if(!key) return false; return scodiExtNormalizeTimeSlotArray(gd.timeSlots,gd).includes(key);}
+function scodiExtNormalizeMealSlotValue(value){const raw=String(value||"").trim(); if(!raw) return ""; const parts=raw.split("|"); let day=""; if(parts.length>=2) day=scodiExtNormalizeDayLabel(parts[0]); else day=scodiExtNormalizeDayLabel(raw); return day?day+"|Mittag":"";}
+function scodiExtNormalizeMealSlotArray(slots){const out=[]; const push=v=>{const n=scodiExtNormalizeMealSlotValue(v); if(n&&!out.includes(n)) out.push(n);}; if(Array.isArray(slots)) slots.forEach(push); else if(hasText(slots)) String(slots).split(/[;,]+/).forEach(push); return out;}
+function isMealSlotActive(dayLabel){const key=scodiExtNormalizeMealSlotValue(dayLabel+"|Mittag"); return ["grit","gret"].some(gen=>scodiExtNormalizeMealSlotArray(getGenState(gen)?.grunddaten?.mittagSlots||[]).includes(key));}
+function scodiRenderGrunddatenTimeBadges(dayLabel,sequenceLabel){const badges=[]; if(sequenceLabel==="Mittag"){if(isMealSlotActive(dayLabel)) badges.push(`<span class="scodi-time-badge meal">Mittag</span>`);} else {if(isGoalPlanSlotActiveInGrunddaten("grit",dayLabel,sequenceLabel)) badges.push(`<span class="scodi-time-badge grit">RIT</span>`); if(isGoalPlanSlotActiveInGrunddaten("gret",dayLabel,sequenceLabel)) badges.push(`<span class="scodi-time-badge gret">RET</span>`);} return badges.length?`<div class="scodi-time-badges">${badges.join("")}</div>`:`<span class="scodi-time-empty">–</span>`;}
+function scodiRenderGrunddatenTimeplan(){const rows=SCODI_DAY_DEFS.map(day=>`<tr class="scodi-day-${esc(day.key)}"><th class="scodi-dayname">${esc(day.label)}</th><td>${scodiRenderGrunddatenTimeBadges(day.label,"Morgen")}</td><td>${scodiRenderGrunddatenTimeBadges(day.label,"Mittag")}</td><td>${scodiRenderGrunddatenTimeBadges(day.label,"Nachmittag")}</td></tr>`).join(""); return `<div class="scodi-grunddaten-timeplan"><div class="scodi-grunddaten-timeplan-title">Zeitplan RIT / RET</div><table><thead><tr><th>Tag</th><th>Morgen<br><small>09:00–12:30</small></th><th>Mittag<br><small>ohne Stunden</small></th><th>Nachmittag<br><small>13:30–17:00</small></th></tr></thead><tbody>${rows}</tbody></table></div>`;}
+function scodiRenderGrunddatenSection(){const gd=scodiGetMergedGrunddaten(); const items=[scodiRenderGrunddatenItem("Name der betreuten Person",gd.name||scodiClientName()),scodiRenderGrunddatenItem("Initialen",gd.initialen),scodiRenderGrunddatenItem("Geburtsdatum",gd.geburtsdatum?scodiExtFormatDateLong(gd.geburtsdatum):""),scodiRenderGrunddatenItem("Datum der Planung",gd.datum?scodiExtFormatDateLong(gd.datum):""),scodiRenderGrunddatenItem("Personenbezug",gd.geschlecht),scodiRenderGrunddatenItem("Modus",gd.modus),scodiRenderGrunddatenItem("Kliententyp",gd.kliententyp,"wide"),scodiRenderGrunddatenItem("Bereich Entwicklungsplanung",gd.epBereich,"wide"),scodiRenderGrunddatenItem("Ersteller/in",gd.epErsteller),scodiRenderGrunddatenItem("Kürzel Ersteller/in",gd.epErstellerKuerzel),scodiRenderGrunddatenItem("Hinweis / Kontext",gd.kontext,"full")].join(""); return `<details class="scodi-section scodi-grunddaten-section" id="scodi-viewer-grunddaten" open><summary>Grunddaten</summary><div class="scodi-section-body"><div class="scodi-grunddaten-grid">${items}</div>${scodiRenderGrunddatenTimeplan()}</div></details>`;}
+function scodiExtGetGoalPlans(generatorKey){const ps=getGenState(generatorKey)?.pages?.["10b_Zielplanung_1_10"]||{}; return Array.isArray(ps.goalPlans)?ps.goalPlans:[];}
+function scodiExtPlanHasContent(plan){return !!plan && ["tag","sequenz","fernziel","feinziel1","feinziel2","feinziel3","aktivitaeten","durchfuehrung","massnahmen","materialien","beobachtung"].some(k=>hasText(plan[k]));}
+function scodiExtGetGoalPlanEntryBySlot(generatorKey,dayLabel,sequenceLabel){const key=scodiExtSlotKey(dayLabel,sequenceLabel); const plans=scodiExtGetGoalPlans(generatorKey); for(let i=0;i<plans.length;i++){const plan=plans[i]; if(!scodiExtPlanHasContent(plan)) continue; if(scodiExtSlotKey(plan.tag,plan.sequenz)===key) return {plan,index:i};} return null;}
+function buildWeekplanGoalTextFromPlan(plan){const bits=[]; ["feinziel1","feinziel2","feinziel3"].forEach((key,index)=>{const value=scodiExtCleanBlockText(plan?.[key]||""); if(value) bits.push("Feinziel "+(index+1)+": "+value);}); return bits.join("\n");}
+function buildWeekplanActivityTextFromPlan(plan){return scodiExtCleanBlockText(plan?.aktivitaeten||"");}
+function scodiGetSlotInfo(generatorKey,dayLabel,sequenceLabel){const active=isGoalPlanSlotActiveInGrunddaten(generatorKey,dayLabel,sequenceLabel); const found=scodiExtGetGoalPlanEntryBySlot(generatorKey,dayLabel,sequenceLabel); const plan=found?.plan||null; const hasPlan=!!(plan&&scodiExtPlanHasContent(plan)); return {generatorKey,active,plan,hasPlan,goalText:plan?buildWeekplanGoalTextFromPlan(plan):"",activityText:plan?buildWeekplanActivityTextFromPlan(plan):"",slotIndex:found?found.index:-1};}
+function scodiRenderSlotCard(info,includeInactive){const genClass=scodiGeneratorClass(info.generatorKey); const label=scodiGeneratorLabel(info.generatorKey); if(!info.active && !(includeInactive&&info.hasPlan)) return ""; if(!info.active&&includeInactive&&info.hasPlan) return `<div class="scodi-slot-card inactive"><div class="scodi-slot-head"><span class="scodi-slot-label ${genClass}">${esc(label)}</span><span class="scodi-slot-status">gespeichert, aktuell nicht aktiv</span></div></div>`; if(!info.hasPlan) return `<div class="scodi-slot-card missing"><div class="scodi-slot-head"><span class="scodi-slot-label ${genClass}">${esc(label)}</span><span class="scodi-slot-status missing">aktiv · kein Baustein</span></div><div class="scodi-slot-body">Noch kein Baustein hinterlegt.</div></div>`; const body=[info.goalText,info.activityText].map(v=>String(v||"").trim()).filter(Boolean).join("\n\n"); return `<div class="scodi-slot-card ${genClass}"><div class="scodi-slot-head"><span class="scodi-slot-label ${genClass}">${esc(label)} · Baustein ${Number(info.slotIndex||0)+1}</span><span class="scodi-slot-status">aktiv</span></div><div class="scodi-slot-body">${esc(body||"Baustein gespeichert.")}</div></div>`;}
+function scodiNormalizeWeekplanFilter(generatorFilter="all"){const key=clean(generatorFilter||"all").toLowerCase(); if(["grit","rit"].includes(key)) return "grit"; if(["gret","ret"].includes(key)) return "gret"; return "all";}
+function scodiWeekplanGeneratorsForFilter(generatorFilter="all"){const f=scodiNormalizeWeekplanFilter(generatorFilter); return f==="grit"?["grit"]:f==="gret"?["gret"]:["grit","gret"];}
+function scodiRenderWeekCell(dayLabel,sequenceLabel,includeInactive=false,generatorFilter="all"){const f=scodiNormalizeWeekplanFilter(generatorFilter); const cards=scodiWeekplanGeneratorsForFilter(f).map(gen=>scodiRenderSlotCard(scodiGetSlotInfo(gen,dayLabel,sequenceLabel),includeInactive)).filter(Boolean).join(""); const emptyText=f==="all"?"Nicht aktiv.":scodiGeneratorLabel(f)+" nicht aktiv."; return `<div class="scodi-day-cell">${cards||`<div class="scodi-empty-slot">${esc(emptyText)}</div>`}</div>`;}
+function scodiRenderLunchCell(dayLabel){return isMealSlotActive(dayLabel)?`<div class="scodi-lunch-cell">Mittagessen</div>`:`<div class="scodi-lunch-cell inactive">–</div>`;}
+function scodiRenderWeekplanTable(includeInactive=false,generatorFilter="all"){const filter=scodiNormalizeWeekplanFilter(generatorFilter); const colgroup=`<colgroup><col class="scodi-time-col">${SCODI_DAY_DEFS.map(day=>`<col class="scodi-day-col scodi-day-${esc(day.key)}">`).join("")}</colgroup>`; const header=SCODI_DAY_DEFS.map(day=>`<th class="scodi-day-col-head scodi-day-${esc(day.key)}">${esc(day.label)}</th>`).join(""); const morning=SCODI_DAY_DEFS.map(day=>`<td class="scodi-day-col-cell scodi-day-${esc(day.key)}">${scodiRenderWeekCell(day.label,"Morgen",includeInactive,filter)}</td>`).join(""); const lunch=SCODI_DAY_DEFS.map(day=>`<td class="scodi-day-col-cell scodi-day-${esc(day.key)}">${scodiRenderLunchCell(day.label)}</td>`).join(""); const afternoon=SCODI_DAY_DEFS.map(day=>`<td class="scodi-day-col-cell scodi-day-${esc(day.key)}">${scodiRenderWeekCell(day.label,"Nachmittag",includeInactive,filter)}</td>`).join(""); return `<div class="scodi-week-wrap"><table class="scodi-week-table">${colgroup}<thead><tr><th class="scodi-timehead">Zeit</th>${header}</tr></thead><tbody><tr class="scodi-morning-row"><th><span class="scodi-period-title">Morgen</span><span class="scodi-period-time">09:00–12:30</span></th>${morning}</tr><tr class="scodi-lunch-row"><th><span class="scodi-lunch-line"><span>Mittag</span></span><span class="scodi-period-time">ohne Stunden</span></th>${lunch}</tr><tr class="scodi-afternoon-row"><th><span class="scodi-period-title">Nachmittag</span><span class="scodi-period-time">13:30–17:00</span></th>${afternoon}</tr></tbody></table></div>`;}
+function scodiRenderWeekplanPrintSection(generatorFilter="all"){const filter=scodiNormalizeWeekplanFilter(generatorFilter); const isSingle=filter!=="all"; const title=filter==="grit"?"Wochenplan RIT":filter==="gret"?"Wochenplan RET":"Gemeinsamer Wochenplan RIT / RET"; const badge=filter==="grit"?"RIT":filter==="gret"?"RET":"RIT/RET"; const cls=isSingle?" "+scodiGeneratorClass(filter):""; const badgeCls=filter==="grit"?" grit":filter==="gret"?" gret":""; return `<section class="generator-card${cls}"><div class="generator-head"><span class="badge${badgeCls}">${esc(badge)}</span><h2>${esc(title)}</h2></div><div class="section">${scodiRenderWeekplanTable(false,filter)}</div></section>`;}
+function scodiFormatHours(value){const n=Number(value||0); return (Math.round(n*10)/10).toLocaleString("de-CH",{minimumFractionDigits:n%1?1:0,maximumFractionDigits:1})+" h";}
+function scodiBuildDayAccountingRow(dayLabel){const row={day:dayLabel,gritMorning:0,gritAfternoon:0,gretMorning:0,gretAfternoon:0,lunch:isMealSlotActive(dayLabel),conflict:[]}; SCODI_PERIOD_DEFS.forEach(period=>{const rit=isGoalPlanSlotActiveInGrunddaten("grit",dayLabel,period.label); const ret=isGoalPlanSlotActiveInGrunddaten("gret",dayLabel,period.label); if(rit){if(period.key==="morning") row.gritMorning+=period.hours; else row.gritAfternoon+=period.hours;} if(ret){if(period.key==="morning") row.gretMorning+=period.hours; else row.gretAfternoon+=period.hours;}}); return scodiRefreshAccountingRowTotals(row);}
+function scodiRefreshAccountingRowTotals(row){row.gritTotal=Number(row.gritMorning||0)+Number(row.gritAfternoon||0); row.gretTotal=Number(row.gretMorning||0)+Number(row.gretAfternoon||0); row.actualMorning=(Number(row.gritMorning||0)>0||Number(row.gretMorning||0)>0)?3.5:0; row.actualAfternoon=(Number(row.gritAfternoon||0)>0||Number(row.gretAfternoon||0)>0)?3.5:0; row.total=row.actualMorning+row.actualAfternoon; return row;}
+function scodiBuildAccounting(){const rows=[]; const totals={grit:0,gret:0,all:0,conflicts:[]}; SCODI_DAY_DEFS.forEach(day=>{const row=scodiBuildDayAccountingRow(day.label); totals.grit+=row.gritTotal; totals.gret+=row.gretTotal; totals.all+=row.total; rows.push(row);}); return {rows,totals};}
+function scodiRenderSummaryCards(accounting){const morningCount=SCODI_DAY_DEFS.reduce((sum,day)=>sum+["grit","gret"].filter(gen=>isGoalPlanSlotActiveInGrunddaten(gen,day.label,"Morgen")).length,0); const afternoonCount=SCODI_DAY_DEFS.reduce((sum,day)=>sum+["grit","gret"].filter(gen=>isGoalPlanSlotActiveInGrunddaten(gen,day.label,"Nachmittag")).length,0); const lunchCount=SCODI_DAY_DEFS.reduce((sum,day)=>sum+(isMealSlotActive(day.label)?1:0),0); return `<div class="scodi-summary-grid"><div class="scodi-summary-card"><span>Woche RIT</span><strong>${esc(scodiFormatHours(accounting.totals.grit))}</strong></div><div class="scodi-summary-card"><span>Woche RET</span><strong>${esc(scodiFormatHours(accounting.totals.gret))}</strong></div><div class="scodi-summary-card"><span>Woche Total</span><strong>${esc(scodiFormatHours(accounting.totals.all))}</strong></div><div class="scodi-summary-card"><span>Halbtage / Mittag</span><strong>${morningCount+afternoonCount} / ${lunchCount}</strong></div></div>`;}
+function scodiRenderAccountingTable(){const accounting=scodiBuildAccounting(); const rows=accounting.rows.map(row=>`<tr><th>${esc(row.day)}</th><td>${esc(scodiFormatHours(row.gritMorning))}</td><td>${esc(scodiFormatHours(row.gritAfternoon))}</td><td><strong>${esc(scodiFormatHours(row.gritTotal))}</strong></td><td>${esc(scodiFormatHours(row.gretMorning))}</td><td>${esc(scodiFormatHours(row.gretAfternoon))}</td><td><strong>${esc(scodiFormatHours(row.gretTotal))}</strong></td><td>${row.lunch?"Ja":"–"}</td><td><strong>${esc(scodiFormatHours(row.total))}</strong></td></tr>`).join(""); return `<div class="scodi-accounting-wrap"><table class="scodi-accounting-table"><thead><tr><th>Tag</th><th>RIT Morgen</th><th>RIT Nachmittag</th><th>RIT Total</th><th>RET Morgen</th><th>RET Nachmittag</th><th>RET Total</th><th>Mittag</th><th>Tag Total</th></tr></thead><tbody>${rows}<tr><th>Woche</th><td colspan="2"></td><td><strong>${esc(scodiFormatHours(accounting.totals.grit))}</strong></td><td colspan="2"></td><td><strong>${esc(scodiFormatHours(accounting.totals.gret))}</strong></td><td></td><td><strong>${esc(scodiFormatHours(accounting.totals.all))}</strong></td></tr></tbody></table></div>`;}
+function scodiGetAccountingYear(){const raw=scodiGetMergedGrunddaten().datum||currentPayload?.exportedAt||""; const m=/^(\d{4})/.exec(String(raw)); const year=m?Number(m[1]):new Date().getFullYear(); return Number.isFinite(year)&&year>=2000&&year<=2200?year:new Date().getFullYear();}
+function scodiPad2(v){return String(v).padStart(2,"0");} function scodiDateUtc(y,m,d){return new Date(Date.UTC(y,m,d));} function scodiDateKey(date){return date.getUTCFullYear()+"-"+scodiPad2(date.getUTCMonth()+1)+"-"+scodiPad2(date.getUTCDate());} function scodiDisplayDate(date){return scodiPad2(date.getUTCDate())+"."+scodiPad2(date.getUTCMonth()+1)+"."+date.getUTCFullYear();} function scodiAddDays(date,days){const next=new Date(date.getTime()); next.setUTCDate(next.getUTCDate()+Number(days||0)); return next;}
+function scodiEasterSunday(year){const a=year%19,b=Math.floor(year/100),c=year%100,d=Math.floor(b/4),e=b%4,f=Math.floor((b+8)/25),g=Math.floor((b-f+1)/3),h=(19*a+b-d-g+15)%30,i=Math.floor(c/4),k=c%4,l=(32+2*e+2*i-h-k)%7,m=Math.floor((a+11*h+22*l)/451),month=Math.floor((h+l-7*m+114)/31),day=((h+l-7*m+114)%31)+1; return scodiDateUtc(year,month-1,day);}
+function scodiBaselStadtHolidays(year){const easter=scodiEasterSunday(year); return [{label:"Neujahr",date:scodiDateUtc(year,0,1),scope:"full_day"},{label:"Basler Fasnacht · Fasnachtsmontag Nachmittag · Freizeit",date:scodiAddDays(easter,-41),scope:"afternoon"},{label:"Basler Fasnacht · Fasnachtsmittwoch Nachmittag · Freizeit",date:scodiAddDays(easter,-39),scope:"afternoon"},{label:"Karfreitag",date:scodiAddDays(easter,-2),scope:"full_day"},{label:"Ostermontag",date:scodiAddDays(easter,1),scope:"full_day"},{label:"Tag der Arbeit",date:scodiDateUtc(year,4,1),scope:"full_day"},{label:"Auffahrt",date:scodiAddDays(easter,39),scope:"full_day"},{label:"Pfingstmontag",date:scodiAddDays(easter,50),scope:"full_day"},{label:"Bundesfeiertag",date:scodiDateUtc(year,7,1),scope:"full_day"},{label:"Weihnachten",date:scodiDateUtc(year,11,25),scope:"full_day"},{label:"Stephanstag",date:scodiDateUtc(year,11,26),scope:"full_day"}].sort((a,b)=>a.date-b.date);}
+function scodiWeekdayDayLabel(date){const w=date.getUTCDay(); if(w<1||w>5) return ""; return SCODI_DAY_DEFS[w-1]?.label||"";}
+function scodiCloneAccountingRow(row){return scodiRefreshAccountingRowTotals({...row,conflict:Array.isArray(row.conflict)?row.conflict.slice():[]});}
+function scodiApplyHolidayRuleToAccountingRow(row,holiday){scodiRefreshAccountingRowTotals(row); const skipped={grit:0,gret:0,total:0,fullDay:false}; const scope=holiday?.scope||"full_day"; if(scope==="full_day"){skipped.grit=row.gritTotal; skipped.gret=row.gretTotal; skipped.total=row.total; skipped.fullDay=true; row.gritMorning=row.gritAfternoon=row.gretMorning=row.gretAfternoon=0; scodiRefreshAccountingRowTotals(row); return skipped;} if(scope==="afternoon"){const before=row.total; skipped.grit=Number(row.gritAfternoon||0); skipped.gret=Number(row.gretAfternoon||0); row.gritAfternoon=0; row.gretAfternoon=0; scodiRefreshAccountingRowTotals(row); skipped.total=Math.max(0,before-Number(row.total||0)); return skipped;} return skipped;}
+function scodiBuildYearAccounting(year=scodiGetAccountingYear()){const holidays=scodiBaselStadtHolidays(year).map(h=>({...h,dateKey:scodiDateKey(h.date),weekday:["Sonntag","Montag","Dienstag","Mittwoch","Donnerstag","Freitag","Samstag"][h.date.getUTCDay()]||"",gritSkipped:0,gretSkipped:0,totalSkipped:0})); const byKey=new Map(); holidays.forEach(h=>{const list=byKey.get(h.dateKey)||[]; list.push(h); byKey.set(h.dateKey,list);}); const months=SCODI_MONTH_LABELS.map((label,index)=>({index,label,workdays:0,activeDays:0,lunchDays:0,grit:0,gret:0,total:0,holidaySkipped:0,specialSkipped:0})); const totals={year,workdays:0,activeDays:0,lunchDays:0,grit:0,gret:0,all:0,holidaySkipped:0,specialSkipped:0,activeHolidayCount:0,holidaysOnWeekdays:0}; for(let date=scodiDateUtc(year,0,1); date.getUTCFullYear()===year; date=scodiAddDays(date,1)){const dayLabel=scodiWeekdayDayLabel(date); if(!dayLabel) continue; const month=months[date.getUTCMonth()]; const row=scodiCloneAccountingRow(scodiBuildDayAccountingRow(dayLabel)); let isFull=false; (byKey.get(scodiDateKey(date))||[]).forEach(h=>{totals.holidaysOnWeekdays+=1; const skipped=scodiApplyHolidayRuleToAccountingRow(row,h); h.gritSkipped+=skipped.grit; h.gretSkipped+=skipped.gret; h.totalSkipped+=skipped.total; month.holidaySkipped+=skipped.total; totals.holidaySkipped+=skipped.total; if(skipped.total>0) totals.activeHolidayCount+=1; if(skipped.fullDay) isFull=true;}); if(!isFull){month.workdays+=1; totals.workdays+=1;} month.grit+=row.gritTotal; month.gret+=row.gretTotal; month.total+=row.total; totals.grit+=row.gritTotal; totals.gret+=row.gretTotal; totals.all+=row.total; if(row.total>0){month.activeDays+=1; totals.activeDays+=1;} if(!isFull&&row.lunch&&Number(row.total||0)>0){month.lunchDays+=1; totals.lunchDays+=1;}} return {year,months,holidays,specialDays:[],totals};}
+function scodiRenderYearSummaryCards(yearAccounting){return `<div class="scodi-year-grid"><div class="scodi-year-card"><span>Jahr ${esc(String(yearAccounting.year))} RIT</span><strong>${esc(scodiFormatHours(yearAccounting.totals.grit))}</strong></div><div class="scodi-year-card"><span>Jahr ${esc(String(yearAccounting.year))} RET</span><strong>${esc(scodiFormatHours(yearAccounting.totals.gret))}</strong></div><div class="scodi-year-card"><span>Jahr ${esc(String(yearAccounting.year))} Total</span><strong>${esc(scodiFormatHours(yearAccounting.totals.all))}</strong></div><div class="scodi-year-card"><span>Feiertage abgezogen</span><strong>${esc(scodiFormatHours(yearAccounting.totals.holidaySkipped))}</strong></div></div>`;}
+function scodiRenderYearAccountingTable(yearAccounting=scodiBuildYearAccounting()){const rows=yearAccounting.months.map(m=>`<tr><th>${esc(m.label)}</th><td>${esc(scodiFormatHours(m.grit))}</td><td>${esc(scodiFormatHours(m.gret))}</td><td><strong>${esc(scodiFormatHours(m.total))}</strong></td><td>${esc(String(m.activeDays))}</td><td>${esc(String(m.lunchDays))}</td><td>${esc(scodiFormatHours(m.holidaySkipped))}</td><td>${esc(scodiFormatHours(m.specialSkipped||0))}</td></tr>`).join(""); return `<div class="scodi-accounting-wrap"><table class="scodi-accounting-table"><thead><tr><th>Monat</th><th>RIT</th><th>RET</th><th>Total</th><th>verrechnete Tage</th><th>Mittagessen</th><th>Feiertage abgezogen</th><th>Sondertage abgezogen</th></tr></thead><tbody>${rows}<tr class="scodi-month-total-row"><th>Jahr ${esc(String(yearAccounting.year))}</th><td><strong>${esc(scodiFormatHours(yearAccounting.totals.grit))}</strong></td><td><strong>${esc(scodiFormatHours(yearAccounting.totals.gret))}</strong></td><td><strong>${esc(scodiFormatHours(yearAccounting.totals.all))}</strong></td><td><strong>${esc(String(yearAccounting.totals.activeDays))}</strong></td><td><strong>${esc(String(yearAccounting.totals.lunchDays))}</strong></td><td><strong>${esc(scodiFormatHours(yearAccounting.totals.holidaySkipped))}</strong></td><td><strong>${esc(scodiFormatHours(yearAccounting.totals.specialSkipped||0))}</strong></td></tr></tbody></table></div>`;}
+function scodiRenderHolidayList(yearAccounting){const rows=yearAccounting.holidays.map(h=>{const skipped=Number(h.totalSkipped||0)>0; return `<span class="scodi-holiday-pill ${skipped?"skipped":""}">${esc(scodiDisplayDate(h.date))} · ${esc(h.label)}${skipped?" · "+esc(scodiFormatHours(h.totalSkipped)):""}</span>`;}).join(""); return `<div class="scodi-section-body"><div class="scodi-holiday-list">${rows}</div></div>`;}
+function scodiRenderSpecialDayPrintList(){return `<div class="scodi-special-empty">Noch keine Sondertage oder Nichtverrechnungen erfasst.</div>`;}
+function scodiRenderYearAccountingBlock(yearAccounting=scodiBuildYearAccounting(),includeSpecialList=true){return `${scodiRenderYearSummaryCards(yearAccounting)}${scodiRenderYearAccountingTable(yearAccounting)}${includeSpecialList?scodiRenderSpecialDayPrintList(yearAccounting):""}<details class="scodi-section" open><summary>Feiertage Kanton Basel-Stadt ${esc(String(yearAccounting.year))}</summary>${scodiRenderHolidayList(yearAccounting)}</details>`;}
+function scodiExtParseSections(text,defaultHeading="Ausgabe"){const raw=scodiExtCleanBlockText(text); if(!raw) return []; const lines=raw.split("\n"); const sections=[]; let current=null; const start=(heading,rest="")=>{current={heading:scodiExtNormalizeInline(heading||defaultHeading),lines:[]}; sections.push(current); if(scodiExtNormalizeInline(rest)) current.lines.push(rest.trim());}; lines.forEach(line=>{const trimmed=line.trim(); if(!trimmed) return; const m=trimmed.match(/^(?:\d+[a-z]?\.\s*)?([^:]{3,90}):\s*(.*)$/); const isHeading=m && !/[.!?]$/.test(m[1]) && m[1].split(/\s+/).length<=8; if(isHeading){start(m[1],m[2]||"");} else {if(!current) start(defaultHeading); current.lines.push(trimmed);}}); return sections.map(s=>({heading:s.heading,text:scodiExtCleanBlockText(s.lines.join("\n"))})).filter(s=>hasText(s.text));}
+function scodiExtRenderStructuredBody(text){return scodiExtCleanBlockText(text).split("\n").map(line=>{const l=scodiExtNormalizeInline(line); if(!l) return ""; const bullet=l.match(/^[-•]\s*(.+)$/); if(bullet) return `<div class="ep-output-line ep-output-bullet">${esc(bullet[1])}</div>`; const label=l.match(/^([^:]{2,70}:)\s*(.*)$/); if(label&&!/^https?:/i.test(l)) return `<div class="ep-output-line"><span class="ep-output-label">${esc(label[1])}</span>${esc(label[2]||"")}</div>`; return `<div class="ep-output-line">${esc(l)}</div>`;}).join("");}
+function scodiExtRenderStructuredBox(text,kind="planning"){const body=scodiExtCleanBlockText(text); if(!body) return ""; const sections=scodiExtParseSections(body, kind==="ep"?"Entwicklungsplanung":"Planung"); if(!sections.length) return `<div class="scodi-output-box">${esc(body)}</div>`; const html=sections.map(s=>`<section class="inline-output-section"><h4 class="inline-output-heading">${esc(s.heading)}</h4><div class="inline-output-body">${scodiExtRenderStructuredBody(s.text)}</div></section>`).join(""); return `<div class="scodi-output-box ${kind==="ep"?"scodi-ep-output-box":"scodi-planning-output-box"}"><div class="inline-output-doc">${html}</div></div>`;}
+function scodiRenderStructuredPlanningOutputBox(text,generatorKey=""){return scodiExtRenderStructuredBox(text,"planning");}
+function sanitizeEntwicklungsplanungOutputText(value){return scodiExtCleanBlockText(value||"").replace(/<!--[^>]*-->/g,"").trim();}
+function epOutputContainsRawNavigatorMaterial(value){return /strukturierte\s+vorschau|rohmaterial|epPreviewField|pageHost/i.test(String(value||""));}
+function scodiRenderStructuredEpOutputBox(text){const body=sanitizeEntwicklungsplanungOutputText(text||""); return body?scodiExtRenderStructuredBox(body,"ep"):"";}
+function scodiGeneratorListForOutput(filterGen){const n=clean(filterGen||"").toLowerCase(); if(n==="rit"||n==="grit") return ["grit"]; if(n==="ret"||n==="gret") return ["gret"]; return ["grit","gret"];}
+function scodiRenderKiSection(filterGen=""){return scodiGeneratorListForOutput(filterGen).map(gen=>{const text=scodiExtCleanBlockText(getKiResultText(gen)||""); const title=scodiPlanningDisplayTitle(gen); return `<section class="generator-card ${scodiGeneratorClass(gen)}"><div class="generator-head"><span class="badge ${scodiGeneratorClass(gen)}">${esc(scodiGeneratorLabel(gen))}</span><h2>${esc(title)}</h2></div><div class="section">${text?scodiRenderStructuredPlanningOutputBox(text,gen):`<div class="scodi-output-empty">Noch keine Planung gespeichert.</div>`}</div></section>`;}).join("");}
+function scodiRenderEpSection(filterGen=""){return scodiGeneratorListForOutput(filterGen).map(gen=>{const raw=scodiExtCleanBlockText(getEntwicklungsplanungText(gen)||""); const text=sanitizeEntwicklungsplanungOutputText(raw); const containsRaw=epOutputContainsRawNavigatorMaterial(raw); const content=text&&!epOutputContainsRawNavigatorMaterial(text)?scodiRenderStructuredEpOutputBox(text):containsRaw?`<div class="scodi-output-empty">Die gespeicherte Entwicklungsplanung enthält noch Rohmaterial aus dem Navigator und kann nicht sauber bereinigt werden. Bitte auf der EP-Seite die Entwicklungsplanung neu erzeugen.</div>`:`<div class="scodi-output-empty">Noch keine fertige Entwicklungsplanung gespeichert. Bitte auf der EP-Seite „Entwicklungsplanung an KI senden“ verwenden.</div>`; return `<section class="generator-card ${scodiGeneratorClass(gen)}"><div class="generator-head"><span class="badge ${scodiGeneratorClass(gen)}">${esc(scodiGeneratorLabel(gen))}</span><h2>${esc(scodiGeneratorLabel(gen))} – Entwicklungsplanung</h2></div><div class="section">${content}</div></section>`;}).join("");}
+function scodiRenderDirectViewer(){const accounting=scodiBuildAccounting(); const yearAccounting=scodiBuildYearAccounting(); const stamped=new Date().toLocaleString("de-CH",{day:"2-digit",month:"2-digit",year:"numeric",hour:"2-digit",minute:"2-digit"}); return `<section class="generator-card weekplan-view" id="viewer-all-section"><div class="generator-head"><span class="badge">Ausgabe</span><h2>Viewer</h2><div class="small">Direkte HTML-Ausgabe. Aktueller Stand: ${esc(stamped)}</div></div><div class="section scodi-panel"><details class="scodi-section scodi-print-panel" open><summary>Drucken / Ausgabe</summary><div class="scodi-section-body"><div class="scodi-action-row scodi-print-action-row"><button type="button" onclick="printViewer('rit_complete')">RIT: Wochenplan + Planung + EP drucken</button><button type="button" onclick="printViewer('ret_complete')">RET: Wochenplan + Planung + EP drucken</button><button type="button" class="secondary" onclick="printViewer('all')">Alles zusammen drucken</button></div><div class="small">Einzeldruck enthält jeweils nur den passenden RIT- oder RET-Wochenplan. Die Gesamtausgabe enthält den gemeinsamen Wochenplan und die Buchhaltung am Schluss.</div></div></details><div class="scodi-viewer-nav"><a href="#scodi-viewer-grunddaten">Grunddaten</a><a href="#scodi-viewer-weekplan">Wochenplan</a><a href="#scodi-viewer-rit-planung">RIT Planung</a><a href="#scodi-viewer-rit-ep">RIT EP</a><a href="#scodi-viewer-ret-planung">RET Planung</a><a href="#scodi-viewer-ret-ep">RET EP</a><a href="#scodi-viewer-hours">Buchhaltung</a></div>${scodiRenderGrunddatenSection()}<details class="scodi-section" id="scodi-viewer-weekplan" open><summary>Wochenplan</summary><div class="scodi-section-body">${scodiRenderWeekplanTable(false)}</div></details><details class="scodi-section" id="scodi-viewer-rit-planung" open><summary>Räumlich integrierte Tagesstruktur (RIT) – Planung</summary><div class="scodi-section-body">${scodiRenderKiSection("grit")}</div></details><details class="scodi-section" id="scodi-viewer-rit-ep" open><summary>RIT – Entwicklungsplanung</summary><div class="scodi-section-body">${scodiRenderEpSection("grit")}</div></details><details class="scodi-section" id="scodi-viewer-ret-planung" open><summary>Räumlich externe Tagesstruktur (RET) – Planung</summary><div class="scodi-section-body">${scodiRenderKiSection("gret")}</div></details><details class="scodi-section" id="scodi-viewer-ret-ep" open><summary>RET – Entwicklungsplanung</summary><div class="scodi-section-body">${scodiRenderEpSection("gret")}</div></details><details class="scodi-section" id="scodi-viewer-hours" open><summary>Buchhaltung / Stundenübersicht</summary><div class="scodi-section-body"><div class="scodi-summary-grid"><div class="scodi-summary-card"><span>Klient</span><strong>${esc(scodiClientName())}</strong></div><div class="scodi-summary-card"><span>Jahr ${esc(String(yearAccounting.year))} RIT</span><strong>${esc(scodiFormatHours(yearAccounting.totals.grit))}</strong></div><div class="scodi-summary-card"><span>Jahr ${esc(String(yearAccounting.year))} RET</span><strong>${esc(scodiFormatHours(yearAccounting.totals.gret))}</strong></div><div class="scodi-summary-card"><span>Jahr total</span><strong>${esc(scodiFormatHours(yearAccounting.totals.all))}</strong></div></div>${scodiRenderYearAccountingBlock(yearAccounting)}${scodiRenderAccountingTable()}</div></details></div></section>`;}
+function scodiRenderSingleViewer(gen){const label=scodiGeneratorLabel(gen); return `<section class="generator-card ${scodiGeneratorClass(gen)}" id="viewer-${gen}-section"><div class="generator-head"><span class="badge ${scodiGeneratorClass(gen)}">${esc(label)}</span><h2>${esc(label)} – Wochenplan, Planung und Entwicklungsplanung</h2></div><div class="section scodi-panel">${scodiRenderGrunddatenSection()}${scodiRenderWeekplanPrintSection(gen)}${scodiRenderKiSection(gen)}${scodiRenderEpSection(gen)}</div></section>`;}
+function getAvailableViews(){const views=["all"]; if(generatorHasContent("grit")||areaHasContent("grit")) views.push("grit"); if(generatorHasContent("gret")||areaHasContent("gret")) views.push("gret"); views.push("weekplan"); return views;}
+function pickDefaultMode(){return "all";}
+function ensureActiveMode(){const views=getAvailableViews(); if(!views.includes(activeMode)) activeMode="all";}
+function renderTabs(){ensureActiveMode(); const host=document.getElementById("viewTabs"); if(!host) return; const buttons=[]; buttons.push(`<button class="secondary ${activeMode==='all'?'active':''}" onclick="setMode('all')">Ausgabe wie interner Viewer</button>`); if(generatorHasContent("grit")||areaHasContent("grit")) buttons.push(`<button class="grit ${activeMode==='grit'?'active':''}" onclick="setMode('grit')">RIT komplett</button>`); if(generatorHasContent("gret")||areaHasContent("gret")) buttons.push(`<button class="gret ${activeMode==='gret'?'active':''}" onclick="setMode('gret')">RET komplett</button>`); buttons.push(`<button class="secondary ${activeMode==='weekplan'?'active':''}" onclick="setMode('weekplan')">Wochenplan</button>`); host.innerHTML=buttons.join("");}
+function renderQuickNav(){const host=document.getElementById("quickNav"); if(!host) return; const buttons=[`<button type="button" class="ghost" onclick="jumpViewerSection('overview')">Übersicht</button>`,`<button type="button" class="secondary" onclick="jumpViewerSection('all')">Ausgabe</button>`,`<button type="button" class="secondary" onclick="jumpViewerSection('weekplan')">Wochenplan</button>`,`<button type="button" class="grit" onclick="jumpViewerSection('grit')">RIT</button>`,`<button type="button" class="gret" onclick="jumpViewerSection('gret')">RET</button>`,`<button type="button" class="secondary" onclick="jumpViewerSection('ki')">Planung</button>`,`<button type="button" class="secondary" onclick="jumpViewerSection('ep')">Entwicklungsplanung</button>`,`<button type="button" class="ghost" onclick="jumpViewerSection('print')">Drucken</button>`]; host.innerHTML=`<span class="viewer-quick-nav-label">Springen</span>${buttons.join("")}`;}
+function jumpViewerSection(section){if(!currentPayload) return; if(section==="overview"){scrollViewerTarget("#overviewSection"); return;} if(section==="print"){scrollViewerTarget(".print-actions"); return;} if(section==="all"){activeMode="all"; renderAll(); scrollViewerTarget("#viewer-all-section"); return;} if(section==="weekplan"){activeMode="all"; renderAll(); scrollViewerTarget("#scodi-viewer-weekplan",true); return;} if(section==="grit"){activeMode="all"; renderAll(); scrollViewerTarget("#scodi-viewer-rit-planung",true); return;} if(section==="gret"){activeMode="all"; renderAll(); scrollViewerTarget("#scodi-viewer-ret-planung",true); return;} if(section==="ki"){activeMode="all"; renderAll(); scrollViewerTarget("#scodi-viewer-rit-planung",true); return;} if(section==="ep"){activeMode="all"; renderAll(); scrollViewerTarget("#scodi-viewer-rit-ep",true); return;}}
+function renderGenerators(){const host=document.getElementById("generatorsHost"); if(!host) return; if(activeMode==="all") host.innerHTML=scodiRenderDirectViewer(); else if(activeMode==="weekplan") host.innerHTML=scodiRenderWeekplanPrintSection("all"); else if(activeMode==="grit"||activeMode==="gret") host.innerHTML=scodiRenderSingleViewer(activeMode); else host.innerHTML=`<div class="empty">Keine passenden Inhalte vorhanden.</div>`;}
+function scodiBuildPrintHtml(title,bodyHtml,pageMode="landscape"){const pageOrientation=pageMode==="portrait"?"portrait":"landscape"; const printedAt=new Date().toLocaleString("de-CH",{day:"2-digit",month:"2-digit",year:"numeric",hour:"2-digit",minute:"2-digit"}); const logo1=typeof PRINT_HEADER_IMAGE_DATA_URI!=="undefined"?PRINT_HEADER_IMAGE_DATA_URI:""; const logo2=typeof PRINT_PARTNER_IMAGE_DATA_URI!=="undefined"?PRINT_PARTNER_IMAGE_DATA_URI:""; return `<!DOCTYPE html><html lang="de"><head><meta charset="UTF-8"><title>${esc(title)}</title><style>body{font-family:Arial,Helvetica,sans-serif;margin:0;color:#1f2937;background:#fff;line-height:1.55}.wrap{padding:16mm 9mm 12mm;display:grid;gap:12px}.print-header{border-bottom:1px solid #d8e1ee;background:#fff;display:flex;align-items:center;justify-content:space-between;padding:2mm 0 3mm;margin-bottom:6mm;box-sizing:border-box}.logos{display:flex;align-items:center;gap:4mm}.logos img{height:14mm;max-width:42mm;object-fit:contain}.meta{text-align:right;color:#607086;font-size:9px}.footer{border-top:1px solid #d8e1ee;background:#fff;display:flex;align-items:center;justify-content:space-between;padding:3mm 0 0;color:#607086;font-size:9px;box-sizing:border-box}h1{margin:0 0 4px;font-size:24px}.subtitle{color:#607086;font-size:12px}.generator-card{border:1px solid #d8e1ee;border-radius:10px;padding:8px;background:#fff;margin-bottom:8px}.generator-card.grit{border-color:#dacdf0;background:linear-gradient(180deg,#fff,#fbf7ff);box-shadow:inset 4px 0 0 #5c3991}.generator-card.gret{border-color:#cfe7d9;background:linear-gradient(180deg,#fff,#f5fff9);box-shadow:inset 4px 0 0 #2f7d5a}.generator-head{display:flex;align-items:center;gap:8px;border-bottom:1px solid #d8e1ee;margin-bottom:8px;padding-bottom:6px}.generator-head h2{margin:0;font-size:15px}.badge{display:inline-flex;border:1px solid #d8e1ee;border-radius:999px;padding:3px 7px;font-size:9px;font-weight:700}.badge.grit{border-color:#dacdf0;background:#f1ecf8;color:#5c3991}.badge.gret{border-color:#cfe7d9;background:#eaf7f1;color:#2f7d5a}.section{display:grid;gap:8px}.scodi-section{border:1px solid #d8e1ee;border-radius:10px;padding:8px;break-inside:avoid;page-break-inside:avoid}.scodi-section>summary{display:block!important;font-weight:800!important;font-size:15px!important;border-bottom:2px solid #d8e1ee!important;padding:0 0 2mm 0!important;margin:0 0 3mm 0!important;color:#1f2937!important}.scodi-section-body{padding:0!important;display:grid;gap:8px}.scodi-grunddaten-grid,.scodi-summary-grid,.scodi-year-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}.scodi-grunddaten-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.scodi-grunddaten-item,.scodi-summary-card,.scodi-year-card{border:1px solid #d8e1ee;border-radius:10px;padding:8px;background:#fff}.scodi-grunddaten-item.wide{grid-column:span 2}.scodi-grunddaten-item.full{grid-column:1/-1}.scodi-grunddaten-item span,.scodi-summary-card span,.scodi-year-card span{display:block;color:#607086;font-size:9px;font-weight:700}.scodi-grunddaten-item strong,.scodi-summary-card strong,.scodi-year-card strong{display:block;font-size:11px;color:#1f2937;white-space:pre-wrap;overflow-wrap:anywhere}.scodi-summary-card strong,.scodi-year-card strong{font-size:13px}.scodi-grunddaten-timeplan,.scodi-week-wrap,.scodi-accounting-wrap{border:1px solid #d8e1ee;border-radius:10px;background:#fff;overflow:hidden}.scodi-grunddaten-timeplan-title{padding:7px 8px;border-bottom:1px solid #d8e1ee;font-weight:700}.scodi-grunddaten-timeplan table,.scodi-week-table,.scodi-accounting-table{width:100%;border-collapse:collapse;table-layout:fixed;font-size:9px}.scodi-week-table{font-size:10px}.scodi-week-table col.scodi-time-col{width:30mm}.scodi-grunddaten-timeplan th,.scodi-grunddaten-timeplan td,.scodi-week-table th,.scodi-week-table td,.scodi-accounting-table th,.scodi-accounting-table td{border:1px solid #d8e1ee;padding:5px;text-align:left;vertical-align:top}.scodi-day-mo{--scodi-day-main:#caa33a;--scodi-day-soft:#fff4c9;--scodi-day-line:#ead48b}.scodi-day-di{--scodi-day-main:#7aa842;--scodi-day-soft:#ebf8d7;--scodi-day-line:#c9e4a5}.scodi-day-mi{--scodi-day-main:#4e8fcf;--scodi-day-soft:#e4f1ff;--scodi-day-line:#b8d5f3}.scodi-day-do{--scodi-day-main:#c95072;--scodi-day-soft:#ffe1ea;--scodi-day-line:#f1b5c5}.scodi-day-fr{--scodi-day-main:#d6953c;--scodi-day-soft:#fff0de;--scodi-day-line:#efc48e}.scodi-week-table th.scodi-day-col-head{background:linear-gradient(180deg,#fff,var(--scodi-day-soft))!important;color:var(--scodi-day-main)!important;border-top:3px solid var(--scodi-day-main)!important;text-align:center}.scodi-week-table td.scodi-day-col-cell{background:linear-gradient(180deg,#fff,var(--scodi-day-soft));border-color:var(--scodi-day-line)}.scodi-time-badges{display:flex;flex-wrap:wrap;gap:3px}.scodi-time-badge{display:inline-flex;border:1px solid #d8e1ee;border-radius:999px;padding:2px 5px;font-size:8px;font-weight:700}.scodi-time-badge.grit{border-color:#dacdf0;background:#f1ecf8;color:#5c3991}.scodi-time-badge.gret{border-color:#cfe7d9;background:#eaf7f1;color:#2f7d5a}.scodi-time-badge.meal{border-color:#f0dfad;background:#fff8ea;color:#8a6700}.scodi-day-cell{display:grid;gap:5px}.scodi-slot-card{border:1px solid #d8e1ee;border-radius:8px;background:#fbfdff;padding:6px;display:grid;gap:4px}.scodi-slot-card.grit{border-color:#dacdf0;background:#fbf7ff}.scodi-slot-card.gret{border-color:#cfe7d9;background:#f5fff9}.scodi-slot-card.missing{border-color:#f0dfad;background:#fff8ea}.scodi-slot-label{font-size:9px;font-weight:700}.scodi-slot-label.grit{color:#5c3991}.scodi-slot-label.gret{color:#2f7d5a}.scodi-slot-status{font-size:8px;color:#607086}.scodi-slot-body{font-size:8.8px;line-height:1.28;white-space:pre-wrap;overflow-wrap:anywhere}.scodi-empty-slot{border:1px dashed #d8e1ee;border-radius:8px;background:#fbfdff;color:#607086;padding:5px;font-size:8.8px}.scodi-lunch-cell{font-size:9px;color:#8a6700}.scodi-output-box{white-space:pre-wrap;overflow-wrap:anywhere;border:1px solid #d8e1ee;border-radius:8px;background:#fffefc;padding:8px;font-size:10.5px;line-height:1.55}.scodi-ep-output-box,.scodi-planning-output-box{white-space:normal!important;background:#fff!important}.inline-output-doc{display:grid;gap:8px}.inline-output-section{break-inside:avoid;page-break-inside:avoid;border:1px solid #d8e1ee;border-radius:9px;background:#fff;padding:8px}.inline-output-heading{margin:0 0 6px 0;padding-bottom:5px;border-bottom:1px solid #d8e1ee;font-size:12px;color:#5c3991}.generator-card.gret .inline-output-heading{color:#2f7d5a}.inline-output-body{font-size:10.5px;line-height:1.55}.ep-output-line{margin:0 0 5px 0;line-height:1.55}.ep-output-label{font-weight:700;color:inherit;margin-right:3px}.ep-output-bullet{position:relative;padding-left:12px}.ep-output-bullet:before{content:"•";position:absolute;left:0;font-weight:700;color:inherit}.scodi-output-empty,.scodi-special-empty{border:1px dashed #d8e1ee;border-radius:8px;background:#fbfdff;color:#607086;padding:8px;font-size:10px}.scodi-holiday-list{display:flex;flex-wrap:wrap;gap:4px}.scodi-holiday-pill{border:1px solid #d8e1ee;border-radius:999px;padding:3px 6px;font-size:9px}.scodi-holiday-pill.skipped{border-color:#f0dfad;background:#fff8ea}@media print{.bt-print-mobile-toolbar{display:none!important}.print-frame{width:100%;border-collapse:collapse}.generator-card,.inline-output-section{break-inside:avoid;page-break-inside:avoid}}@page{size:A4 ${pageOrientation};margin:8mm}</style></head><body><div class="bt-print-mobile-toolbar" style="position:sticky;top:0;z-index:9999;display:flex;gap:8px;padding:8px;background:#fff;border-bottom:1px solid #d8e1ee"><button type="button" onclick="window.print()" style="flex:1;border:1px solid #2f6fed;border-radius:10px;background:#2f6fed;color:#fff;font:700 14px Arial;padding:10px">Drucken / PDF öffnen</button><button type="button" onclick="window.close()" style="flex:1;border:1px solid #2f6fed;border-radius:10px;background:#fff;color:#2f6fed;font:700 14px Arial;padding:10px">Schliessen</button></div><table class="print-frame"><thead><tr><td><div class="print-header"><div class="logos"><img src="${logo1}" alt="BT-Navigator"><img src="${logo2}" alt="L!V"></div><div><strong>${esc(title)}</strong><div class="subtitle">Einzelklient · BT-Navigator</div></div><div class="meta">gedruckt:<br>${esc(printedAt)}</div></div></td></tr></thead><tbody><tr><td><main class="wrap"><h1>${esc(title)}</h1>${bodyHtml}</main></td></tr></tbody><tfoot><tr><td><div class="footer"><span>BT-Navigator · RIT / RET</span><span>L!V · Leben in Vielfalt</span></div></td></tr></tfoot></table><script>window.addEventListener('load',function(){setTimeout(function(){try{window.focus();window.print();}catch(e){}},600);});<\/script></body></html>`;}
+function scodiOpenPrintHtml(html){let printWindow=null; try{printWindow=window.open("","_blank");}catch(error){printWindow=null;} if(printWindow&&printWindow.document){printWindow.document.open(); printWindow.document.write(html); printWindow.document.close(); return;} try{const blob=new Blob([html],{type:"text/html;charset=utf-8"}); const url=URL.createObjectURL(blob); window.location.href=url;}catch(error){const doc=document.open("text/html","replace"); doc.write(html); doc.close();}}
+function printViewer(kind="all"){if(!currentPayload){setStatus("Bitte zuerst eine Klientendatei laden.","warn"); return;} const mode=clean(kind||"all").toLowerCase(); const yearAccounting=scodiBuildYearAccounting(); let title="Gesamtausgabe – "+scodiClientName(); let body=""; let pageMode="landscape"; if(["rit_complete","rit","grit_complete","grit","weekplan"].includes(mode)){title="RIT – Wochenplan, Planung und Entwicklungsplanung – "+scodiClientName(); body=`${scodiRenderGrunddatenSection()}${scodiRenderWeekplanPrintSection("grit")}${scodiRenderKiSection("grit")}${scodiRenderEpSection("grit")}`;} else if(["ret_complete","ret","gret_complete","gret","ki"].includes(mode)){title="RET – Wochenplan, Planung und Entwicklungsplanung – "+scodiClientName(); body=`${scodiRenderGrunddatenSection()}${scodiRenderWeekplanPrintSection("gret")}${scodiRenderKiSection("gret")}${scodiRenderEpSection("gret")}`;} else {title="Gesamtausgabe – "+scodiClientName(); body=`${scodiRenderGrunddatenSection()}${scodiRenderWeekplanPrintSection("all")}${scodiRenderKiSection("grit")}${scodiRenderEpSection("grit")}${scodiRenderKiSection("gret")}${scodiRenderEpSection("gret")}<section class="generator-card"><div class="generator-head"><h2>Buchhaltung / Stundenübersicht</h2></div><div class="section"><div class="scodi-summary-grid"><div class="scodi-summary-card"><span>Klient</span><strong>${esc(scodiClientName())}</strong></div><div class="scodi-summary-card"><span>Jahr ${esc(String(yearAccounting.year))} RIT</span><strong>${esc(scodiFormatHours(yearAccounting.totals.grit))}</strong></div><div class="scodi-summary-card"><span>Jahr ${esc(String(yearAccounting.year))} RET</span><strong>${esc(scodiFormatHours(yearAccounting.totals.gret))}</strong></div><div class="scodi-summary-card"><span>Jahr total</span><strong>${esc(scodiFormatHours(yearAccounting.totals.all))}</strong></div></div>${scodiRenderYearAccountingBlock(yearAccounting)}${scodiRenderAccountingTable()}</div></section>`;} scodiOpenPrintHtml(scodiBuildPrintHtml(title,body,pageMode));}
 
-  function embeddedNotifyHeight(){
-    if(!isEmbeddedViewer) return;
-    try{
-      var doc=document.documentElement;
-      var body=document.body;
-      var height=Math.max(doc?doc.scrollHeight:0,body?body.scrollHeight:0,700);
-      parent.postMessage({type:"BT_NAVIGATOR_VIEWER_HEIGHT",height:height},"*");
-    }catch(error){}
-  }
-
-  function embeddedReady(){
-    if(!isEmbeddedViewer) return;
-    embeddedApplyChrome();
-    embeddedNotifyHeight();
-    try{parent.postMessage({type:"BT_NAVIGATOR_VIEWER_READY"},"*");}catch(error){}
-    if(pendingPayload) embeddedLoadPayload(pendingPayload);
-  }
-
-  function embeddedLoadPayload(payload){
-    pendingPayload = payload || pendingPayload;
-    isEmbeddedViewer = true;
-    try{
-      embeddedApplyChrome();
-      if(typeof loadPayload!=="function") throw new Error("loadPayload fehlt im Viewer");
-      if(!payload || typeof payload!=="object") throw new Error("Payload fehlt");
-      loadPayload(payload);
-      if(typeof setStatus==="function") setStatus("Klientendatei direkt aus dem BT-Navigator geöffnet.","good");
-      setTimeout(embeddedNotifyHeight,80);
-      setTimeout(embeddedNotifyHeight,350);
-      setTimeout(embeddedNotifyHeight,900);
-      setTimeout(embeddedNotifyHeight,1600);
-    }catch(error){
-      console.warn(error);
-      if(typeof setStatus==="function") setStatus("Interner Viewer konnte die Klientendatei nicht anzeigen: "+(error&&error.message?error.message:"unbekannter Fehler"),"warn");
-      embeddedNotifyHeight();
-    }
-  }
-
-  window.addEventListener("message",function(event){
-    var msg=event.data||{};
-    if(msg&&msg.type==="BT_NAVIGATOR_VIEWER_PAYLOAD") embeddedLoadPayload(msg.payload);
-  });
-
-  window.addEventListener("DOMContentLoaded", embeddedApplyChrome);
-  window.addEventListener("load",function(){
-    embeddedReady();
-    if(isEmbeddedViewer){
-      try{
-        var observer=new ResizeObserver(function(){embeddedNotifyHeight();});
-        observer.observe(document.body);
-        observer.observe(document.documentElement);
-      }catch(error){setInterval(embeddedNotifyHeight,1200);}
-    }
-  });
-
-  // Nur eingebettet meldet sich der Viewer beim BT-Navigator. Standalone bleibt die Datei-Auswahl sichtbar.
-  setTimeout(embeddedReady,80);
-})();
 </script>
 </body>
 </html>
