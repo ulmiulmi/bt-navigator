@@ -1,3 +1,7 @@
+<!-- BT-NAVIGATOR-STAND: 2026-05-03 / Tagesplaner: KI-Anonymisierung fest gesperrt und nicht mehr umschaltbar -->
+<!-- BT-NAVIGATOR-STAND: 2026-05-03 / Tagesplaner: Mitarbeiter 1+2, Qualifikationen und Raum-Maximalbelegung mit KI-Verteilung -->
+<!-- BT-NAVIGATOR-STAND: 2026-05-03 / Tagesplaner: Wochenvorlagen/Jahresmuster fuer Grundplanung plus KI-Zielauswertung mit Direkt-API und Raumprofilen -->
+<!-- BT-NAVIGATOR-STAND: 2026-05-03 / Tagesplaner: Raumstatus und Personalstatus mit Sperren/Krank/Einzelloeschen -->
 <!-- BT-NAVIGATOR-STAND: 2026-05-02 / Tagesplaner: Zuweisungsfelder mobil gegen Ueberlappung abgesichert -->
 <!-- BT-NAVIGATOR-STAND: 2026-05-02 / Tagesplaner: Viewer-Design mit gerahmten Logos links und ruhigerem Kopfbereich -->
 <!-- BT-NAVIGATOR-STAND: 2026-05-02 / Tagesplaner: Server-Modus-Vorbereitung mit API-Schnittstelle und Sync-Status -->
@@ -9,7 +13,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>BT-Navigator – RET/TZ Sammelplan</title>
+  <title>BT-Navigator – RET/TZ Sammelplan mit KI, Qualifikationen, Raumkapazität und gesperrter Anonymisierung</title>
   <style>
     :root{
       --bg:#f4f7fb; --panel:#fff; --line:#d8e1ee; --text:#1f2a37; --muted:#607086;
@@ -60,7 +64,7 @@
     .cancel-line input{width:17px;height:17px;accent-color:var(--bad)}
     .assignment-box{margin-top:8px;border:1px solid #c8daf7;border-left:4px solid var(--accent);border-radius:13px;background:#f7fbff;padding:8px;display:grid;gap:7px}
     .assignment-title{font-size:11px;font-weight:950;text-transform:uppercase;letter-spacing:.02em;color:#1d4ed8}
-    .assignment-edit{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+    .assignment-edit{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
     .assignment-edit label{display:grid;gap:3px;font-size:10px;font-weight:900;color:var(--muted);text-transform:uppercase;letter-spacing:.02em}
     .assignment-edit input{width:100%;min-width:0;min-height:34px;border:1px solid #c8daf7;border-radius:10px;background:#fff;padding:7px 8px;color:var(--text);font-size:12px;text-transform:none;letter-spacing:0;font-weight:700}
     .assignment-print{display:none;gap:5px;flex-wrap:wrap;font-size:11px;line-height:1.35}
@@ -97,9 +101,9 @@
     .resource-body{padding:12px;display:grid;gap:12px}
     .resource-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
     .resource-card{border:1px solid var(--line);border-radius:16px;background:#fbfdff;padding:12px;display:grid;gap:9px}
-    .resource-card h3{font-size:15px;color:#1d4ed8;margin:0}.resource-card textarea{width:100%;min-height:96px;border:1px solid var(--line);border-radius:12px;background:#fff;padding:9px 10px;color:var(--text);font:inherit;line-height:1.4;resize:vertical}
+    .resource-card h3{font-size:15px;color:#1d4ed8;margin:0}.resource-card textarea{width:100%;min-height:96px;border:1px solid var(--line);border-radius:12px;background:#fff;padding:9px 10px;color:var(--text);font:inherit;line-height:1.4;resize:vertical}.resource-card.wide{grid-column:1/-1}.resource-card textarea.room-profile-area,.resource-card textarea.staff-profile-area{min-height:128px}
     .resource-add-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;align-items:center}.resource-add-row input{min-width:0;width:100%;border:1px solid var(--line);border-radius:12px;background:#fff;padding:10px 12px;color:var(--text)}
-    .resource-actions{display:flex;gap:8px;flex-wrap:wrap}.resource-chip-list{display:flex;gap:6px;flex-wrap:wrap}.resource-chip{display:inline-flex;align-items:center;border:1px solid #c8daf7;border-radius:999px;background:#fff;padding:4px 8px;color:#1f2a37;font-size:12px;font-weight:800}
+    .resource-actions{display:flex;gap:8px;flex-wrap:wrap}.resource-chip-list{display:flex;gap:6px;flex-wrap:wrap}.resource-chip{display:inline-flex;align-items:center;gap:5px;border:1px solid #c8daf7;border-radius:999px;background:#fff;padding:4px 8px;color:#1f2a37;font-size:12px;font-weight:800}.resource-chip.locked,.resource-chip.sick{border-color:#f3c1c1;background:#fff1f1;color:#b42318}.resource-chip.free{border-color:#b7eadb;background:#f2fffa;color:var(--ok)}.resource-chip button{border:0;background:transparent;color:inherit;box-shadow:none;min-height:0!important;padding:0 2px!important;font-size:12px!important;line-height:1!important;cursor:pointer}.resource-chip .remove{color:#b42318}.resource-status-line{display:flex;gap:6px;flex-wrap:wrap}.status-note{border:1px dashed var(--line);border-radius:14px;background:#fbfdff;padding:8px 10px;color:var(--muted);font-size:12px;line-height:1.4}
     .day-cell.cancelled,.day-client.cancelled{background:#fff1f1!important;border-color:#f3c1c1!important;color:#7a271a}.day-cell.cancelled .goal-item,.day-client.cancelled .goal-item{opacity:.65}.cancelled-mark{display:inline-flex;align-items:center;gap:5px;border-radius:999px;background:#fee4e2;color:#b42318;font-size:12px;font-weight:950;padding:4px 8px;margin-bottom:6px}.is-cancelled-text{text-decoration:line-through;text-decoration-thickness:2px;text-decoration-color:#b42318;opacity:.72}
     .day-section-title{font-size:12px;font-weight:950;text-transform:uppercase;letter-spacing:.02em;color:var(--muted);margin-top:4px}.day-section-title.in{color:var(--ret)}.day-section-title.out{color:#667085}.day-card-date{font-size:12px;color:var(--muted);font-weight:700;margin-top:3px}.not-in-list{display:grid;gap:6px}.not-in-client{border:1px dashed var(--line);border-radius:12px;background:#fff;padding:8px 9px;color:#667085;font-size:13px;line-height:1.35}.not-in-client strong{color:#475467}
 
@@ -126,7 +130,7 @@
       .sync-grid{grid-template-columns:1fr}.sync-actions{display:grid;grid-template-columns:1fr;width:100%}
       .table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}.table-wrap table{min-width:980px}
     }
-    @media print{body{background:#fff}.app{max-width:none;padding:0}.print-header{display:block!important}.file-panel,.tools,.plan-toolbar,.print-note,.cancel-line,.check-panel,.resource-panel{display:none!important}.assignment-edit{display:none!important}.assignment-print{display:flex!important}.assignment-overview{break-inside:avoid;page-break-inside:avoid}.card{box-shadow:none!important;border-color:#d8e1ee}.section{padding:8mm}.table-wrap{overflow:visible;border-radius:0}table{min-width:0;font-size:9pt}th{position:static;font-size:8pt;padding:5px}td{padding:5px}.goal-item{font-size:7.5pt;padding:5px}.file-name{display:none}.summary-grid{grid-template-columns:repeat(4,1fr)}@page{size:A4 landscape;margin:8mm}}
+    @media print{body{background:#fff}.app{max-width:none;padding:0}.print-header{display:block!important}.file-panel,.tools,.plan-toolbar,.print-note,.cancel-line,.check-panel,.resource-panel,.ai-panel,.template-panel{display:none!important}.assignment-edit{display:none!important}.assignment-print{display:flex!important}.assignment-overview{break-inside:avoid;page-break-inside:avoid}.card{box-shadow:none!important;border-color:#d8e1ee}.section{padding:8mm}.table-wrap{overflow:visible;border-radius:0}table{min-width:0;font-size:9pt}th{position:static;font-size:8pt;padding:5px}td{padding:5px}.goal-item{font-size:7.5pt;padding:5px}.file-name{display:none}.summary-grid{grid-template-columns:repeat(4,1fr)}@page{size:A4 landscape;margin:8mm}}
   
 
     /* TZ_VIEWER_DESIGN_V1: sichtbarer Tagesplaner an Viewer-/BT-Navigator-Stil angepasst, ohne Drucklogik zu verändern */
@@ -366,6 +370,43 @@
       }
     }
 
+
+
+
+    /* TZ_WEEK_TEMPLATE_V1: Grundplanung/Jahresmuster als wiederverwendbare Wochenvorlage */
+    .template-panel{border:1px solid var(--line);border-radius:18px;background:#fff;overflow:hidden}
+    .template-panel>summary{list-style:none;cursor:pointer;padding:12px 14px;font-weight:950;color:#243244;background:linear-gradient(180deg,#fbfdff,#fff);display:flex;justify-content:space-between;gap:10px;align-items:center}
+    .template-panel>summary::-webkit-details-marker{display:none}.template-panel>summary:after{content:"▾";color:var(--muted)}.template-panel[open]>summary:after{transform:rotate(180deg)}
+    .template-body{border-top:1px solid var(--line);padding:12px;display:grid;gap:12px}
+    .template-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+    .template-field{display:grid;gap:5px;font-size:12px;font-weight:900;color:var(--muted)}
+    .template-field.checkbox{display:flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:14px;background:#fff;padding:9px 10px;color:#243244}
+    .template-field.checkbox input{width:17px;height:17px;accent-color:var(--accent)}
+    .template-actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+    .template-note{border:1px solid #d8e1ee;border-radius:14px;background:#fbfdff;padding:10px 12px;color:var(--muted);font-size:12px;line-height:1.45}
+    .template-note.good{border-color:#b7eadb;background:#f2fffa;color:var(--ok)}.template-note.warn{border-color:var(--warn-line);background:var(--warn-bg);color:#8a6700}
+    .template-overview-grid{display:grid;grid-template-columns:repeat(5,minmax(180px,1fr));gap:10px}
+    .template-day{border:1px solid var(--line);border-radius:15px;background:#fbfdff;overflow:hidden}
+    .template-day h4{margin:0;padding:10px 11px;background:linear-gradient(180deg,var(--accent-soft),#fff);color:#1d4ed8;border-bottom:1px solid var(--line);font-size:14px}
+    .template-day-list{display:grid;gap:6px;padding:9px}.template-mini{border:1px solid var(--line);border-radius:12px;background:#fff;padding:7px 8px;font-size:12px;line-height:1.35}.template-mini strong{display:block;color:var(--text);font-size:12px;margin-bottom:3px}.template-mini.empty{border-style:dashed;color:var(--muted);background:#fbfdff}
+    @media(max-width:900px){.template-grid{grid-template-columns:1fr}.template-actions{display:grid;grid-template-columns:1fr;width:100%}.template-actions button{width:100%}.template-overview-grid{grid-template-columns:repeat(5,minmax(220px,1fr));min-width:1120px;width:1120px}.template-body{overflow-x:auto;-webkit-overflow-scrolling:touch}}
+
+    /* TZ_AI_ROOM_SUGGESTIONS_V1: echte KI-Zielauswertung, lokal weiter nutzbar, API-Key bewusst im Browser speicherbar */
+    .ai-panel{border:1px solid var(--line);border-radius:20px;background:#fff;overflow:hidden;box-shadow:0 12px 28px rgba(31,57,90,0.06)}
+    .ai-panel>summary{list-style:none;cursor:pointer;padding:12px 14px;font-weight:950;color:#243244;background:linear-gradient(180deg,#fbfdff,#fff);display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap}
+    .ai-panel>summary::-webkit-details-marker{display:none}.ai-panel>summary:after{content:"▾";color:var(--muted)}.ai-panel[open]>summary:after{transform:rotate(180deg)}
+    .ai-body{border-top:1px solid var(--line);padding:12px;display:grid;gap:12px}.ai-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+    .ai-field{display:grid;gap:5px;font-size:12px;font-weight:900;color:var(--muted)}.ai-field input,.ai-field select{width:100%;min-width:0}.ai-field.checkbox{display:flex;align-items:center;gap:8px;min-height:42px;border:1px solid var(--line);border-radius:14px;background:#fbfdff;padding:8px 10px}.ai-field.checkbox input{width:18px;height:18px;min-height:0;accent-color:var(--accent)}
+    .ai-actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.ai-actions button{box-shadow:none}.ai-note{border:1px dashed var(--line);border-radius:14px;background:#fbfdff;padding:10px 12px;color:var(--muted);font-size:12px;line-height:1.45}.ai-note strong{color:#243244}.ai-note.warn{border-color:var(--warn-line);background:var(--warn-bg);color:#7c5b00}
+    .ai-status{border:1px solid var(--line);border-radius:14px;background:#fff;padding:9px 11px;color:var(--muted);font-size:12px;font-weight:850;line-height:1.45}.ai-status.good{border-color:#b7eadb;background:#f2fffa;color:var(--ok)}.ai-status.warn{border-color:var(--warn-line);background:var(--warn-bg);color:#8a6700}.ai-status.bad{border-color:#f3c1c1;background:#fff1f1;color:var(--bad)}
+    .ai-result{display:grid;gap:12px}.ai-day{border:1px solid var(--line);border-radius:16px;background:#fbfdff;overflow:hidden}.ai-day h3{margin:0;padding:10px 12px;background:linear-gradient(180deg,var(--accent-soft),#fff);color:#1d4ed8;border-bottom:1px solid var(--line);font-size:15px}.ai-list{display:grid;gap:8px;padding:10px}
+    .ai-suggestion{border:1px solid var(--line);border-left:5px solid var(--accent);border-radius:14px;background:#fff;padding:9px 10px;display:grid;gap:6px;font-size:12px;line-height:1.4}.ai-suggestion.good{border-left-color:var(--ok)}.ai-suggestion.warn{border-left-color:#f0bf4f;background:#fffdf8}.ai-suggestion.bad{border-left-color:var(--bad);background:#fff8f8}.ai-suggestion strong{font-size:13px;color:var(--text)}
+    .ai-meta{display:flex;gap:6px;flex-wrap:wrap;align-items:center}.ai-chip{display:inline-flex;align-items:center;border:1px solid #c8daf7;border-radius:999px;background:#fff;padding:3px 7px;color:#1f2a37;font-size:11px;font-weight:850}.ai-chip.room{color:#1d4ed8;background:#eef5ff}.ai-chip.conf{color:var(--ok);background:#f2fffa;border-color:#b7eadb}.ai-chip.warn{color:#8a6700;background:#fff8ea;border-color:#f0dfad}.ai-chip.bad{color:var(--bad);background:#fff1f1;border-color:#f3c1c1}
+    .ai-groups{display:grid;gap:8px}.ai-group{border:1px solid #c8daf7;border-radius:13px;background:#f7fbff;padding:8px;font-size:12px;line-height:1.4}.ai-group strong{color:#1d4ed8}.ai-empty{border:1px dashed var(--line);border-radius:14px;background:#fbfdff;padding:12px;color:var(--muted);font-size:13px;line-height:1.45}
+    @media(max-width:900px){.ai-grid{grid-template-columns:1fr}.ai-actions{display:grid;grid-template-columns:1fr;width:100%}.ai-actions button{width:100%}}
+    @media print{.ai-panel{display:none!important}}
+
+
   </style>
 </head>
 <body>
@@ -440,6 +481,8 @@
         </div>
       </div>
       <div id="resourceHost"></div>
+      <div id="templateHost"></div>
+      <div id="aiHost"></div>
       <datalist id="staffOptions"></datalist>
       <datalist id="roomOptions"></datalist>
       <div class="print-header" id="printHeader"></div>
@@ -475,9 +518,15 @@ const STORAGE_META_KEY = "BT_RET_TZ_SAMMELPLAN_SAVED_META_V1";
 const STORAGE_CANCEL_KEY = "BT_RET_TZ_SAMMELPLAN_CANCELLATIONS_V1";
 const STORAGE_ASSIGNMENT_KEY = "BT_RET_TZ_SAMMELPLAN_ASSIGNMENTS_V1";
 const STORAGE_RESOURCE_KEY = "BT_RET_TZ_SAMMELPLAN_RESOURCES_V1";
+const STORAGE_RESOURCE_STATUS_KEY = "BT_RET_TZ_SAMMELPLAN_RESOURCE_STATUS_V1";
+const STORAGE_UI_STATE_KEY = "BT_RET_TZ_SAMMELPLAN_UI_STATE_V1";
+const STORAGE_TEMPLATE_KEY = "BT_RET_TZ_SAMMELPLAN_WEEK_TEMPLATE_V1";
 const STORAGE_SERVER_CONFIG_KEY = "BT_RET_TZ_SAMMELPLAN_SERVER_CONFIG_V1";
 const STORAGE_SERVER_TOKEN_KEY = "BT_RET_TZ_SAMMELPLAN_SERVER_TOKEN_SESSION_V1";
-const PLAN_FILE_VERSION = 4;
+const STORAGE_AI_CONFIG_KEY = "BT_RET_TZ_SAMMELPLAN_AI_CONFIG_V1";
+const STORAGE_AI_TOKEN_KEY = "BT_RET_TZ_SAMMELPLAN_OPENAI_KEY_SESSION_V1";
+const STORAGE_AI_KEY_BROWSER_KEY = "BT_RET_TZ_SAMMELPLAN_OPENAI_KEY_BROWSER_V1";
+const PLAN_FILE_VERSION = 10;
 const DAY_ORDER = ["mo","di","mi","do","fr"];
 const DAY_LABELS = {mo:"Montag",di:"Dienstag",mi:"Mittwoch",do:"Donnerstag",fr:"Freitag"};
 let loadedClients = [];
@@ -485,9 +534,15 @@ let loadErrors = [];
 let selectedFilesCache = [];
 let cancellations = {};
 let assignments = {};
-let resources = {staff:[], rooms:[]};
+let resources = {staff:[], rooms:[], roomProfiles:{}, staffProfiles:{}};
+let resourceStatus = {rooms:{}, staff:{}};
+let weeklyTemplate = {version:1, name:"", createdAt:"", sourceYear:"", sourceWeek:"", entries:{}};
 let serverConfig = {mode:"local", apiBaseUrl:"", apiToken:""};
+let aiConfig = {mode:"direct", model:"gpt-4o-mini", anonymize:true, endpoint:"https://api.openai.com/v1/responses"};
+let aiSuggestions = {suggestions:[], groups:[], warnings:[], receivedAt:"", source:""};
+let aiBusy = false;
 let syncState = {dirty:false, status:"local", message:"Lokaler Modus"};
+let uiState = {resourcePanelOpen:false, resourceScrollY:0, resourceBodyScrollTop:0, resourceFocusId:""};
 const nowForWeek = new Date();
 let selectedYear = nowForWeek.getFullYear();
 let selectedWeek = 1;
@@ -504,6 +559,75 @@ function clean(v){return String(v ?? "").replace(/\s+/g," ").trim();}
 function hasText(v){return clean(v).length>0;}
 function firstText(...values){for(const value of values){if(hasText(value)) return String(value);} return "";}
 function setStatus(text,type=""){const el=document.getElementById("status"); el.textContent=text; el.className="status"+(type?" "+type:"");}
+
+function normalizeUiState(value){
+  return {
+    resourcePanelOpen: !!value?.resourcePanelOpen,
+    resourceScrollY: Number.isFinite(Number(value?.resourceScrollY)) ? Number(value.resourceScrollY) : 0,
+    resourceBodyScrollTop: Number.isFinite(Number(value?.resourceBodyScrollTop)) ? Number(value.resourceBodyScrollTop) : 0,
+    resourceFocusId: clean(value?.resourceFocusId || "")
+  };
+}
+function loadUiStateFromBrowser(){
+  try{
+    const raw=localStorage.getItem(STORAGE_UI_STATE_KEY);
+    uiState=normalizeUiState(raw?JSON.parse(raw):uiState);
+  }catch(error){
+    console.warn(error);
+    uiState=normalizeUiState(uiState);
+  }
+}
+function saveUiStateToBrowser(){
+  try{localStorage.setItem(STORAGE_UI_STATE_KEY, JSON.stringify(normalizeUiState(uiState)));}
+  catch(error){console.warn(error);}
+}
+function rememberResourcePanelState(el){
+  if(el) uiState.resourcePanelOpen=!!el.open;
+  const body=el?.querySelector?.(".resource-body") || document.querySelector(".resource-panel .resource-body");
+  if(body) uiState.resourceBodyScrollTop=body.scrollTop || 0;
+  uiState.resourceScrollY=window.scrollY || document.documentElement.scrollTop || 0;
+  const active=document.activeElement;
+  if(active && active.id) uiState.resourceFocusId=active.id;
+  saveUiStateToBrowser();
+}
+function captureResourceUiPosition(){
+  const panel=document.querySelector(".resource-panel");
+  if(panel) uiState.resourcePanelOpen=!!panel.open;
+  const body=panel?.querySelector?.(".resource-body");
+  if(body) uiState.resourceBodyScrollTop=body.scrollTop || 0;
+  uiState.resourceScrollY=window.scrollY || document.documentElement.scrollTop || 0;
+  const active=document.activeElement;
+  if(active && active.id) uiState.resourceFocusId=active.id;
+  saveUiStateToBrowser();
+  return normalizeUiState(uiState);
+}
+function restoreResourceUiPosition(state){
+  state=normalizeUiState(state || uiState);
+  uiState=state;
+  requestAnimationFrame(()=>{
+    const panel=document.querySelector(".resource-panel");
+    if(panel) panel.open=!!state.resourcePanelOpen;
+    const body=panel?.querySelector?.(".resource-body");
+    if(body) body.scrollTop=state.resourceBodyScrollTop || 0;
+    if(state.resourceFocusId){
+      const focusEl=document.getElementById(state.resourceFocusId);
+      if(focusEl && typeof focusEl.focus==="function"){
+        try{focusEl.focus({preventScroll:true});}catch(_error){try{focusEl.focus();}catch(__error){}}
+      }
+    }
+    setTimeout(()=>{try{window.scrollTo(window.scrollX || 0, state.resourceScrollY || 0);}catch(_error){}},0);
+  });
+}
+function renderResourcePanelPreservePosition(){
+  const state=captureResourceUiPosition();
+  renderResourcePanel();
+  restoreResourceUiPosition(state);
+}
+function renderAllPreserveResourcePosition(){
+  const state=captureResourceUiPosition();
+  renderAll();
+  restoreResourceUiPosition(state);
+}
 
 function normalizeServerConfig(value){
   const mode = value?.mode === "server" || value?.databaseMode === "server" ? "server" : "local";
@@ -648,6 +772,11 @@ function applyPlanPayload(parsed,sourceLabel="Sammelplan"){
   cancellations=(parsed.cancellations && typeof parsed.cancellations==="object") ? parsed.cancellations : {};
   assignments=(parsed.assignments && typeof parsed.assignments==="object") ? parsed.assignments : {};
   resources=normalizeResources(parsed.resources || resources);
+  resourceStatus=normalizeResourceStatus(parsed.resourceStatus || parsed.resourcesStatus || parsed.status || resourceStatus);
+  if(parsed.weeklyTemplate || parsed.template || parsed.weekTemplate){
+    weeklyTemplate=normalizeWeeklyTemplate(parsed.weeklyTemplate || parsed.template || parsed.weekTemplate);
+    saveWeeklyTemplateToBrowser(true);
+  }
   selectedYear=Number(parsed.selectedYear) || selectedYear;
   selectedWeek=Number(parsed.selectedWeek) || selectedWeek;
   loadErrors=[];
@@ -656,9 +785,532 @@ function applyPlanPayload(parsed,sourceLabel="Sammelplan"){
   saveCancellationsToBrowser(true);
   saveAssignmentsToBrowser(true);
   saveResourcesToBrowser(true);
+  saveResourceStatusToBrowser(true);
+  saveWeeklyTemplateToBrowser(true);
   document.getElementById("resultSection").classList.remove("hidden");
   renderAll();
-  setStatus(`${loadedClients.length} Klient(en) aus ${sourceLabel} geladen. Absagen, Zuweisungen, Mitarbeiter und Räume wurden übernommen.`,"good");
+  setStatus(`${loadedClients.length} Klient(en) aus ${sourceLabel} geladen. Absagen, Zuweisungen, Mitarbeiter, Räume, Sperren/Krankmeldungen und Wochenvorlage wurden übernommen.`,"good");
+}
+
+
+function normalizeAiConfig(value){
+  const mode = ["off","direct","server"].includes(value?.mode) ? value.mode : "direct";
+  const model = clean(value?.model || "gpt-4o-mini");
+  const endpoint = clean(value?.endpoint || "https://api.openai.com/v1/responses") || "https://api.openai.com/v1/responses";
+  const anonymize = true;
+  const apiKey = String(value?.apiKey || "");
+  return {mode, model, endpoint, anonymize, apiKey};
+}
+function browserAiKeyRecord(){
+  try{
+    const raw=localStorage.getItem(STORAGE_AI_KEY_BROWSER_KEY);
+    if(!raw) return null;
+    const parsed=JSON.parse(raw);
+    if(!hasText(parsed?.apiKey)) return null;
+    return {apiKey:String(parsed.apiKey), savedAt:parsed?.savedAt || "", version:parsed?.version || 1};
+  }catch(_error){return null;}
+}
+function hasBrowserAiKey(){return !!browserAiKeyRecord();}
+function browserAiKeyText(){
+  const record=browserAiKeyRecord();
+  if(!record) return "Kein API-Key im Browser gespeichert";
+  const savedText=record.savedAt ? new Date(record.savedAt).toLocaleString("de-CH",{day:"2-digit",month:"2-digit",year:"numeric",hour:"2-digit",minute:"2-digit"}) : "ohne Datum";
+  return `API-Key im Browser gespeichert: ${savedText}`;
+}
+function saveBrowserAiApiKey(){
+  const keyInput=document.getElementById("aiApiKeyInput");
+  const apiKey=String(keyInput?.value || aiConfig.apiKey || "").trim();
+  if(!apiKey){setStatus("Bitte zuerst den OpenAI API-Key eintragen.","warn"); return;}
+  try{
+    localStorage.setItem(STORAGE_AI_KEY_BROWSER_KEY, JSON.stringify({version:1, savedAt:new Date().toISOString(), apiKey}));
+    aiConfig.apiKey=apiKey;
+    sessionStorage.setItem(STORAGE_AI_TOKEN_KEY, apiKey);
+    saveAiConfigToBrowser(false);
+    renderAiPanel();
+    setStatus("OpenAI API-Key wurde in diesem Browser gespeichert. Er wird nicht in Plan-Dateien exportiert.","good");
+  }catch(error){
+    console.warn(error);
+    setStatus("API-Key konnte nicht im Browser gespeichert werden.","bad");
+  }
+}
+function loadBrowserAiApiKey(showStatus=true){
+  const record=browserAiKeyRecord();
+  if(!record){if(showStatus) setStatus("Es ist kein API-Key im Browser gespeichert.","warn"); return false;}
+  aiConfig.apiKey=record.apiKey;
+  sessionStorage.setItem(STORAGE_AI_TOKEN_KEY, record.apiKey);
+  saveAiConfigToBrowser(false);
+  renderAiPanel();
+  if(showStatus) setStatus("Gespeicherter OpenAI API-Key wurde aus dem Browser geladen.","good");
+  return true;
+}
+function forgetBrowserAiApiKey(){
+  try{
+    localStorage.removeItem(STORAGE_AI_KEY_BROWSER_KEY);
+    localStorage.removeItem("BT_RET_TZ_SAMMELPLAN_OPENAI_KEY_ENCRYPTED_V1");
+    sessionStorage.removeItem(STORAGE_AI_TOKEN_KEY);
+    aiConfig.apiKey="";
+    renderAiPanel();
+    setStatus("Gespeicherter API-Key wurde aus dem Browser gelöscht.","good");
+  }catch(error){
+    console.warn(error);
+    setStatus("Gespeicherter API-Key konnte nicht gelöscht werden.","bad");
+  }
+}
+function loadAiConfigFromBrowser(){
+  try{
+    const raw=localStorage.getItem(STORAGE_AI_CONFIG_KEY);
+    const parsed=raw?JSON.parse(raw):{};
+    const browserRecord=browserAiKeyRecord();
+    const apiKey=sessionStorage.getItem(STORAGE_AI_TOKEN_KEY) || browserRecord?.apiKey || "";
+    aiConfig=normalizeAiConfig({...parsed, apiKey});
+    if(apiKey) sessionStorage.setItem(STORAGE_AI_TOKEN_KEY, apiKey);
+  }catch(error){
+    console.warn(error);
+    aiConfig=normalizeAiConfig({});
+  }
+}
+function saveAiConfigToBrowser(showStatus=false){
+  aiConfig=normalizeAiConfig(aiConfig);
+  try{
+    localStorage.setItem(STORAGE_AI_CONFIG_KEY, JSON.stringify({mode:aiConfig.mode, model:aiConfig.model, endpoint:aiConfig.endpoint, anonymize:aiConfig.anonymize, savedAt:new Date().toISOString()}));
+    if(aiConfig.apiKey) sessionStorage.setItem(STORAGE_AI_TOKEN_KEY, aiConfig.apiKey);
+    else sessionStorage.removeItem(STORAGE_AI_TOKEN_KEY);
+    renderAiPanel();
+    if(showStatus){
+      const suffix=hasBrowserAiKey() ? " API-Key ist in diesem Browser gespeichert." : " API-Key wird ohne separates Speichern nur für diese Sitzung behalten.";
+      setStatus("KI-Einstellungen gespeichert." + suffix,"good");
+    }
+    return true;
+  }catch(error){
+    console.warn(error);
+    if(showStatus) setStatus("KI-Einstellungen konnten nicht gespeichert werden.","bad");
+    return false;
+  }
+}
+function setAiMode(value){aiConfig.mode=["off","direct","server"].includes(value)?value:"direct"; saveAiConfigToBrowser(false);}
+function setAiModel(value){aiConfig.model=clean(value)||"gpt-4o-mini"; saveAiConfigToBrowser(false);}
+function setAiEndpoint(value){aiConfig.endpoint=clean(value)||"https://api.openai.com/v1/responses"; saveAiConfigToBrowser(false);}
+function setAiApiKey(value){aiConfig.apiKey=String(value||""); saveAiConfigToBrowser(false);}
+function setAiAnonymize(_checked){aiConfig.anonymize=true; saveAiConfigToBrowser(false);}
+
+function syncAiInputsFromPanel(){
+  const mode=document.getElementById("aiModeInput")?.value;
+  const model=document.getElementById("aiModelInput")?.value;
+  const endpoint=document.getElementById("aiEndpointInput")?.value;
+  const apiKeyInput=document.getElementById("aiApiKeyInput");
+  const anonymize=document.getElementById("aiAnonymizeInput")?.checked;
+  const next={...aiConfig, mode:mode||aiConfig.mode, model:model||aiConfig.model, endpoint:endpoint||aiConfig.endpoint, anonymize:anonymize!==undefined?anonymize:aiConfig.anonymize};
+  if(apiKeyInput && apiKeyInput.value) next.apiKey=apiKeyInput.value;
+  aiConfig=normalizeAiConfig(next);
+  saveAiConfigToBrowser(false);
+}
+function aiStatusLabel(){
+  if(aiBusy) return "Analyse läuft";
+  if(aiConfig.mode==="off") return "aus";
+  if(aiConfig.mode==="direct"){
+    if(aiConfig.apiKey) return hasBrowserAiKey() ? "Direkt-API bereit · Key im Browser gespeichert" : "Direkt-API bereit · Key nur Sitzung";
+    return hasBrowserAiKey() ? "API-Key im Browser gespeichert · bitte laden" : "API-Key fehlt";
+  }
+  return serverConfig?.apiBaseUrl ? "Server-KI bereit" : "Server-Adresse fehlt";
+}
+function aiClientKey(clientIndex){return `c${clientIndex}`;}
+function clientIndexFromAiKey(clientKey){
+  const match=String(clientKey||"").match(/^c(\d+)$/);
+  if(!match) return -1;
+  const index=Number(match[1]);
+  return Number.isInteger(index) && index>=0 && index<loadedClients.length ? index : -1;
+}
+function textForAiPeriod(period){
+  const parts=[];
+  if(hasText(period?.goal)) parts.push(`Ziel: ${clean(period.goal)}`);
+  if(hasText(period?.activity)) parts.push(`Aktivität: ${clean(period.activity)}`);
+  if(hasText(period?.extra)) parts.push(`Zusatz: ${clean(period.extra)}`);
+  return parts.join(" · ");
+}
+function buildAiAnalysisPayload(){
+  const unavailableRooms=resourceStatusList("rooms");
+  const sickStaff=resourceStatusList("staff");
+  const rooms=allResourceValues("rooms").filter(room=>!isRoomLocked(room));
+  const staff=allResourceValues("staff").filter(name=>!isStaffSick(name));
+  const roomProfiles=roomProfilesForAi().filter(profile=>!isRoomLocked(profile.room));
+  const staffProfiles=staffProfilesForAi().filter(profile=>!isStaffSick(profile.staff));
+  const days=DAY_ORDER.map(dayKey=>{
+    const clients=loadedClients.map((client,index)=>({client,index,day:client.days[dayKey]}))
+      .filter(item=>item.day?.inTz && !isCancelled(item.index,dayKey))
+      .map(({client,index,day})=>{
+        const assignment=getAssignment(index,dayKey);
+        const activePeriods=(day.periods||[]).filter(period=>period.active).map(period=>({
+          key:String(period.key||"day"),
+          label:String(period.label||""),
+          goal:clean(period.goal),
+          activity:clean(period.activity),
+          extra:clean(period.extra),
+          text:textForAiPeriod(period)
+        }));
+        return {
+          clientKey:aiClientKey(index),
+          displayName: aiConfig.anonymize ? `Klient ${index+1}` : clean(client.name),
+          initials: aiConfig.anonymize ? "" : clean(client.initials),
+          currentRoom: assignment.room || "",
+          currentStaff: assignment.staff || "",
+          currentSecondStaff: assignment.staff2 || "",
+          currentNote: assignment.note || "",
+          periods: activePeriods,
+          goals: activePeriods.map(period=>period.text).filter(hasText)
+        };
+      });
+    return {dayKey, label:DAY_LABELS[dayKey], date:formatDateShort(dateForDayKey(dayKey)), clients};
+  });
+  return {
+    type:"BT-Navigator KI-Zielauswertung",
+    year:selectedYear,
+    week:selectedWeek,
+    weekLabel:document.getElementById("weekDateLabel")?.textContent || "",
+    availableRooms:rooms,
+    unavailableRooms,
+    roomProfiles,
+    knownStaff:staff,
+    sickStaff,
+    staffProfiles,
+    instructions:{
+      purpose:"Ziele ähnlicher Klienten möglichst ähnlich gruppieren und passende Räume sowie passende Mitarbeiter vorschlagen.",
+      assignmentScope:"Raum- und Mitarbeiterzuweisung gilt im Tagesplaner pro Klient und Tag, nicht pro einzelner Tageszeit.",
+      staffing:"Nutze nur Mitarbeitende aus knownStaff und staffProfiles. Mitarbeitende aus sickStaff/krank markierte Mitarbeitende dürfen nicht vorgeschlagen werden. Schlage suggestedStaff vor, wenn möglich. Für grössere Gruppen, intensive Begleitung, unklare/komplexe Ziele oder wenn die Raumgruppe gross wird, schlage zusätzlich suggestedSecondStaff vor.",
+      qualifications:"Mitarbeiterqualifikationen sollen zur Zielrichtung passen, zum Beispiel Küche/Alltag, Kreativ, Handwerk, Rückzug, Einzelsetting, Mobilität oder Pflege/Medikation.",
+      keepExistingRooms:"Bestehende Raumzuweisungen sollen nur dann als Konflikt markiert werden, wenn sie deutlich unpassend wirken.",
+      keepExistingStaff:"Bestehende Mitarbeiterzuweisungen sollen geschützt werden, wenn sie plausibel sind.",
+      preferExistingRooms:"Verwende nur Räume aus availableRooms. Räume aus unavailableRooms/gesperrte Räume dürfen nicht vorgeschlagen werden. Nutze roomProfiles mit Zweck, Stichworten und Maximalbelegung als wichtigste Entscheidungsgrundlage. Falls kein Raum passt, suggestedRoom leer lassen und alternativeRoom oder Warnung setzen.",
+      capacityHint:"Wenn mehrere Klienten in denselben Raum vorgeschlagen werden, beachte die Maximalbelegung aus roomProfiles. Was zuviel ist, soll auf passende andere Räume verteilt werden.",
+      oneSuggestionPerClientDay:"Bitte pro aktivem Klient/Tag genau einen Vorschlag liefern. Abgesagte und nicht anwesende Klienten fehlen bereits im Input."
+    },
+    days
+  };
+}
+function aiStructuredSchema(){
+  return {
+    type:"object",
+    additionalProperties:false,
+    required:["suggestions","groups","warnings"],
+    properties:{
+      suggestions:{
+        type:"array",
+        items:{
+          type:"object",
+          additionalProperties:false,
+          required:["dayKey","clientKey","category","groupLabel","suggestedRoom","alternativeRoom","suggestedStaff","suggestedSecondStaff","staffReason","confidence","reason","conflict","conflictText","shouldKeepCurrentRoom"],
+          properties:{
+            dayKey:{type:"string", enum:DAY_ORDER},
+            clientKey:{type:"string"},
+            category:{type:"string"},
+            groupLabel:{type:"string"},
+            suggestedRoom:{type:"string"},
+            alternativeRoom:{type:"string"},
+            suggestedStaff:{type:"string"},
+            suggestedSecondStaff:{type:"string"},
+            staffReason:{type:"string"},
+            confidence:{type:"number", minimum:0, maximum:1},
+            reason:{type:"string"},
+            conflict:{type:"boolean"},
+            conflictText:{type:"string"},
+            shouldKeepCurrentRoom:{type:"boolean"}
+          }
+        }
+      },
+      groups:{
+        type:"array",
+        items:{
+          type:"object",
+          additionalProperties:false,
+          required:["dayKey","groupLabel","category","suggestedRoom","clientKeys","rationale"],
+          properties:{
+            dayKey:{type:"string", enum:DAY_ORDER},
+            groupLabel:{type:"string"},
+            category:{type:"string"},
+            suggestedRoom:{type:"string"},
+            clientKeys:{type:"array", items:{type:"string"}},
+            rationale:{type:"string"}
+          }
+        }
+      },
+      warnings:{type:"array", items:{type:"string"}}
+    }
+  };
+}
+function aiSystemPrompt(){
+  return [
+    "Du bist eine fachliche Assistenz für die RET/TZ-Wochenplanung im BT-Navigator.",
+    "Analysiere Ziele, Aktivitäten und Zusätze. Gruppiere ähnliche Inhalte ähnlich zu ähnlich.",
+    "Erstelle praxistaugliche Raum- und Mitarbeitervorschläge für Tagesstruktur, Arbeit, Alltag, Kreativität, Küche, Bewegung, Rückzug, Gespräch, Büro/Planung und Handwerk.",
+    "Nutze vorrangig vorhandene, verfügbare Räume. Gesperrte Räume aus unavailableRooms dürfen nicht vorgeschlagen werden. Erfinde nur dann einen Alternativraum, wenn kein vorhandener Raum passt.",
+    "Nutze Raumprofile, Maximalbelegungen, Zweck und Stichworte als wichtige Entscheidungsgrundlage für die Raumwahl.",
+    "Was die Maximalbelegung überschreitet, soll auf passende andere Räume verteilt werden. Markiere nicht lösbare Überbelegung mit conflict=true.",
+    "Nutze Mitarbeiterprofile und Qualifikationen für suggestedStaff und suggestedSecondStaff. Krank markierte Mitarbeitende aus sickStaff dürfen nicht vorgeschlagen werden.",
+    "Für grössere Gruppen, intensive Begleitung, Pflege/Medikation, Einzelsetting mit Sicherheitsbedarf oder komplexe Ziele darfst du zwei Mitarbeiter vorschlagen.",
+    "Beachte bestehende Raum- und Mitarbeiterzuweisungen: nicht leichtfertig überschreiben, sondern plausible bestehende Zuweisungen respektieren.",
+    "Setze conflict=true bei Überbelegung, Doppelbelegung, unklarem Ziel, unpassendem Raum, fehlender Qualifikation oder wenn der Vorschlag unsicher ist.",
+    "Gib ausschliesslich strukturierte JSON-Daten gemäss Schema zurück. Keine Namen erfinden. clientKey und dayKey exakt übernehmen."
+  ].join("\n");
+}
+async function callOpenAiDirect(payload){
+  const apiKey=String(aiConfig.apiKey||"").trim();
+  if(!apiKey) throw new Error("OpenAI API-Key fehlt. Bitte im KI-Panel eintragen.");
+  const body={
+    model:aiConfig.model || "gpt-4o-mini",
+    input:[
+      {role:"system", content:aiSystemPrompt()},
+      {role:"user", content:"PLAN_JSON:\n"+JSON.stringify(payload)}
+    ],
+    text:{format:{type:"json_schema", name:"bt_raum_personal_vorschlaege", strict:true, schema:aiStructuredSchema()}},
+    store:false
+  };
+  const response=await fetch(aiConfig.endpoint || "https://api.openai.com/v1/responses",{
+    method:"POST",
+    headers:{"Content-Type":"application/json","Authorization":`Bearer ${apiKey}`},
+    body:JSON.stringify(body)
+  });
+  const raw=await response.text();
+  let parsed=null;
+  try{parsed=raw?JSON.parse(raw):null;}catch(_error){parsed={raw};}
+  if(!response.ok){
+    const message=parsed?.error?.message || parsed?.message || raw || `HTTP ${response.status}`;
+    throw new Error(message);
+  }
+  return parseOpenAiStructuredOutput(parsed);
+}
+function parseOpenAiStructuredOutput(responseJson){
+  const direct=String(responseJson?.output_text || "").trim();
+  if(direct) return JSON.parse(direct);
+  const texts=[];
+  for(const item of responseJson?.output || []){
+    if(Array.isArray(item?.content)){
+      for(const part of item.content){
+        if(hasText(part?.text)) texts.push(part.text);
+      }
+    }else if(hasText(item?.text)) texts.push(item.text);
+  }
+  const combined=texts.join("\n").trim();
+  if(!combined) throw new Error("KI hat keine strukturierte Textantwort geliefert.");
+  return JSON.parse(combined);
+}
+async function callServerAi(payload){
+  return serverRequest("/ai/raumvorschlaege",{method:"POST",body:JSON.stringify(payload)});
+}
+function pickOverflowRoom(dayKey,currentRoom,preferredAlternative,used){
+  const candidates=normalizeResourceList([preferredAlternative, ...resources.rooms]).filter(room=>room && room!==currentRoom && !isRoomLocked(room));
+  for(const room of candidates){
+    const cap=roomCapacityValue(room);
+    if(!cap || (used.get(room)||0)<cap) return room;
+  }
+  return "";
+}
+function balanceAiSuggestionsByRoomCapacity(suggestions,warnings=[]){
+  const out=suggestions.map(item=>({...item}));
+  const balanceWarnings=[];
+  DAY_ORDER.forEach(dayKey=>{
+    const used=new Map();
+    const daySuggestions=out.filter(item=>item.dayKey===dayKey && item.suggestedRoom).sort((a,b)=>(b.confidence||0)-(a.confidence||0));
+    daySuggestions.forEach(item=>{
+      let room=clean(item.suggestedRoom);
+      if(room && isRoomLocked(room)){
+        const lockedRoom=room;
+        const alt=pickOverflowRoom(dayKey, lockedRoom, item.alternativeRoom, used);
+        if(alt){
+          item.suggestedRoom=alt;
+          item.alternativeRoom=lockedRoom;
+          const note=`${lockedRoom} ist gesperrt; Vorschlag auf ${alt} geändert.`;
+          item.reason=clean(`${item.reason || ""} ${note}`);
+          item.conflictText=clean(item.conflictText || note);
+          balanceWarnings.push(`${DAY_LABELS[dayKey]}: Vorschlag wegen gesperrtem Raum ${lockedRoom} auf ${alt} geändert.`);
+          room=alt;
+        }else{
+          item.suggestedRoom="";
+          item.conflict=true;
+          item.conflictText=clean(item.conflictText || `${lockedRoom} ist gesperrt und kein Alternativraum ist frei.`);
+          balanceWarnings.push(`${DAY_LABELS[dayKey]}: ${lockedRoom} ist gesperrt und konnte nicht automatisch ersetzt werden.`);
+          return;
+        }
+      }
+      const cap=roomCapacityValue(room);
+      if(cap && (used.get(room)||0)>=cap){
+        const overflowRoom=room;
+        const alt=pickOverflowRoom(dayKey, overflowRoom, item.alternativeRoom, used);
+        if(alt){
+          item.suggestedRoom=alt;
+          item.alternativeRoom=overflowRoom;
+          const note=`Wegen Maximalbelegung von ${overflowRoom} auf ${alt} verteilt.`;
+          item.reason=clean(`${item.reason || ""} ${note}`);
+          item.conflictText=clean(item.conflictText || note);
+          balanceWarnings.push(`${DAY_LABELS[dayKey]}: ${clientDisplayNameByAiKey(item.clientKey)} wurde wegen Maximalbelegung von ${overflowRoom} auf ${alt} verteilt.`);
+          room=alt;
+        }else{
+          item.conflict=true;
+          item.conflictText=clean(item.conflictText || `Maximalbelegung von ${overflowRoom} überschritten, kein freier Alternativraum gefunden.`);
+          balanceWarnings.push(`${DAY_LABELS[dayKey]}: ${overflowRoom} ist über Maximalbelegung und konnte nicht automatisch verteilt werden.`);
+        }
+      }
+      used.set(room,(used.get(room)||0)+1);
+    });
+  });
+  return {suggestions:out,warnings:[...warnings,...balanceWarnings]};
+}
+function normalizeAiResult(result,source){
+  const suggestions=Array.isArray(result?.suggestions) ? result.suggestions.map(item=>({
+    dayKey:String(item?.dayKey||""),
+    clientKey:String(item?.clientKey||""),
+    category:clean(item?.category),
+    groupLabel:clean(item?.groupLabel),
+    suggestedRoom:clean(item?.suggestedRoom),
+    alternativeRoom:clean(item?.alternativeRoom),
+    suggestedStaff:clean(item?.suggestedStaff),
+    suggestedSecondStaff:clean(item?.suggestedSecondStaff),
+    staffReason:clean(item?.staffReason),
+    confidence:Math.max(0,Math.min(1,Number(item?.confidence)||0)),
+    reason:clean(item?.reason),
+    conflict:!!item?.conflict,
+    conflictText:clean(item?.conflictText),
+    shouldKeepCurrentRoom:!!item?.shouldKeepCurrentRoom
+  })).filter(item=>DAY_ORDER.includes(item.dayKey) && clientIndexFromAiKey(item.clientKey)>=0) : [];
+  const groups=Array.isArray(result?.groups) ? result.groups.map(group=>({
+    dayKey:String(group?.dayKey||""),
+    groupLabel:clean(group?.groupLabel),
+    category:clean(group?.category),
+    suggestedRoom:clean(group?.suggestedRoom),
+    clientKeys:Array.isArray(group?.clientKeys) ? group.clientKeys.map(String) : [],
+    rationale:clean(group?.rationale)
+  })).filter(group=>DAY_ORDER.includes(group.dayKey)) : [];
+  const warnings=Array.isArray(result?.warnings) ? result.warnings.map(clean).filter(Boolean) : [];
+  const balanced=balanceAiSuggestionsByRoomCapacity(suggestions,warnings);
+  return {suggestions:balanced.suggestions, groups, warnings:balanced.warnings, source, receivedAt:new Date().toISOString()};
+}
+
+async function runAiAnalysis(){
+  if(!loadedClients.length){setStatus("Bitte zuerst Klientendateien laden, dann die KI-Zielauswertung starten.","warn"); return;}
+  syncAiInputsFromPanel();
+  aiConfig=normalizeAiConfig(aiConfig);
+  if(aiConfig.mode==="off"){setStatus("KI-Modus ist ausgeschaltet. Bitte Direkt-API oder Server-KI wählen.","warn"); return;}
+  const payload=buildAiAnalysisPayload();
+  const total=payload.days.reduce((sum,day)=>sum+day.clients.length,0);
+  if(!total){setStatus("Keine aktiven, nicht abgesagten TZ-Einträge für diese Kalenderwoche gefunden.","warn"); return;}
+  aiBusy=true;
+  renderAiPanel();
+  setStatus(`KI-Zielauswertung gestartet für ${total} aktive Klient/Tag-Einträge.`,"warn");
+  try{
+    const result=aiConfig.mode==="server" ? await callServerAi(payload) : await callOpenAiDirect(payload);
+    aiSuggestions=normalizeAiResult(result, aiConfig.mode==="server" ? "Server-KI" : "Direkt-API");
+    renderAiPanel();
+    setStatus(`${aiSuggestions.suggestions.length} KI-Zuweisungsvorschlag/Vorschläge erhalten. Bitte prüfen und übernehmen.`, aiSuggestions.suggestions.length?"good":"warn");
+  }catch(error){
+    console.warn(error);
+    const hint=aiConfig.mode==="direct" ? " Falls der Browser Direktzugriff blockiert, Server-KI als Alternative verwenden." : "";
+    setStatus(`KI-Zielauswertung fehlgeschlagen: ${error?.message || error}.${hint}`,"bad");
+  }finally{
+    aiBusy=false;
+    renderAiPanel();
+  }
+}
+function aiSuggestionLevel(suggestion){
+  if(suggestion.conflict) return "bad";
+  if(suggestion.confidence>=0.78) return "good";
+  return "warn";
+}
+function clientDisplayNameByAiKey(clientKey){
+  const index=clientIndexFromAiKey(clientKey);
+  if(index<0) return String(clientKey||"");
+  return loadedClients[index]?.name || `Klient ${index+1}`;
+}
+function applyAiSuggestionObject(suggestion, replaceExisting=false){
+  const index=clientIndexFromAiKey(suggestion?.clientKey);
+  const dayKey=String(suggestion?.dayKey||"");
+  let room=clean(suggestion?.suggestedRoom);
+  let staff=clean(suggestion?.suggestedStaff);
+  let staff2=clean(suggestion?.suggestedSecondStaff);
+  if(room && isRoomLocked(room)) room="";
+  if(staff && isStaffSick(staff)) staff="";
+  if(staff2 && isStaffSick(staff2)) staff2="";
+  if(staff && staff2 && staff.toLocaleLowerCase("de-CH")===staff2.toLocaleLowerCase("de-CH")) staff2="";
+  if(index<0 || !DAY_ORDER.includes(dayKey) || (!room && !staff && !staff2)) return {applied:false, reason:"unvollständig"};
+  if(!loadedClients[index]?.days?.[dayKey]?.inTz || isCancelled(index,dayKey)) return {applied:false, reason:"nicht aktiv"};
+  const current=getAssignment(index,dayKey);
+  let changed=false;
+  if(room && (replaceExisting || !current.room)){current.room=room; changed=true; rememberResourceFromAssignment("rooms",room);}
+  if(staff && (replaceExisting || !current.staff)){current.staff=staff; changed=true; rememberResourceFromAssignment("staff",staff);}
+  if(staff2 && (replaceExisting || !current.staff2)){current.staff2=staff2; changed=true; rememberResourceFromAssignment("staff",staff2);}
+  if(!changed) return {applied:false, reason:"geschützt"};
+  saveAssignment(index,dayKey,current);
+  return {applied:true, reason:"übernommen"};
+}
+function applyAiSuggestionByIndex(index){
+  const replace=!!document.getElementById("aiReplaceExisting")?.checked;
+  const result=applyAiSuggestionObject(aiSuggestions.suggestions[index], replace);
+  renderAll();
+  setStatus(result.applied ? "KI-Zuweisung übernommen." : `KI-Zuweisung nicht übernommen: ${result.reason}.`, result.applied?"good":"warn");
+}
+function applySafeAiSuggestions(){
+  const replace=!!document.getElementById("aiReplaceExisting")?.checked;
+  let applied=0, skipped=0;
+  for(const suggestion of aiSuggestions.suggestions||[]){
+    if(suggestion.conflict || suggestion.confidence<0.75 || !(suggestion.suggestedRoom || suggestion.suggestedStaff || suggestion.suggestedSecondStaff)){skipped++; continue;}
+    const result=applyAiSuggestionObject(suggestion, replace);
+    if(result.applied) applied++; else skipped++;
+  }
+  renderAll();
+  setStatus(`${applied} sichere KI-Zuweisungen übernommen, ${skipped} übersprungen.`, applied?"good":"warn");
+}
+function applyAllAiSuggestions(){
+  const replace=!!document.getElementById("aiReplaceExisting")?.checked;
+  let applied=0, skipped=0;
+  for(const suggestion of aiSuggestions.suggestions||[]){
+    const result=applyAiSuggestionObject(suggestion, replace);
+    if(result.applied) applied++; else skipped++;
+  }
+  renderAll();
+  setStatus(`${applied} KI-Zuweisungen übernommen, ${skipped} übersprungen.`, applied?"good":"warn");
+}
+function clearAiSuggestions(){
+  aiSuggestions={suggestions:[], groups:[], warnings:[], receivedAt:"", source:""};
+  renderAiPanel();
+  setStatus("KI-Vorschläge wurden aus der Anzeige entfernt. Übernommene Zuweisungen bleiben bestehen.","good");
+}
+function renderAiSuggestion(suggestion,index){
+  const level=aiSuggestionLevel(suggestion);
+  const current=getAssignment(clientIndexFromAiKey(suggestion.clientKey),suggestion.dayKey);
+  const existingRoom=current.room ? `<span class="ai-chip warn">aktuell Raum: ${esc(current.room)}</span>` : `<span class="ai-chip">Raum offen</span>`;
+  const existingStaff=(current.staff || current.staff2) ? `<span class="ai-chip warn">aktuell MA: ${esc(assignmentStaffLabel(current))}</span>` : `<span class="ai-chip">MA offen</span>`;
+  const conf=Math.round((Number(suggestion.confidence)||0)*100);
+  const conflict=suggestion.conflict ? `<span class="ai-chip bad">Konflikt</span>` : "";
+  const keep=suggestion.shouldKeepCurrentRoom ? `<span class="ai-chip warn">bestehenden Raum prüfen</span>` : "";
+  const staffSuggestion=[suggestion.suggestedStaff, suggestion.suggestedSecondStaff].map(clean).filter(Boolean).join(" + ") || "kein Vorschlag";
+  return `<div class="ai-suggestion ${esc(level)}"><strong>${esc(clientDisplayNameByAiKey(suggestion.clientKey))}</strong><div class="ai-meta"><span class="ai-chip">${esc(suggestion.groupLabel || suggestion.category || "Gruppe offen")}</span><span class="ai-chip room">Raum: ${esc(suggestion.suggestedRoom || suggestion.alternativeRoom || "kein Raum")}</span><span class="ai-chip">MA: ${esc(staffSuggestion)}</span>${existingRoom}${existingStaff}<span class="ai-chip conf">${esc(conf)}%</span>${conflict}${keep}</div><div>${esc(suggestion.reason || "Keine Begründung geliefert.")}</div>${suggestion.staffReason?`<div class="small"><strong>Personal:</strong> ${esc(suggestion.staffReason)}</div>`:""}${suggestion.conflictText?`<div class="small"><strong>Hinweis:</strong> ${esc(suggestion.conflictText)}</div>`:""}<div class="ai-actions"><button type="button" class="secondary" onclick="applyAiSuggestionByIndex(${index})">Diesen Vorschlag übernehmen</button></div></div>`;
+}
+function renderAiResults(){
+  const suggestions=aiSuggestions.suggestions||[];
+  const groups=aiSuggestions.groups||[];
+  const warnings=aiSuggestions.warnings||[];
+  if(!suggestions.length && !groups.length && !warnings.length) return `<div class="ai-empty">Noch keine KI-Vorschläge vorhanden. Nach dem Laden der Klientendateien kann die Zielauswertung gestartet werden.</div>`;
+  const daysHtml=DAY_ORDER.map(dayKey=>{
+    const daySuggestions=suggestions.filter(item=>item.dayKey===dayKey);
+    const dayGroups=groups.filter(item=>item.dayKey===dayKey);
+    if(!daySuggestions.length && !dayGroups.length) return "";
+    const groupHtml=dayGroups.length ? `<div class="ai-groups">${dayGroups.map(group=>`<div class="ai-group"><strong>${esc(group.groupLabel)}</strong> · ${esc(group.suggestedRoom || "Raum offen")}<br>${esc(group.rationale || group.category || "")}</div>`).join("")}</div>` : "";
+    const listHtml=daySuggestions.map((suggestion)=>renderAiSuggestion(suggestion,suggestions.indexOf(suggestion))).join("");
+    return `<div class="ai-day"><h3>${esc(DAY_LABELS[dayKey])}<div class="day-card-date">${esc(formatDateShort(dateForDayKey(dayKey)))}</div></h3><div class="ai-list">${groupHtml}${listHtml}</div></div>`;
+  }).join("");
+  const warningHtml=warnings.length ? `<div class="ai-note warn"><strong>KI-Hinweise</strong><br>${warnings.map(esc).join("<br>")}</div>` : "";
+  const received=aiSuggestions.receivedAt ? new Date(aiSuggestions.receivedAt).toLocaleString("de-CH",{day:"2-digit",month:"2-digit",year:"numeric",hour:"2-digit",minute:"2-digit"}) : "";
+  return `<div class="ai-result"><div class="ai-actions"><button type="button" class="secondary" onclick="applySafeAiSuggestions()">Sichere Vorschläge übernehmen</button><button type="button" class="ghost" onclick="applyAllAiSuggestions()">Alle Vorschläge übernehmen</button><button type="button" class="ghost" onclick="clearAiSuggestions()">Vorschläge ausblenden</button><label class="ai-field checkbox" style="max-width:330px"><input id="aiReplaceExisting" type="checkbox" /> bestehende Zuweisungen ersetzen</label></div>${received?`<div class="small">Quelle: ${esc(aiSuggestions.source || "KI")} · erhalten: ${esc(received)}</div>`:""}${warningHtml}${daysHtml || `<div class="ai-empty">KI hat keine Tagesvorschläge geliefert.</div>`}</div>`;
+}
+
+function renderAiPanel(){
+  const host=document.getElementById("aiHost");
+  if(!host) return;
+  aiConfig=normalizeAiConfig(aiConfig);
+  const isDirect=aiConfig.mode==="direct";
+  const isServer=aiConfig.mode==="server";
+  const keyValue=isDirect ? esc(aiConfig.apiKey || "") : "";
+  const openAttr=loadedClients.length ? " open" : "";
+  const browserText=browserAiKeyText();
+  const statusClass=aiBusy ? "warn" : (aiConfig.mode==="off" ? "" : ((isDirect && (aiConfig.apiKey || hasBrowserAiKey())) || (isServer && serverConfig.apiBaseUrl) ? "good" : "warn"));
+  host.innerHTML=`<details class="ai-panel"${openAttr}><summary>KI-Zielauswertung, Räume & Personal <span class="sync-badge ${esc(statusClass||"local")}">${esc(aiStatusLabel())}</span></summary><div class="ai-body"><div class="ai-note"><strong>Direkt-KI ohne eigenen Server:</strong> Der Tagesplaner bleibt lokal nutzbar. Der OpenAI API-Key kann ohne Zusatzpasswort in diesem Browser gespeichert werden, damit er nach dem erneuten Öffnen automatisch wieder geladen wird. Der Key wird nicht in Plan-Dateien exportiert. Klientennamen bleiben vor der KI fest anonymisiert.</div><div class="ai-grid"><label class="ai-field">KI-Modus<select id="aiModeInput" onchange="setAiMode(this.value)"><option value="off"${aiConfig.mode==="off"?" selected":""}>Aus</option><option value="direct"${aiConfig.mode==="direct"?" selected":""}>Direkt mit OpenAI API-Key</option><option value="server"${aiConfig.mode==="server"?" selected":""}>Über Server/API-Modus</option></select></label><label class="ai-field">Modell<input id="aiModelInput" type="text" value="${esc(aiConfig.model)}" placeholder="z.B. gpt-4o-mini" onchange="setAiModel(this.value)" /></label><label class="ai-field">OpenAI API-Key<input id="aiApiKeyInput" type="password" value="${keyValue}" placeholder="sk-..." ${isDirect?"":"disabled"} onchange="setAiApiKey(this.value)" /></label><label class="ai-field checkbox"><input id="aiAnonymizeInput" type="checkbox" checked disabled /> Klientennamen vor KI anonymisieren</label></div><div class="ai-grid"><label class="ai-field">Direkt-Endpunkt<input id="aiEndpointInput" type="url" value="${esc(aiConfig.endpoint)}" ${isDirect?"":"disabled"} onchange="setAiEndpoint(this.value)" /></label><div class="ai-status ${esc(statusClass)}">${esc(aiStatusLabel())}${isServer?` · Server: ${esc(serverConfig.apiBaseUrl || "nicht eingetragen")}`:""}<br>${esc(browserText)}<br><span class="small">Hinweis: Browser-Speicherung ohne Zusatzpasswort ist bequem, aber weniger geschützt als Server-Modus. Nur auf vertrauenswürdigen Geräten verwenden.</span></div></div><div class="ai-actions"><button type="button" class="secondary" onclick="saveAiConfigToBrowser(true)">KI-Einstellungen speichern</button><button type="button" class="secondary" onclick="saveBrowserAiApiKey()" ${isDirect?"":"disabled"}>API-Key im Browser speichern</button><button type="button" class="ghost" onclick="loadBrowserAiApiKey(true)" ${isDirect?"":"disabled"}>Gespeicherten Key laden</button><button type="button" class="ghost" onclick="forgetBrowserAiApiKey()" ${isDirect?"":"disabled"}>Gespeicherten Key löschen</button><button type="button" onclick="runAiAnalysis()" ${aiBusy?"disabled":""}>KI-Zielauswertung starten</button></div>${renderAiResults()}</div></details>`;
 }
 
 function b64ToBytes(base64){const bin=atob(String(base64||"")); const out=new Uint8Array(bin.length); for(let i=0;i<bin.length;i++) out[i]=bin.charCodeAt(i); return out;}
@@ -863,8 +1515,10 @@ function clearSavedClients(){
     localStorage.removeItem(STORAGE_META_KEY);
     localStorage.removeItem(STORAGE_CANCEL_KEY);
     localStorage.removeItem(STORAGE_ASSIGNMENT_KEY);
+    localStorage.removeItem(STORAGE_RESOURCE_STATUS_KEY);
     cancellations={};
     assignments={};
+    resourceStatus={rooms:{},staff:{}};
     setStatus("Gespeicherte Plandaten und Absagen wurden aus diesem Browser gelöscht. Die aktuelle Anzeige bleibt bis zum Leeren sichtbar.","good");
   }catch(error){
     console.warn(error);
@@ -995,18 +1649,23 @@ function saveCancellationsToBrowser(silent=false){
 }
 
 function assignmentKey(clientIndex,dayKey){return `${weekKey()}::${clientIdentity(loadedClients[clientIndex])}::${dayKey}`;}
+function normalizeStaffName(value){return clean(value);}
 function normalizeAssignment(value){
+  const staff=normalizeStaffName(value?.staff || value?.staff1 || value?.mitarbeiter || value?.employee || "");
+  let staff2=normalizeStaffName(value?.staff2 || value?.secondStaff || value?.mitarbeiter2 || value?.employee2 || "");
+  if(staff && staff2 && staff.toLocaleLowerCase("de-CH")===staff2.toLocaleLowerCase("de-CH")) staff2="";
   return {
-    staff:clean(value?.staff),
-    room:clean(value?.room),
-    note:clean(value?.note)
+    staff,
+    staff2,
+    room:clean(value?.room || value?.raum),
+    note:clean(value?.note || value?.notiz)
   };
 }
 function getAssignment(clientIndex,dayKey){return normalizeAssignment(assignments[assignmentKey(clientIndex,dayKey)] || {});}
 function saveAssignment(clientIndex,dayKey,assignment){
   const key=assignmentKey(clientIndex,dayKey);
   const cleanAssignment=normalizeAssignment(assignment);
-  if(cleanAssignment.staff || cleanAssignment.room || cleanAssignment.note) assignments[key]=cleanAssignment;
+  if(cleanAssignment.staff || cleanAssignment.staff2 || cleanAssignment.room || cleanAssignment.note) assignments[key]=cleanAssignment;
   else delete assignments[key];
   saveAssignmentsToBrowser(true);
   markPlanDirty("Zuweisung geändert");
@@ -1033,10 +1692,65 @@ function normalizeResourceList(value){
   const raw = Array.isArray(value) ? value : String(value ?? "").split(/[\n;,]+/);
   return Array.from(new Set(raw.map(clean).filter(Boolean))).sort((a,b)=>a.localeCompare(b,"de-CH",{numeric:true,sensitivity:"base"}));
 }
+function normalizeRoomProfiles(value, rooms=[]){
+  const profiles={};
+  const addProfile=(name, profile={})=>{
+    name=clean(name);
+    if(!name) return;
+    profiles[name]={
+      name,
+      capacity:clean(profile?.capacity || profile?.maxOccupancy || profile?.maxBelegung || profile?.maximalbelegung || profile?.kapazitaet || profile?.kapazität || ""),
+      keywords:clean(profile?.keywords || profile?.stichworte || profile?.purpose || profile?.zweck || profile?.description || "")
+    };
+  };
+  if(Array.isArray(value)){
+    value.forEach(item=>{
+      if(typeof item==="string"){
+        const parts=item.split("|").map(clean);
+        addProfile(parts[0],{capacity:parts[1]||"",keywords:parts.slice(2).join(" | ")});
+      }else addProfile(item?.name || item?.room || item?.raum,item);
+    });
+  }else if(value && typeof value==="object"){
+    Object.entries(value).forEach(([name,profile])=>addProfile(name, typeof profile==="object" ? profile : {keywords:String(profile||"")}));
+  }
+  normalizeResourceList(rooms).forEach(room=>{ if(!profiles[room]) addProfile(room,{}); });
+  return profiles;
+}
+function normalizeStaffProfiles(value, staff=[]){
+  const profiles={};
+  const addProfile=(name, profile={})=>{
+    name=clean(name);
+    if(!name) return;
+    profiles[name]={
+      name,
+      qualification:clean(profile?.qualification || profile?.qualifikation || profile?.skills || profile?.faehigkeiten || profile?.fähigkeiten || profile?.keywords || profile?.stichworte || profile?.description || "")
+    };
+  };
+  if(Array.isArray(value)){
+    value.forEach(item=>{
+      if(typeof item==="string"){
+        const parts=item.split("|").map(clean);
+        addProfile(parts[0],{qualification:parts.slice(1).join(" | ")});
+      }else addProfile(item?.name || item?.staff || item?.mitarbeiter,item);
+    });
+  }else if(value && typeof value==="object"){
+    Object.entries(value).forEach(([name,profile])=>addProfile(name, typeof profile==="object" ? profile : {qualification:String(profile||"")}));
+  }
+  normalizeResourceList(staff).forEach(name=>{ if(!profiles[name]) addProfile(name,{}); });
+  return profiles;
+}
 function normalizeResources(value){
+  const staff=normalizeResourceList(value?.staff || value?.mitarbeiter || []);
+  const rooms=normalizeResourceList(value?.rooms || value?.raeume || value?.räume || value?.room || []);
+  const roomProfiles=normalizeRoomProfiles(value?.roomProfiles || value?.raumProfile || value?.raumprofile || {}, rooms);
+  const staffProfiles=normalizeStaffProfiles(value?.staffProfiles || value?.mitarbeiterProfile || value?.mitarbeiterprofile || value?.qualifications || value?.qualifikationen || {}, staff);
+  const roomsWithProfiles=normalizeResourceList([...rooms, ...Object.keys(roomProfiles)]);
+  const staffWithProfiles=normalizeResourceList([...staff, ...Object.keys(staffProfiles)]);
   return {
-    staff: normalizeResourceList(value?.staff || value?.mitarbeiter || []),
-    rooms: normalizeResourceList(value?.rooms || value?.raeume || value?.räume || value?.room || [])
+    staff:staffWithProfiles,
+    rooms:roomsWithProfiles,
+    roomProfiles:normalizeRoomProfiles(roomProfiles, roomsWithProfiles),
+    staffProfiles:normalizeStaffProfiles(staffProfiles, staffWithProfiles)
   };
 }
 function loadResourcesFromBrowser(){
@@ -1046,20 +1760,124 @@ function loadResourcesFromBrowser(){
 }
 function saveResourcesToBrowser(silent=false){
   resources=normalizeResources(resources);
+  pruneResourceStatusToResources();
   try{localStorage.setItem(STORAGE_RESOURCE_KEY,JSON.stringify(resources)); renderResourceDatalists(); return true;}
   catch(error){console.warn(error); if(!silent) setStatus("Mitarbeiter-/Raumlisten konnten nicht gespeichert werden.","bad"); return false;}
+}
+function normalizeResourceStatus(value){
+  const safe={rooms:{}, staff:{}};
+  const add=(type,key)=>{
+    key=clean(key);
+    if(!key) return;
+    safe[type][key]=true;
+  };
+  const readMap=(type,raw)=>{
+    if(Array.isArray(raw)) raw.forEach(item=>add(type,item));
+    else if(raw && typeof raw==="object") Object.entries(raw).forEach(([key,val])=>{ if(val) add(type,key); });
+  };
+  readMap("rooms", value?.rooms || value?.lockedRooms || value?.gesperrteRaeume || value?.gesperrteRäume || {});
+  readMap("staff", value?.staff || value?.sickStaff || value?.krankeMitarbeiter || value?.krank || {});
+  return safe;
+}
+function pruneResourceStatusToResources(){
+  resourceStatus=normalizeResourceStatus(resourceStatus);
+  const keepRooms=new Set(resources.rooms||[]);
+  const keepStaff=new Set(resources.staff||[]);
+  Object.keys(resourceStatus.rooms||{}).forEach(key=>{
+    const name=key.includes("::") ? key.split("::").pop() : key;
+    if(!keepRooms.has(name)) delete resourceStatus.rooms[key];
+  });
+  Object.keys(resourceStatus.staff||{}).forEach(key=>{
+    const name=key.includes("::") ? key.split("::").pop() : key;
+    if(!keepStaff.has(name)) delete resourceStatus.staff[key];
+  });
+}
+function loadResourceStatusFromBrowser(){
+  try{const raw=localStorage.getItem(STORAGE_RESOURCE_STATUS_KEY); resourceStatus=normalizeResourceStatus(raw?JSON.parse(raw):resourceStatus);}
+  catch(error){console.warn(error); resourceStatus=normalizeResourceStatus(resourceStatus);}
+}
+function saveResourceStatusToBrowser(silent=false){
+  resourceStatus=normalizeResourceStatus(resourceStatus);
+  try{localStorage.setItem(STORAGE_RESOURCE_STATUS_KEY, JSON.stringify(resourceStatus)); renderResourceDatalists(); return true;}
+  catch(error){console.warn(error); if(!silent) setStatus("Raum-/Personalstatus konnte nicht gespeichert werden.","bad"); return false;}
+}
+function resourceStatusKey(type,name){return `${weekKey()}::${clean(name)}`;}
+function legacyResourceStatusKey(name){return clean(name);}
+function resourceStatusList(type){
+  const map=resourceStatus?.[type] || {};
+  const prefix=weekKey()+"::";
+  return Object.keys(map).filter(key=>map[key] && key.startsWith(prefix)).map(key=>key.slice(prefix.length)).filter(hasText).sort((a,b)=>a.localeCompare(b,"de-CH",{numeric:true,sensitivity:"base"}));
+}
+function isResourceUnavailable(type,name){
+  name=clean(name);
+  if(!name) return false;
+  const map=resourceStatus?.[type] || {};
+  return !!(map[resourceStatusKey(type,name)] || map[legacyResourceStatusKey(name)]);
+}
+function isRoomLocked(room){return isResourceUnavailable("rooms",room);}
+function isStaffSick(name){return isResourceUnavailable("staff",name);}
+function setResourceUnavailable(type,name,unavailable){
+  name=clean(name);
+  if(!name) return;
+  if(!resourceStatus[type]) resourceStatus[type]={};
+  const key=resourceStatusKey(type,name);
+  if(unavailable) resourceStatus[type][key]=true;
+  else {
+    delete resourceStatus[type][key];
+    delete resourceStatus[type][legacyResourceStatusKey(name)];
+  }
+  saveResourceStatusToBrowser(true);
+  markPlanDirty(type==="rooms" ? "Raumstatus geändert" : "Personalstatus geändert");
+  renderAllPreserveResourcePosition();
+  setStatus(type==="rooms" ? (unavailable ? `Raum „${name}“ ist für diese KW gesperrt.` : `Raum „${name}“ ist für diese KW wieder frei.`) : (unavailable ? `Mitarbeiter „${name}“ ist für diese KW krank markiert.` : `Mitarbeiter „${name}“ ist für diese KW wieder verfügbar.`), unavailable?"warn":"good");
+}
+function toggleRoomLocked(name){setResourceUnavailable("rooms",name,!isRoomLocked(name));}
+function toggleStaffSick(name){setResourceUnavailable("staff",name,!isStaffSick(name));}
+function removeResourceStatusEverywhere(type,name){
+  name=clean(name);
+  if(!name || !resourceStatus[type]) return;
+  Object.keys(resourceStatus[type]).forEach(key=>{
+    if(key===name || key.endsWith(`::${name}`)) delete resourceStatus[type][key];
+  });
+}
+function removeResourceItem(field,value){
+  value=clean(value);
+  if(!value) return;
+  const key=field==="staff" ? "staff" : "rooms";
+  const before=(resources[key]||[]).length;
+  resources[key]=normalizeResourceList((resources[key]||[]).filter(item=>item!==value));
+  if(field==="staff"){
+    delete resources.staffProfiles[value];
+    removeResourceStatusEverywhere("staff",value);
+  }else{
+    delete resources.roomProfiles[value];
+    removeResourceStatusEverywhere("rooms",value);
+  }
+  saveResourcesToBrowser(true);
+  saveResourceStatusToBrowser(true);
+  markPlanDirty(field==="staff" ? "Mitarbeiter gelöscht" : "Raum gelöscht");
+  renderAllPreserveResourcePosition();
+  setStatus(before===resources[key].length ? "Eintrag wurde nicht gefunden." : (field==="staff" ? `Mitarbeiter „${value}“ wurde aus der Stammliste gelöscht. Bestehende Zuweisungen bleiben als Text erhalten.` : `Raum „${value}“ wurde aus der Raumliste gelöscht. Bestehende Zuweisungen bleiben als Text erhalten.`), before===resources[key].length?"warn":"good");
 }
 function allResourceValues(field){
   const base=field==="staff" ? resources.staff : resources.rooms;
   const used=[];
-  Object.values(assignments||{}).forEach(a=>{const v=field==="staff" ? a?.staff : a?.room; if(hasText(v)) used.push(v);});
+  Object.values(assignments||{}).forEach(raw=>{
+    const a=normalizeAssignment(raw);
+    if(field==="staff"){
+      if(hasText(a.staff)) used.push(a.staff);
+      if(hasText(a.staff2)) used.push(a.staff2);
+    }else{
+      if(hasText(a.room)) used.push(a.room);
+    }
+  });
   return normalizeResourceList([...(base||[]), ...used]);
 }
 function renderResourceDatalists(){
   const staffList=document.getElementById("staffOptions");
   const roomList=document.getElementById("roomOptions");
-  if(staffList) staffList.innerHTML=allResourceValues("staff").map(v=>`<option value="${esc(v)}"></option>`).join("");
-  if(roomList) roomList.innerHTML=allResourceValues("rooms").map(v=>`<option value="${esc(v)}"></option>`).join("");
+  if(staffList) staffList.innerHTML=allResourceValues("staff").filter(v=>!isStaffSick(v)).map(v=>`<option value="${esc(v)}"></option>`).join("");
+  if(roomList) roomList.innerHTML=allResourceValues("rooms").filter(v=>!isRoomLocked(v)).map(v=>`<option value="${esc(v)}"></option>`).join("");
 }
 function resourceFieldId(field){return field==="staff" ? "resourceStaffArea" : "resourceRoomArea";}
 function resourceNewId(field){return field==="staff" ? "resourceStaffNew" : "resourceRoomNew";}
@@ -1067,9 +1885,21 @@ function saveResourcesFromPanel(field){
   const el=document.getElementById(resourceFieldId(field));
   if(!el) return;
   resources[field]=normalizeResourceList(el.value);
+  if(field==="rooms"){
+    const keep=new Set(resources.rooms);
+    const keptProfiles={};
+    Object.entries(resources.roomProfiles||{}).forEach(([room,profile])=>{ if(keep.has(room)) keptProfiles[room]=profile; });
+    resources.roomProfiles=keptProfiles;
+  }
+  if(field==="staff"){
+    const keep=new Set(resources.staff);
+    const keptProfiles={};
+    Object.entries(resources.staffProfiles||{}).forEach(([name,profile])=>{ if(keep.has(name)) keptProfiles[name]=profile; });
+    resources.staffProfiles=keptProfiles;
+  }
   saveResourcesToBrowser(true);
   markPlanDirty("Mitarbeiter-/Raumliste geändert");
-  renderResourcePanel();
+  renderResourcePanelPreservePosition();
   setStatus(field==="staff" ? "Mitarbeiterliste gespeichert." : "Raumliste gespeichert.", "good");
 }
 function addResourceItem(field){
@@ -1080,15 +1910,18 @@ function addResourceItem(field){
   if(input) input.value="";
   saveResourcesToBrowser(true);
   markPlanDirty("Mitarbeiter-/Raumliste geändert");
-  renderResourcePanel();
+  renderResourcePanelPreservePosition();
   setStatus(field==="staff" ? `Mitarbeiter „${value}“ hinzugefügt.` : `Raum „${value}“ hinzugefügt.`, "good");
 }
 function clearResources(field){
   resources[field]=[];
+  if(field==="rooms"){ resources.roomProfiles={}; resourceStatus.rooms={}; }
+  if(field==="staff"){ resources.staffProfiles={}; resourceStatus.staff={}; }
   saveResourcesToBrowser(true);
+  saveResourceStatusToBrowser(true);
   markPlanDirty("Mitarbeiter-/Raumliste geändert");
-  renderResourcePanel();
-  setStatus(field==="staff" ? "Mitarbeiterliste geleert. Bestehende Zuweisungen bleiben erhalten." : "Raumliste geleert. Bestehende Zuweisungen bleiben erhalten.", "warn");
+  renderResourcePanelPreservePosition();
+  setStatus(field==="staff" ? "Mitarbeiterliste und Qualifikationen geleert. Bestehende Zuweisungen bleiben erhalten." : "Raumliste und Maximalbelegungen geleert. Bestehende Zuweisungen bleiben erhalten.", "warn");
 }
 function rememberResourceFromAssignment(field,value){
   value=clean(value);
@@ -1098,44 +1931,333 @@ function rememberResourceFromAssignment(field,value){
     resources[key]=normalizeResourceList([...(resources[key]||[]), value]);
     saveResourcesToBrowser(true);
     markPlanDirty("Mitarbeiter-/Raumliste geändert");
-    renderResourcePanel();
+    renderResourcePanelPreservePosition();
   }
+}
+function staffNameByIndex(index){
+  resources=normalizeResources(resources);
+  return resources.staff[Number(index)] || "";
+}
+function roomNameByIndex(index){
+  resources=normalizeResources(resources);
+  return resources.rooms[Number(index)] || "";
+}
+function toggleStaffSickByIndex(index){toggleStaffSick(staffNameByIndex(index));}
+function toggleRoomLockedByIndex(index){toggleRoomLocked(roomNameByIndex(index));}
+function removeStaffByIndex(index){removeResourceItem("staff",staffNameByIndex(index));}
+function removeRoomByIndex(index){removeResourceItem("rooms",roomNameByIndex(index));}
+function roomCapacityValue(room){
+  const raw=resources?.roomProfiles?.[clean(room)]?.capacity;
+  const value=parseInt(String(raw||"").replace(/[^0-9]/g,""),10);
+  return Number.isFinite(value) && value>0 ? value : null;
+}
+function roomProfileLines(){
+  resources=normalizeResources(resources);
+  return resources.rooms.map(room=>{
+    const profile=resources.roomProfiles?.[room] || {capacity:"",keywords:""};
+    return `${room} | ${profile.capacity || ""} | ${profile.keywords || ""}`;
+  }).join("\n");
+}
+function parseRoomProfilesFromText(text){
+  const profiles={};
+  String(text||"").split(/\r?\n/).map(line=>line.trim()).filter(Boolean).forEach(line=>{
+    const parts=line.split("|").map(clean);
+    const name=parts.shift();
+    if(!name) return;
+    const capacity=parts.shift() || "";
+    const keywords=parts.join(" | ");
+    profiles[name]={name, capacity, keywords};
+  });
+  return normalizeRoomProfiles(profiles, Object.keys(profiles));
+}
+function saveRoomProfilesFromPanel(){
+  const el=document.getElementById("resourceRoomProfileArea");
+  if(!el) return;
+  const parsed=parseRoomProfilesFromText(el.value);
+  resources=normalizeResources({...resources, roomProfiles:parsed, rooms:[...resources.rooms, ...Object.keys(parsed)]});
+  saveResourcesToBrowser(true);
+  markPlanDirty("Raumprofile geändert");
+  renderResourcePanelPreservePosition();
+  setStatus("Raumprofile und Maximalbelegungen gespeichert.", "good");
+}
+function clearRoomProfiles(){
+  resources=normalizeResources({...resources, roomProfiles:{}});
+  saveResourcesToBrowser(true);
+  markPlanDirty("Raumprofile geändert");
+  renderResourcePanelPreservePosition();
+  setStatus("Raumprofile und Maximalbelegungen geleert. Die Raumliste bleibt erhalten.", "warn");
+}
+function roomProfilesForAi(){
+  resources=normalizeResources(resources);
+  return resources.rooms.map(room=>{
+    const profile=resources.roomProfiles?.[room] || {};
+    return {room, maxOccupancy:profile.capacity || "", capacity:profile.capacity || "", keywords:profile.keywords || ""};
+  });
+}
+function staffProfileLines(){
+  resources=normalizeResources(resources);
+  return resources.staff.map(name=>{
+    const profile=resources.staffProfiles?.[name] || {qualification:""};
+    return `${name} | ${profile.qualification || ""}`;
+  }).join("\n");
+}
+function parseStaffProfilesFromText(text){
+  const profiles={};
+  String(text||"").split(/\r?\n/).map(line=>line.trim()).filter(Boolean).forEach(line=>{
+    const parts=line.split("|").map(clean);
+    const name=parts.shift();
+    if(!name) return;
+    const qualification=parts.join(" | ");
+    profiles[name]={name, qualification};
+  });
+  return normalizeStaffProfiles(profiles, Object.keys(profiles));
+}
+function saveStaffProfilesFromPanel(){
+  const el=document.getElementById("resourceStaffProfileArea");
+  if(!el) return;
+  const parsed=parseStaffProfilesFromText(el.value);
+  resources=normalizeResources({...resources, staffProfiles:parsed, staff:[...resources.staff, ...Object.keys(parsed)]});
+  saveResourcesToBrowser(true);
+  markPlanDirty("Mitarbeiterqualifikationen geändert");
+  renderResourcePanelPreservePosition();
+  setStatus("Mitarbeiterqualifikationen für Planung und KI gespeichert.", "good");
+}
+function clearStaffProfiles(){
+  resources=normalizeResources({...resources, staffProfiles:{}});
+  saveResourcesToBrowser(true);
+  markPlanDirty("Mitarbeiterqualifikationen geändert");
+  renderResourcePanelPreservePosition();
+  setStatus("Mitarbeiterqualifikationen geleert. Die Mitarbeiterliste bleibt erhalten.", "warn");
+}
+function staffProfilesForAi(){
+  resources=normalizeResources(resources);
+  return resources.staff.map(name=>{
+    const profile=resources.staffProfiles?.[name] || {};
+    return {staff:name, qualification:profile.qualification || ""};
+  });
 }
 function renderResourcePanel(){
   const host=document.getElementById("resourceHost");
   if(!host) return;
   resources=normalizeResources(resources);
   renderResourceDatalists();
-  const staffChips=resources.staff.length ? resources.staff.map(v=>`<span class="resource-chip">${esc(v)}</span>`).join("") : `<span class="small">Noch keine Mitarbeiter erfasst.</span>`;
-  const roomChips=resources.rooms.length ? resources.rooms.map(v=>`<span class="resource-chip">${esc(v)}</span>`).join("") : `<span class="small">Noch keine Räume erfasst.</span>`;
-  host.innerHTML=`<details class="resource-panel"><summary>Mitarbeiter & Räume <span>${esc(resources.staff.length)} Mitarbeiter · ${esc(resources.rooms.length)} Räume</span></summary><div class="resource-body"><div class="small">Hier legst du die Stammdaten an. In den Tageskarten kannst du diese Namen und Räume danach auswählen. Neue Einträge, die du direkt in einer Tageskarte eintippst, werden automatisch ergänzt.</div><div class="resource-grid"><div class="resource-card"><h3>Mitarbeiter</h3><div class="resource-chip-list">${staffChips}</div><div class="resource-add-row"><input id="resourceStaffNew" type="text" placeholder="z.B. Sarah" onkeydown="if(event.key==='Enter'){event.preventDefault();addResourceItem('staff');}"/><button type="button" onclick="addResourceItem('staff')">Hinzufügen</button></div><textarea id="resourceStaffArea" placeholder="Ein Mitarbeiter pro Zeile">${esc(resources.staff.join("\n"))}</textarea><div class="resource-actions"><button type="button" class="secondary" onclick="saveResourcesFromPanel('staff')">Mitarbeiterliste speichern</button><button type="button" class="ghost" onclick="clearResources('staff')">Liste leeren</button></div></div><div class="resource-card"><h3>Räume</h3><div class="resource-chip-list">${roomChips}</div><div class="resource-add-row"><input id="resourceRoomNew" type="text" placeholder="z.B. Atelier 1" onkeydown="if(event.key==='Enter'){event.preventDefault();addResourceItem('rooms');}"/><button type="button" onclick="addResourceItem('rooms')">Hinzufügen</button></div><textarea id="resourceRoomArea" placeholder="Ein Raum pro Zeile">${esc(resources.rooms.join("\n"))}</textarea><div class="resource-actions"><button type="button" class="secondary" onclick="saveResourcesFromPanel('rooms')">Raumliste speichern</button><button type="button" class="ghost" onclick="clearResources('rooms')">Liste leeren</button></div></div></div></div></details>`;
+  const resourceOpenAttr = uiState.resourcePanelOpen ? " open" : "";
+  const staffChips=resources.staff.length ? resources.staff.map((v,index)=>{
+    const sick=isStaffSick(v);
+    return `<span class="resource-chip ${sick?"sick":"free"}">${esc(v)}${sick?` · krank`:``} <button type="button" onclick="toggleStaffSickByIndex(${index})">${sick?"gesund":"krank"}</button><button type="button" class="remove" onclick="removeStaffByIndex(${index})">löschen</button></span>`;
+  }).join("") : `<span class="small">Noch keine Mitarbeiter erfasst.</span>`;
+  const roomChips=resources.rooms.length ? resources.rooms.map((v,index)=>{
+    const locked=isRoomLocked(v);
+    return `<span class="resource-chip ${locked?"locked":"free"}">${esc(v)}${locked?` · gesperrt`:``} <button type="button" onclick="toggleRoomLockedByIndex(${index})">${locked?"freigeben":"sperren"}</button><button type="button" class="remove" onclick="removeRoomByIndex(${index})">löschen</button></span>`;
+  }).join("") : `<span class="small">Noch keine Räume erfasst.</span>`;
+  const profiledRooms=resources.rooms.filter(room=>hasText(resources.roomProfiles?.[room]?.capacity) || hasText(resources.roomProfiles?.[room]?.keywords)).length;
+  const profiledStaff=resources.staff.filter(name=>hasText(resources.staffProfiles?.[name]?.qualification)).length;
+  const lockedCount=resourceStatusList("rooms").length;
+  const sickCount=resourceStatusList("staff").length;
+  host.innerHTML=`<details class="resource-panel"${resourceOpenAttr} ontoggle="rememberResourcePanelState(this)"><summary>Mitarbeiter, Qualifikationen, Räume & Maximalbelegung <span>${esc(resources.staff.length)} Mitarbeiter · ${esc(sickCount)} krank · ${esc(profiledStaff)} Qualifikationen · ${esc(resources.rooms.length)} Räume · ${esc(lockedCount)} gesperrt · ${esc(profiledRooms)} Raumprofile</span></summary><div class="resource-body"><div class="small">Hier legst du Stammdaten an. Die KI nutzt nur verfügbare Räume und nicht krank markierte Mitarbeitende. Sperren/Krankmeldungen gelten für die aktuell ausgewählte Kalenderwoche. Der geöffnete Bereich und die Scrollposition werden gemerkt.</div><div class="status-note">Einzelne Räume können gesperrt oder gelöscht werden. Mitarbeitende können krank markiert oder einzeln gelöscht werden. Bestehende Zuweisungen bleiben als Text erhalten, werden aber in der Planprüfung markiert.</div><div class="resource-grid"><div class="resource-card"><h3>Mitarbeiter</h3><div class="resource-chip-list">${staffChips}</div><div class="resource-add-row"><input id="resourceStaffNew" type="text" placeholder="z.B. Sarah" onkeydown="if(event.key==='Enter'){event.preventDefault();addResourceItem('staff');}"/><button type="button" onclick="addResourceItem('staff')">Hinzufügen</button></div><textarea id="resourceStaffArea" placeholder="Ein Mitarbeiter pro Zeile" oninput="rememberResourcePanelState(document.querySelector('.resource-panel'))">${esc(resources.staff.join("\n"))}</textarea><div class="resource-actions"><button type="button" class="secondary" onclick="saveResourcesFromPanel('staff')">Mitarbeiterliste speichern</button><button type="button" class="ghost" onclick="clearResources('staff')">Liste leeren</button></div></div><div class="resource-card"><h3>Räume</h3><div class="resource-chip-list">${roomChips}</div><div class="resource-add-row"><input id="resourceRoomNew" type="text" placeholder="z.B. Atelier 1" onkeydown="if(event.key==='Enter'){event.preventDefault();addResourceItem('rooms');}"/><button type="button" onclick="addResourceItem('rooms')">Hinzufügen</button></div><textarea id="resourceRoomArea" placeholder="Ein Raum pro Zeile" oninput="rememberResourcePanelState(document.querySelector('.resource-panel'))">${esc(resources.rooms.join("\n"))}</textarea><div class="resource-actions"><button type="button" class="secondary" onclick="saveResourcesFromPanel('rooms')">Raumliste speichern</button><button type="button" class="ghost" onclick="clearResources('rooms')">Liste leeren</button></div></div><div class="resource-card wide"><h3>Mitarbeiterprofile / Qualifikationen</h3><div class="small">Format pro Zeile: <strong>Mitarbeiter | Qualifikation/Stichworte</strong><br>Beispiel: Sarah | Küche, Medikamentenabgabe, Einzelsetting, Autismus-Erfahrung</div><textarea id="resourceStaffProfileArea" class="staff-profile-area" oninput="rememberResourcePanelState(document.querySelector('.resource-panel'))" placeholder="Sarah | Küche, Alltag, Einzelsetting">${esc(staffProfileLines())}</textarea><div class="resource-actions"><button type="button" class="secondary" onclick="saveStaffProfilesFromPanel()">Qualifikationen speichern</button><button type="button" class="ghost" onclick="clearStaffProfiles()">Qualifikationen leeren</button></div></div><div class="resource-card wide"><h3>KI-Raumprofile / Maximalbelegung</h3><div class="small">Format pro Zeile: <strong>Raum | Maximalbelegung | Zweck/Stichworte</strong><br>Beispiel: Küche | 4 | Kochen, Backen, Ernährung, Alltag, Mittagessen</div><textarea id="resourceRoomProfileArea" class="room-profile-area" oninput="rememberResourcePanelState(document.querySelector('.resource-panel'))" placeholder="Küche | 4 | Kochen, Backen, Ernährung, Alltag">${esc(roomProfileLines())}</textarea><div class="resource-actions"><button type="button" class="secondary" onclick="saveRoomProfilesFromPanel()">Raumprofile speichern</button><button type="button" class="ghost" onclick="clearRoomProfiles()">Profile leeren</button></div></div></div></div></details>`;
 }
+
+
+function normalizeTemplateEntry(value){
+  const assignment=normalizeAssignment(value||{});
+  return {
+    clientKey:clean(value?.clientKey),
+    clientName:clean(value?.clientName),
+    dayKey:clean(value?.dayKey),
+    staff:assignment.staff,
+    staff2:assignment.staff2,
+    room:assignment.room,
+    note:assignment.note
+  };
+}
+function normalizeWeeklyTemplate(value){
+  const template={
+    version:1,
+    name:clean(value?.name || "RET/TZ Grundplanung"),
+    createdAt:clean(value?.createdAt),
+    sourceYear:clean(value?.sourceYear),
+    sourceWeek:clean(value?.sourceWeek),
+    entries:{}
+  };
+  const rawEntries=value?.entries || {};
+  if(Array.isArray(rawEntries)){
+    rawEntries.forEach(item=>{
+      const entry=normalizeTemplateEntry(item);
+      if(entry.clientKey && DAY_ORDER.includes(entry.dayKey) && (entry.staff || entry.staff2 || entry.room || entry.note)){
+        template.entries[`${entry.clientKey}::${entry.dayKey}`]=entry;
+      }
+    });
+  }else if(rawEntries && typeof rawEntries==="object"){
+    Object.entries(rawEntries).forEach(([key,item])=>{
+      const entry=normalizeTemplateEntry({...item});
+      if(!entry.clientKey || !entry.dayKey){
+        const parts=String(key).split("::");
+        entry.clientKey=entry.clientKey || parts[0] || "";
+        entry.dayKey=entry.dayKey || parts[1] || "";
+      }
+      if(entry.clientKey && DAY_ORDER.includes(entry.dayKey) && (entry.staff || entry.staff2 || entry.room || entry.note)){
+        template.entries[`${entry.clientKey}::${entry.dayKey}`]=entry;
+      }
+    });
+  }
+  return template;
+}
+function templateEntryKeyForClient(client,dayKey){return `${clientIdentity(client)}::${dayKey}`;}
+function countTemplateEntries(){return Object.keys(weeklyTemplate?.entries || {}).length;}
+function loadWeeklyTemplateFromBrowser(){
+  try{const raw=localStorage.getItem(STORAGE_TEMPLATE_KEY); weeklyTemplate=normalizeWeeklyTemplate(raw?JSON.parse(raw):weeklyTemplate);}
+  catch(error){console.warn(error); weeklyTemplate=normalizeWeeklyTemplate({});}
+}
+function saveWeeklyTemplateToBrowser(silent=false){
+  weeklyTemplate=normalizeWeeklyTemplate(weeklyTemplate);
+  try{localStorage.setItem(STORAGE_TEMPLATE_KEY,JSON.stringify(weeklyTemplate)); return true;}
+  catch(error){console.warn(error); if(!silent) setStatus("Wochenvorlage konnte nicht gespeichert werden.","bad"); return false;}
+}
+function clearWeeklyTemplate(){
+  weeklyTemplate=normalizeWeeklyTemplate({});
+  try{localStorage.removeItem(STORAGE_TEMPLATE_KEY);}catch(error){console.warn(error);}
+  renderTemplatePanel();
+  setStatus("Grundplanung / Wochenvorlage wurde gelöscht.","good");
+}
+function saveCurrentWeekAsTemplate(){
+  if(!loadedClients.length){setStatus("Bitte zuerst Klientendateien laden und die Woche planen.","warn"); return;}
+  const entries={};
+  let count=0;
+  DAY_ORDER.forEach(dayKey=>{
+    loadedClients.forEach((client,index)=>{
+      const day=client.days?.[dayKey];
+      if(!day?.inTz || isCancelled(index,dayKey)) return;
+      const assignment=getAssignment(index,dayKey);
+      if(!(assignment.staff || assignment.staff2 || assignment.room || assignment.note)) return;
+      const clientKey=clientIdentity(client);
+      entries[`${clientKey}::${dayKey}`]={
+        clientKey,
+        clientName:client.name,
+        dayKey,
+        staff:assignment.staff,
+        staff2:assignment.staff2,
+        room:assignment.room,
+        note:assignment.note
+      };
+      count++;
+    });
+  });
+  if(!count){setStatus("In dieser Woche sind noch keine Mitarbeiter-/Raumzuweisungen vorhanden, die als Grundplanung gespeichert werden können.","warn"); return;}
+  weeklyTemplate=normalizeWeeklyTemplate({
+    version:1,
+    name:`Grundplanung aus KW ${String(selectedWeek).padStart(2,"0")} / ${selectedYear}`,
+    createdAt:new Date().toISOString(),
+    sourceYear:selectedYear,
+    sourceWeek:selectedWeek,
+    entries
+  });
+  saveWeeklyTemplateToBrowser(true);
+  renderTemplatePanel();
+  setStatus(`${count} Zuweisung(en) als Grundplanung gespeichert. Neue Kalenderwochen können daraus vorbefüllt werden.`, "good");
+}
+function applyWeeklyTemplateToCurrentWeek(){
+  if(!loadedClients.length){setStatus("Bitte zuerst Klientendateien laden.","warn"); return;}
+  if(!countTemplateEntries()){setStatus("Es ist noch keine Grundplanung gespeichert.","warn"); return;}
+  const applyStaff=!!document.getElementById("templateApplyStaff")?.checked;
+  const applyRoom=!!document.getElementById("templateApplyRoom")?.checked;
+  const applyNote=!!document.getElementById("templateApplyNote")?.checked;
+  const replace=!!document.getElementById("templateReplaceExisting")?.checked;
+  if(!applyStaff && !applyRoom && !applyNote){setStatus("Bitte auswählen, ob Räume, Mitarbeiter oder Notizen übernommen werden sollen.","warn"); return;}
+  let changed=0, skipped=0, matched=0;
+  DAY_ORDER.forEach(dayKey=>{
+    loadedClients.forEach((client,index)=>{
+      const day=client.days?.[dayKey];
+      if(!day?.inTz || isCancelled(index,dayKey)) return;
+      const entry=normalizeTemplateEntry(weeklyTemplate.entries?.[templateEntryKeyForClient(client,dayKey)] || {});
+      if(!(entry.staff || entry.staff2 || entry.room || entry.note)){skipped++; return;}
+      matched++;
+      const current=getAssignment(index,dayKey);
+      let didChange=false;
+      if(applyStaff && entry.staff && (replace || !current.staff)){current.staff=entry.staff; didChange=true; rememberResourceFromAssignment("staff",entry.staff);}
+      if(applyStaff && entry.staff2 && (replace || !current.staff2)){current.staff2=entry.staff2; didChange=true; rememberResourceFromAssignment("staff",entry.staff2);}
+      if(applyRoom && entry.room && (replace || !current.room)){current.room=entry.room; didChange=true; rememberResourceFromAssignment("rooms",entry.room);}
+      if(applyNote && entry.note && (replace || !current.note)){current.note=entry.note; didChange=true;}
+      if(didChange){saveAssignment(index,dayKey,current); changed++;}
+      else skipped++;
+    });
+  });
+  if(changed){saveAssignmentsToBrowser(true); markPlanDirty("Grundplanung angewendet");}
+  renderAll();
+  setStatus(`${changed} Zuweisung(en) aus der Grundplanung übernommen. ${skipped} übersprungen. ${matched} passende Vorlagen-Einträge gefunden.`, changed?"good":"warn");
+}
+function templateEntriesByDay(dayKey){
+  return Object.values(weeklyTemplate?.entries || {}).map(normalizeTemplateEntry).filter(entry=>entry.dayKey===dayKey).sort((a,b)=>a.clientName.localeCompare(b.clientName,"de-CH",{numeric:true,sensitivity:"base"}));
+}
+function renderTemplateDay(dayKey){
+  const entries=templateEntriesByDay(dayKey);
+  const body=entries.length ? entries.map(entry=>{
+    const parts=[];
+    if(entry.staff) parts.push(`MA1: ${entry.staff}`);
+    if(entry.staff2) parts.push(`MA2: ${entry.staff2}`);
+    if(entry.room) parts.push(`Raum: ${entry.room}`);
+    if(entry.note) parts.push(`Notiz: ${entry.note}`);
+    return `<div class="template-mini"><strong>${esc(entry.clientName || entry.clientKey)}</strong><span>${esc(parts.join(" · ") || "offen")}</span></div>`;
+  }).join("") : `<div class="template-mini empty"><strong>${esc(DAY_LABELS[dayKey])}</strong><span>Keine Vorlage gespeichert.</span></div>`;
+  return `<div class="template-day"><h4>${esc(DAY_LABELS[dayKey])}</h4><div class="template-day-list">${body}</div></div>`;
+}
+function renderTemplatePanel(){
+  const host=document.getElementById("templateHost");
+  if(!host) return;
+  weeklyTemplate=normalizeWeeklyTemplate(weeklyTemplate);
+  const count=countTemplateEntries();
+  const saved=weeklyTemplate.createdAt ? new Date(weeklyTemplate.createdAt).toLocaleString("de-CH",{day:"2-digit",month:"2-digit",year:"numeric",hour:"2-digit",minute:"2-digit"}) : "noch nicht gespeichert";
+  const source=weeklyTemplate.sourceYear && weeklyTemplate.sourceWeek ? `aus KW ${String(weeklyTemplate.sourceWeek).padStart(2,"0")} / ${weeklyTemplate.sourceYear}` : "";
+  const statusClass=count ? "good" : "warn";
+  const overview=count ? `<div class="template-overview-grid">${DAY_ORDER.map(renderTemplateDay).join("")}</div>` : `<div class="template-note warn">Noch keine Grundplanung gespeichert. Plane zuerst eine gute Woche und speichere sie dann als Vorlage.</div>`;
+  host.innerHTML=`<details class="template-panel"><summary>Wochenvorlagen / Jahresmuster <span class="sync-badge ${esc(statusClass)}">${esc(count)} Einträge · ${esc(saved)}</span></summary><div class="template-body"><div class="template-note ${esc(statusClass)}"><strong>Grundplanung:</strong> ${esc(weeklyTemplate.name || "RET/TZ Grundplanung")} ${source?`· ${esc(source)}`:""}<br>Die Vorlage speichert Mitarbeiter 1/2, Räume und Notizen pro Klient und Wochentag. Neue Kalenderwochen können damit vorbefüllt werden; bestehende Eingaben werden nur ersetzt, wenn du es aktiv auswählst.</div><div class="template-grid"><label class="template-field checkbox"><input id="templateApplyRoom" type="checkbox" checked /> Räume übernehmen</label><label class="template-field checkbox"><input id="templateApplyStaff" type="checkbox" checked /> Mitarbeiter übernehmen</label><label class="template-field checkbox"><input id="templateApplyNote" type="checkbox" /> Notizen übernehmen</label><label class="template-field checkbox"><input id="templateReplaceExisting" type="checkbox" /> bestehende Zuweisungen ersetzen</label></div><div class="template-actions"><button type="button" class="secondary" onclick="saveCurrentWeekAsTemplate()">Aktuelle Woche als Grundplanung speichern</button><button type="button" onclick="applyWeeklyTemplateToCurrentWeek()" ${count?"":"disabled"}>Grundplanung auf diese KW anwenden</button><button type="button" class="ghost" onclick="clearWeeklyTemplate()" ${count?"":"disabled"}>Grundplanung löschen</button></div>${overview}</div></details>`;
+}
+
 function assignmentPrintInner(assignment){
   assignment=normalizeAssignment(assignment);
   const chips=[];
-  if(assignment.staff) chips.push(`<span class="assignment-chip"><strong>Mitarbeiter</strong>${esc(assignment.staff)}</span>`);
+  if(assignment.staff) chips.push(`<span class="assignment-chip"><strong>MA 1</strong>${esc(assignment.staff)}</span>`);
+  if(assignment.staff2) chips.push(`<span class="assignment-chip"><strong>MA 2</strong>${esc(assignment.staff2)}</span>`);
   if(assignment.room) chips.push(`<span class="assignment-chip"><strong>Raum</strong>${esc(assignment.room)}</span>`);
   if(assignment.note) chips.push(`<span class="assignment-chip"><strong>Notiz</strong>${esc(assignment.note)}</span>`);
   return chips.length ? chips.join("") : `<span class="assignment-empty">Mitarbeiter/Raum offen</span>`;
 }
+function assignmentStaffLabel(assignment){
+  assignment=normalizeAssignment(assignment);
+  return [assignment.staff, assignment.staff2].filter(hasText).join(" + ");
+}
+function assignedStaffNames(assignment){
+  assignment=normalizeAssignment(assignment);
+  return normalizeResourceList([assignment.staff, assignment.staff2].filter(hasText));
+}
 function assignmentTextForExport(clientIndex,dayKey){
   const a=getAssignment(clientIndex,dayKey);
   const parts=[];
-  if(a.staff) parts.push(`Mitarbeiter: ${a.staff}`);
+  if(a.staff) parts.push(`Mitarbeiter 1: ${a.staff}`);
+  if(a.staff2) parts.push(`Mitarbeiter 2: ${a.staff2}`);
   if(a.room) parts.push(`Raum: ${a.room}`);
   if(a.note) parts.push(`Notiz: ${a.note}`);
   return parts.join(" | ");
 }
+function assignmentStatusWarningsHtml(assignment){
+  const messages=[];
+  assignment=normalizeAssignment(assignment);
+  if(assignment.room && isRoomLocked(assignment.room)) messages.push(`Raum gesperrt: ${assignment.room}`);
+  assignedStaffNames(assignment).forEach(name=>{ if(isStaffSick(name)) messages.push(`krank markiert: ${name}`); });
+  return messages.length ? `<div class="small" style="color:var(--bad);font-weight:900">${messages.map(esc).join(" · ")}</div>` : "";
+}
 function renderAssignmentBlock(clientIndex,dayKey){
   const a=getAssignment(clientIndex,dayKey);
-  return `<div class="assignment-box"><div class="assignment-title">Mitarbeiter / Raum</div><div class="assignment-edit"><label>Mitarbeiter<input type="text" list="staffOptions" value="${esc(a.staff)}" placeholder="auswählen oder neu eintippen" oninput="updateAssignmentField(${clientIndex},'${dayKey}','staff',this)" onchange="rememberResourceFromAssignment('staff',this.value)" /></label><label>Raum<input type="text" list="roomOptions" value="${esc(a.room)}" placeholder="auswählen oder neu eintippen" oninput="updateAssignmentField(${clientIndex},'${dayKey}','room',this)" onchange="rememberResourceFromAssignment('rooms',this.value)" /></label><label>Notiz<input type="text" value="${esc(a.note)}" placeholder="optional" oninput="updateAssignmentField(${clientIndex},'${dayKey}','note',this)" /></label></div><div class="assignment-print" id="assignmentPrint_${clientIndex}_${dayKey}">${assignmentPrintInner(a)}</div></div>`;
+  const statusHtml=assignmentStatusWarningsHtml(a);
+  return `<div class="assignment-box"><div class="assignment-title">Mitarbeiter / Raum</div><div class="assignment-edit"><label>Mitarbeiter 1<input type="text" list="staffOptions" value="${esc(a.staff)}" placeholder="auswählen oder neu eintippen" oninput="updateAssignmentField(${clientIndex},'${dayKey}','staff',this)" onchange="rememberResourceFromAssignment('staff',this.value)" /></label><label>Mitarbeiter 2<input type="text" list="staffOptions" value="${esc(a.staff2)}" placeholder="optional bei grösserer Gruppe" oninput="updateAssignmentField(${clientIndex},'${dayKey}','staff2',this)" onchange="rememberResourceFromAssignment('staff',this.value)" /></label><label>Raum<input type="text" list="roomOptions" value="${esc(a.room)}" placeholder="auswählen oder neu eintippen" oninput="updateAssignmentField(${clientIndex},'${dayKey}','room',this)" onchange="rememberResourceFromAssignment('rooms',this.value)" /></label><label>Notiz<input type="text" value="${esc(a.note)}" placeholder="optional" oninput="updateAssignmentField(${clientIndex},'${dayKey}','note',this)" /></label></div>${statusHtml}<div class="assignment-print" id="assignmentPrint_${clientIndex}_${dayKey}">${assignmentPrintInner(a)}</div></div>`;
 }
 function assignmentIsMissing(clientIndex,dayKey){
   const a=getAssignment(clientIndex,dayKey);
-  return !(a.staff || a.room);
+  return !(a.room && (a.staff || a.staff2));
 }
 
-window.addEventListener("DOMContentLoaded",()=>{initWeekFromToday(); initWeekControls(); loadServerConfigFromBrowser(); loadCancellationsFromBrowser(); loadAssignmentsFromBrowser(); loadResourcesFromBrowser(); loadSavedClients(true); renderServerPanel();});
+
+window.addEventListener("DOMContentLoaded",()=>{initWeekFromToday(); initWeekControls(); loadUiStateFromBrowser(); loadServerConfigFromBrowser(); loadAiConfigFromBrowser(); loadCancellationsFromBrowser(); loadAssignmentsFromBrowser(); loadResourcesFromBrowser(); loadResourceStatusFromBrowser(); loadWeeklyTemplateFromBrowser(); loadSavedClients(true); renderServerPanel(); renderTemplatePanel(); renderAiPanel(); restoreResourceUiPosition(uiState);});
+window.addEventListener("beforeunload",()=>{try{captureResourceUiPosition();}catch(_error){}});
 
 function extractClientFromPayload(payload,fileName){
   const gretState=getGenState(payload,"gret");
@@ -1268,8 +2390,10 @@ function clientHasAnyTz(client){return DAY_ORDER.some(d=>client.days[d]?.inTz);}
 function renderAll(){
   renderServerPanel();
   renderResourcePanel();
+  renderTemplatePanel();
   renderSummary();
   renderCheckPanel();
+  renderAiPanel();
   renderAssignmentOverview();
   const view=document.getElementById("viewMode").value;
   document.getElementById("planHost").innerHTML = view==="days" ? renderDayOverview() : renderClientTable();
@@ -1317,20 +2441,27 @@ function assignmentEntriesForDay(dayKey){
     .filter(item=>item.day?.inTz && !isCancelled(item.index,dayKey))
     .map(({client,index})=>{
       const a=getAssignment(index,dayKey);
-      return {client,index,staff:a.staff,room:a.room,note:a.note,missing:!(a.staff || a.room)};
+      return {client,index,staff:a.staff,staff2:a.staff2,room:a.room,note:a.note,missing:!(a.room && (a.staff || a.staff2))};
     })
     .sort((a,b)=>compareAssignmentText(a.client.name,b.client.name));
 }
 function renderAssignmentListForDay(dayKey){
   const items=assignmentEntriesForDay(dayKey);
   if(!items.length) return `<div class="assignment-mini missing"><strong>${esc(DAY_LABELS[dayKey])}</strong><span>Keine aktiven TZ-Klienten.</span></div>`;
-  return items.map(({client,staff,room,note,missing})=>{
+  return items.map(({client,staff,staff2,room,note,missing})=>{
     const noteHtml=note ? `<br><span>${esc(note)}</span>` : "";
-    return `<div class="assignment-mini ${missing?"missing":""}"><strong>${esc(client.name)}</strong><span>${esc(staff || "Mitarbeiter offen")} · ${esc(room || "Raum offen")}</span>${noteHtml}</div>`;
+    const statusHtml=assignmentStatusWarningsHtml({staff,staff2,room});
+    const statusBad=(room && isRoomLocked(room)) || assignedStaffNames({staff,staff2}).some(isStaffSick);
+    const staffLabel=assignmentStaffLabel({staff,staff2});
+    return `<div class="assignment-mini ${missing||statusBad?"missing":""}"><strong>${esc(client.name)}</strong><span>${esc(staffLabel || "Mitarbeiter offen")} · ${esc(room || "Raum offen")}</span>${noteHtml}${statusHtml}</div>`;
   }).join("");
 }
 function renderGroupedAssignmentDay(dayKey,field){
-  const items=assignmentEntriesForDay(dayKey);
+  const baseItems=assignmentEntriesForDay(dayKey);
+  const items=field==="staff" ? baseItems.flatMap(item=>{
+    const names=assignedStaffNames({staff:item.staff,staff2:item.staff2});
+    return names.length ? names.map(name=>({...item,staff:name})) : [{...item,staff:""}];
+  }) : baseItems;
   const fallback=field==="room" ? "Raum offen" : "Mitarbeiter offen";
   const otherLabel=field==="room" ? "Mitarbeiter" : "Raum";
   const otherField=field==="room" ? "staff" : "room";
@@ -1348,12 +2479,16 @@ function renderGroupedAssignmentDay(dayKey,field){
   const list=sortedKeys.length ? sortedKeys.map(key=>{
     const entries=groups.get(key).sort((a,b)=>compareAssignmentText(a.client.name,b.client.name));
     const openClass=key===fallback ? " open" : "";
+    const cap=field==="room" ? roomCapacityValue(key) : null;
+    const blocked=field==="room" ? isRoomLocked(key) : isStaffSick(key);
+    const titleSuffix=(cap ? ` / max. ${cap}` : "") + (blocked ? (field==="room" ? " / gesperrt" : " / krank") : "");
+    const overClass=(cap && entries.length>cap) || blocked ? " open" : openClass;
     const lines=entries.map(entry=>{
-      const other=clean(entry[otherField]) || (otherField==="staff" ? "Mitarbeiter offen" : "Raum offen");
+      const other=field==="room" ? (assignmentStaffLabel(entry) || "Mitarbeiter offen") : (clean(entry[otherField]) || "Raum offen");
       const note=entry.note ? ` · ${entry.note}` : "";
       return `<div class="assignment-person-line"><strong>${esc(entry.client.name)}</strong><br><span>${esc(otherLabel)}: ${esc(other)}${esc(note)}</span></div>`;
     }).join("");
-    return `<div class="assignment-group"><div class="assignment-group-title${openClass}"><span>${esc(key)}</span><span>${esc(entries.length)}</span></div><div class="assignment-group-list">${lines}</div></div>`;
+    return `<div class="assignment-group"><div class="assignment-group-title${overClass}"><span>${esc(key)}${esc(titleSuffix)}</span><span>${esc(entries.length)}</span></div><div class="assignment-group-list">${lines}</div></div>`;
   }).join("") : `<div class="assignment-mini missing"><strong>${esc(DAY_LABELS[dayKey])}</strong><span>Keine aktiven TZ-Klienten.</span></div>`;
   return `<div class="assignment-day"><h4>${esc(DAY_LABELS[dayKey])}<div class="day-card-date">${esc(formatDateShort(dateForDayKey(dayKey)))}</div></h4><div class="assignment-day-list">${list}</div></div>`;
 }
@@ -1372,7 +2507,7 @@ function renderAssignmentOverview(){
   const roomCards=DAY_ORDER.map(dayKey=>renderGroupedAssignmentDay(dayKey,"room")).join("");
   const staffCards=DAY_ORDER.map(dayKey=>renderGroupedAssignmentDay(dayKey,"staff")).join("");
   const missing=Math.max(0,totalActive-assigned);
-  host.innerHTML=`<details class="assignment-overview" open><summary>Mitarbeiter- und Raumzuweisungen <span>${esc(assigned)} erledigt · ${esc(missing)} offen</span></summary><div class="assignment-overview-body"><div class="small">Zuweisungen gelten für KW ${esc(String(selectedWeek).padStart(2,"0"))} / ${esc(selectedYear)} und werden lokal mit dem Sammelplan gespeichert.</div><div class="assignment-sort-section"><h3>Tagesübersicht</h3><div class="assignment-overview-grid">${dayCards}</div></div><div class="assignment-sort-section"><h3>Nach Raum sortiert</h3><div class="assignment-overview-grid">${roomCards}</div></div><div class="assignment-sort-section"><h3>Nach Mitarbeiter sortiert</h3><div class="assignment-overview-grid">${staffCards}</div></div></div></details>`;
+  host.innerHTML=`<details class="assignment-overview" open><summary>Mitarbeiter-, Qualifikations- und Raumzuweisungen <span>${esc(assigned)} erledigt · ${esc(missing)} offen</span></summary><div class="assignment-overview-body"><div class="small">Zuweisungen gelten für KW ${esc(String(selectedWeek).padStart(2,"0"))} / ${esc(selectedYear)} und werden lokal mit dem Sammelplan gespeichert. Mitarbeiter 1 und Mitarbeiter 2 werden in der Übersicht gemeinsam berücksichtigt.</div><div class="assignment-sort-section"><h3>Tagesübersicht</h3><div class="assignment-overview-grid">${dayCards}</div></div><div class="assignment-sort-section"><h3>Nach Raum sortiert</h3><div class="assignment-overview-grid">${roomCards}</div></div><div class="assignment-sort-section"><h3>Nach Mitarbeiter sortiert</h3><div class="assignment-overview-grid">${staffCards}</div></div></div></details>`;
 }
 
 function updatePrintHeader(total,activeSlots,cancelledSlots,morningSlots,lunchSlots,afternoonSlots){
@@ -1394,7 +2529,7 @@ function buildExternalPrintHtml(){
   const errors=document.getElementById("errorsHost")?.outerHTML || "";
   const note=`<div class="print-note">Druckausgabe lokal im Browser erstellt · keine Datenübertragung · ${esc(printedAt)}</div>`;
   const header=`<div class="print-header" style="display:block!important"><div class="print-header-top"><div class="print-header-logo-row"><img class="print-header-logo" src="${PRINT_HEADER_IMAGE_DATA_URI}" alt="BT-Navigator"/><img class="print-header-logo partner" src="${PRINT_PARTNER_IMAGE_DATA_URI}" alt="L!V Leben in Vielfalt"/></div><div><strong>${esc(title)}</strong><span>${esc(dates)} · Klienten: ${esc(loadedClients.length)} · Ansicht: ${esc(document.getElementById("viewMode")?.selectedOptions?.[0]?.textContent || "")}</span></div></div></div>`;
-  return `<!DOCTYPE html><html lang="de"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>${esc(title)}</title><style>${css}\nbody{background:#fff!important}.app{max-width:none!important;padding:0!important}.external-print-wrap{padding:8mm}.file-panel,.tools,.plan-toolbar,.cancel-line,.check-panel,.resource-panel{display:none!important}.assignment-edit{display:none!important}.assignment-print{display:flex!important}.card{box-shadow:none!important;border-color:#d8e1ee!important}.section{padding:0!important}.print-header{margin-bottom:6mm!important}.print-tab-toolbar{position:sticky;top:0;z-index:9999;display:flex;gap:10px;justify-content:center;align-items:center;padding:10px;background:#fff;border-bottom:1px solid #d8e1ee;box-shadow:0 8px 18px rgba(31,57,90,.08)}@media print{.print-tab-toolbar{display:none!important}.external-print-wrap{padding:0!important}body{background:#fff!important}@page{size:A4 landscape;margin:8mm}}</style></head><body><div class="print-tab-toolbar"><button type="button" onclick="window.print()">Drucken / PDF</button><button type="button" class="ghost" onclick="window.close()">Schliessen</button></div><main class="external-print-wrap">${header}${summary}${assignmentsOverview}${plan}${errors}${note}</main><script>window.addEventListener('load',function(){setTimeout(function(){try{window.focus();window.print();}catch(e){}},450);});<\/script></body></html>`;
+  return `<!DOCTYPE html><html lang="de"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>${esc(title)}</title><style>${css}\nbody{background:#fff!important}.app{max-width:none!important;padding:0!important}.external-print-wrap{padding:8mm}.file-panel,.tools,.plan-toolbar,.cancel-line,.check-panel,.resource-panel,.ai-panel,.template-panel{display:none!important}.assignment-edit{display:none!important}.assignment-print{display:flex!important}.card{box-shadow:none!important;border-color:#d8e1ee!important}.section{padding:0!important}.print-header{margin-bottom:6mm!important}.print-tab-toolbar{position:sticky;top:0;z-index:9999;display:flex;gap:10px;justify-content:center;align-items:center;padding:10px;background:#fff;border-bottom:1px solid #d8e1ee;box-shadow:0 8px 18px rgba(31,57,90,.08)}@media print{.print-tab-toolbar{display:none!important}.external-print-wrap{padding:0!important}body{background:#fff!important}@page{size:A4 landscape;margin:8mm}}</style></head><body><div class="print-tab-toolbar"><button type="button" onclick="window.print()">Drucken / PDF</button><button type="button" class="ghost" onclick="window.close()">Schliessen</button></div><main class="external-print-wrap">${header}${summary}${assignmentsOverview}${plan}${errors}${note}</main><script>window.addEventListener('load',function(){setTimeout(function(){try{window.focus();window.print();}catch(e){}},450);});<\/script></body></html>`;
 }
 function openExternalPrintTab(){
   if(!loadedClients.length){
@@ -1411,6 +2546,46 @@ function openExternalPrintTab(){
   win.document.open();
   win.document.write(html);
   win.document.close();
+}
+
+
+function collectResourceUsageWarnings(){
+  const warnings=[];
+  DAY_ORDER.forEach(dayKey=>{
+    const entries=assignmentEntriesForDay(dayKey);
+    const roomGroups=new Map();
+    const staffRooms=new Map();
+    entries.forEach(entry=>{
+      if(entry.room){
+        if(!roomGroups.has(entry.room)) roomGroups.set(entry.room,[]);
+        roomGroups.get(entry.room).push(entry);
+        if(isRoomLocked(entry.room)){
+          warnings.push({level:"bad",title:`${DAY_LABELS[dayKey]} · ${entry.room}`,text:`Raum ist für diese KW gesperrt, aber ${entry.client.name} ist dort zugewiesen. Bitte anderen Raum wählen oder KI-Verteilung nutzen.`});
+        }
+      }
+      assignedStaffNames(entry).forEach(name=>{
+        if(isStaffSick(name)){
+          warnings.push({level:"bad",title:`${DAY_LABELS[dayKey]} · ${name}`,text:`Mitarbeiter ist für diese KW krank markiert, aber ${entry.client.name} ist zugewiesen. Bitte ersetzen.`});
+        }
+        if(!staffRooms.has(name)) staffRooms.set(name,{rooms:new Set(), clients:[]});
+        const record=staffRooms.get(name);
+        if(entry.room) record.rooms.add(entry.room);
+        record.clients.push(entry.client.name);
+      });
+    });
+    roomGroups.forEach((items,room)=>{
+      const cap=roomCapacityValue(room);
+      if(cap && items.length>cap){
+        warnings.push({level:"bad",title:`${DAY_LABELS[dayKey]} · ${room}`,text:`Maximalbelegung ${cap} überschritten: ${items.length} Klient(en) zugewiesen. Überschuss bitte verteilen oder KI-Vorschlag nutzen.`});
+      }
+    });
+    staffRooms.forEach((record,name)=>{
+      if(record.rooms.size>1){
+        warnings.push({level:"warn",title:`${DAY_LABELS[dayKey]} · ${name}`,text:`Mitarbeiter ist in mehreren Räumen zugewiesen: ${Array.from(record.rooms).join(", ")}. Bitte prüfen.`});
+      }
+    });
+  });
+  return warnings;
 }
 
 function collectPlanWarnings(){
@@ -1448,6 +2623,7 @@ function collectPlanWarnings(){
       }
     });
   });
+  warnings.push(...collectResourceUsageWarnings());
   return warnings;
 }
 function renderCheckPanel(){
@@ -1581,7 +2757,10 @@ function buildPlanFilePayload(){
     cancellations,
     assignments,
     resources: normalizeResources(resources),
-    serverConfig: {mode: serverConfig.mode, apiBaseUrl: serverConfig.apiBaseUrl}
+    resourceStatus: normalizeResourceStatus(resourceStatus),
+    weeklyTemplate: normalizeWeeklyTemplate(weeklyTemplate),
+    serverConfig: {mode: serverConfig.mode, apiBaseUrl: serverConfig.apiBaseUrl},
+    aiConfig: {mode: aiConfig.mode, model: aiConfig.model, endpoint: aiConfig.endpoint, anonymize: aiConfig.anonymize}
   };
 }
 function exportPlanFile(){
@@ -1589,7 +2768,7 @@ function exportPlanFile(){
   const payload=buildPlanFilePayload();
   const json=JSON.stringify(payload,null,2);
   downloadBlob(json,`BT-Navigator_RET-TZ_Sammelplan_${selectedYear}_KW${String(selectedWeek).padStart(2,"0")}.json`,"application/json;charset=utf-8");
-  setStatus("Sammelplan-Datei wurde erstellt. Diese Datei enthält Plandaten, Absagen, Zuweisungen, Mitarbeiter-/Raumlisten und die Server-Modus-Vorbereitung ohne Zugangstoken.","good");
+  setStatus("Sammelplan-Datei wurde erstellt. Diese Datei enthält Plandaten, Absagen, Zuweisungen, Mitarbeiter-/Raumlisten, Mitarbeiterqualifikationen, Raumprofile/Maximalbelegung, Raum-/Personalstatus, Wochenvorlage, Server-Modus und KI-Einstellungen ohne Zugangstoken/API-Key.","good");
 }
 async function importPlanFile(file){
   if(!file) return;
