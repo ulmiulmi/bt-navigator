@@ -1,3 +1,4 @@
+<!-- BT-NAVIGATOR-STAND: 2026-05-03 / Redline-EP-PDF: WaSe-WiLe-RIT-Codes als Zielcodes behandeln -->
 <!-- BT-NAVIGATOR-STAND: 2026-05-01_15-58 / vorsichtiger Feinschliff EP-Seiten: ruhigere Hinweise, Buttons und Abschnittsabstände ohne Logik-Umbau -->
 <!-- BT-NAVIGATOR-STAND: 2026-05-01_15-20 / Handy-Druckansicht: neues Fenster ohne blob, Fallback im gleichen Tab + Druckbutton -->
 <!-- BT-NAVIGATOR-STAND: 2026-05-01_14-18 / sichtbare SCODI-Bezeichnungen in UI und Druck entfernt; interne technische Klassen bleiben unverändert -->
@@ -4540,16 +4541,6 @@ body.bt-mobile-view .ep-split-page .ep-section-nav {
   border-color: var(--theme-line, var(--line)) !important;
   box-shadow: none !important;
 }
-#generatorView > .toolbar.scodi-compact-toolbar #switchBtn.switch-to-gret {
-  background: var(--gret) !important;
-  border-color: var(--gret) !important;
-  color: #fff !important;
-}
-#generatorView > .toolbar.scodi-compact-toolbar #switchBtn.switch-to-grit {
-  background: var(--grit) !important;
-  border-color: var(--grit) !important;
-  color: #fff !important;
-}
 #generatorView .browser-snapshot-tools.scodi-simple-save-note {
   border-color: var(--theme-line, var(--line));
   background: linear-gradient(180deg,#ffffff 0%,#fbfdff 100%);
@@ -4897,7 +4888,6 @@ body.bt-mobile-view .admin-lock-row button { width: 100%; }
 
       <div class="start-row">
         <button type="button" onclick="startNavigator()">Start</button>
-        <button type="button" onclick="window.location.href='index.html'">Zurück zum Index</button>
       </div>
     </section>
   </main>
@@ -4994,7 +4984,6 @@ body.bt-mobile-view .admin-lock-row button { width: 100%; }
         <div class="toolbar-actions">
           <button type="button" class="secondary" onclick="scodiToolbarSave()">Speichern</button>
           <button type="button" id="switchBtn">Wechseln</button>
-          <button type="button" class="secondary" onclick="window.location.href='index.html'">Zurück zum Index</button>
         </div>
         <div class="hint-line" id="toolbarHint"></div>
       </div>
@@ -16530,6 +16519,8 @@ function renderRedlinePage(page) {
             ${fieldHtml}
           </div>
           <div class="redline-actions">
+            <input type="file" id="redlinePdfImportInput" accept="application/pdf,.pdf" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0;" />
+            <button type="button" class="secondary" data-redline-action="importPdf">Redline-PDF laden</button>
             <button type="button" class="secondary redline-year-action" data-redline-action="appendPlanningAndEp">Vorhandene Planung + fertige EP übernehmen und Ausgabe leeren</button>
             <button type="button" class="secondary" data-redline-action="applyToEp">In Ziele und EP übernehmen</button>
             <button type="button" class="ghost" data-redline-action="skip">Keine Redline vorhanden – weiter</button>
@@ -16577,6 +16568,709 @@ function buildRedlinePayload() {
 function setRedlineStatus(message) {
   const el = document.getElementById("redlineStatus");
   if (el) el.textContent = cleanInline(message || "");
+}
+
+
+function triggerRedlinePdfImport() {
+  const input = document.getElementById("redlinePdfImportInput");
+  if (input) input.click();
+}
+
+function redlinePdfByteStringToBytes(str) {
+  const out = new Uint8Array(str.length);
+  for (let i = 0; i < str.length; i += 1) out[i] = str.charCodeAt(i) & 255;
+  return out;
+}
+
+function redlinePdfBytesToString(bytes) {
+  if (!bytes) return "";
+  try {
+    return new TextDecoder("windows-1252").decode(bytes);
+  } catch (err) {
+    try {
+      return new TextDecoder("latin1").decode(bytes);
+    } catch (err2) {
+      let text = "";
+      const chunk = 8192;
+      for (let i = 0; i < bytes.length; i += chunk) {
+        text += String.fromCharCode.apply(null, Array.from(bytes.slice(i, i + chunk)));
+      }
+      return text;
+    }
+  }
+}
+
+async function inflateRedlinePdfStream(rawBytes) {
+  if (typeof DecompressionStream !== "function") {
+    throw new Error("PDF-Kompression kann in diesem Browser nicht direkt gelesen werden.");
+  }
+  const stream = new Blob([rawBytes]).stream().pipeThrough(new DecompressionStream("deflate"));
+  const response = new Response(stream);
+  return new Uint8Array(await response.arrayBuffer());
+}
+
+function decodeRedlinePdfLiteralString(text, startIndex) {
+  let out = "";
+  let depth = 1;
+  let i = startIndex + 1;
+  while (i < text.length && depth > 0) {
+    const ch = text[i];
+    if (ch === "\\") {
+      const next = text[i + 1] || "";
+      if (next === "n") { out += "\n"; i += 2; continue; }
+      if (next === "r") { out += "\n"; i += 2; continue; }
+      if (next === "t") { out += "\t"; i += 2; continue; }
+      if (next === "b" || next === "f") { i += 2; continue; }
+      if (next === "\n") { i += 2; continue; }
+      if (next === "\r") { i += text[i + 2] === "\n" ? 3 : 2; continue; }
+      if (/[0-7]/.test(next)) {
+        let oct = next;
+        let j = i + 2;
+        while (j < text.length && oct.length < 3 && /[0-7]/.test(text[j])) {
+          oct += text[j];
+          j += 1;
+        }
+        out += String.fromCharCode(parseInt(oct, 8));
+        i = j;
+        continue;
+      }
+      out += next;
+      i += 2;
+      continue;
+    }
+    if (ch === "(") {
+      depth += 1;
+      out += ch;
+      i += 1;
+      continue;
+    }
+    if (ch === ")") {
+      depth -= 1;
+      if (depth > 0) out += ch;
+      i += 1;
+      continue;
+    }
+    out += ch;
+    i += 1;
+  }
+  return { value: out, end: i };
+}
+
+function decodeRedlinePdfHexString(hex) {
+  const clean = String(hex || "").replace(/\s+/g, "");
+  if (!clean) return "";
+  const even = clean.length % 2 ? clean + "0" : clean;
+  const bytes = new Uint8Array(even.length / 2);
+  for (let i = 0; i < even.length; i += 2) bytes[i / 2] = parseInt(even.slice(i, i + 2), 16) || 0;
+  if (bytes.length >= 2 && bytes[0] === 254 && bytes[1] === 255) {
+    let out = "";
+    for (let i = 2; i + 1 < bytes.length; i += 2) out += String.fromCharCode((bytes[i] << 8) | bytes[i + 1]);
+    return out;
+  }
+  return redlinePdfBytesToString(bytes);
+}
+
+function extractRedlinePdfTextPiecesFromOperatorChunk(chunk) {
+  const text = String(chunk || "");
+  const pieces = [];
+  for (let i = 0; i < text.length; i += 1) {
+    if (text[i] === "(") {
+      const decoded = decodeRedlinePdfLiteralString(text, i);
+      const value = cleanInline(decoded.value || "");
+      if (value && !/^Adobe$/i.test(value) && !/^UCS$/i.test(value)) pieces.push(value);
+      i = Math.max(i, decoded.end - 1);
+      continue;
+    }
+    if (text[i] === "<" && text[i + 1] !== "<") {
+      const close = text.indexOf(">", i + 1);
+      if (close > i) {
+        const inside = text.slice(i + 1, close);
+        if (/^[0-9A-Fa-f\s]+$/.test(inside) && inside.replace(/\s+/g, "").length >= 2) {
+          const value = cleanInline(decodeRedlinePdfHexString(inside));
+          if (value && !/^Adobe$/i.test(value) && !/^UCS$/i.test(value)) pieces.push(value);
+        }
+        i = close;
+      }
+    }
+  }
+  return pieces;
+}
+
+function extractTextFromRedlinePdfContentStream(content) {
+  const text = String(content || "");
+  if (!/\b(Tj|TJ|'|")\b/.test(text) && !text.includes(") Tj") && !text.includes("] TJ")) return "";
+  const parts = [];
+  const opRegex = /(\[[\s\S]*?\]\s*TJ|\([\s\S]*?\)\s*(?:Tj|'|")|<[0-9A-Fa-f\s]+>\s*(?:Tj|'|"))/g;
+  let match;
+  while ((match = opRegex.exec(text))) {
+    const pieces = extractRedlinePdfTextPiecesFromOperatorChunk(match[1] || "");
+    if (pieces.length) parts.push(pieces.join(" "));
+  }
+  if (!parts.length) {
+    for (let i = 0; i < text.length; i += 1) {
+      if (text[i] === "(") {
+        const decoded = decodeRedlinePdfLiteralString(text, i);
+        const after = text.slice(decoded.end, decoded.end + 120);
+        if (/\b(Tj|TJ|'|")\b/.test(after) || after.includes("]")) {
+          const value = cleanInline(decoded.value || "");
+          if (value && !/^Adobe$/i.test(value) && !/^UCS$/i.test(value)) parts.push(value);
+        }
+        i = Math.max(i, decoded.end - 1);
+      }
+    }
+  }
+  return parts.join("\n");
+}
+
+
+function getRedlinePdfJsScriptUrl() {
+  return "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js";
+}
+
+function getRedlinePdfJsWorkerUrl() {
+  return "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+}
+
+function loadRedlinePdfJsLibrary() {
+  if (window.pdfjsLib) return Promise.resolve(window.pdfjsLib);
+  if (window.__redlinePdfJsLoading) return window.__redlinePdfJsLoading;
+  window.__redlinePdfJsLoading = new Promise((resolve, reject) => {
+    const script = document.createElement("script");
+    script.src = getRedlinePdfJsScriptUrl();
+    script.async = true;
+    script.onload = () => {
+      if (window.pdfjsLib) {
+        try {
+          window.pdfjsLib.GlobalWorkerOptions.workerSrc = getRedlinePdfJsWorkerUrl();
+        } catch (err) {}
+        resolve(window.pdfjsLib);
+      } else {
+        reject(new Error("PDF-Leser konnte nicht geladen werden."));
+      }
+    };
+    script.onerror = () => reject(new Error("PDF-Leser konnte nicht geladen werden."));
+    document.head.appendChild(script);
+  });
+  return window.__redlinePdfJsLoading;
+}
+
+async function extractTextFromRedlinePdfWithPdfJs(buffer) {
+  const pdfjsLib = await loadRedlinePdfJsLibrary();
+  const loadingTask = pdfjsLib.getDocument({ data: new Uint8Array(buffer), useWorkerFetch: false, isEvalSupported: false });
+  const pdf = await loadingTask.promise;
+  const pages = [];
+  for (let pageNum = 1; pageNum <= pdf.numPages; pageNum += 1) {
+    const page = await pdf.getPage(pageNum);
+    const content = await page.getTextContent({ normalizeWhitespace: true, disableCombineTextItems: false });
+    const pageLines = [];
+    let currentY = null;
+    let currentLine = [];
+    (content.items || []).forEach((item) => {
+      const text = cleanInline(item && item.str ? item.str : "");
+      if (!text) return;
+      const y = item && item.transform ? Math.round(item.transform[5] || 0) : null;
+      if (currentY === null) currentY = y;
+      if (y !== null && currentY !== null && Math.abs(y - currentY) > 2) {
+        if (currentLine.length) pageLines.push(currentLine.join(" "));
+        currentLine = [];
+        currentY = y;
+      }
+      currentLine.push(text);
+    });
+    if (currentLine.length) pageLines.push(currentLine.join(" "));
+    pages.push(pageLines.join("\n"));
+  }
+  try { await pdf.destroy(); } catch (err) {}
+  return normalizeOutputText(pages.join("\n"));
+}
+
+async function extractTextFromRedlinePdfArrayBuffer(buffer) {
+  try {
+    const pdfJsText = await extractTextFromRedlinePdfWithPdfJs(buffer.slice(0));
+    if (cleanInline(pdfJsText)) return pdfJsText;
+  } catch (err) {
+    console.warn("PDF.js-Leser nicht verfügbar, nutze lokalen Fallback.", err);
+  }
+
+  const bytes = new Uint8Array(buffer);
+  const pdfText = redlinePdfBytesToString(bytes);
+  const streamRegex = /(<<[\s\S]*?>>)\s*stream\r?\n([\s\S]*?)\r?\nendstream/g;
+  const chunks = [];
+  let match;
+  let flateCount = 0;
+  let failedFlate = 0;
+  while ((match = streamRegex.exec(pdfText))) {
+    const dict = match[1] || "";
+    if (/\/Subtype\s*\/Image\b|\/DCTDecode\b|\/JPXDecode\b|\/CCITTFaxDecode\b|\/JBIG2Decode\b/.test(dict)) continue;
+    const raw = redlinePdfByteStringToBytes(match[2] || "");
+    let streamBytes = raw;
+    if (/\/FlateDecode\b/.test(dict)) {
+      flateCount += 1;
+      try {
+        streamBytes = await inflateRedlinePdfStream(raw);
+      } catch (err) {
+        failedFlate += 1;
+        continue;
+      }
+    }
+    const decoded = redlinePdfBytesToString(streamBytes);
+    const contentText = extractTextFromRedlinePdfContentStream(decoded);
+    if (cleanInline(contentText)) chunks.push(contentText);
+  }
+  const text = normalizeOutputText(chunks.join("\n"));
+  if (!text && flateCount && failedFlate === flateCount) {
+    throw new Error("Die Redline-PDF ist komprimiert und dieser Browser konnte die PDF-Kompression nicht lesen.");
+  }
+  return text;
+}
+
+function normalizeRedlinePdfLines(text) {
+  return String(text || "")
+    .replace(/\r/g, "\n")
+    .split("\n")
+    .map((line) => cleanInline(line))
+    .filter((line) => line && !/^Seite\s+\d+/i.test(line) && !/^\d+\s*\/\s*\d+$/.test(line) && !/^\d{2}\.\d{2}\.\d{4}\s+\d{1,2}:\d{2}$/.test(line));
+}
+
+function normalizeRedlineKeywordText(value) {
+  return cleanInline(value || "")
+    .toLowerCase()
+    .replace(/ä/g, "ae")
+    .replace(/ö/g, "oe")
+    .replace(/ü/g, "ue")
+    .replace(/ß/g, "ss");
+}
+
+function redlinePdfHeadingType(line) {
+  const value = cleanInline(line || "");
+  const lower = normalizeRedlineKeywordText(value);
+  if (!value) return "";
+  if (/^(hauptziel|gesamtziel|leitziel|richtziel|richtungsziel|fernziel|grobziel|jahresziel)\b/.test(lower)) return "hauptziel";
+  if (/^(ziel|ziele|entwicklungsziel|zielsetzung|zielvereinbarung|zielbereich|foerderziel|fokusziel)\b/.test(lower) && !/^(zielgruppe|zielperson)\b/.test(lower)) return "hauptziel";
+  if (/^(unterziel|unterziele|feinziel|feinziele|teilziel|teilziele|zwischenziel|zwischenziele|smart\s*ziel)\s*\d*\b/.test(lower)) return "unterziel";
+  if (/^(massnahme|massnahmen|massnahmenplanung|begleitung|begleitmassnahme|unterstuetzung|unterstuetzungsangebot|vorgehen|intervention|interventionen|aktivitaet|aktivitaeten|angebot|angebote|umsetzung|durchfuehrung|handlungsschritt|handlungsschritte)\b/.test(lower)) return "massnahme";
+  if (/^(beobachtung|beobachtungen|auswertung|evaluation|evaluierung|wirkung|wirksamkeit|ueberpruefung|pruefkriterium|pruefkriterien|indikator|indikatoren|stand|verlauf|verlaufseintrag|beurteilung|einschaetzung|rueckmeldung|kontrolle)\b/.test(lower)) return "beobachtung";
+  if (/^(hinweis|hinweise|offene\s+punkte|ressourcen|kontext|bemerkung|bemerkungen|situation|ausgangslage|diagnostik|risiko|risiken|rahmenbedingung|rahmenbedingungen|naechste\s+schritte|weiteres\s+vorgehen)\b/.test(lower)) return "hinweis";
+  if (/^(klient|klientin|geburtsdatum|profil|persoenliche\s+daten|persönliche\s+daten|daten|adresse|kontakt|signalemente|krankenkasse|dokumente|bereichszuordnung|wichtige\s+umfeldadressen|beistand|hausarzt|psychiater|zahnarzt|dermatologe|ahv|einwohnerkontrolle)\b/.test(lower)) return "stop";
+  return "";
+}
+
+function removeRedlinePdfHeadingPrefix(line) {
+  const value = cleanInline(line || "");
+  const type = redlinePdfHeadingType(value);
+  if (!type || type === "stop") return value;
+  const withColon = value.replace(/^(.{2,80}?)(?:\s*\d+)?\s*[:：-]\s*/u, "");
+  if (withColon !== value && cleanInline(withColon)) return cleanInline(withColon);
+  return "";
+}
+
+function isRedlineSplitContinuationLine(lines, index) {
+  const previous = index > 0 ? normalizeRedlineKeywordText(lines[index - 1]) : "";
+  const current = normalizeRedlineKeywordText(lines[index] || "");
+  if (!current) return false;
+  if (/\bund$/.test(previous)) return true;
+  if (/^(sicherheit|unterstuetzung|menschen|qualitaet|tko`s|nachtwache)$/.test(current) && previous) return true;
+  return false;
+}
+
+function isRedlinePageNoise(line) {
+  const lower = normalizeRedlineKeywordText(line);
+  return /^l!v\b|^leben in vielfalt\b|^andreas ulmann\b|^klientenprofil\b|^entwicklungsplanung\b|^redline\b/.test(lower);
+}
+
+function collectRedlinePdfBlocks(lines, wantedType) {
+  const blocks = [];
+  for (let i = 0; i < lines.length; i += 1) {
+    if (redlinePdfHeadingType(lines[i]) !== wantedType) continue;
+    if (isRedlineSplitContinuationLine(lines, i)) continue;
+    const block = [];
+    const sameLine = removeRedlinePdfHeadingPrefix(lines[i]);
+    if (sameLine && sameLine !== lines[i] && !isRedlinePageNoise(sameLine)) block.push(sameLine);
+    for (let j = i + 1; j < lines.length; j += 1) {
+      const nextType = redlinePdfHeadingType(lines[j]);
+      if (nextType) break;
+      if (/^[-–—]{2,}$/.test(lines[j])) break;
+      if (!isRedlinePageNoise(lines[j])) block.push(lines[j]);
+      if (block.join(" ").length > 1800) break;
+    }
+    const value = normalizeOutputText(block.join("\n"));
+    if (value) blocks.push(value);
+  }
+  return blocks;
+}
+
+function collectRedlinePdfKeywordSentences(lines, type) {
+  const patterns = {
+    hauptziel: /\b(ziel|ziele|zielsetzung|entwicklungsziel|teilhabe|foerder|förder|erhalten|verbessern|stabilisieren|erweitern|staerken|stärken)\b/i,
+    unterziel: /\b(feinziel|unterziel|teilziel|konkret|bis\s+zum|innerhalb|kann\b|soll\b)\b/i,
+    massnahme: /\b(massnahme|maßnahme|begleit|unterstuetz|unterstütz|angebot|aktivitaet|aktivität|vorgehen|durchfuehrung|durchführung|intervention|anleitung|struktur)\b/i,
+    beobachtung: /\b(beobacht|auswert|evaluation|wirkung|indikator|kriterium|verlauf|stand|ueberpruef|überprüf|rueckmeldung|rückmeldung)\b/i,
+    hinweis: /\b(hinweis|ressource|ausgangslage|bemerkung|wichtig|risiko|beachten|kontext|rahmenbedingung)\b/i,
+  };
+  const pattern = patterns[type];
+  if (!pattern) return [];
+  const out = [];
+  lines.forEach((line, index) => {
+    if (isRedlinePageNoise(line) || isRedlineSplitContinuationLine(lines, index)) return;
+    if (!pattern.test(line)) return;
+    const previousType = index > 0 ? redlinePdfHeadingType(lines[index - 1]) : "";
+    const thisType = redlinePdfHeadingType(line);
+    if (thisType === "stop" || previousType === "stop") return;
+    out.push(line);
+  });
+  return out.slice(0, 8);
+}
+
+function redlineNormalizeCodeText(line) {
+  return cleanInline(line || "")
+    .replace(/\s+([.)])/g, "$1")
+    .replace(/\(\s+/g, "(")
+    .replace(/_\s+/g, "_")
+    .replace(/\.\s+(\d)/g, ".$1")
+    .replace(/\s+\)/g, ")")
+    .replace(/(\([A-Za-zÄÖÜäöü]{2,}\d{4,}_\d+\.)\d{1,2}\.\d{1,2}\.\d{4}\s*(\d+\))/gu, "$1$2")
+    .replace(/(\([A-Za-zÄÖÜäöü]{2,}\d{4,}_\d+(?:\.\d+)*)\.\d{1,2}\.\d{1,2}\.\d{4}(\d+\))/gu, "$1.$2");
+}
+
+function mergeRedlinePlanningSplitLines(lines) {
+  const out = [];
+  (lines || []).forEach((line) => {
+    let value = redlineNormalizeCodeText(line);
+    if (!value) return;
+    const previous = out.length ? out[out.length - 1] : "";
+    const codeOnly = /^\([A-Za-zÄÖÜäöü]{2,}\d{4,}[_\-]\d+(?:\.\d+)*(?:\.[a-z])?\)$/u.test(value);
+    if (codeOnly && previous && !extractRedlinePlanningCode(previous) && !isRedlinePlanningDateOrStatusLine(previous) && !isRedlinePlanningHeaderOrFooter(previous)) {
+      out[out.length - 1] = redlineNormalizeCodeText(previous + " " + value);
+      return;
+    }
+    const previousLooksSplit = previous && (
+      /\([A-Za-zÄÖÜäöü]{2,}\d{4,}[_\-][^)]+$/.test(previous)
+      || /\([A-Za-zÄÖÜäöü]{2,}\d{4,}[_\-]\d+(?:\.\d+)*\.?$/.test(previous)
+      || /\([^)]+$/.test(previous)
+      || /\b(WaSe|WiLe|RiT|ReT|RIT|RET)\d{4,}[_\-]?\d*\.?$/i.test(previous)
+    );
+    const valueContinuesCode = /^\d+[a-z]?\)?$/i.test(value) || /^\.?\d+[a-z]?\)?$/i.test(value) || /^\d+\)$/.test(value);
+    if (previousLooksSplit && valueContinuesCode) {
+      out[out.length - 1] = redlineNormalizeCodeText(previous + value);
+      return;
+    }
+    if (/^2\)$/i.test(value) && /WiLe\d{4,}_\d+\.?$/i.test(previous)) {
+      out[out.length - 1] = redlineNormalizeCodeText(previous + value);
+      return;
+    }
+    out.push(value);
+  });
+  return out;
+}
+
+function isRedlinePlanningDateOrStatusLine(line) {
+  const value = cleanInline(line || "");
+  if (!value) return true;
+  if (/^(ja|nein|teilweise|offen|erledigt)$/i.test(value)) return true;
+  if (/^\d{1,2}\.\d{1,2}\.\d{4}(?:\s*-\s*\d{1,2}\.\d{1,2}\.\d{4})?(?:\s+\d{1,2}:\d{2}(?:-\d{1,2}:\d{2})?)?$/i.test(value)) return true;
+  if (/^-?\d{1,2}\.\d{1,2}\.\d{4}$/i.test(value)) return true;
+  if (/^\d{1,2}:\d{2}\s*-\s*\d{1,2}:\d{2}$/i.test(value)) return true;
+  return false;
+}
+
+function isRedlinePlanningHeaderOrFooter(line) {
+  const lower = normalizeRedlineKeywordText(line);
+  if (!lower) return true;
+  if (isRedlinePageNoise(line)) return true;
+  if (/^stichwort\s*\/\s*beschreibung\s*\/\s*ersteller/.test(lower)) return true;
+  if (/^ueberpruefung\s+ziel\s+erreicht/.test(lower)) return true;
+  if (/^ziel\s+erreicht\s*\/\s*am/.test(lower)) return true;
+  if (/^datum\/zeit$|^thema\/stichwort$|^anwesend$|^ort$|^zeitraum\s+von/.test(lower)) return true;
+  if (/^seite\s+\d+\s*\/\s*\d+$/.test(lower)) return true;
+  if (/^\d{2}\.\d{2}\.\d{4}\s+\d{1,2}:\d{2}$/.test(lower)) return true;
+  if (/^klient\/?in:?$|^betreuer\/?in:?$|^ort,\s*datum:?$|^unterschrift:?$/.test(lower)) return true;
+  return false;
+}
+
+function stripRedlinePlanningCreator(value) {
+  return cleanInline(value || "")
+    .replace(/\s*\/\s*(?:NiBue|[A-Za-zÄÖÜäöü]{2,12})\s*$/u, "")
+    .replace(/\s*\/\s*(?:NiBue|[A-Za-zÄÖÜäöü]{2,12})\s+/u, " ")
+    .trim();
+}
+
+function isRedlinePlanningAreaLine(line) {
+  return /^Bereich\s*:/i.test(cleanInline(line || ""));
+}
+
+function extractRedlinePlanningCode(line) {
+  const value = redlineNormalizeCodeText(line);
+  const match = value.match(/\(([A-Za-zÄÖÜäöü]{2,}\d{4,}[_\-]\d+(?:\.\d+)*(?:\.[a-z])?)\)/u);
+  return match ? match[1].replace(/\-/g, "_") : "";
+}
+
+function isRedlinePlanningTitleLine(line) {
+  const value = redlineNormalizeCodeText(line);
+  if (!value) return false;
+  if (isRedlinePlanningAreaLine(value)) return true;
+  if (extractRedlinePlanningCode(value)) return true;
+  if (/^(rit|ret)\s*:/i.test(value)) return true;
+  return /\b(WaSe|WiLe|RiT|ReT)\d{4,}/i.test(value) && !/^(herr|frau)\b/i.test(normalizeRedlineKeywordText(value));
+}
+
+function getRedlinePlanningTitleDepth(line) {
+  const value = redlineNormalizeCodeText(line);
+  if (isRedlinePlanningAreaLine(value)) return "area";
+  const code = extractRedlinePlanningCode(value);
+  if (/^(rit|ret)\s*:/i.test(value)) return "measure";
+  if (code) {
+    const afterUnderscore = code.split("_").pop() || "";
+    const dotCount = (afterUnderscore.match(/\./g) || []).length;
+    if (/\.[a-z]$/i.test(afterUnderscore) || dotCount >= 2) return "measure";
+    if (dotCount === 1) return "subgoal";
+    return "main";
+  }
+  const lower = normalizeRedlineKeywordText(value);
+  if (/^(erhaltung|erhalt)\b/.test(lower)) return "main";
+  return "subgoal";
+}
+
+function redlineCleanPlanningTitle(line) {
+  return stripRedlinePlanningCreator(redlineNormalizeCodeText(line));
+}
+
+function redlineCleanPlanningDescriptionLines(lines) {
+  const out = [];
+  (lines || []).forEach((line) => {
+    let value = stripRedlinePlanningCreator(line);
+    if (!value) return;
+    if (isRedlinePlanningHeaderOrFooter(value) || isRedlinePlanningDateOrStatusLine(value)) return;
+    if (/^\/\s*[A-Za-zÄÖÜäöü]{2,12}$/u.test(value)) return;
+    out.push(value);
+  });
+  return normalizeOutputText(out.join("\n"));
+}
+
+function extractRedlinePlanningSectionLines(lines) {
+  const merged = mergeRedlinePlanningSplitLines(lines || []);
+  let start = -1;
+  for (let i = 0; i < merged.length; i += 1) {
+    const lower = normalizeRedlineKeywordText(merged[i]);
+    if (/^stichwort\s*\/\s*beschreibung\s*\/\s*ersteller/.test(lower)) {
+      const windowText = normalizeRedlineKeywordText(merged.slice(i, i + 40).join(" "));
+      if (windowText.includes("bereich:") || windowText.includes("wase") || windowText.includes("wile")) {
+        start = i + 1;
+        break;
+      }
+    }
+  }
+  if (start < 0) {
+    start = merged.findIndex((line) => isRedlinePlanningAreaLine(line) || extractRedlinePlanningCode(line));
+  }
+  if (start < 0) return [];
+  let end = merged.length;
+  for (let i = start; i < merged.length; i += 1) {
+    const lower = normalizeRedlineKeywordText(merged[i]);
+    if (/^einschaetzungen\b|^einschätzungen\b|^klient\/?in:?$|^betreuer\/?in:?$/.test(lower)) {
+      end = i;
+      break;
+    }
+  }
+  return merged.slice(start, end).filter((line) => !isRedlinePlanningHeaderOrFooter(line));
+}
+
+function parseRedlinePlanningRows(lines) {
+  const sectionLines = extractRedlinePlanningSectionLines(lines);
+  const rows = [];
+  let currentArea = "";
+  for (let i = 0; i < sectionLines.length; i += 1) {
+    const line = sectionLines[i];
+    if (!line || isRedlinePlanningHeaderOrFooter(line) || isRedlinePlanningDateOrStatusLine(line)) continue;
+    if (isRedlinePlanningAreaLine(line)) {
+      currentArea = cleanInline(line.replace(/^Bereich\s*:\s*/i, ""));
+      rows.push({ type: "area", title: "Bereich: " + currentArea, description: "" });
+      continue;
+    }
+    if (!isRedlinePlanningTitleLine(line)) continue;
+    const title = redlineCleanPlanningTitle(line);
+    const type = getRedlinePlanningTitleDepth(title);
+    const desc = [];
+    for (let j = i + 1; j < sectionLines.length; j += 1) {
+      const next = sectionLines[j];
+      if (isRedlinePlanningTitleLine(next) || isRedlinePlanningAreaLine(next)) break;
+      if (!isRedlinePlanningHeaderOrFooter(next) && !isRedlinePlanningDateOrStatusLine(next)) desc.push(next);
+    }
+    rows.push({
+      type,
+      area: currentArea,
+      title,
+      description: redlineCleanPlanningDescriptionLines(desc),
+    });
+  }
+  return rows.filter((row) => row && row.title && !/^Entwicklungsplanung$/i.test(row.title));
+}
+
+function formatRedlinePlanningRows(rows, allowedTypes, options = {}) {
+  const list = (rows || []).filter((row) => allowedTypes.includes(row.type));
+  if (!list.length) return "";
+  const maxItems = Number(options.maxItems || 12);
+  const includeArea = options.includeArea !== false;
+  const parts = [];
+  list.slice(0, maxItems).forEach((row) => {
+    const prefix = includeArea && row.area ? "[" + row.area + "] " : "";
+    const description = row.description ? "\n" + row.description : "";
+    parts.push(prefix + row.title + description);
+  });
+  return normalizeOutputText(parts.join("\n\n"));
+}
+
+function isRedlinePlanningCodeGoalRow(row) {
+  if (!row || row.type === "area") return false;
+  const title = redlineNormalizeCodeText(row.title || "");
+  return Boolean(extractRedlinePlanningCode(title) || /^(rit|ret)\s*:/i.test(title));
+}
+
+function formatRedlinePlanningCodeGoalRows(rows, options = {}) {
+  let list = (rows || []).filter(isRedlinePlanningCodeGoalRow);
+  const allowedTypes = Array.isArray(options.allowedTypes) ? options.allowedTypes : [];
+  if (allowedTypes.length) list = list.filter((row) => allowedTypes.includes(row.type));
+  if (!list.length) return "";
+  const maxItems = Number(options.maxItems || 40);
+  const includeArea = options.includeArea !== false;
+  const parts = [];
+  list.slice(0, maxItems).forEach((row) => {
+    const code = extractRedlinePlanningCode(row.title || "");
+    const prefix = includeArea && row.area ? "[" + row.area + "] " : "";
+    const codePrefix = code ? "Zielcode " + code + ": " : "Zielcode: ";
+    const cleanTitle = cleanInline(row.title || "");
+    const description = row.description ? "\n" + row.description : "";
+    parts.push(prefix + codePrefix + cleanTitle + description);
+  });
+  return normalizeOutputText(parts.join("\n\n"));
+}
+
+function collectRedlineInfoSection(lines, startPatterns, endPatterns, maxLines = 80) {
+  const merged = mergeRedlinePlanningSplitLines(lines || []);
+  const startIndex = merged.findIndex((line) => startPatterns.some((pattern) => pattern.test(normalizeRedlineKeywordText(line)) || pattern.test(cleanInline(line))));
+  if (startIndex < 0) return "";
+  const out = [];
+  for (let i = startIndex; i < merged.length && out.length < maxLines; i += 1) {
+    const line = merged[i];
+    const lower = normalizeRedlineKeywordText(line);
+    if (i > startIndex && endPatterns.some((pattern) => pattern.test(lower) || pattern.test(cleanInline(line)))) break;
+    if (isRedlinePlanningHeaderOrFooter(line) || isRedlinePlanningDateOrStatusLine(line)) continue;
+    out.push(line);
+  }
+  return normalizeOutputText(out.join("\n"));
+}
+
+function parseRedlineGoalPdfText(text) {
+  const lines = normalizeRedlinePdfLines(text);
+  const planningRows = parseRedlinePlanningRows(lines);
+  if (planningRows.length) {
+    const infoAboutMe = collectRedlineInfoSection(
+      lines,
+      [/^informationen\s+ueber\s+mich\b/, /^informationen\s+über\s+mich\b/],
+      [/^staerken-\/schwaechenanalyse\b/, /^stärken-\/schwächenanalyse\b/, /^agogische\s+sitzungen\b/],
+      90
+    );
+    const strengths = collectRedlineInfoSection(
+      lines,
+      [/^staerken-\/schwaechenanalyse\b/, /^stärken-\/schwächenanalyse\b/],
+      [/^agogische\s+sitzungen\b/, /^unterstuetzerkreise\b/, /^entwicklungsplanung\b/],
+      60
+    );
+    const mainGoals = formatRedlinePlanningRows(planningRows, ["main"], { maxItems: 8 });
+    const subGoals = formatRedlinePlanningRows(planningRows, ["subgoal"], { maxItems: 12 });
+    const nonCodeMeasures = (planningRows || []).filter((row) => row.type === "measure" && !isRedlinePlanningCodeGoalRow(row));
+    const measures = formatRedlinePlanningRows(nonCodeMeasures, ["measure"], { maxItems: 14 });
+    const areas = formatRedlinePlanningRows(planningRows, ["area"], { maxItems: 8, includeArea: false });
+    const allCodeGoals = formatRedlinePlanningCodeGoalRows(planningRows, { maxItems: 80, includeArea: true });
+    const topCodeGoals = formatRedlinePlanningCodeGoalRows(planningRows, { allowedTypes: ["main"], maxItems: 12, includeArea: true });
+    const detailCodeGoals = formatRedlinePlanningCodeGoalRows(planningRows, { allowedTypes: ["subgoal", "measure"], maxItems: 50, includeArea: true });
+    const planningRaw = normalizeOutputText([
+      areas ? "Bereiche:\n" + areas : "",
+      allCodeGoals ? "Redline-Zielcodes:\n" + allCodeGoals : formatRedlinePlanningRows(planningRows, ["area", "main", "subgoal", "measure"], { maxItems: 60, includeArea: true }),
+    ].filter(Boolean).join("\n\n"));
+    return {
+      rawText: normalizeOutputText(planningRaw || lines.join("\n")),
+      hauptziel: topCodeGoals || mainGoals || areas,
+      unterziel1: detailCodeGoals || subGoals,
+      massnahme1: measures,
+      unterziel2: "",
+      massnahme2: "",
+      beobachtung: "",
+      hinweis: normalizeOutputText(["Die WaSe-/WiLe-/RIT-Codes wurden als Zielcodes übernommen.", infoAboutMe, strengths].filter(Boolean).join("\n\n")),
+    };
+  }
+
+  const unterziele = collectRedlinePdfBlocks(lines, "unterziel");
+  const massnahmen = collectRedlinePdfBlocks(lines, "massnahme");
+  const beobachtung = collectRedlinePdfBlocks(lines, "beobachtung");
+  const hinweise = collectRedlinePdfBlocks(lines, "hinweis");
+  const hauptziele = collectRedlinePdfBlocks(lines, "hauptziel");
+
+  const fallbackHauptziel = hauptziele[0] || normalizeOutputText(collectRedlinePdfKeywordSentences(lines, "hauptziel").join("\n"));
+  const fallbackUnterziele = unterziele.length ? unterziele : collectRedlinePdfKeywordSentences(lines, "unterziel");
+  const fallbackMassnahmen = massnahmen.length ? massnahmen : collectRedlinePdfKeywordSentences(lines, "massnahme");
+  const fallbackBeobachtung = beobachtung[0] || normalizeOutputText(collectRedlinePdfKeywordSentences(lines, "beobachtung").join("\n"));
+  const fallbackHinweis = hinweise[0] || normalizeOutputText(collectRedlinePdfKeywordSentences(lines, "hinweis").join("\n"));
+
+  return {
+    rawText: normalizeOutputText(lines.join("\n")),
+    hauptziel: fallbackHauptziel || "",
+    unterziel1: fallbackUnterziele[0] || "",
+    massnahme1: fallbackMassnahmen[0] || "",
+    unterziel2: fallbackUnterziele[1] || "",
+    massnahme2: fallbackMassnahmen[1] || "",
+    beobachtung: fallbackBeobachtung || "",
+    hinweis: fallbackHinweis || "",
+  };
+}
+
+function appendRedlinePdfField(existing, incoming, label) {
+  const current = normalizeOutputText(existing || "");
+  const next = normalizeOutputText(incoming || "");
+  if (!next) return current;
+  if (!current) return next;
+  if (current.includes(next)) return current;
+  return current + "\n\n[Redline-PDF Import" + (label ? " · " + label : "") + "]\n" + next;
+}
+
+function applyImportedRedlinePdfFields(parsed, fileName) {
+  saveRedlineFieldsFromPage();
+  const current = getRedlineFields();
+  const next = { ...current };
+  REDLINE_FIELDS.forEach((field) => {
+    const value = parsed && parsed[field.key] ? parsed[field.key] : "";
+    next[field.key] = appendRedlinePdfField(current[field.key] || "", value, field.label);
+  });
+  setRedlineFields(next);
+  updateView();
+  const recognised = ["hauptziel", "unterziel1", "massnahme1", "unterziel2", "massnahme2", "beobachtung", "hinweis"]
+    .filter((key) => cleanInline(parsed?.[key] || ""))
+    .length;
+  const base = recognised
+    ? recognised + " Ziel-/Massnahmenbereich(e) erkannt und ergänzt."
+    : "PDF-Text wurde im Originaltext ergänzt; einzelne Zielbereiche wurden nicht sicher erkannt.";
+  setRedlineStatus(base + " Vorhandene Einträge wurden nicht überschrieben. Datei: " + cleanInline(fileName || "Redline-PDF"));
+}
+
+async function handleRedlinePdfImportFile(file) {
+  if (!file) return;
+  if (!/\.pdf$/i.test(file.name || "") && file.type !== "application/pdf") {
+    setRedlineStatus("Bitte eine Redline-PDF-Datei auswählen.");
+    return;
+  }
+  try {
+    setRedlineStatus("Redline-PDF wird gelesen …");
+    const buffer = await file.arrayBuffer();
+    const text = await extractTextFromRedlinePdfArrayBuffer(buffer);
+    if (!cleanInline(text)) {
+      setRedlineStatus("Aus dieser PDF konnte kein Text gelesen werden. Bei einem Scan/Bild-PDF geht der Import nicht automatisch.");
+      return;
+    }
+    const parsed = parseRedlineGoalPdfText(text);
+    if (!parsed.rawText) parsed.rawText = text;
+    applyImportedRedlinePdfFields(parsed, file.name || "Redline-PDF");
+  } catch (err) {
+    setRedlineStatus("Redline-PDF konnte nicht gelesen werden: " + (err && err.message ? err.message : String(err || "unbekannter Fehler")));
+  }
 }
 
 function clearRedlineFields() {
@@ -17040,9 +17734,22 @@ function bindEvents() {
     });
   });
 
+  const redlinePdfImportInput = document.getElementById("redlinePdfImportInput");
+  if (redlinePdfImportInput) {
+    redlinePdfImportInput.addEventListener("change", () => {
+      const file = redlinePdfImportInput.files && redlinePdfImportInput.files[0];
+      redlinePdfImportInput.value = "";
+      handleRedlinePdfImportFile(file);
+    });
+  }
+
   pageHost.querySelectorAll("[data-redline-action]").forEach((button) => {
     button.addEventListener("click", () => {
       const action = String(button.dataset.redlineAction || "");
+      if (action === "importPdf") {
+        triggerRedlinePdfImport();
+        return;
+      }
       if (action === "appendPlanningAndEp") {
         appendStoredPlanningAndEpToRedline();
         return;
