@@ -1,3 +1,5 @@
+<!-- BT-NAVIGATOR-STAND: 2026-05-03 / Tagesplaner: Zeitfenster als klar getrennte Wochenbereiche Morgen, Mittagessen, Nachmittag -->
+<!-- BT-NAVIGATOR-STAND: 2026-05-03 / Tagesplaner: Nicht-im-TZ als Dropdown und Tagesplanung in Morgen, Mittagessen, Nachmittag geteilt -->
 <!-- BT-NAVIGATOR-STAND: 2026-05-03 / Tagesplaner: KI-Anonymisierung fest gesperrt und nicht mehr umschaltbar -->
 <!-- BT-NAVIGATOR-STAND: 2026-05-03 / Tagesplaner: Mitarbeiter 1+2, Qualifikationen und Raum-Maximalbelegung mit KI-Verteilung -->
 <!-- BT-NAVIGATOR-STAND: 2026-05-03 / Tagesplaner: Wochenvorlagen/Jahresmuster fuer Grundplanung plus KI-Zielauswertung mit Direkt-API und Raumprofilen -->
@@ -106,6 +108,45 @@
     .resource-actions{display:flex;gap:8px;flex-wrap:wrap}.resource-chip-list{display:flex;gap:6px;flex-wrap:wrap}.resource-chip{display:inline-flex;align-items:center;gap:5px;border:1px solid #c8daf7;border-radius:999px;background:#fff;padding:4px 8px;color:#1f2a37;font-size:12px;font-weight:800}.resource-chip.locked,.resource-chip.sick{border-color:#f3c1c1;background:#fff1f1;color:#b42318}.resource-chip.free{border-color:#b7eadb;background:#f2fffa;color:var(--ok)}.resource-chip button{border:0;background:transparent;color:inherit;box-shadow:none;min-height:0!important;padding:0 2px!important;font-size:12px!important;line-height:1!important;cursor:pointer}.resource-chip .remove{color:#b42318}.resource-status-line{display:flex;gap:6px;flex-wrap:wrap}.status-note{border:1px dashed var(--line);border-radius:14px;background:#fbfdff;padding:8px 10px;color:var(--muted);font-size:12px;line-height:1.4}
     .day-cell.cancelled,.day-client.cancelled{background:#fff1f1!important;border-color:#f3c1c1!important;color:#7a271a}.day-cell.cancelled .goal-item,.day-client.cancelled .goal-item{opacity:.65}.cancelled-mark{display:inline-flex;align-items:center;gap:5px;border-radius:999px;background:#fee4e2;color:#b42318;font-size:12px;font-weight:950;padding:4px 8px;margin-bottom:6px}.is-cancelled-text{text-decoration:line-through;text-decoration-thickness:2px;text-decoration-color:#b42318;opacity:.72}
     .day-section-title{font-size:12px;font-weight:950;text-transform:uppercase;letter-spacing:.02em;color:var(--muted);margin-top:4px}.day-section-title.in{color:var(--ret)}.day-section-title.out{color:#667085}.day-card-date{font-size:12px;color:var(--muted);font-weight:700;margin-top:3px}.not-in-list{display:grid;gap:6px}.not-in-client{border:1px dashed var(--line);border-radius:12px;background:#fff;padding:8px 9px;color:#667085;font-size:13px;line-height:1.35}.not-in-client strong{color:#475467}
+
+
+    /* TZ_DAY_SPLIT_DROPDOWN_V1: Tageskarten in Morgen, Mittagessen, Nachmittag gliedern; Nicht-im-TZ platzsparend im Dropdown. */
+    .period-windows{display:grid;gap:10px}
+    .period-window{border:1px solid var(--line);border-radius:16px;background:#fff;overflow:hidden}
+    .period-window.morning{border-left:5px solid #79b8ff}
+    .period-window.lunch{border-left:5px solid #f0bf4f;background:#fffdf7}
+    .period-window.afternoon{border-left:5px solid var(--ret)}
+    .period-window-title{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:9px 10px;border-bottom:1px solid var(--line);background:linear-gradient(180deg,#fbfdff,#fff);font-size:12px;font-weight:950;text-transform:uppercase;letter-spacing:.02em;color:#243244}
+    .period-window-title .period-count{display:inline-flex;align-items:center;justify-content:center;min-width:24px;border:1px solid var(--line);border-radius:999px;background:#fff;padding:2px 7px;color:var(--muted);font-size:11px;font-weight:950}
+    .period-window.morning .period-window-title{color:#1d4ed8;background:linear-gradient(180deg,#eef5ff,#fff)}
+    .period-window.lunch .period-window-title{color:#8a6700;background:linear-gradient(180deg,#fff8ea,#fff)}
+    .period-window.afternoon .period-window-title{color:var(--ret);background:linear-gradient(180deg,var(--ret-soft),#fff)}
+    .period-window-body{display:grid;gap:8px;padding:9px}
+    .period-client{border:1px solid var(--line);border-radius:14px;background:#fbfcff;padding:9px;display:grid;gap:7px;min-width:0;overflow:hidden}
+    .period-client.morning{border-color:#c8daf7;background:#f7fbff}
+    .period-client.lunch{border-color:#f0dfad;background:#fffaf0}
+    .period-client.afternoon{border-color:#cfe7d9;background:var(--ret-soft)}
+    .period-client.cancelled{background:#fff1f1!important;border-color:#f3c1c1!important;color:#7a271a}
+    .period-client.cancelled .period-item{opacity:.65}
+    .period-client strong{color:var(--text);overflow-wrap:anywhere}
+    .period-client .period-item{margin-top:0}
+    .not-in-dropdown{border:1px dashed var(--line);border-radius:15px;background:#fbfdff;overflow:hidden}
+    .not-in-dropdown>summary{list-style:none;cursor:pointer;padding:10px 11px;font-size:12px;font-weight:950;text-transform:uppercase;letter-spacing:.02em;color:#667085;display:flex;align-items:center;justify-content:space-between;gap:8px}
+    .not-in-dropdown>summary::-webkit-details-marker{display:none}
+    .not-in-dropdown>summary:after{content:"▾";color:var(--muted);font-size:14px}
+    .not-in-dropdown[open]>summary:after{transform:rotate(180deg)}
+    .not-in-dropdown .not-in-list{padding:0 10px 10px}
+    .not-in-dropdown-count{display:inline-flex;align-items:center;justify-content:center;min-width:24px;border:1px solid var(--line);border-radius:999px;background:#fff;padding:2px 7px;color:var(--muted);font-size:11px;font-weight:950}
+    .day-card-body>.day-section-title.in{display:none}
+    @media(max-width:900px){
+      .period-window-body{padding:8px;gap:7px}
+      .period-client{padding:8px}
+      .period-window-title{padding:8px 9px}
+    }
+    @media print{
+      .not-in-dropdown{display:none!important}
+      .period-window{break-inside:avoid;page-break-inside:avoid}
+    }
 
 
     /* TAGESPLANER_PLANPRUEFUNG_V1: Hinweise nur dort zeigen, wo die Planung unvollständig oder auffällig ist. */
@@ -406,6 +447,141 @@
     @media(max-width:900px){.ai-grid{grid-template-columns:1fr}.ai-actions{display:grid;grid-template-columns:1fr;width:100%}.ai-actions button{width:100%}}
     @media print{.ai-panel{display:none!important}}
 
+
+
+
+    /* TZ_VISIBLE_PERIOD_SPLIT_V2: Morgen, Mittagessen und Nachmittag sind sichtbare, getrennte Wochenbereiche. */
+    .day-overview.period-separated{
+      display:grid !important;
+      grid-template-columns:1fr !important;
+      gap:18px !important;
+      width:100% !important;
+      min-width:0 !important;
+      align-items:stretch !important;
+    }
+    .period-section{
+      border:2px solid var(--line) !important;
+      border-radius:22px !important;
+      background:#fff !important;
+      box-shadow:0 12px 28px rgba(20,34,52,.08) !important;
+      overflow:hidden !important;
+    }
+    .period-section.morning{border-color:#bcd6ff !important;background:linear-gradient(180deg,#f3f8ff,#fff 105px) !important;}
+    .period-section.lunch{border-color:#f0dfad !important;background:linear-gradient(180deg,#fff8ea,#fff 105px) !important;}
+    .period-section.afternoon{border-color:#cfe7d9 !important;background:linear-gradient(180deg,#eaf7f1,#fff 105px) !important;}
+    .period-section-head{
+      display:flex !important;
+      justify-content:space-between !important;
+      align-items:center !important;
+      gap:12px !important;
+      padding:14px 16px !important;
+      border-bottom:2px solid var(--line) !important;
+    }
+    .period-section.morning .period-section-head{border-bottom-color:#bcd6ff !important;background:linear-gradient(180deg,#eef5ff,#fff) !important;}
+    .period-section.lunch .period-section-head{border-bottom-color:#f0dfad !important;background:linear-gradient(180deg,#fff4d7,#fff) !important;}
+    .period-section.afternoon .period-section-head{border-bottom-color:#cfe7d9 !important;background:linear-gradient(180deg,#ddf4e8,#fff) !important;}
+    .period-section-title{display:flex !important;align-items:center !important;gap:10px !important;min-width:0 !important;}
+    .period-section-title h3{margin:0 !important;font-size:24px !important;line-height:1.1 !important;overflow-wrap:anywhere !important;}
+    .period-section.morning .period-section-title h3{color:#1d4ed8 !important;}
+    .period-section.lunch .period-section-title h3{color:#8a6700 !important;}
+    .period-section.afternoon .period-section-title h3{color:var(--ret) !important;}
+    .period-section-badge{
+      display:inline-flex !important;
+      align-items:center !important;
+      justify-content:center !important;
+      min-width:30px !important;
+      border-radius:999px !important;
+      padding:4px 9px !important;
+      background:#fff !important;
+      border:1px solid var(--line) !important;
+      color:var(--muted) !important;
+      font-size:12px !important;
+      font-weight:950 !important;
+      white-space:nowrap !important;
+    }
+    .period-day-grid{
+      display:grid !important;
+      grid-template-columns:repeat(5,minmax(190px,1fr)) !important;
+      gap:12px !important;
+      padding:14px !important;
+      align-items:start !important;
+    }
+    .period-day-card{
+      border:1px solid var(--line) !important;
+      border-radius:18px !important;
+      background:#fff !important;
+      overflow:hidden !important;
+      min-width:0 !important;
+      box-shadow:0 6px 18px rgba(20,34,52,.04) !important;
+    }
+    .period-section.morning .period-day-card{border-color:#c8daf7 !important;}
+    .period-section.lunch .period-day-card{border-color:#f0dfad !important;}
+    .period-section.afternoon .period-day-card{border-color:#cfe7d9 !important;}
+    .period-day-head{
+      padding:10px 11px !important;
+      border-bottom:1px solid var(--line) !important;
+      background:#fbfdff !important;
+      font-weight:950 !important;
+      color:#243244 !important;
+    }
+    .period-day-head .day-card-date{margin-top:3px !important;}
+    .period-section.morning .period-day-head{background:#f7fbff !important;color:#1d4ed8 !important;border-bottom-color:#c8daf7 !important;}
+    .period-section.lunch .period-day-head{background:#fffaf0 !important;color:#8a6700 !important;border-bottom-color:#f0dfad !important;}
+    .period-section.afternoon .period-day-head{background:var(--ret-soft) !important;color:var(--ret) !important;border-bottom-color:#cfe7d9 !important;}
+    .period-day-body{display:grid !important;gap:8px !important;padding:10px !important;}
+    .period-day-card .empty-note{padding:12px !important;font-size:12px !important;}
+    .period-day-card .period-client{box-shadow:none !important;}
+    .not-in-week-dropdown{
+      border:2px dashed var(--line) !important;
+      border-radius:22px !important;
+      background:#fbfdff !important;
+      overflow:hidden !important;
+      box-shadow:0 8px 22px rgba(20,34,52,.05) !important;
+    }
+    .not-in-week-dropdown>summary{
+      list-style:none !important;
+      cursor:pointer !important;
+      padding:13px 16px !important;
+      font-size:14px !important;
+      font-weight:950 !important;
+      color:#667085 !important;
+      display:flex !important;
+      align-items:center !important;
+      justify-content:space-between !important;
+      gap:10px !important;
+      background:linear-gradient(180deg,#fff,#fbfdff) !important;
+    }
+    .not-in-week-dropdown>summary::-webkit-details-marker{display:none !important;}
+    .not-in-week-dropdown>summary:after{content:"▾" !important;color:var(--muted) !important;font-size:15px !important;}
+    .not-in-week-dropdown[open]>summary:after{transform:rotate(180deg) !important;}
+    .not-in-week-body{border-top:1px solid var(--line) !important;padding:14px !important;}
+    .not-in-day-grid{display:grid !important;grid-template-columns:repeat(5,minmax(190px,1fr)) !important;gap:12px !important;align-items:start !important;}
+    .not-in-day-card{border:1px dashed var(--line) !important;border-radius:16px !important;background:#fff !important;overflow:hidden !important;}
+    .not-in-day-card h4{margin:0 !important;padding:9px 10px !important;background:#fbfdff !important;border-bottom:1px solid var(--line) !important;color:#667085 !important;font-size:13px !important;}
+    .not-in-day-card-body{display:grid !important;gap:7px !important;padding:9px !important;}
+    @media(max-width:900px){
+      .day-overview.period-separated{
+        min-width:1440px !important;
+        width:1440px !important;
+      }
+      .period-day-grid,.not-in-day-grid{
+        grid-template-columns:repeat(5,minmax(268px,1fr)) !important;
+        gap:10px !important;
+      }
+      .period-section-title h3{font-size:21px !important;}
+      .period-section-head{padding:12px 13px !important;}
+      .period-day-grid,.not-in-week-body{padding:12px !important;}
+    }
+    @media print{
+      .day-overview.period-separated{display:grid !important;gap:7mm !important;width:100% !important;min-width:0 !important;}
+      .period-section{break-inside:avoid !important;page-break-inside:avoid !important;box-shadow:none !important;}
+      .period-day-grid{grid-template-columns:repeat(5,1fr) !important;gap:4mm !important;padding:4mm !important;}
+      .period-section-head{padding:3mm 4mm !important;}
+      .period-section-title h3{font-size:15pt !important;}
+      .period-day-head{padding:2mm 3mm !important;}
+      .period-day-body{padding:2mm !important;gap:2mm !important;}
+      .not-in-week-dropdown{display:none !important;}
+    }
 
   </style>
 </head>
@@ -2696,27 +2872,77 @@ function renderPeriodFlags(day){
   ];
   return `<div class="period-flags">${flags.map(flag=>`<span class="period-flag ${flag.key} ${flag.active?"active":""}">${esc(flag.label)}</span>`).join("")}</div>`;
 }
+function periodMatchesKey(period,periodKey){
+  const hay=String(period?.key||"").toLowerCase()+" "+String(period?.label||period?.title||"").toLowerCase();
+  if(periodKey==="morning") return hay.includes("morning") || hay.includes("morgen") || hay.includes("am");
+  if(periodKey==="lunch") return hay.includes("lunch") || hay.includes("mittag") || hay.includes("noon");
+  if(periodKey==="afternoon") return hay.includes("afternoon") || hay.includes("nachmittag") || hay.includes("pm");
+  return hay.includes(periodKey);
+}
+function dayPeriodActive(day,periodKey){
+  if(!day || !day.inTz) return false;
+  if(periodKey==="morning" && day.hasMorning) return true;
+  if(periodKey==="lunch" && day.hasLunch) return true;
+  if(periodKey==="afternoon" && day.hasAfternoon) return true;
+  if(Array.isArray(day.periods) && day.periods.some(period=>period && period.active && periodMatchesKey(period,periodKey))) return true;
+  return Array.isArray(day.goals) && day.goals.some(goal=>hasText(goal?.text) && periodMatchesKey({label:goal?.label},periodKey));
+}
+function getDayPeriod(day,periodKey){
+  if(!day) return null;
+  const found=Array.isArray(day.periods) ? day.periods.find(period=>period && period.active && periodMatchesKey(period,periodKey)) : null;
+  if(found) return {...found,key:periodKey,label:periodKey==="lunch"?"Mittagswagen / Mittagessen":periodKey==="afternoon"?"Nachmittag":"Morgen"};
+  const goal=Array.isArray(day.goals) ? day.goals.find(item=>hasText(item?.text) && periodMatchesKey({label:item?.label},periodKey)) : null;
+  if(goal) return buildPeriod(periodKey, periodKey==="lunch"?"Mittagswagen / Mittagessen":periodKey==="afternoon"?"Nachmittag":"Morgen", goal.text, "", "");
+  return null;
+}
+function renderSinglePeriod(period,periodKey){
+  const safePeriod=period || {key:periodKey,label:periodKey==="lunch"?"Mittagswagen / Mittagessen":periodKey==="afternoon"?"Nachmittag":"Morgen",goal:"",activity:"",extra:""};
+  return renderPeriod({...safePeriod,key:periodKey});
+}
+function renderPeriodClientCard(client,index,dayKey,periodKey){
+  const mode=document.getElementById("displayMode").value;
+  const day=client.days[dayKey] || {};
+  const period=getDayPeriod(day,periodKey);
+  const cancelled=isCancelled(index,dayKey);
+  let content="";
+  if(cancelled) content+=`<span class="cancelled-mark">abgesagt</span>`;
+  if(mode!=="goals") content+=`<strong class="${cancelled?"is-cancelled-text":""}">${esc(client.name)}</strong>`;
+  if(mode!=="names") content+=`<div class="${cancelled?"is-cancelled-text":""}">${renderSinglePeriod(period,periodKey)}</div>`;
+  if(mode==="goals") content+=`<div class="small ${cancelled?"is-cancelled-text":""}">${esc(client.name)}</div>`;
+  content+=renderAssignmentBlock(index,dayKey);
+  content+=cancellationControl(index,dayKey);
+  return `<div class="period-client ${esc(periodKey)} ${cancelled?"cancelled":""}">${content}</div>`;
+}
+function renderPeriodDayCard(dayKey,periodKey,items){
+  const body=items.length ? items.map(({client,index})=>renderPeriodClientCard(client,index,dayKey,periodKey)).join("") : `<div class="empty-note">Keine Klienten in diesem Zeitfenster.</div>`;
+  return `<div class="period-day-card"><div class="period-day-head">${esc(DAY_LABELS[dayKey])}<div class="day-card-date">${esc(formatDateShort(dateForDayKey(dayKey)))}</div></div><div class="period-day-body">${body}</div></div>`;
+}
+function renderPeriodSection(period,allForDay){
+  const total=DAY_ORDER.reduce((sum,dayKey)=>sum+allForDay.filter(item=>dayPeriodActive(item.client.days[dayKey],period.key)).length,0);
+  const days=DAY_ORDER.map(dayKey=>{
+    const items=allForDay.filter(item=>dayPeriodActive(item.client.days[dayKey],period.key));
+    return renderPeriodDayCard(dayKey,period.key,items);
+  }).join("");
+  return `<section class="period-section ${esc(period.key)}"><div class="period-section-head"><div class="period-section-title"><h3>${esc(period.label)}</h3></div><span class="period-section-badge">${esc(total)} geplant</span></div><div class="period-day-grid">${days}</div></section>`;
+}
+function renderNotInWeekDropdown(allForDay){
+  const total=DAY_ORDER.reduce((sum,dayKey)=>sum+allForDay.filter(item=>!item.client.days[dayKey]?.inTz).length,0);
+  const days=DAY_ORDER.map(dayKey=>{
+    const outClients=allForDay.filter(item=>!item.client.days[dayKey]?.inTz);
+    const body=outClients.length ? outClients.map(({client})=>`<div class="not-in-client"><strong>${esc(client.name)}</strong><br><span>nicht im TZ</span></div>`).join("") : `<div class="empty-note">Alle geladenen Klienten sind an diesem Tag im TZ.</div>`;
+    return `<div class="not-in-day-card"><h4>${esc(DAY_LABELS[dayKey])}<div class="day-card-date">${esc(formatDateShort(dateForDayKey(dayKey)))}</div></h4><div class="not-in-day-card-body">${body}</div></div>`;
+  }).join("");
+  return `<details class="not-in-week-dropdown"><summary><span>Nicht im TZ</span><span class="not-in-dropdown-count">${esc(total)}</span></summary><div class="not-in-week-body"><div class="not-in-day-grid">${days}</div></div></details>`;
+}
 function renderDayOverview(){
   if(!loadedClients.length) return `<div class="empty-note">Keine Klientendateien gelesen.</div>`;
-  const mode=document.getElementById("displayMode").value;
-  return `<div class="day-overview">${DAY_ORDER.map(dayKey=>{
-    const inClients=loadedClients.map((client,index)=>({client,index})).filter(item=>item.client.days[dayKey]?.inTz);
-    const outClients=loadedClients.map((client,index)=>({client,index})).filter(item=>!item.client.days[dayKey]?.inTz);
-    const inBody=inClients.length ? inClients.map(({client,index})=>{
-      const day=client.days[dayKey];
-      const cancelled=isCancelled(index,dayKey);
-      let content="";
-      if(cancelled) content+=`<span class="cancelled-mark">abgesagt</span>`;
-      if(mode==="names") content+=`<strong class="${cancelled?"is-cancelled-text":""}">${esc(client.name)}</strong>`;
-      else if(mode==="goals") content+=`<div class="${cancelled?"is-cancelled-text":""}">${renderGoals(day,true)}</div>`;
-      else content+=`<strong class="${cancelled?"is-cancelled-text":""}">${esc(client.name)}</strong><div class="${cancelled?"is-cancelled-text":""}">${renderGoals(day,true)}</div>`;
-      content+=renderAssignmentBlock(index,dayKey);
-      content+=cancellationControl(index,dayKey);
-      return `<div class="day-client in ${cancelled?"cancelled":""}">${content}</div>`;
-    }).join("") : `<div class="empty-note">Keine Klienten im TZ.</div>`;
-    const outBody=outClients.length ? `<div class="not-in-list">${outClients.map(({client})=>`<div class="not-in-client"><strong>${esc(client.name)}</strong><br><span>nicht im TZ</span></div>`).join("")}</div>` : `<div class="empty-note">Alle geladenen Klienten sind an diesem Tag im TZ.</div>`;
-    return `<div class="day-card"><h3>${esc(DAY_LABELS[dayKey])}<div class="day-card-date">${esc(formatDateShort(dateForDayKey(dayKey)))}</div></h3><div class="day-card-body"><div class="day-section-title in">Im TZ</div>${inBody}<div class="day-section-title out">Nicht im TZ</div>${outBody}</div></div>`;
-  }).join("")}</div>`;
+  const periodDefs=[
+    {key:"morning",label:"Morgen"},
+    {key:"lunch",label:"Mittagswagen / Mittagessen"},
+    {key:"afternoon",label:"Nachmittag"}
+  ];
+  const allForDay=loadedClients.map((client,index)=>({client,index}));
+  return `<div class="day-overview period-separated">${periodDefs.map(period=>renderPeriodSection(period,allForDay)).join("")}${renderNotInWeekDropdown(allForDay)}</div>`;
 }
 function renderErrors(){
   const host=document.getElementById("errorsHost");
