@@ -4540,6 +4540,16 @@ body.bt-mobile-view .ep-split-page .ep-section-nav {
   border-color: var(--theme-line, var(--line)) !important;
   box-shadow: none !important;
 }
+#generatorView > .toolbar.scodi-compact-toolbar #switchBtn.switch-to-gret {
+  background: var(--gret) !important;
+  border-color: var(--gret) !important;
+  color: #fff !important;
+}
+#generatorView > .toolbar.scodi-compact-toolbar #switchBtn.switch-to-grit {
+  background: var(--grit) !important;
+  border-color: var(--grit) !important;
+  color: #fff !important;
+}
 #generatorView .browser-snapshot-tools.scodi-simple-save-note {
   border-color: var(--theme-line, var(--line));
   background: linear-gradient(180deg,#ffffff 0%,#fbfdff 100%);
@@ -4887,6 +4897,7 @@ body.bt-mobile-view .admin-lock-row button { width: 100%; }
 
       <div class="start-row">
         <button type="button" onclick="startNavigator()">Start</button>
+        <button type="button" onclick="window.location.href='index.html'">Zurück zum Index</button>
       </div>
     </section>
   </main>
@@ -4983,6 +4994,7 @@ body.bt-mobile-view .admin-lock-row button { width: 100%; }
         <div class="toolbar-actions">
           <button type="button" class="secondary" onclick="scodiToolbarSave()">Speichern</button>
           <button type="button" id="switchBtn">Wechseln</button>
+          <button type="button" class="secondary" onclick="window.location.href='index.html'">Zurück zum Index</button>
         </div>
         <div class="hint-line" id="toolbarHint"></div>
       </div>
