@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>LIV Navigator</title>
+  <title>Klientendatei-Viewer</title>
 
   <style>
     :root {
@@ -15,6 +15,10 @@
       --text: #3e4b55;
       --muted: #6f7d86;
       --tree-bg: #f2f5f7;
+      --panel: #f8fafb;
+      --white: #ffffff;
+      --green: #2f8f46;
+      --red: #c44747;
     }
 
     * {
@@ -117,6 +121,11 @@
       gap: 7px;
       min-height: 31px;
       color: #34434d;
+      text-decoration: none;
+    }
+
+    .tree-row:hover {
+      color: var(--orange);
     }
 
     .arrow {
@@ -168,60 +177,234 @@
     .page-actions {
       display: flex;
       align-items: center;
-      gap: 14px;
-      font-size: 1rem;
-      opacity: 0.95;
+      gap: 10px;
+      font-size: 0.95rem;
+    }
+
+    .page-actions a {
+      color: white;
+      text-decoration: none;
+      padding: 5px 8px;
+      border: 1px solid rgba(255,255,255,0.4);
+      border-radius: 3px;
+    }
+
+    .page-actions a:hover {
+      background: rgba(255,255,255,0.16);
     }
 
     .content {
-      padding: 42px 54px;
-      max-width: 900px;
+      padding: 28px 34px 38px;
     }
 
-    .tiles {
+    .toolbar {
       display: grid;
-      grid-template-columns: repeat(3, minmax(150px, 1fr));
-      gap: 34px;
-    }
-
-    .tile {
-      min-height: 150px;
-      border: 1px solid #e0e6e9;
-      background: white;
-      text-decoration: none;
-      color: var(--text);
-      display: flex;
-      flex-direction: column;
+      grid-template-columns: 1fr auto auto;
+      gap: 12px;
+      margin-bottom: 18px;
       align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 18px 12px;
-      transition: 0.15s ease;
     }
 
-    .tile:hover,
-    .tile:focus-visible {
-      outline: none;
+    .search {
+      min-height: 42px;
+      border: 1px solid var(--line);
+      padding: 0 14px;
+      font-size: 0.98rem;
+      width: 100%;
+    }
+
+    .select,
+    .button {
+      min-height: 42px;
+      border: 1px solid var(--line);
+      background: white;
+      padding: 0 14px;
+      font-size: 0.95rem;
+      color: var(--text);
+    }
+
+    .button {
+      background: var(--orange);
+      color: white;
       border-color: var(--orange);
+      cursor: pointer;
+      font-weight: 700;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 330px 1fr;
+      gap: 22px;
+      align-items: start;
+    }
+
+    .panel {
+      border: 1px solid var(--line);
+      background: white;
+      min-width: 0;
+    }
+
+    .panel-head {
+      min-height: 42px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 14px;
+      background: #f4f7f9;
+      border-bottom: 1px solid var(--line);
+      font-weight: 700;
+      color: #45545e;
+    }
+
+    .count {
+      color: var(--muted);
+      font-weight: 400;
+      font-size: 0.88rem;
+    }
+
+    .client-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .client-list button {
+      width: 100%;
+      text-align: left;
+      border: 0;
+      border-bottom: 1px solid #eef2f4;
+      background: white;
+      padding: 13px 14px;
+      cursor: pointer;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 7px;
+      color: var(--text);
+    }
+
+    .client-list button:hover,
+    .client-list button.active {
       background: var(--orange-soft);
-      transform: translateY(-2px);
-      box-shadow: 0 8px 18px rgba(120, 84, 33, 0.12);
     }
 
-    .tile-icon {
-      font-size: 3rem;
-      line-height: 1;
-      color: var(--orange);
-      margin-bottom: 12px;
+    .client-name {
+      font-weight: 700;
+      color: #374650;
     }
 
-    .tile-title {
+    .client-meta {
+      grid-column: 1 / -1;
+      color: var(--muted);
+      font-size: 0.88rem;
+      margin-top: 2px;
+    }
+
+    .badge {
+      align-self: start;
+      padding: 3px 8px;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: white;
+      background: var(--green);
+    }
+
+    .badge.warn {
+      background: var(--orange);
+    }
+
+    .viewer {
+      min-height: 560px;
+    }
+
+    .profile {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      padding: 18px;
+      border-bottom: 1px solid var(--line);
+      background: #fbfcfd;
+    }
+
+    .field {
+      border: 1px solid #e7edf0;
+      background: white;
+      padding: 11px 12px;
+    }
+
+    .field-label {
+      color: var(--muted);
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      margin-bottom: 5px;
+    }
+
+    .field-value {
+      color: #34434d;
+      font-weight: 700;
+    }
+
+    .documents {
+      padding: 18px;
+    }
+
+    .section-title {
+      margin: 0 0 12px;
       font-size: 1rem;
-      line-height: 1.18;
-      color: #53616a;
+      color: #45545e;
     }
 
-    @media (max-width: 980px) {
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.94rem;
+    }
+
+    th,
+    td {
+      border-bottom: 1px solid #edf1f3;
+      text-align: left;
+      padding: 11px 8px;
+      vertical-align: top;
+    }
+
+    th {
+      color: #53616a;
+      background: #f7f9fa;
+      font-weight: 700;
+    }
+
+    .doc-link {
+      color: var(--blue-dark);
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .doc-link:hover {
+      text-decoration: underline;
+    }
+
+    .status-ok {
+      color: var(--green);
+      font-weight: 700;
+    }
+
+    .status-open {
+      color: var(--orange);
+      font-weight: 700;
+    }
+
+    .note-box {
+      margin-top: 18px;
+      border: 1px solid #e7dfd1;
+      background: #fff8ed;
+      padding: 14px 16px;
+      color: #725017;
+      line-height: 1.45;
+    }
+
+    @media (max-width: 1050px) {
       .app {
         grid-template-columns: 1fr;
         grid-template-rows: 48px auto 1fr;
@@ -244,13 +427,12 @@
         grid-row: 3;
       }
 
-      .content {
-        padding: 28px 22px;
-        max-width: none;
+      .layout {
+        grid-template-columns: 1fr;
       }
     }
 
-    @media (max-width: 640px) {
+    @media (max-width: 700px) {
       .top {
         padding: 0 10px;
       }
@@ -264,17 +446,51 @@
         display: none;
       }
 
+      .content {
+        padding: 18px 14px 28px;
+      }
+
+      .toolbar {
+        grid-template-columns: 1fr;
+      }
+
       .tree {
         grid-template-columns: 1fr;
       }
 
-      .tiles {
+      .profile {
         grid-template-columns: 1fr;
-        gap: 14px;
       }
 
-      .tile {
-        min-height: 112px;
+      table,
+      thead,
+      tbody,
+      tr,
+      th,
+      td {
+        display: block;
+      }
+
+      thead {
+        display: none;
+      }
+
+      tr {
+        border: 1px solid #edf1f3;
+        margin-bottom: 10px;
+      }
+
+      td {
+        border: 0;
+        padding: 8px 10px;
+      }
+
+      td::before {
+        content: attr(data-label);
+        display: block;
+        color: var(--muted);
+        font-size: 0.78rem;
+        margin-bottom: 3px;
       }
     }
   </style>
@@ -309,66 +525,249 @@
       </div>
 
       <nav class="tree" aria-label="Struktur">
+        <a class="tree-row" href="index.html">
+          <span class="arrow">▸</span>
+          <span class="folder">📁</span>
+          <span>Startseite</span>
+        </a>
+        <a class="tree-row" href="BT_Navigator.html">
+          <span class="arrow">▸</span>
+          <span class="folder">📁</span>
+          <span>LIV Navigator</span>
+        </a>
         <div class="tree-row">
           <span class="arrow">▾</span>
           <span class="folder">📂</span>
-          <span>Prozessübersicht</span>
+          <span>Klientendatei</span>
         </div>
-        <div class="tree-row">
-          <span class="arrow"></span>
+        <a class="tree-row" href="ret_tz_wochenplan.html">
           <span class="arrow">▸</span>
           <span class="folder">📁</span>
-          <span>1 Führungsprozesse</span>
-        </div>
-        <div class="tree-row">
-          <span class="arrow"></span>
-          <span class="arrow">▸</span>
-          <span class="folder">📁</span>
-          <span>2 Supportprozesse</span>
-        </div>
-        <div class="tree-row">
-          <span class="arrow"></span>
-          <span class="arrow">▸</span>
-          <span class="folder">📁</span>
-          <span>3 Kernprozesse</span>
-        </div>
+          <span>RET/TZ Wochenplan</span>
+        </a>
       </nav>
     </aside>
 
     <main class="main">
       <div class="page-title">
         <div class="page-title-left">
-          <span class="page-icon">▦</span>
-          <span>Startseite</span>
+          <span class="page-icon">📋</span>
+          <span>Klientendatei-Viewer</span>
         </div>
-        <div class="page-actions" aria-hidden="true">
-          <span>ⓘ</span>
-          <span>⎙</span>
-          <span>↗</span>
-          <span>✉</span>
-          <span>☆</span>
+
+        <div class="page-actions">
+          <a href="index.html">Startseite</a>
+          <a href="BT_Navigator.html">Navigator</a>
         </div>
       </div>
 
       <section class="content">
-        <nav class="tiles" aria-label="Hauptbereiche">
-          <a class="tile" href="https://ulmiulmi.github.io/bt-navigator/BT_Navigator.html">
-            <div class="tile-icon" aria-hidden="true">🧭</div>
-            <div class="tile-title">LIV<br>Navigator</div>
-          </a>
+        <div class="toolbar">
+          <input class="search" id="searchInput" type="search" placeholder="Klient oder Dokument suchen ..." />
+          <select class="select" id="statusFilter" aria-label="Status filtern">
+            <option value="alle">Alle Status</option>
+            <option value="Aktiv">Aktiv</option>
+            <option value="Offen">Offen</option>
+          </select>
+          <button class="button" type="button" onclick="resetFilters()">Zurücksetzen</button>
+        </div>
 
-          <a class="tile" href="https://ulmiulmi.github.io/bt-navigator/klientendatei_viewer.html">
-            <div class="tile-icon" aria-hidden="true">📋</div>
-            <div class="tile-title">Klienten-<br>datei</div>
-          </a>
+        <div class="layout">
+          <section class="panel">
+            <div class="panel-head">
+              <span>Klienten</span>
+              <span class="count" id="clientCount">3 Einträge</span>
+            </div>
 
-          <a class="tile" href="https://ulmiulmi.github.io/bt-navigator/ret_tz_wochenplan.html">
-            <div class="tile-icon" aria-hidden="true">📅</div>
-            <div class="tile-title">RET/TZ<br>Wochenplan</div>
-          </a>
-        </nav>
+            <ul class="client-list" id="clientList">
+              <li>
+                <button type="button" class="active" data-client="0">
+                  <span class="client-name">Muster Klientin A</span>
+                  <span class="badge">Aktiv</span>
+                  <span class="client-meta">RET/TZ · Wochenstruktur · Dokumente vorhanden</span>
+                </button>
+              </li>
+              <li>
+                <button type="button" data-client="1">
+                  <span class="client-name">Muster Klient B</span>
+                  <span class="badge warn">Offen</span>
+                  <span class="client-meta">RIT/RET · Zielplanung · Prüfung offen</span>
+                </button>
+              </li>
+              <li>
+                <button type="button" data-client="2">
+                  <span class="client-name">Muster Klientin C</span>
+                  <span class="badge">Aktiv</span>
+                  <span class="client-meta">Tagesstruktur · Standortbestimmung · Verlauf</span>
+                </button>
+              </li>
+            </ul>
+          </section>
+
+          <section class="panel viewer">
+            <div class="panel-head">
+              <span id="viewerTitle">Muster Klientin A</span>
+              <span class="count" id="viewerStatus">Aktiv</span>
+            </div>
+
+            <div class="profile">
+              <div class="field">
+                <div class="field-label">Bereich</div>
+                <div class="field-value" id="fieldArea">RET/TZ</div>
+              </div>
+              <div class="field">
+                <div class="field-label">Letzte Aktualisierung</div>
+                <div class="field-value" id="fieldUpdated">16.04.2026</div>
+              </div>
+              <div class="field">
+                <div class="field-label">Zuständigkeit</div>
+                <div class="field-value" id="fieldOwner">Bezugsperson</div>
+              </div>
+              <div class="field">
+                <div class="field-label">Nächster Schritt</div>
+                <div class="field-value" id="fieldNext">Wochenplan prüfen</div>
+              </div>
+            </div>
+
+            <div class="documents">
+              <h2 class="section-title">Dokumente</h2>
+
+              <table>
+                <thead>
+                  <tr>
+                    <th>Dokument</th>
+                    <th>Typ</th>
+                    <th>Datum</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody id="documentTable"></tbody>
+              </table>
+
+              <div class="note-box">
+                Hinweis: Diese Datei ist als Viewer-Vorlage aufgebaut. Die Musterangaben kannst du später durch echte interne Inhalte oder weitere Links ersetzen.
+              </div>
+            </div>
+          </section>
+        </div>
       </section>
     </main>
   </div>
+
+  <script>
+    const clients = [
+      {
+        name: "Muster Klientin A",
+        status: "Aktiv",
+        area: "RET/TZ",
+        updated: "16.04.2026",
+        owner: "Bezugsperson",
+        next: "Wochenplan prüfen",
+        docs: [
+          ["Entwicklungsplanung", "PDF", "16.04.2026", "Aktuell"],
+          ["RET/TZ Wochenplan", "HTML", "laufend", "Aktuell"],
+          ["Standortbestimmung", "Notiz", "offen", "In Bearbeitung"]
+        ]
+      },
+      {
+        name: "Muster Klient B",
+        status: "Offen",
+        area: "RIT/RET",
+        updated: "offen",
+        owner: "Team",
+        next: "Zielplanung ergänzen",
+        docs: [
+          ["Zielplanung", "Dokument", "offen", "In Bearbeitung"],
+          ["Verlaufseintrag", "Notiz", "offen", "Offen"],
+          ["Wochenstruktur", "HTML", "laufend", "Aktuell"]
+        ]
+      },
+      {
+        name: "Muster Klientin C",
+        status: "Aktiv",
+        area: "Tagesstruktur",
+        updated: "laufend",
+        owner: "Fachperson",
+        next: "Verlauf nachführen",
+        docs: [
+          ["Tagesstruktur", "Dokument", "laufend", "Aktuell"],
+          ["Standortbestimmung", "PDF", "laufend", "Aktuell"],
+          ["Verlauf", "Notiz", "laufend", "Aktuell"]
+        ]
+      }
+    ];
+
+    const buttons = Array.from(document.querySelectorAll("[data-client]"));
+    const table = document.getElementById("documentTable");
+    const searchInput = document.getElementById("searchInput");
+    const statusFilter = document.getElementById("statusFilter");
+
+    function renderClient(index) {
+      const client = clients[index];
+
+      buttons.forEach(button => button.classList.remove("active"));
+      const activeButton = document.querySelector(`[data-client="${index}"]`);
+      if (activeButton) activeButton.classList.add("active");
+
+      document.getElementById("viewerTitle").textContent = client.name;
+      document.getElementById("viewerStatus").textContent = client.status;
+      document.getElementById("fieldArea").textContent = client.area;
+      document.getElementById("fieldUpdated").textContent = client.updated;
+      document.getElementById("fieldOwner").textContent = client.owner;
+      document.getElementById("fieldNext").textContent = client.next;
+
+      table.innerHTML = client.docs.map(doc => `
+        <tr>
+          <td data-label="Dokument"><a class="doc-link" href="#">${doc[0]}</a></td>
+          <td data-label="Typ">${doc[1]}</td>
+          <td data-label="Datum">${doc[2]}</td>
+          <td data-label="Status"><span class="${doc[3] === "Aktuell" ? "status-ok" : "status-open"}">${doc[3]}</span></td>
+        </tr>
+      `).join("");
+    }
+
+    function applyFilters() {
+      const query = searchInput.value.trim().toLowerCase();
+      const selectedStatus = statusFilter.value;
+      let visibleCount = 0;
+
+      buttons.forEach((button) => {
+        const index = Number(button.dataset.client);
+        const client = clients[index];
+        const haystack = [
+          client.name,
+          client.status,
+          client.area,
+          client.next,
+          ...client.docs.flat()
+        ].join(" ").toLowerCase();
+
+        const matchesSearch = !query || haystack.includes(query);
+        const matchesStatus = selectedStatus === "alle" || client.status === selectedStatus;
+        const visible = matchesSearch && matchesStatus;
+
+        button.parentElement.style.display = visible ? "" : "none";
+        if (visible) visibleCount += 1;
+      });
+
+      document.getElementById("clientCount").textContent =
+        visibleCount === 1 ? "1 Eintrag" : `${visibleCount} Einträge`;
+    }
+
+    function resetFilters() {
+      searchInput.value = "";
+      statusFilter.value = "alle";
+      applyFilters();
+    }
+
+    buttons.forEach(button => {
+      button.addEventListener("click", () => renderClient(Number(button.dataset.client)));
+    });
+
+    searchInput.addEventListener("input", applyFilters);
+    statusFilter.addEventListener("change", applyFilters);
+
+    renderClient(0);
+  </script>
 </body>
 </html>
